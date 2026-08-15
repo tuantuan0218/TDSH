@@ -20,3 +20,4 @@ out.log
 err.log
 *.log
 shell.html
+*.lnk
