@@ -1,0 +1,22 @@
+node_modules/
+userdata/
+.electron-cache/
+.npm-cache/
+.pnpm-store/
+.pnpm-cache/
+
+# machine-specific / dev artifacts (never publish)
+test/
+test-home/
+test-home*/
+audit/
+audit*/
+install-better-sidebar.ps1
+capture.png
+domdump.json
+morphcheck.json
+smoke.png
+out.log
+err.log
+*.log
+shell.html

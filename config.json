@@ -1,0 +1,5 @@
+{
+  "hideSessionLog": true,
+  "windowControlsAtSessionLog": true,
+  "_comment": "桌面壳配置。hideSessionLog=false 可恢复显示 GUI 的会话日志（原功能未删除，仅隐藏）。"
+}
