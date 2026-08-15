@@ -60,7 +60,13 @@ pnpm start          # 启动桌面端
 |---|---|
 | `DSH_CAPTURE=1` | GUI 加载后截图 `capture.png` 并退出 |
 | `DSH_MORPHCHECK=1` | 输出 preload 注入状态 `morphcheck.json` 并退出 |
-| `DSH_DOMDUMP=1` | dump 页面 DOM 结构 `domdump.json` 并退出 |
+| `DSH_DOMDUMP=1` | dump 页面 DOM / 动画状态 `domdump.json` 并退出 |
+| `DSH_FORCE_SPAWN=1` | 强制自起新服务（不 attach） |
+
+## 更新记录
+
+- **0.1.0** 首个开源版本：attach-or-spawn 桌面壳、无边框 + 右上角胶囊窗口键、对话头部拖拽、Hanako 式交互
+- **0.1.1** 修复 Windows 无障碍"减少动画"导致的界面动效失效：启动时经 CDP 强制 `prefers-reduced-motion: no-preference` + CSS 兜底；窗口常驻前台渲染（`win.focus()` + 关闭后台节流）
 
 ## 安全与隐私
 
