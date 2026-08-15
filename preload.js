@@ -24,6 +24,15 @@ const morphCss = `
 #dsh-wincontrols span:hover{background:#1E1F24;color:#fff;}
 #dsh-wincontrols span.dsh-close:hover{background:#C42B1C;color:#fff;}
 #dsh-dragstrip{position:fixed;top:0;left:0;right:0;height:8px;z-index:99999;-webkit-app-region:drag;}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-play-state: running !important;
+    animation-duration: 0.3s !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.2s !important;
+    transition-delay: 0s !important;
+  }
+}
 `
 const injectCss = () => {
   if (document.getElementById('dsh-css')) return

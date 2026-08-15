@@ -20,6 +20,15 @@ const DEFAULT_PORT = 3080
 const TARGET_URL = `http://127.0.0.1:${DEFAULT_PORT}`
 const LOG_FILE = path.join(APP_DIR, 'app.log')
 
+// ---- Chromium flags (before process init) ----
+// Force animations ON: override Windows ease-of-access reduced-motion.
+app.commandLine.appendSwitch('force-prefers-reduced-motion', 'no-preference')
+// Chromium variant fallback for Electron 33+:
+app.commandLine.appendSwitch('prefers-reduced-motion', 'no-preference')
+// Keep rendering active even when the window is unfocused/backgrounded:
+app.commandLine.appendSwitch('disable-renderer-backgrounding')
+app.commandLine.appendSwitch('disable-background-timer-throttling')
+
 // ---- Rule 1: keep every Electron/Chromium write off C: ----
 app.setPath('userData', path.join(APP_DIR, 'userdata'))
 
@@ -158,6 +167,23 @@ function createWindow(url) {
   })
   win.loadURL(url)
   log(`window opened -> ${url}`)
+  win.focus()
+
+  // Force the page's media query to "no reduced motion" via CDP: reliably
+  // revives CSS animations that Windows ease-of-access would otherwise stop.
+  try {
+    const dbg = win.webContents.debugger
+    dbg.attach('1.3')
+    const applyMedia = () => {
+      try {
+        dbg.sendCommand('Emulation.setEmulatedMedia', {
+          features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }],
+        })
+      } catch (e) { log(`emulated media apply failed: ${e.message}`) }
+    }
+    win.webContents.on('did-finish-load', applyMedia)
+    applyMedia()
+  } catch (e) { log(`debugger attach failed: ${e.message}`) }
 
   // Dev/verification hook: DSH_CAPTURE=1 → screenshot after GUI load, then quit.
   if (process.env.DSH_CAPTURE === '1') {
@@ -177,31 +203,55 @@ function createWindow(url) {
     win.webContents.on('did-finish-load', () => {
       setTimeout(async () => {
         try {
-          const dump = await win.webContents.executeJavaScript(`(() => {
+          const dump = await win.webContents.executeJavaScript(`(async () => {
+            // Reproduce the empty/new-session view where the "Deep diving"
+            // blue animation lives: open a fresh conversation if not already.
+            const newBtn = [...document.querySelectorAll('button,[role="button"],a')].find((e) => {
+              const t = (e.textContent || '').trim()
+              return t.includes('新会话') || t.includes('新建会话')
+            })
+            let clickedNew = false
+            if (newBtn) {
+              newBtn.click()
+              clickedNew = true
+              await new Promise((r) => setTimeout(r, 2500))
+            }
             const esc = (s) => String(s || '').replace(/\\n/g, ' ').slice(0, 60)
-            const top = [...document.body.querySelectorAll('body > *')].slice(0, 40).map(n => ({
+            const top = [...document.body.querySelectorAll('body > *')].slice(0, 20).map(n => ({
               tag: n.tagName, cls: (n.className && n.className.baseVal !== undefined ? n.className.baseVal : n.className) || '',
-              role: n.getAttribute && n.getAttribute('role') || '',
-              td: n.getAttribute && n.getAttribute('data-testid') || '',
-              text: esc(n.textContent),
             }))
-            const logs = [...document.querySelectorAll('*')].filter(n => {
-              const t = (n.textContent || '')
-              const c = (n.className && n.className.baseVal !== undefined ? n.className.baseVal : n.className) || ''
-              return (c.toLowerCase().includes('log') || t.includes('会话日志') || t.includes('session log')) && n.children.length < 8
-            }).slice(0, 40).map(n => ({
-              tag: n.tagName, cls: (n.className && n.className.baseVal !== undefined ? n.className.baseVal : n.className) || '',
-              role: n.getAttribute && n.getAttribute('role') || '',
-              td: n.getAttribute && n.getAttribute('data-testid') || '',
-              text: esc(n.textContent),
-              rect: (() => { const r = n.getBoundingClientRect(); return { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) } })(),
-            }))
-            const headers = [...document.querySelectorAll('header, [class*="header" i], [class*="Header"]')].slice(0, 30).map(n => ({
-              tag: n.tagName, cls: (n.className && n.className.baseVal !== undefined ? n.className.baseVal : n.className) || '',
-              rect: (() => { const r = n.getBoundingClientRect(); return { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) } })(),
-              text: esc(n.textContent),
-            }))
-            return JSON.stringify({ title: document.title, top, logs, headers }, null, 1)
+            // animation probe
+            const raf = await Promise.race([
+              new Promise((res) => {
+                const t0 = performance.now()
+                requestAnimationFrame(() => requestAnimationFrame((t1) => res(Math.round((t1 - t0) * 10) / 10)))
+              }),
+              new Promise((res) => setTimeout(() => res(-1), 3000)),
+            ])
+            const anims = [...document.querySelectorAll('*')].filter((el) => {
+              const s = getComputedStyle(el)
+              return s.animationName !== 'none' && s.animationName !== ''
+            }).slice(0, 25).map((el) => {
+              const s = getComputedStyle(el)
+              const r = el.getBoundingClientRect()
+              return { tag: el.tagName, cls: (el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className) || '', anim: s.animationName, dur: s.animationDuration, state: s.animationPlayState, x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) }
+            })
+            const smil = { animate: document.querySelectorAll('svg animate, svg animateTransform, svg animateMotion').length, svgs: document.querySelectorAll('svg').length }
+            const canvases = [...document.querySelectorAll('canvas')].map((c) => {
+              let gl = false
+              try { gl = !!(c.getContext('webgl') || c.getContext('experimental-webgl')) } catch {}
+              return { w: c.width, h: c.height, webgl: gl }
+            })
+            const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+            const vis = { state: document.visibilityState, hidden: document.hidden }
+            const dives = [...document.querySelectorAll('*')].filter((el) => {
+              const t = (el.textContent || '').toLowerCase()
+              return (t.includes('deep diving') || t.includes('diving') || t.includes('deepseek')) && el.children.length > 0 && el.children.length < 6
+            }).slice(0, 12).map((el) => {
+              const r = el.getBoundingClientRect()
+              return { tag: el.tagName, cls: (el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className) || '', text: esc(el.textContent), x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) }
+            })
+            return JSON.stringify({ title: document.title, top, clickedNew, rafMs: raf, anims, smil, canvases, reduced, vis, dives }, null, 1)
           })()`)
           fs.writeFileSync(path.join(APP_DIR, 'domdump.json'), dump)
           log('domdump saved')
