@@ -107,10 +107,10 @@ function ensureWinControls(header) {
 // Re-injects if React later removes it (no permanent one-shot lock).
 let settingsInjected = false
 function injectSettingsEntry() {
-  const existing = document.getElementById('dsh-sessionlog-settings')
-  if (existing) {
-    if (existing.isConnected) return
-    settingsInjected = false // React removed it → allow re-injection
+  // React may unmount the panel (and our entry) when it closes: a removed node
+  // makes getElementById return null, so reset the lock to re-inject next time.
+  if (settingsInjected && !document.getElementById('dsh-sessionlog-settings')) {
+    settingsInjected = false
   }
   if (settingsInjected) return
   // The section list only exists while the Settings panel is open. Prefer an
