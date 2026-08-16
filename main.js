@@ -140,6 +140,7 @@ function createWindow(url) {
     width: 1280,
     height: 860,
     title: 'DSH 桌面端',
+    icon: path.join(APP_DIR, 'assets', 'icon.ico'),
     // Hidden title bar (no OS overlay): the preload injects custom window
     // controls into the GUI's own layout (top-right, where session log used
     // to be) and marks the header as the drag region — Hanako style.
