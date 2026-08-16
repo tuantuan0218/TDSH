@@ -67,6 +67,11 @@ pnpm start          # 启动桌面端
 
 - **0.1.0** 首个开源版本：attach-or-spawn 桌面壳、无边框 + 右上角胶囊窗口键、对话头部拖拽、Hanako 式交互
 - **0.1.1** 修复 Windows 无障碍"减少动画"导致的界面动效失效：启动时经 CDP 强制 `prefers-reduced-motion: no-preference` + CSS 兜底；窗口常驻前台渲染（`win.focus()` + 关闭后台节流）
+- **0.1.2** 应用图标换为 DeepSeek 官方黑白鲸鱼标记（`assets/icon.ico` / `icon.png`，源自 DSH Web 的官方 favicon.svg）
+
+## 商标与图标
+
+应用图标使用 **DeepSeek Harness** 官方 favicon 中的鲸鱼标记（黑白化渲染），该标记商标归 DeepSeek 所有；本项目为非官方个人项目（TDSH = 团团的 DeepSeek），与 DeepSeek 无隶属关系。图标仅作本地应用标识，不构成商标授权。
 
 ## 安全与隐私
 
