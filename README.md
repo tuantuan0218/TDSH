@@ -67,6 +67,7 @@ pnpm start          # 启动桌面端
 - **0.1.2** 应用图标换为 DeepSeek 官方黑白鲸鱼标记（`assets/icon.ico` / `icon.png`，源自 DSH Web 的官方 favicon.svg）
 - **0.1.3** Session log 按钮改为永久隐藏（MutationObserver 瞬时响应，无缩放闪现）；窗口三键独立圆角胶囊并跟随窗口缩放重定位；会话日志能力迁入 设置 → 会话日志；修复最大化图标状态同步
 - **0.1.4** 设置注入改用设置面板限定锚点 + React 移除后自动重注入；config.json 移除无效的 hideSessionLog 死字段
+- **0.1.5** 设置内「会话日志」项改为克隆原生设置项（navCell 同构样式 + 下载图标 + 无选中态）；修复 observer 自循环；剥离哈希激活类名
 
 ## 商标与图标
 

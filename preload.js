@@ -134,18 +134,19 @@ function injectSettingsEntry() {
   if (!navList.closest('[class*="settings" i]')) return
   const cells = [...navList.querySelectorAll('button[class*="_navCell"]')]
   // template = the LAST cell (About/last) — least likely to be the active one
-  const template = cells[cells.length - 1] || cells[0]
+  const template = cells[cells.length - 1]
   if (!template) return
   if (navList.querySelector('#dsh-sessionlog-settings')) { settingsInjected = true; return }
   const item = template.cloneNode(true)
   item.id = 'dsh-sessionlog-settings'
   stripActive(item)
-  // keep only the icon svg, drop the template's own label, then add ours
-  const svg = item.querySelector('svg')
-  if (svg) {
-    for (const child of [...item.children]) { if (child !== svg) child.remove() }
-    ;[...item.childNodes].forEach((n) => { if (n.nodeType === 3) n.nodeValue = '' })
-  }
+  // Rebuild content: chosen icon (session-log download svg if available, else
+  // keep the template's icon) + our label — clear ALL template text first.
+  const logSvg = sessionLogBtn && sessionLogBtn.querySelector('svg')
+  const tplSvg = item.querySelector('svg')
+  const finalSvg = logSvg ? logSvg.cloneNode(true) : (tplSvg || null)
+  item.textContent = '' // removes every child incl. template label
+  if (finalSvg) item.appendChild(finalSvg)
   item.appendChild(document.createTextNode('会话日志'))
   item.addEventListener('click', (e) => {
     e.preventDefault()
