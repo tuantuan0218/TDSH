@@ -267,23 +267,49 @@ function createWindow(url) {
         try {
           const report = await win.webContents.executeJavaScript(`(() => {
             const btn = [...document.querySelectorAll('button')].find(b => /^session\\s*log$/i.test((b.textContent || '').trim()))
-            const morphed = [...document.querySelectorAll('button.dsh-pill')][0]
+            const wc = document.getElementById('dsh-wincontrols')
             const header = document.querySelector('header')
             const strip = document.getElementById('dsh-dragstrip')
             return JSON.stringify({
               sessionLogButtonGone: !btn,
-              pillMorphed: !!morphed,
-              pillButtons: morphed ? morphed.children.length : 0,
-              pillText: morphed ? (morphed.textContent || '') : '',
-              pillRect: morphed ? (() => { const r = morphed.getBoundingClientRect(); return { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) } })() : null,
+              sessionLogHidden: !!btn && getComputedStyle(btn).display === 'none',
+              winControls: wc ? { present: true, buttons: wc.children.length, id: wc.getAttribute('id') } : { present: false },
+              winRect: wc ? (() => { const r = wc.getBoundingClientRect(); return { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) } })() : null,
               headerDrag: header ? header.style.getPropertyValue('-webkit-app-region') : null,
-              fallbackClusterPresent: !!document.getElementById('dsh-wincontrols'),
               stripPresent: !!strip,
             }, null, 1)
           })()`)
           fs.writeFileSync(path.join(APP_DIR, 'morphcheck.json'), report)
           log('morphcheck saved')
         } catch (e) { log(`morphcheck failed: ${e.message}`) } finally { app.quit() }
+      }, 15000)
+    })
+  }
+  // Dev/verification hook: DSH_SETTINGSDUMP=1 → open Settings, dump its tree, quit.
+  if (process.env.DSH_SETTINGSDUMP === '1') {
+    win.webContents.on('did-finish-load', () => {
+      setTimeout(async () => {
+        try {
+          const dump = await win.webContents.executeJavaScript(`(async () => {
+            const esc = (s) => String(s || '').replace(/\\n/g, ' ').slice(0, 60)
+            // open settings via the sidebar-foot settings button (text 设置, bottom area), then dump
+            const sbtn = [...document.querySelectorAll('button')].find((b) => {
+              const r = b.getBoundingClientRect()
+              return (b.textContent || '').trim().endsWith('设置') && r.y > window.innerHeight - 120
+            })
+            let clicked = ''
+            if (sbtn) { sbtn.click(); clicked = 'settings-footer' }
+            await new Promise((r) => setTimeout(r, 3500))
+            const markers = [...document.querySelectorAll('button,[role="button"],[role="tab"]')]
+              .filter((e) => e.offsetParent !== null && /^(通用|模型|插件|关于|General|Models|Plugins|About)$/.test((e.textContent || '').trim()))
+              .map((e) => { const r = e.getBoundingClientRect(); return { t: (e.textContent || '').trim(), x: Math.round(r.x), y: Math.round(r.y) } })
+            const injected = !!document.getElementById('dsh-sessionlog-settings')
+            const injectedTxt = injected ? (document.getElementById('dsh-sessionlog-settings').textContent || '') : ''
+            return JSON.stringify({ clicked, markers, injected, injectedTxt }, null, 1)
+          })()`)
+          fs.writeFileSync(path.join(APP_DIR, 'settingsdump.json'), dump)
+          log('settingsdump saved')
+        } catch (e) { log(`settingsdump failed: ${e.message}`) } finally { app.quit() }
       }, 15000)
     })
   }
