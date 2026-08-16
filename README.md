@@ -11,7 +11,7 @@ TDSH 是 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的
 
 - 原生窗口承载 DSH Web GUI（Electron 33，无边框深色风格）
 - **attach-or-spawn**：检测本地 `dsh web` 是否已运行——已运行则直接开窗复用；未运行则自动拉起一个新实例
-- **Hanako 式窗口交互**：对话头部即拖拽区、右上角圆角胶囊内嵌最小化/最大化/关闭三键（替换并隐藏了原 "Session log" 按钮，功能未删，可配置恢复）
+- **Hanako 式窗口交互**：对话头部即拖拽区、右上角圆角胶囊内嵌最小化/最大化/关闭三键；原 "Session log" 按钮已永久隐藏，其导出能力迁至 **设置 → 会话日志** 入口（缩放/重渲染不会闪现）
 - 单实例锁、外链走系统浏览器、关闭窗口自动回收服务进程
 - **磁盘友善**：userData / Chromium 缓存 / 日志全部落在应用所在目录，不写系统盘（可用环境变量重定向）
 
@@ -48,11 +48,7 @@ pnpm start          # 启动桌面端
 
 ## 配置
 
-`config.json`（应用目录内）：
-
-```jsonc
-{ "hideSessionLog": true }  // true = 隐藏 GUI 原 "Session log" 按钮（其位置变成窗口控制键）
-```
+`config.json`（应用目录内）：当前为壳自身说明注释；Session log 按钮永久隐藏、经 设置→会话日志 访问，无开关项。
 
 ## 开发钩子（验证用）
 
@@ -60,6 +56,7 @@ pnpm start          # 启动桌面端
 |---|---|
 | `DSH_CAPTURE=1` | GUI 加载后截图 `capture.png` 并退出 |
 | `DSH_MORPHCHECK=1` | 输出 preload 注入状态 `morphcheck.json` 并退出 |
+| `DSH_SETTINGSDUMP=1` | 打开设置页并输出注入验证 `settingsdump.json` 并退出 |
 | `DSH_DOMDUMP=1` | dump 页面 DOM / 动画状态 `domdump.json` 并退出 |
 | `DSH_FORCE_SPAWN=1` | 强制自起新服务（不 attach） |
 
@@ -68,6 +65,8 @@ pnpm start          # 启动桌面端
 - **0.1.0** 首个开源版本：attach-or-spawn 桌面壳、无边框 + 右上角胶囊窗口键、对话头部拖拽、Hanako 式交互
 - **0.1.1** 修复 Windows 无障碍"减少动画"导致的界面动效失效：启动时经 CDP 强制 `prefers-reduced-motion: no-preference` + CSS 兜底；窗口常驻前台渲染（`win.focus()` + 关闭后台节流）
 - **0.1.2** 应用图标换为 DeepSeek 官方黑白鲸鱼标记（`assets/icon.ico` / `icon.png`，源自 DSH Web 的官方 favicon.svg）
+- **0.1.3** Session log 按钮改为永久隐藏（MutationObserver 瞬时响应，无缩放闪现）；窗口三键独立圆角胶囊并跟随窗口缩放重定位；会话日志能力迁入 设置 → 会话日志；修复最大化图标状态同步
+- **0.1.4** 设置注入改用设置面板限定锚点 + React 移除后自动重注入；config.json 移除无效的 hideSessionLog 死字段
 
 ## 商标与图标
 

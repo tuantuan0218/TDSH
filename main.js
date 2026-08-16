@@ -327,7 +327,10 @@ function createWindow(url) {
 ipcMain.on('dsh:minimize', (e) => { BrowserWindow.fromWebContents(e.sender)?.minimize() })
 ipcMain.on('dsh:maximize', (e) => {
   const w = BrowserWindow.fromWebContents(e.sender)
-  if (w) { if (w.isMaximized()) w.unmaximize(); else w.maximize() }
+  if (w) {
+    if (w.isMaximized()) w.unmaximize(); else w.maximize()
+    if (!w.isDestroyed()) w.webContents.send('dsh:maximized', w.isMaximized())
+  }
 })
 ipcMain.on('dsh:close', (e) => { BrowserWindow.fromWebContents(e.sender)?.close() })
 ipcMain.on('dsh:get-config', (e) => {

@@ -1,6 +1,6 @@
 {
   "name": "tdsh-desktop",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "TDSH 鈥?鍥㈠洟鐨?DeepSeek 妗岄潰澹筹細鎶?DeepSeek Harness 鐨?Web 鐣岄潰瑁呰繘鍘熺敓妗岄潰绐楀彛锛坅ttach-or-spawn锛屾棤杈规 + Hanako 寮忎氦浜掞級",
   "main": "main.js",
   "private": true,

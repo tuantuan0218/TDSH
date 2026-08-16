@@ -17,7 +17,7 @@ const morphCss = `
   justify-content:space-evenly !important;gap:2px !important;padding:2px 3px !important;
   cursor:default !important;-webkit-app-region:no-drag !important;app-region:no-drag !important;
   z-index:9999 !important;border-radius:16px !important;}
-.dsh-pill span{width:26px;height:26px;display:flex;items-align:center;align-items:center;justify-content:center;
+.dsh-pill span{width:26px;height:26px;display:flex;align-items:center;justify-content:center;
   color:#9A9DA6;font-size:12px;line-height:1;cursor:default;border-radius:6px;
   font-family:"Segoe MDL2 Assets","Segoe UI",sans-serif;user-select:none;-webkit-app-region:no-drag;}
 .dsh-pill span:hover{background:#1E1F24;color:#FFFFFF;}
@@ -104,21 +104,29 @@ function ensureWinControls(header) {
 }
 
 // 3) Inject a "会话日志" entry into the Settings panel the first time it opens.
+// Re-injects if React later removes it (no permanent one-shot lock).
 let settingsInjected = false
 function injectSettingsEntry() {
+  const existing = document.getElementById('dsh-sessionlog-settings')
+  if (existing) {
+    if (existing.isConnected) return
+    settingsInjected = false // React removed it → allow re-injection
+  }
   if (settingsInjected) return
-  // The settings section list (left-nav of the panel) contains items like 通用/模型/插件.
-  // Find a stable container: the element listing a section labelled 通用 or Models.
+  // The section list only exists while the Settings panel is open. Prefer an
+  // anchor whose ancestor chain is settings-like; fall back to visible marker.
   let anchor = null
   for (const probe of ['通用', '模型', '插件', 'General', 'Models', 'Plugins']) {
     const el = [...document.querySelectorAll('button,[role="button"],[role="tab"]')].find((e) => {
       const t = (e.textContent || '').trim()
-      return (t === probe || t.startsWith(probe)) && e.offsetParent !== null
+      return (t === probe || t.startsWith(probe)) && e.offsetParent !== null && !!e.closest('[class*="settings" i]')
     })
-    if (el) { anchor = el.parentElement || el; break }
+    if (el) { anchor = el; break }
   }
-  if (!anchor) return
-  // Prefer the sibling list container (same parent) for appending.
+  if (!anchor) {
+    // panel not open / not identified → wait for next batch
+    return
+  }
   const container = anchor.parentElement || anchor
   if (container.querySelector('#dsh-sessionlog-settings')) { settingsInjected = true; return }
   const item = document.createElement('button')
