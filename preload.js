@@ -60,9 +60,8 @@ function hideSessionLogButton() {
   if (!btn) { sessionLogBtn = null; return null }
   sessionLogBtn = btn
   if (btn.style.visibility !== 'hidden') {
+    // visibility:hidden keeps the layout box → live rect for the pill to track.
     btn.style.visibility = 'hidden'
-    btn.style.height = '0px' // keep box height so it does not change header layout? no—keep size:
-    btn.style.height = ''
   }
   return btn
 }
