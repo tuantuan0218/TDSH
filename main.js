@@ -265,16 +265,23 @@ function createWindow(url) {
     win.webContents.on('did-finish-load', () => {
       setTimeout(async () => {
         try {
-          const report = await win.webContents.executeJavaScript(`(() => {
+          const report = await win.webContents.executeJavaScript(`(async () => {
             const btn = [...document.querySelectorAll('button')].find(b => /^session\\s*log$/i.test((b.textContent || '').trim()))
             const wc = document.getElementById('dsh-wincontrols')
             const header = document.querySelector('header')
             const strip = document.getElementById('dsh-dragstrip')
+            const rectOf = (el) => el ? (() => { const r = el.getBoundingClientRect(); return { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) } })() : null
+            const before = rectOf(wc)
+            // simulate a window resize (narrower) and re-read the pill position
+            try { window.resizeTo(854, 700) } catch {}
+            await new Promise((r) => setTimeout(r, 1000))
+            const after = rectOf(wc)
             return JSON.stringify({
               sessionLogButtonGone: !btn,
-              sessionLogHidden: !!btn && getComputedStyle(btn).display === 'none',
-              winControls: wc ? { present: true, buttons: wc.children.length, id: wc.getAttribute('id') } : { present: false },
-              winRect: wc ? (() => { const r = wc.getBoundingClientRect(); return { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) } })() : null,
+              sessionLogHidden: !!btn && getComputedStyle(btn).visibility === 'hidden',
+              winControls: wc ? { present: true, buttons: wc.children.length } : { present: false },
+              pillBefore: before,
+              pillAfterResize: after,
               headerDrag: header ? header.style.getPropertyValue('-webkit-app-region') : null,
               stripPresent: !!strip,
             }, null, 1)

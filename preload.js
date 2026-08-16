@@ -49,6 +49,8 @@ const wireButtons = (min, max, cls) => {
 }
 
 // 1) Hide the "Session log" header button (keep it alive for the Settings entry).
+// Use visibility:hidden (NOT display:none) so the element keeps its layout box
+// and getBoundingClientRect() stays live — the pill can track it through resizes.
 let sessionLogBtn = null
 let winRect = null
 function hideSessionLogButton() {
@@ -57,15 +59,22 @@ function hideSessionLogButton() {
     : [...document.querySelectorAll('button')].find((b) => /^session\s*log$/i.test((b.textContent || '').trim()))
   if (!btn) { sessionLogBtn = null; return null }
   sessionLogBtn = btn
-  if (btn.style.display !== 'none') {
-    // capture the rect BEFORE hiding (a display:none element returns zeros)
-    try {
-      const r = btn.getBoundingClientRect()
-      if (r.width > 0 && r.height > 0) winRect = r
-    } catch {}
-    btn.style.display = 'none'
+  if (btn.style.visibility !== 'hidden') {
+    btn.style.visibility = 'hidden'
+    btn.style.height = '0px' // keep box height so it does not change header layout? no—keep size:
+    btn.style.height = ''
   }
   return btn
+}
+
+// Capture the CURRENT live rect of the hidden button (visibility:hidden keeps box).
+function captureRect() {
+  try {
+    if (sessionLogBtn && sessionLogBtn.isConnected) {
+      const r = sessionLogBtn.getBoundingClientRect()
+      if (r.width > 2 && r.height > 2) winRect = r
+    }
+  } catch {}
 }
 
 // 2) Window-controls pill, positioned where the hidden button was.
@@ -147,9 +156,20 @@ const morph = () => {
       return
     }
     hideSessionLogButton()
+    captureRect()
     ensureWinControls(header)
     setupDrag(header)
   } catch { /* retry */ }
+}
+
+// Re-anchor the pill on window resize (visibility:hidden keeps the live box).
+const onResize = () => {
+  try {
+    const header = document.querySelector('header')
+    if (!header) return
+    captureRect()
+    ensureWinControls(header)
+  } catch { /* keep alive */ }
 }
 
 // Instant reactions on React re-renders (kills the resize flicker).
@@ -159,12 +179,14 @@ const startObserver = () => {
   root.__dshObserved = true
   new MutationObserver(() => {
     try {
-      const header = document.querySelector('header')
       hideSessionLogButton()
+      captureRect()
+      const header = document.querySelector('header')
       if (header) { ensureWinControls(header); setupDrag(header) }
       injectSettingsEntry()
     } catch { /* keep alive */ }
   }).observe(root, { childList: true, subtree: true, characterData: true, attributes: true })
+  try { window.addEventListener('resize', onResize) } catch {}
 }
 
 if (document.readyState === 'loading') {
