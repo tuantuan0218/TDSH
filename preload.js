@@ -23,9 +23,6 @@ const morphCss = `
 .dsh-pill span:hover{background:#1E1F24;color:#FFFFFF;}
 .dsh-pill span.dsh-close:hover{background:#C42B1C;color:#fff;}
 #dsh-dragstrip{position:fixed;top:0;left:0;right:0;height:8px;z-index:99999;-webkit-app-region:drag;}
-#dsh-sessionlog-settings{display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;
-  color:#9A9DA6;background:transparent;border:none;border-radius:8px;text-align:left;cursor:pointer;font:inherit;}
-#dsh-sessionlog-settings:hover{background:#1E1F24;color:#fff;}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-play-state: running !important; animation-duration: 0.3s !important;
     animation-delay: 0s !important; transition-duration: 0.2s !important; transition-delay: 0s !important; }
@@ -140,14 +137,27 @@ function injectSettingsEntry() {
   const item = template.cloneNode(true)
   item.id = 'dsh-sessionlog-settings'
   stripActive(item)
-  // Rebuild content: chosen icon (session-log download svg if available, else
-  // keep the template's icon) + our label — clear ALL template text first.
+  // Rebuild content: session-log download icon (native 16×16 box, same _navIcon
+  // class) + our label inside the native _navLabel span so the entry renders
+  // pixel-identical to the surrounding navCell rows (no ID-level style
+  // overrides — the cloned .navCell class fully decides the look).
   const logSvg = sessionLogBtn && sessionLogBtn.querySelector('svg')
   const tplSvg = item.querySelector('svg')
-  const finalSvg = logSvg ? logSvg.cloneNode(true) : (tplSvg || null)
-  item.textContent = '' // removes every child incl. template label
-  if (finalSvg) item.appendChild(finalSvg)
-  item.appendChild(document.createTextNode('会话日志'))
+  const label = item.querySelector('[class*="_navLabel"]')
+  for (const el of [...item.children]) el.remove()
+  if (logSvg || tplSvg) {
+    const svg = (logSvg || tplSvg).cloneNode(true)
+    svg.setAttribute('width', '16')
+    svg.setAttribute('height', '16')
+    if (tplSvg && tplSvg.getAttribute('class')) svg.setAttribute('class', tplSvg.getAttribute('class'))
+    item.appendChild(svg)
+  }
+  if (label) {
+    label.textContent = '会话日志'
+    item.appendChild(label)
+  } else {
+    item.appendChild(document.createTextNode('会话日志'))
+  }
   item.addEventListener('click', (e) => {
     e.preventDefault()
     e.stopPropagation()

@@ -21,7 +21,10 @@ TDSH 是 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的
 
 ## 快速开始
 
-前置：能跑 `dsh web` 的 DeepSeek Harness 环境（Node.js ≥ 20）。
+前置：能跑 `dsh web` 的 DeepSeek Harness 环境，**Node.js ≥ 22.19（或 ≥ 24.0）**。
+> dsh 官方要求 `^22.19.0 || >=24.0.0`（其打包代码会 ESM 导入 `node:util` 的 `parseEnv`，Node 20 会加载失败）。
+> TDSH 启动时按 `DSH_NODE` 环境变量 → 应用目录 `config.json` 的 `node` 字段 → PATH 上 `node` 的顺序探测并校验版本；
+> 找不到合规 Node 时弹出明确错误框，不会静默失败。
 
 ```bash
 git clone https://github.com/tuantuan0218/TDSH.git
@@ -36,7 +39,15 @@ pnpm start          # 启动桌面端
 |---|---|---|
 | `DSH_REPO` | 由仓库位置推断 | DSH 源码根（`apps/cli/src/bin.ts` 所在） |
 | `DSH_HOME` | 继承环境 | DSH 数据主目录（sessions / settings / storages） |
-| `DSH_NODE` | `node`（PATH） | 启动 `dsh web` 用的 Node 可执行文件 |
+| `DSH_NODE` | `config.json` 的 `node` 字段，回退 `node`（PATH） | 启动 `dsh web` 用的 Node 可执行文件（需 ≥22.19） |
+
+### 配置 Node 路径
+
+双击桌面快捷方式（Explorer 环境）的 PATH 可能与终端不同，推荐在 `config.json` 固化合规 Node：
+
+```json
+{ "node": "H:\\nodejs\\v24.16.0\\node.exe" }
+```
 
 ### 行为
 
@@ -68,6 +79,7 @@ pnpm start          # 启动桌面端
 - **0.1.3** Session log 按钮改为永久隐藏（MutationObserver 瞬时响应，无缩放闪现）；窗口三键独立圆角胶囊并跟随窗口缩放重定位；会话日志能力迁入 设置 → 会话日志；修复最大化图标状态同步
 - **0.1.4** 设置注入改用设置面板限定锚点 + React 移除后自动重注入；config.json 移除无效的 hideSessionLog 死字段
 - **0.1.5** 设置内「会话日志」项改为克隆原生设置项（navCell 同构样式 + 下载图标 + 无选中态）；修复 observer 自循环；剥离哈希激活类名
+- **0.1.6** 设置内「会话日志」项与原生项像素级一致（去除 ID 级样式覆盖、保留原生 navLabel 结构、图标归一 16×16）；Node 探测链改为 `DSH_NODE` → `config.json.node` → PATH 并按官方要求（`^22.19.0 || >=24.0.0`）校验版本，双击桌面快捷方式即可一键拉起 `dsh web` 整套系统
 
 ## 商标与图标
 

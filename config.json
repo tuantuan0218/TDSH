@@ -1,3 +1,4 @@
 {
-  "_comment": "TDSH 桌面壳配置。Session log 按钮自 v4 起永久隐藏（避免头部杂讯与缩放闪现），其能力通过 设置→会话日志 入口访问；已移除旧的 hideSessionLog 开关（无消费者）。"
+  "_comment": "TDSH 桌面壳配置。Session log 按钮自 v4 起永久隐藏（避免头部杂讯与缩放闪现），其能力通过 设置→会话日志 入口访问；已移除旧的 hideSessionLog 开关（无消费者）。",
+  "node": "H:\\nodejs\\v24.16.0\\node.exe"
 }

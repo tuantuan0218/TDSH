@@ -44,7 +44,44 @@ function resolveRepo() {
 }
 const REPO = resolveRepo()
 const HOME = process.env.DSH_HOME || path.join(os.homedir(), '.dsh')
-const NODE_BIN = process.env.DSH_NODE || 'node'
+
+// Official DeepSeek Harness Node floor (root package.json engines):
+//   "^22.19.0 || >=24.0.0"
+// dsh's bundled code ESM-imports `parseEnv` from node:util, which Node 22.9+
+// exports; on v20 this throws at load, so TDSH must pick a compliant Node.
+// Resolution order: $DSH_NODE → config.json "node" → `node` on PATH.
+const NODE_OK = (major, minor) => major >= 24 || (major === 22 && minor >= 19)
+
+function readAppConfig() {
+  try { return JSON.parse(fs.readFileSync(path.join(APP_DIR, 'config.json'), 'utf8')) } catch { return {} }
+}
+
+function nodeVersion(bin) {
+  try {
+    const out = require('node:child_process').spawnSync(bin, ['--version'], { timeout: 5000, encoding: 'utf8' })
+    if (out.status !== 0 || !out.stdout) return null
+    const m = /^v(\d+)\.(\d+)\.(\d+)/.exec(out.stdout.trim())
+    return m ? { major: +m[1], minor: +m[2], patch: +m[3] } : null
+  } catch { return null }
+}
+
+function resolveNodeBin() {
+  const cfg = readAppConfig()
+  const candidates = [process.env.DSH_NODE, cfg.node, 'node'].filter(Boolean)
+  for (const bin of candidates) {
+    const v = nodeVersion(bin)
+    if (v && NODE_OK(v.major, v.minor)) {
+      log(`node resolved: ${bin} (v${v.major}.${v.minor}.${v.patch})`)
+      return { bin, version: v }
+    }
+    if (v) log(`node candidate rejected (too old for dsh): ${bin} v${v.major}.${v.minor}.${v.patch}`)
+    else log(`node candidate unavailable: ${bin}`)
+  }
+  return null
+}
+
+let NODE_BIN = null
+let NODE_VER = null
 
 let serverChild = null
 
@@ -77,6 +114,12 @@ function waitFor(url, timeoutMs) {
 const DSH_URL_LINE = /dsh web: http:\/\/127\.0\.0\.1:(\d+)/g
 
 function startServer() {
+  // NODE_BIN resolved in whenReady; spawn mode picks a compliant Node or bails
+  // with a clear dialog (never a silent v20 parseEnv crash).
+  if (!NODE_BIN) {
+    log('spawn aborted: no compliant Node (need ^22.19.0 || >=24.0.0)')
+    return Promise.resolve(null)
+  }
   const bin = path.join(REPO, 'apps', 'cli', 'src', 'bin.ts')
   const args = ['--import', 'tsx/esm', bin, 'web', '--port', '0']
   log(`spawn dsh web: ${NODE_BIN} ${args.join(' ')}  cwd=${REPO}`)
@@ -369,9 +412,21 @@ if (!app.requestSingleInstanceLock()) {
 
   app.whenReady().then(async () => {
     log(`startup: repo=${REPO} home=${HOME} target=${TARGET_URL}`)
+    const node = resolveNodeBin()
+    if (node) { NODE_BIN = node.bin; NODE_VER = node.version } else { NODE_BIN = null; NODE_VER = null }
     let url = null
     // DSH_FORCE_SPAWN=1 (dev): always start a fresh server instead of attaching.
     if (process.env.DSH_FORCE_SPAWN === '1' || !(await httpUp(TARGET_URL, 1500))) {
+      if (!NODE_BIN) {
+        dialog.showErrorBox('DSH 桌面端',
+          '未找到兼容的 Node.js（需要 ^22.19.0 或 >=24.0.0）。\n\n' +
+          '请用以下任一方式指定 Node 路径：\n' +
+          '1) 环境变量 DSH_NODE=<node.exe 绝对路径>\n' +
+          '2) 应用目录 config.json 添加 "node": "<node.exe 绝对路径>"\n\n' +
+          '当前 PATH 上的 node 版本不满足 dsh web 的解析要求（v20 缺少 util.parseEnv 的 ESM 导出）。')
+        app.quit()
+        return
+      }
       url = await startServer()
       if (!url) {
         dialog.showErrorBox('DSH 桌面端', '无法启动 dsh web，请查看 ' + LOG_FILE)
