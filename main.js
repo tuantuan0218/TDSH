@@ -300,13 +300,24 @@ function createWindow(url) {
           const dump = await win.webContents.executeJavaScript(`(async () => {
             const esc = (s) => String(s || '').replace(/\\n/g, ' ').slice(0, 60)
             // open settings via the sidebar-foot settings button (text 设置, bottom area), then dump
-            const sbtn = [...document.querySelectorAll('button')].find((b) => {
+            // open settings: click the real BUTTON whose trimmed text is 设置 at the
+// sidebar foot (container divs named settingsArea are not clickable);
+// retry up to 3 times until the settings markers appear.
+            const findBtn = () => [...document.querySelectorAll('button')].find((b) => {
               const r = b.getBoundingClientRect()
-              return (b.textContent || '').trim().endsWith('设置') && r.y > window.innerHeight - 120
+              return (b.textContent || '').trim().endsWith('设置') && r.x < 300 && r.y > window.innerHeight - 200 && r.width > 5
             })
-            let clicked = ''
-            if (sbtn) { sbtn.click(); clicked = 'settings-footer' }
-            await new Promise((r) => setTimeout(r, 3500))
+            const openSettings = async () => {
+              for (let i = 0; i < 3; i++) {
+                const btn = findBtn()
+                if (btn) { btn.click(); await new Promise((r) => setTimeout(r, 2000)) }
+                const mk = [...document.querySelectorAll('button,[role="button"]')].some((e) => /^(通用|模型|插件|关于|General|Models|Plugins|About)$/.test((e.textContent || '').trim()))
+                if (mk) return true
+              }
+              return false
+            }
+            const opened = await openSettings()
+            const clicked = opened ? 'settings-opened' : 'settings-not-opened'
             const markers = [...document.querySelectorAll('button,[role="button"],[role="tab"]')]
               .filter((e) => e.offsetParent !== null && /^(通用|模型|插件|关于|General|Models|Plugins|About)$/.test((e.textContent || '').trim()))
               .map((e) => {

@@ -93,18 +93,32 @@ function ensureWinControls(header) {
   const r = winRect
     ? { left: winRect.left - h.left, top: winRect.top - h.top, width: winRect.width, height: winRect.height }
     : { left: h.width - 145, top: 10, width: 118, height: 32 }
-  cluster.style.left = Math.max(4, Math.round(r.left)) + 'px'
-  cluster.style.top = Math.max(2, Math.round(r.top)) + 'px'
-  cluster.style.width = Math.round(r.width) + 'px'
-  cluster.style.height = Math.round(r.height) + 'px'
-  cluster.style.background = '#0D0E12'
-  cluster.style.border = '1px solid #1E1F24'
+  const left = Math.max(4, Math.round(r.left))
+  const top = Math.max(2, Math.round(r.top))
+  // only write when geometry actually changes (avoid observer self-feedback)
+  if (cluster.style.left !== left + 'px') cluster.style.left = left + 'px'
+  if (cluster.style.top !== top + 'px') cluster.style.top = top + 'px'
+  if (cluster.style.width !== Math.round(r.width) + 'px') cluster.style.width = Math.round(r.width) + 'px'
+  if (cluster.style.height !== Math.round(r.height) + 'px') cluster.style.height = Math.round(r.height) + 'px'
+  if (cluster.style.background !== '#0D0E12') cluster.style.background = '#0D0E12'
+  if (cluster.style.border !== '1px solid #1E1F24') cluster.style.border = '1px solid #1E1F24'
   return cluster
 }
 
 // 3) Inject a "会话日志" entry into the Settings panel the first time it opens.
 // Re-injects if React later removes it (no permanent one-shot lock).
 let settingsInjected = false
+
+// CSS Modules hashes class names (e.g. _55Y5wW_active), so never match a
+// literal "_active": drop ANY class token mentioning 'active'.
+// IMPORTANT: only write the class attribute when it actually changes, or the
+// MutationObserver (attributes:true) would fire on itself → sync loop → hang.
+function stripActive(el) {
+  const next = [...el.classList].filter((c) => !/active/i.test(c)).join(' ')
+  if (next !== el.className) el.className = next
+  if (el.getAttribute('aria-current')) el.removeAttribute('aria-current')
+}
+
 function injectSettingsEntry() {
   // React may unmount the panel (and our entry) when it closes: a removed node
   // makes getElementById return null, so reset the lock to re-inject next time.
@@ -116,15 +130,16 @@ function injectSettingsEntry() {
   // Clone an existing cell so the injected item looks/behaves identically.
   const navList = document.querySelector('[class*="_navList"]')
   if (!navList) return
+  // keep the settings-domain guard: only inject inside a settings-ish surface
+  if (!navList.closest('[class*="settings" i]')) return
   const cells = [...navList.querySelectorAll('button[class*="_navCell"]')]
   // template = the LAST cell (About/last) — least likely to be the active one
-  const template = cells[cells.length - 1] || cells.find((c) => !c.classList.contains('_active'))
+  const template = cells[cells.length - 1] || cells[0]
   if (!template) return
   if (navList.querySelector('#dsh-sessionlog-settings')) { settingsInjected = true; return }
   const item = template.cloneNode(true)
   item.id = 'dsh-sessionlog-settings'
-  item.classList.remove('_active')
-  item.removeAttribute('aria-current')
+  stripActive(item)
   // keep only the icon svg, drop the template's own label, then add ours
   const svg = item.querySelector('svg')
   if (svg) {
@@ -146,8 +161,7 @@ function injectSettingsEntry() {
 function sanitizeLogEntry() {
   const el = document.getElementById('dsh-sessionlog-settings')
   if (!el) return
-  if (el.classList.contains('_active')) el.classList.remove('_active')
-  if (el.getAttribute('aria-current')) el.removeAttribute('aria-current')
+  stripActive(el)
   if (el.getAttribute('aria-selected') === 'true') el.setAttribute('aria-selected', 'false')
 }
 
