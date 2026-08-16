@@ -112,31 +112,43 @@ function injectSettingsEntry() {
     settingsInjected = false
   }
   if (settingsInjected) return
-  // The section list only exists while the Settings panel is open. Prefer an
-  // anchor whose ancestor chain is settings-like; fall back to visible marker.
-  let anchor = null
-  for (const probe of ['通用', '模型', '插件', 'General', 'Models', 'Plugins']) {
-    const el = [...document.querySelectorAll('button,[role="button"],[role="tab"]')].find((e) => {
-      const t = (e.textContent || '').trim()
-      return (t === probe || t.startsWith(probe)) && e.offsetParent !== null && !!e.closest('[class*="settings" i]')
-    })
-    if (el) { anchor = el; break }
-  }
-  if (!anchor) {
-    // panel not open / not identified → wait for next batch
-    return
-  }
-  const container = anchor.parentElement || anchor
-  if (container.querySelector('#dsh-sessionlog-settings')) { settingsInjected = true; return }
-  const item = document.createElement('button')
+  // Native settings nav: button.navCell (icon svg + label) inside a navList.
+  // Clone an existing cell so the injected item looks/behaves identically.
+  const navList = document.querySelector('[class*="_navList"]')
+  if (!navList) return
+  const cells = [...navList.querySelectorAll('button[class*="_navCell"]')]
+  // template = the LAST cell (About/last) — least likely to be the active one
+  const template = cells[cells.length - 1] || cells.find((c) => !c.classList.contains('_active'))
+  if (!template) return
+  if (navList.querySelector('#dsh-sessionlog-settings')) { settingsInjected = true; return }
+  const item = template.cloneNode(true)
   item.id = 'dsh-sessionlog-settings'
-  item.type = 'button'
-  item.textContent = '会话日志'
-  item.addEventListener('click', () => {
+  item.classList.remove('_active')
+  item.removeAttribute('aria-current')
+  // keep only the icon svg, drop the template's own label, then add ours
+  const svg = item.querySelector('svg')
+  if (svg) {
+    for (const child of [...item.children]) { if (child !== svg) child.remove() }
+    ;[...item.childNodes].forEach((n) => { if (n.nodeType === 3) n.nodeValue = '' })
+  }
+  item.appendChild(document.createTextNode('会话日志'))
+  item.addEventListener('click', (e) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (sessionLogBtn && sessionLogBtn.isConnected) sessionLogBtn.click()
   })
-  container.appendChild(item)
+  navList.appendChild(item)
   settingsInjected = true
+}
+
+// The injected Settings entry must never look selected. React re-renders of the
+// nav list can re-mark a cloned cell as active — scrub it on every tick.
+function sanitizeLogEntry() {
+  const el = document.getElementById('dsh-sessionlog-settings')
+  if (!el) return
+  if (el.classList.contains('_active')) el.classList.remove('_active')
+  if (el.getAttribute('aria-current')) el.removeAttribute('aria-current')
+  if (el.getAttribute('aria-selected') === 'true') el.setAttribute('aria-selected', 'false')
 }
 
 const setupDrag = (header) => {
@@ -164,6 +176,7 @@ const morph = () => {
     }
     hideSessionLogButton()
     captureRect()
+    sanitizeLogEntry()
     ensureWinControls(header)
     setupDrag(header)
   } catch { /* retry */ }
@@ -188,6 +201,7 @@ const startObserver = () => {
     try {
       hideSessionLogButton()
       captureRect()
+      sanitizeLogEntry()
       const header = document.querySelector('header')
       if (header) { ensureWinControls(header); setupDrag(header) }
       injectSettingsEntry()

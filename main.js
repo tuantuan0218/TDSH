@@ -309,10 +309,15 @@ function createWindow(url) {
             await new Promise((r) => setTimeout(r, 3500))
             const markers = [...document.querySelectorAll('button,[role="button"],[role="tab"]')]
               .filter((e) => e.offsetParent !== null && /^(通用|模型|插件|关于|General|Models|Plugins|About)$/.test((e.textContent || '').trim()))
-              .map((e) => { const r = e.getBoundingClientRect(); return { t: (e.textContent || '').trim(), x: Math.round(r.x), y: Math.round(r.y) } })
+              .map((e) => {
+                const r = e.getBoundingClientRect()
+                const cls = (e.className && e.className.baseVal !== undefined ? e.className.baseVal : e.className) || ''
+                return { t: (e.textContent || '').trim(), tag: e.tagName, cls, html: e.outerHTML.slice(0, 700), x: Math.round(r.x), y: Math.round(r.y) }
+              })
             const injected = !!document.getElementById('dsh-sessionlog-settings')
             const injectedTxt = injected ? (document.getElementById('dsh-sessionlog-settings').textContent || '') : ''
-            return JSON.stringify({ clicked, markers, injected, injectedTxt }, null, 1)
+            const injectedHtml = injected ? document.getElementById('dsh-sessionlog-settings').outerHTML.slice(0, 300) : ''
+            return JSON.stringify({ clicked, markers, injected, injectedTxt, injectedHtml }, null, 1)
           })()`)
           fs.writeFileSync(path.join(APP_DIR, 'settingsdump.json'), dump)
           log('settingsdump saved')
