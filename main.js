@@ -14,6 +14,7 @@ const http = require('node:http')
 const path = require('node:path')
 const os = require('node:os')
 const fs = require('node:fs')
+const updater = require('./updater/updater.cjs')
 
 const APP_DIR = __dirname
 const DEFAULT_PORT = 3080
@@ -43,7 +44,7 @@ function resolveRepo() {
   return process.env.DSH_REPO || sibling
 }
 const REPO = resolveRepo()
-const HOME = process.env.DSH_HOME || path.join(os.homedir(), '.dsh')
+const HOME = process.env.DSH_HOME || path.join('G:', 'mimocode', 'dsh-home')
 
 // Official DeepSeek Harness Node floor (root package.json engines):
 //   "^22.19.0 || >=24.0.0"
@@ -192,8 +193,8 @@ function createWindow(url) {
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: true,
-      preload: path.join(APP_DIR, 'preload.js'),
+      sandbox: false,
+      // preload: path.join(APP_DIR, 'preload.js'),  // DISABLED for test
     },
   })
   win.webContents.setWindowOpenHandler(({ url: target }) => {
@@ -212,6 +213,35 @@ function createWindow(url) {
   win.loadURL(url)
   log(`window opened -> ${url}`)
   win.focus()
+  // Timed screenshot diagnostic: capture what's actually composited on screen
+  // (works even when the renderer main thread is blocked/deadlocked).
+  if (process.env.DSH_SHOT === '1') {
+    ;[12000, 24000].forEach((ms) => {
+      setTimeout(async () => {
+        try {
+          const img = await win.webContents.capturePage()
+          const p = path.join(APP_DIR, `shot${ms}.png`)
+          fs.writeFileSync(p, img.toPNG())
+          log(`shot saved: ${p}`)
+        } catch (e) { log(`shot failed@${ms}: ${e.message}`) }
+      }, ms)
+    })
+  }
+  win.webContents.on('console-message', (e, level, msg, line, sourceId) => {
+    log(`[renderer ${['verbose','info','warning','error'][level]||level}] ${msg} (${sourceId}:${line})`)
+  })
+  win.webContents.on('did-fail-load', (e, code, desc, url) => {
+    log(`[load-fail] code=${code} desc=${desc} url=${url}`)
+  })
+  win.webContents.on('unhandled-rejection', (e, promise, reason) => {
+    log(`[unhandled-rejection] ${reason}`)
+  })
+  win.webContents.on('crashed', () => { log('[renderer CRASHED]') })
+  win.webContents.on('render-process-gone', (e, details) => {
+    log(`[renderer-gone] reason=${details.reason} exitCode=${details.exitCode}`)
+  })
+  // NOTE: executeJavaScript-based state capture was causing hangs with stuck renderer.
+// Use --remote-debugging-port=9222 for external diagnosis instead.
 
   // Force the page's media query to "no reduced motion" via CDP: reliably
   // revives CSS animations that Windows ease-of-access would otherwise stop.
@@ -414,6 +444,8 @@ if (!app.requestSingleInstanceLock()) {
     log(`startup: repo=${REPO} home=${HOME} target=${TARGET_URL}`)
     const node = resolveNodeBin()
     if (node) { NODE_BIN = node.bin; NODE_VER = node.version } else { NODE_BIN = null; NODE_VER = null }
+    // 初始化自动更新（后台静默检查，不影响启动）
+    try { updater.init() } catch (e) { log('updater init failed: ' + e.message) }
     let url = null
     // DSH_FORCE_SPAWN=1 (dev): always start a fresh server instead of attaching.
     if (process.env.DSH_FORCE_SPAWN === '1' || !(await httpUp(TARGET_URL, 1500))) {

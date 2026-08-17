@@ -1,0 +1,35 @@
+appId: com.tuantuan.tdsh
+productName: TDSH
+copyright: Copyright © 2026 tuantuan0218
+directories:
+  output: dist
+  buildResources: build
+files:
+  - main.js
+  - preload.js
+  - updater/**/*
+  - config.json
+  - assets/**/*
+  - node_modules/**/*
+  - package.json
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: assets/icon.ico
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: TDSH 桌面端
+  artifactName: TDSH-Setup-${version}.${ext}
+publish:
+  - provider: github
+    owner: tuantuan0218
+    repo: TDSH
+    releaseType: release
+electronDownload:
+  mirror: https://npmmirror.com/mirrors/electron/

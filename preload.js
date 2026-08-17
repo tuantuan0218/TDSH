@@ -8,6 +8,8 @@
 // 3) Inject a "会话日志" entry into the opened Settings panel that re-triggers
 //    the (hidden) session-log action — "move it into Settings".
 // Idempotent + defensive; MutationObserver makes morphing instant (no flicker).
+// NOTE: update-check button uses fixed-position overlay (outside React tree)
+// to avoid React<->observer mutation war that froze the renderer.
 
 const { ipcRenderer } = require('electron')
 
@@ -27,6 +29,16 @@ const morphCss = `
   *, *::before, *::after { animation-play-state: running !important; animation-duration: 0.3s !important;
     animation-delay: 0s !important; transition-duration: 0.2s !important; transition-delay: 0s !important; }
 }
+#dsh-update-btn{position:fixed;z-index:99998;display:flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:8px;cursor:pointer;color:#9A9DA6;transition:color .15s;
+  -webkit-app-region:no-drag;}
+#dsh-update-btn:hover{color:#FFFFFF;}
+#dsh-update-btn svg{display:block;width:14px;height:14px;}
+#dsh-update-btn.dsh-ua-spin svg{animation:dsh-spin .8s linear infinite;}
+@keyframes dsh-spin{to{transform:rotate(360deg)}}
+#dsh-update-btn.dsh-ua-available::after{content:'';position:absolute;top:1px;right:1px;width:6px;height:6px;
+  border-radius:50%;background:#4FC3F7;}
+#dsh-update-btn.dsh-ua-downloaded{color:#4FC3F7;}
 `
 const injectCss = () => {
   if (document.getElementById('dsh-css')) return
@@ -187,6 +199,58 @@ const setupDrag = (header) => {
   }
 }
 
+// 4) Update-check button: fixed-position overlay above the sidebar gear, so
+// it never touches the React-owned DOM tree (avoids React↔observer mutation war).
+// State changes only write when the actual value differs (observer self-loop guard).
+let updateState = 'idle'
+let updateBtn = null
+function updateBtnSvg(state) {
+  const p = {
+    idle:'<path d="M13.5 8A5.5 5.5 0 1 1 8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M10.5 5.5h2.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+    checking:'<path d="M13.5 8A5.5 5.5 0 1 1 8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M10.5 5.5h2.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+    available:'<path d="M13.5 8A5.5 5.5 0 1 1 8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M10.5 5.5h2.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+    downloading:'<path d="M8 2.5v6l2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M8 8.5L6 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M4 10.5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>',
+    downloaded:'<path d="M6.5 8.5L8 10l3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M4 10.5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>',
+    error:'<path d="M8 5v3.5M8 10v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>',
+  }
+  return '<svg width="14" height="14" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">' + (p[state]||p.idle) + '</svg>'
+}
+function ensureUpdateBtn() {
+  const gear = [...document.querySelectorAll('button[aria-haspopup="dialog"]')].find(b => {
+    const r = b.getBoundingClientRect(); return r.x < 120 && r.y > window.innerHeight - 160
+  })
+  if (!gear) return
+  // Create once, append to body (outside React tree → no mutation war)
+  if (!updateBtn || !updateBtn.isConnected) {
+    updateBtn = document.createElement('div')
+    updateBtn.id = 'dsh-update-btn'
+    updateBtn.addEventListener('click', (e) => {
+      e.preventDefault(); e.stopPropagation()
+      if (updateState === 'available') ipcRenderer.send('tdsh:download-update')
+      else if (updateState === 'downloaded') ipcRenderer.send('tdsh:install-update')
+      else ipcRenderer.send('tdsh:check-update')
+    })
+    document.body.appendChild(updateBtn)
+  }
+  // Position: rail mode above gear, wide mode left of gear
+  const gr = gear.getBoundingClientRect()
+  const rail = /_rail/.test(gear.className)
+  const left = rail ? gr.left + 4 : gr.left - 28
+  const top = rail ? gr.top - 28 : gr.top + (gr.height - 24) / 2
+  if (updateBtn.style.left !== left + 'px') updateBtn.style.left = left + 'px'
+  if (updateBtn.style.top !== top + 'px') updateBtn.style.top = top + 'px'
+  // Only write innerHTML/className when values differ (observer self-loop guard)
+  const newHtml = updateBtnSvg(updateState)
+  if (updateBtn.innerHTML !== newHtml) updateBtn.innerHTML = newHtml
+  const newCls = 'dsh-ua-' + updateState + (updateState === 'checking' ? ' dsh-ua-spin' : '') + (updateState === 'available' ? ' dsh-ua-available' : '')
+  if (updateBtn.className !== newCls) updateBtn.className = newCls
+  const tips = { idle:'检查更新', checking:'检查中…', available:'新版本可用，点击下载', downloading:'下载中…', downloaded:'更新已就绪，点击安装', error:'检查更新失败' }
+  if (updateBtn.title !== (tips[updateState] || '检查更新')) updateBtn.title = tips[updateState] || '检查更新'
+}
+// Listen for update status from main process
+ipcRenderer.on('tdsh:update-status', (_e, s) => { updateState = s.state; ensureUpdateBtn() })
+try { ipcRenderer.getUpdateStatus = () => ipcRenderer.sendSync('tdsh:get-update-status') } catch {}
+
 const morph = () => {
   try {
     injectCss()
@@ -204,6 +268,7 @@ const morph = () => {
     sanitizeLogEntry()
     ensureWinControls(header)
     setupDrag(header)
+    ensureUpdateBtn()
   } catch { /* retry */ }
 }
 
@@ -230,6 +295,7 @@ const startObserver = () => {
       const header = document.querySelector('header')
       if (header) { ensureWinControls(header); setupDrag(header) }
       injectSettingsEntry()
+      ensureUpdateBtn()
     } catch { /* keep alive */ }
   }).observe(root, { childList: true, subtree: true, characterData: true, attributes: true })
   try { window.addEventListener('resize', onResize) } catch {}
