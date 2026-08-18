@@ -14,10 +14,10 @@ Four client-side dsh plugins implementing the zero-preload HTTP-carrier architec
 Each plugin is a dsh bundle. Add to a dsh profile's `package.json` dependencies and `dsh.profile.bundles` array:
 
 ```json
-"dsh-version-label": "github:tuantuan0218/TDSH/dsh-plugins/dsh-version-label#main",
-"dsh-window-controls": "github:tuantuan0218/TDSH/dsh-plugins/dsh-window-controls#main",
-"dsh-session-log": "github:tuantuan0218/TDSH/dsh-plugins/dsh-session-log#main",
-"dsh-update-btn": "github:tuantuan0218/TDSH/dsh-plugins/dsh-update-btn#main"
+"dsh-version-label": "github:tuantuan0218/TDSH#main&path:dsh-plugins/dsh-version-label",
+"dsh-window-controls": "github:tuantuan0218/TDSH#main&path:dsh-plugins/dsh-window-controls",
+"dsh-session-log": "github:tuantuan0218/TDSH#main&path:dsh-plugins/dsh-session-log",
+"dsh-update-btn": "github:tuantuan0218/TDSH#main&path:dsh-plugins/dsh-update-btn"
 ```
 
 Then `pnpm install` in the profile directory.
