@@ -1,0 +1,4 @@
+# dsh-update-btn bundle layer. Renders the update check/download/install button.
+- insert:
+    - id: update-btn
+      name: dsh-update-btn

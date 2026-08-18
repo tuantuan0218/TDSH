@@ -1,0 +1,5 @@
+# dsh-session-log bundle layer. Hides the session-log header button and injects
+# a "会话日志" settings entry that opens the session log via the hidden button.
+- insert:
+    - id: session-log
+      name: dsh-session-log

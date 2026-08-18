@@ -1,0 +1,5 @@
+# dsh-version-label bundle layer. Mounts the host row; the client entry renders
+# the version label in the web UI bottom-right corner from ?dshDesktopVersion URL param.
+- insert:
+    - id: version-label
+      name: dsh-version-label
