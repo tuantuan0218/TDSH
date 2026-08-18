@@ -1,7 +1,7 @@
-{
+﻿{
   "name": "tdsh-desktop",
-  "version": "0.1.6",
-  "description": "TDSH 鈥?鍥㈠洟鐨?DeepSeek 妗岄潰澹筹細鎶?DeepSeek Harness 鐨?Web 鐣岄潰瑁呰繘鍘熺敓妗岄潰绐楀彛锛坅ttach-or-spawn锛屾棤杈规 + Hanako 寮忎氦浜掞級",
+  "version": "0.1.15",
+  "description": "TDSH — 团团的 DeepSeek 桌面壳：把 DeepSeek Harness 的 Web 界面装进原生桌面窗口（attach-or-spawn，无边框 + Hanako 式交互）",
   "main": "main.js",
   "private": true,
   "scripts": {
@@ -28,3 +28,5 @@
     "electron-updater": "^6.8.9"
   }
 }
+
+

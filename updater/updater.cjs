@@ -1,10 +1,10 @@
 'use strict'
 // TDSH 自动更新模块（插件式热载入）
 // 逻辑模仿 Hanako（electron-updater + GitHub Releases）
-// 运行于主进程，通过 IPC 与渲染进程通信
+// 运行于主进程，动作通过 HTTP carrier（main.js 的本地端口服务）暴露给渲染进程
 
 const { autoUpdater, CancellationToken } = require('electron-updater')
-const { app, ipcMain, BrowserWindow } = require('electron')
+const { app } = require('electron')
 const path = require('node:path')
 
 // ---- 配置 ----
@@ -32,22 +32,18 @@ function log(msg) {
   console.log(line)
 }
 
-// ---- 事件广播 ----
-function broadcast(status) {
-  const wins = BrowserWindow.getAllWindows()
-  for (const w of wins) {
-    if (!w.isDestroyed()) {
-      try { w.webContents.send('tdsh:update-status', status) } catch {}
-    }
-  }
-}
-
 // ---- 初始化 ----
 function init() {
   log('initializing...')
 
   // 配置 feed URL（开发模式手动设置，构建时由 app-update.yml 覆盖）
   try { autoUpdater.setFeedURL(UPDATE_CONFIG) } catch (e) { log('setFeedURL: ' + e.message) }
+
+  // 开发模式（electron .）下强制允许检查更新，否则 isUpdaterActive() 恒为 false 直接跳过
+  autoUpdater.forceDevUpdateConfig = true
+  // 检测到更新后不自动下载；保持按钮停留在蓝色 available 状态，
+  // 由用户点击下发 POST /__tdsh/update {action:'download'}（避免 autoDownload 直接进入 404 错误态）
+  autoUpdater.autoDownload = false
 
   // 日志输出
   autoUpdater.logger = {
@@ -60,26 +56,22 @@ function init() {
   autoUpdater.on('checking-for-update', () => {
     state = 'checking'
     log('checking for updates...')
-    broadcast({ state, progress: 0 })
   })
 
   autoUpdater.on('update-available', (info) => {
     state = 'available'
     releaseInfo = info
     log('update available: v' + info.version)
-    broadcast({ state, version: info.version, releaseDate: info.releaseDate, progress: 0 })
   })
 
-  autoUpdater.on('update-not-available', (info) => {
+  autoUpdater.on('update-not-available', () => {
     state = 'idle'
     log('up to date')
-    broadcast({ state, progress: 0 })
   })
 
   autoUpdater.on('download-progress', (p) => {
     state = 'downloading'
     downloadProgress = p.percent
-    broadcast({ state, progress: Math.round(p.percent) })
   })
 
   autoUpdater.on('update-downloaded', (info) => {
@@ -87,49 +79,12 @@ function init() {
     releaseInfo = info
     cancellationToken = null
     log('update downloaded: v' + info.version)
-    broadcast({ state, version: info.version, progress: 100 })
   })
 
   autoUpdater.on('error', (err) => {
     state = 'error'
     errorInfo = err
     log('update error: ' + err.message)
-    broadcast({ state, error: err.message, progress: 0 })
-  })
-
-  // ---- IPC 处理 ----
-  ipcMain.on('tdsh:check-update', () => {
-    log('manual check requested')
-    autoUpdater.checkForUpdates().catch((err) => {
-      state = 'error'
-      errorInfo = err
-      log('check failed: ' + err.message)
-      broadcast({ state: 'error', error: err.message, progress: 0 })
-    })
-  })
-
-  ipcMain.on('tdsh:get-update-status', (event) => {
-    event.returnValue = getStatus()
-  })
-
-  ipcMain.on('tdsh:download-update', () => {
-    if (state === 'available') {
-      log('downloading update...')
-      cancellationToken = new CancellationToken()
-      autoUpdater.downloadUpdate(cancellationToken).catch((err) => {
-        state = 'error'
-        errorInfo = err
-        log('download failed: ' + err.message)
-        broadcast({ state: 'error', error: err.message, progress: 0 })
-      })
-    }
-  })
-
-  ipcMain.on('tdsh:install-update', () => {
-    if (state === 'downloaded') {
-      log('installing update...')
-      autoUpdater.quitAndInstall(false, true)
-    }
   })
 
   // ---- 定时检查 ----
@@ -169,4 +124,33 @@ function reset() {
   init()
 }
 
-module.exports = { init, getStatus, reset }
+// ---- 动作（由 HTTP carrier 调用：POST /__tdsh/update） ----
+function check() {
+  log('manual check requested')
+  autoUpdater.checkForUpdates().catch((err) => {
+    state = 'error'
+    errorInfo = err
+    log('check failed: ' + err.message)
+  })
+}
+
+function download() {
+  if (state === 'available') {
+    log('downloading update...')
+    cancellationToken = new CancellationToken()
+    autoUpdater.downloadUpdate(cancellationToken).catch((err) => {
+      state = 'error'
+      errorInfo = err
+      log('download failed: ' + err.message)
+    })
+  }
+}
+
+function install() {
+  if (state === 'downloaded') {
+    log('installing update...')
+    autoUpdater.quitAndInstall(false, true)
+  }
+}
+
+module.exports = { init, getStatus, reset, check, download, install }

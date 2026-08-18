@@ -23,3 +23,10 @@ shell.html
 *.lnk
 
 settingsdump.json
+reltmp/
+capture.png
+shot*.png
+morphcheck.json
+settingsdump.json
+*.err.txt
+*.out.txt

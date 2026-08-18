@@ -8,7 +8,7 @@
 //   1) 禁止扩大 C 盘占用：userData / 日志全部落在 APP_DIR（非 C 盘），DSH_HOME 默认 G 盘；
 //   2) 不创建任何 Windows 自动化任务/启动项/服务。
 
-const { app, BrowserWindow, dialog, shell, ipcMain } = require('electron')
+const { app, BrowserWindow, dialog, shell } = require('electron')
 const { spawn } = require('node:child_process')
 const http = require('node:http')
 const path = require('node:path')
@@ -20,6 +20,15 @@ const APP_DIR = __dirname
 const DEFAULT_PORT = 3080
 const TARGET_URL = `http://127.0.0.1:${DEFAULT_PORT}`
 const LOG_FILE = path.join(APP_DIR, 'app.log')
+
+// ---- carrier server (HTTP bridge, replaces preload IPC) ----
+const DEFAULT_DESKTOP_PORT = 24000
+let mainWindow = null
+
+function carrierPort() {
+  const cfg = readAppConfig()
+  return Number.isInteger(cfg.desktopPort) ? cfg.desktopPort : DEFAULT_DESKTOP_PORT
+}
 
 // ---- Chromium flags (before process init) ----
 // Force animations ON: override Windows ease-of-access reduced-motion.
@@ -185,18 +194,19 @@ function createWindow(url) {
     height: 860,
     title: 'DSH 桌面端',
     icon: path.join(APP_DIR, 'assets', 'icon.ico'),
-    // Hidden title bar (no OS overlay): the preload injects custom window
-    // controls into the GUI's own layout (top-right, where session log used
-    // to be) and marks the header as the drag region — Hanako style.
+    // Hidden title bar (no OS overlay): the dsh-window-controls and
+    // dsh-version-label client plugins (HTTP carrier) render custom window
+    // controls and drag region — Hanako style.
     titleBarStyle: 'hidden',
     backgroundColor: '#0D0E12',
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: false,
-      // preload: path.join(APP_DIR, 'preload.js'),  // DISABLED for test
+      sandbox: true,
     },
   })
+  mainWindow = win
+  win.on('closed', () => { if (mainWindow === win) mainWindow = null })
   win.webContents.setWindowOpenHandler(({ url: target }) => {
     shell.openExternal(target)
     return { action: 'deny' }
@@ -205,13 +215,13 @@ function createWindow(url) {
   // Allow only the local GUI origin in the main frame; anything else opens
   // in the system browser.
   win.webContents.on('will-navigate', (e, target) => {
-    if (!/^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?($|\/)/.test(target)) {
+    if (!/^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?([\/?]|$)/.test(target)) {
       e.preventDefault()
       shell.openExternal(target)
     }
   })
-  win.loadURL(url)
-  log(`window opened -> ${url}`)
+  win.loadURL(withDesktopParams(url))
+  log(`window opened -> ${withDesktopParams(url)}`)
   win.focus()
   // Timed screenshot diagnostic: capture what's actually composited on screen
   // (works even when the renderer main thread is blocked/deadlocked).
@@ -333,7 +343,8 @@ function createWindow(url) {
       }, 15000)
     })
   }
-  // Dev/verification hook: DSH_MORPHCHECK=1 → verify preload morph state, then quit.
+  // Dev/verification hook: DSH_MORPHCHECK=1 → verify morph state (session-log
+  // button hidden, win-controls pill, header drag region), then quit.
   if (process.env.DSH_MORPHCHECK === '1') {
     win.webContents.on('did-finish-load', () => {
       setTimeout(async () => {
@@ -412,24 +423,150 @@ function createWindow(url) {
   return win
 }
 
-// ---- window controls + config IPC (called from preload) ----
-ipcMain.on('dsh:minimize', (e) => { BrowserWindow.fromWebContents(e.sender)?.minimize() })
-ipcMain.on('dsh:maximize', (e) => {
-  const w = BrowserWindow.fromWebContents(e.sender)
-  if (w) {
-    if (w.isMaximized()) w.unmaximize(); else w.maximize()
-    if (!w.isDestroyed()) w.webContents.send('dsh:maximized', w.isMaximized())
+// ---- carrier server (native HTTP bridge — replaces the preload IPC bridge) ----
+// Exposes Electron capabilities (version / window controls / updater) to the
+// renderer via a fixed local port. CORS-open so the renderer origin
+// (http://127.0.0.1:<random dsh web port>) can call it directly.
+let carrierServer = null
+
+function currentWindow() {
+  if (mainWindow && !mainWindow.isDestroyed()) return mainWindow
+  return BrowserWindow.getAllWindows()[0] || null
+}
+
+function corsHeaders() {
+  return {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Content-Type': 'application/json',
   }
-})
-ipcMain.on('dsh:close', (e) => { BrowserWindow.fromWebContents(e.sender)?.close() })
-ipcMain.on('dsh:get-config', (e) => {
-  try { e.returnValue = fs.readFileSync(path.join(APP_DIR, 'config.json'), 'utf8') }
-  catch { e.returnValue = '{}' }
-})
-ipcMain.on('dsh:maximized-state', (e) => {
-  const w = BrowserWindow.fromWebContents(e.sender)
-  if (w && !w.isDestroyed()) e.returnValue = w.isMaximized()
-})
+}
+
+function readBody(req) {
+  return new Promise((resolve, reject) => {
+    let data = ''
+    req.on('data', (c) => {
+      data += c
+      if (data.length > 1e5) { reject(new Error('body too large')); req.destroy() }
+    })
+    req.on('end', () => { try { resolve(data ? JSON.parse(data) : {}) } catch { reject(new Error('invalid JSON')) } })
+    req.on('error', reject)
+  })
+}
+
+function jsonError(res, status, message) {
+  res.writeHead(status, corsHeaders())
+  res.end(JSON.stringify({ ok: false, error: message }))
+}
+
+function routeWinAction(res, action) {
+  const win = currentWindow()
+  if (!win) return jsonError(res, 500, 'no window')
+  if (action === 'minimize') win.minimize()
+  else if (action === 'maximize') { if (win.isMaximized()) win.unmaximize(); else win.maximize() }
+  else if (action === 'close') win.close()
+  else if (action === 'reload') win.webContents.reload()
+  else return jsonError(res, 400, 'unknown action: ' + action)
+  res.writeHead(200, corsHeaders())
+  res.end(JSON.stringify({ ok: true }))
+}
+
+function routeUpdateAction(res, action) {
+  if (action === 'check') updater.check()
+  else if (action === 'download') updater.download()
+  else if (action === 'install') updater.install()
+  else return jsonError(res, 400, 'unknown action: ' + action)
+  res.writeHead(200, corsHeaders())
+  res.end(JSON.stringify({ ok: true }))
+}
+
+function startCarrier() {
+  const port = carrierPort()
+  carrierServer = http.createServer((req, res) => {
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204, corsHeaders())
+      res.end()
+      return
+    }
+    let pathname
+    try { pathname = new URL(req.url, `http://127.0.0.1:${port}`).pathname } catch { return jsonError(res, 400, 'bad url') }
+    if (req.method === 'GET' && pathname === '/__tdsh/meta') {
+      res.writeHead(200, corsHeaders())
+      res.end(JSON.stringify({ version: app.getVersion() }))
+      return
+    }
+    if (req.method === 'GET' && pathname === '/__tdsh/win') {
+      const win = currentWindow()
+      res.writeHead(200, corsHeaders())
+      res.end(JSON.stringify({ maximized: win ? win.isMaximized() : false }))
+      return
+    }
+    if (req.method === 'POST' && pathname === '/__tdsh/win') {
+      readBody(req).then((body) => routeWinAction(res, body && body.action)).catch((e) => jsonError(res, 400, e.message))
+      return
+    }
+    if (req.method === 'GET' && pathname === '/__tdsh/update') {
+      res.writeHead(200, corsHeaders())
+      res.end(JSON.stringify(updater.getStatus()))
+      return
+    }
+    if (req.method === 'POST' && pathname === '/__tdsh/update') {
+      readBody(req).then((body) => routeUpdateAction(res, body && body.action)).catch((e) => jsonError(res, 400, e.message))
+      return
+    }
+    jsonError(res, 404, 'not found')
+  })
+  carrierServer.on('error', (e) => {
+    log(`carrier server error: ${e.message}`)
+    carrierServer = null
+  })
+  carrierServer.listen(port, '127.0.0.1', () => {
+    log(`carrier server listening on http://127.0.0.1:${port}`)
+  })
+}
+
+function stopCarrier() {
+  if (carrierServer) {
+    try { carrierServer.close() } catch { /* best effort */ }
+    carrierServer = null
+  }
+}
+
+function withDesktopParams(url) {
+  const u = new URL(url)
+  u.searchParams.set('dshDesktopVersion', app.getVersion())
+  u.searchParams.set('dshDesktopPort', String(carrierPort()))
+  return u.toString()
+}
+
+// ---- splash window ----
+let splashWin = null
+function showSplash() {
+  splashWin = new BrowserWindow({
+    width: 400,
+    height: 280,
+    frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    center: true,
+    resizable: false,
+    show: false,
+    webPreferences: { sandbox: true }
+  })
+  var logo = fs.readFileSync(path.join(APP_DIR, 'assets', 'deepseek-whale.svg'), 'utf8')
+  // 强制鲸鱼白色：移除原 SVG 内的 media query style，所有 path 填白
+  logo = logo.replace(/<style>[\s\S]*?<\/style>/g, '')
+             .replace(/<path /g, '<path fill="#ffffff" ')
+  splashWin.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent('<!DOCTYPE html>\n<html>\n<head><meta charset="utf-8"><style>\n* { margin: 0; padding: 0; box-sizing: border-box; }\nbody {\n  background: #0D0E12;\n  display: flex; flex-direction: column;\n  align-items: center; justify-content: center;\n  height: 100vh; color: #C0C4CC; font-family: -apple-system, sans-serif;\n  border-radius: 16px; overflow: hidden;\n  user-select: none;\n}\n.logo { margin-bottom: 24px; opacity: 0; animation: fadeIn 0.6s ease forwards; }\n.logo svg { width: 72px; height: 72px; }\n.logo svg path { fill: #ffffff !important; }\n@keyframes fadeIn { to { opacity: 1; } }\n.slogan {\n  font-size: 18px; font-weight: 500; color: #E8EAF0;\n  letter-spacing: 4px; margin-bottom: 36px;\n  opacity: 0; animation: fadeIn 0.6s 0.2s ease forwards;\n}\n.dots { display: flex; gap: 8px; }\n.dot {\n  width: 10px; height: 10px; border-radius: 50%;\n  background: #4FC3F7; animation: bounce 1.4s infinite ease-in-out both;\n}\n.dot:nth-child(1) { animation-delay: -0.32s; }\n.dot:nth-child(2) { animation-delay: -0.16s; }\n.dot:nth-child(3) { animation-delay: 0s; }\n@keyframes bounce {\n  0%, 80%, 100% { transform: scale(0); }\n  40% { transform: scale(1); }\n}\n</style></head>\n<body>\n  <div class="logo">' + logo + '</div>\n  <div class="slogan">探索未至之境</div>\n  <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>\n</body>\n</html>'))
+  splashWin.once('ready-to-show', () => splashWin.show())
+}
+function closeSplash() {
+  if (splashWin && !splashWin.isDestroyed()) {
+    splashWin.close()
+    splashWin = null
+  }
+}
 
 // ---- single instance ----
 if (!app.requestSingleInstanceLock()) {
@@ -437,19 +574,30 @@ if (!app.requestSingleInstanceLock()) {
 } else {
   app.on('second-instance', () => {
     const w = BrowserWindow.getAllWindows()[0]
-    if (w) { if (w.isMinimized()) w.restore(); w.focus() }
+    if (w) {
+      if (w.isMinimized()) w.restore()
+      // A hidden-but-alive window is a silent-lock trap: restore() cannot
+      // re-show it and focus() alone is a no-op, so the user's second
+      // launch appears dead while an instance keeps running. Always re-show.
+      if (!w.isVisible()) w.show()
+      w.focus()
+    }
   })
 
   app.whenReady().then(async () => {
+    showSplash()
     log(`startup: repo=${REPO} home=${HOME} target=${TARGET_URL}`)
     const node = resolveNodeBin()
     if (node) { NODE_BIN = node.bin; NODE_VER = node.version } else { NODE_BIN = null; NODE_VER = null }
     // 初始化自动更新（后台静默检查，不影响启动）
     try { updater.init() } catch (e) { log('updater init failed: ' + e.message) }
+    // 启动 HTTP carrier（替代 preload IPC 桥），渲染进程插件通过它取版本/窗口/更新
+    try { startCarrier() } catch (e) { log('carrier start failed: ' + e.message) }
     let url = null
     // DSH_FORCE_SPAWN=1 (dev): always start a fresh server instead of attaching.
     if (process.env.DSH_FORCE_SPAWN === '1' || !(await httpUp(TARGET_URL, 1500))) {
       if (!NODE_BIN) {
+        closeSplash()
         dialog.showErrorBox('DSH 桌面端',
           '未找到兼容的 Node.js（需要 ^22.19.0 或 >=24.0.0）。\n\n' +
           '请用以下任一方式指定 Node 路径：\n' +
@@ -461,6 +609,7 @@ if (!app.requestSingleInstanceLock()) {
       }
       url = await startServer()
       if (!url) {
+        closeSplash()
         dialog.showErrorBox('DSH 桌面端', '无法启动 dsh web，请查看 ' + LOG_FILE)
         app.quit()
         return
@@ -471,11 +620,13 @@ if (!app.requestSingleInstanceLock()) {
       log('attach mode: GUI already alive at ' + TARGET_URL)
     }
     if (!(await waitFor(url, 60000))) {
+      closeSplash()
       dialog.showErrorBox('DSH 桌面端', `GUI 未在预期时间内就绪: ${url}`)
       app.quit()
       return
     }
     createWindow(url)
+    closeSplash()
   })
 
   app.on('window-all-closed', () => {
@@ -483,6 +634,7 @@ if (!app.requestSingleInstanceLock()) {
     app.quit()
   })
   app.on('will-quit', () => {
+    stopCarrier()
     if (serverChild) { try { serverChild.kill() } catch { /* noop */ } }
   })
 }

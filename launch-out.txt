@@ -1,0 +1,46 @@
+
+2026-08-18T18:32:59.236Z  startup: repo=G:\mimocode\deepseek-harness home=G:\mimocode\dsh-home target=http://127.0.0.1:3080
+2026-08-18T18:32:59.331Z  node resolved: H:\nodejs\v24.16.0\node.exe (v24.16.0)
+[updater] initializing...
+[updater] initialized
+2026-08-18T18:32:59.352Z  carrier server listening on http://127.0.0.1:24000
+2026-08-18T18:32:59.356Z  spawn dsh web: H:\nodejs\v24.16.0\node.exe --import tsx/esm G:\mimocode\deepseek-harness\apps\cli\src\bin.ts web --port 0  cwd=G:\mimocode\deepseek-harness
+[updater] scheduled check (initial)
+[updater] [info] Checking for update
+[updater] checking for updates...
+2026-08-18T18:33:31.456Z  [server] dsh web: http://127.0.0.1:55311
+2026-08-18T18:33:31.477Z  spawn mode: server alive at http://127.0.0.1:55311
+2026-08-18T18:33:31.562Z  window opened -> http://127.0.0.1:55311/?dshDesktopVersion=0.1.10&dshDesktopPort=24000
+[updater] [info] Update for version 0.1.10 is not available (latest version: 0.1.10, downgrade is disallowed).
+[updater] up to date
+2026-08-18T18:33:39.662Z  [renderer warning] %cElectron Security Warning (Insecure Content-Security-Policy) font-weight: bold; This renderer process has either no Content Security
+  Policy set or a policy with "unsafe-eval" enabled. This exposes users of
+  this app to unnecessary security risks.
+
+For more information and help, consult
+https://electronjs.org/docs/tutorial/security.
+This warning will not show up
+once the app is packaged. (node:electron/js2c/sandbox_bundle:2)
+[updater] manual check requested
+[updater] [info] Checking for update
+[updater] checking for updates...
+[updater] [info] Found version 0.1.11 (url: TDSH-Setup-0.1.11.exe)
+[updater] update available: v0.1.11
+[updater] manual check requested
+[updater] [info] Checking for update
+[updater] checking for updates...
+[updater] [info] Found version 0.1.11 (url: TDSH-Setup-0.1.11.exe)
+[updater] update available: v0.1.11
+[updater] downloading update...
+[updater] [info] Downloading update from TDSH-Setup-0.1.11.exe
+[updater] [error] updaterCacheDirName is not specified in app-update.yml Was app build using at least electron-builder 20.34.0?
+[updater] [info] Cached update sha512 checksum doesn't match the latest available update. New update must be downloaded. Cached: qKryQGqaUeF/5AfyQbdgHHLxQe0TytKUciRuT2hseYob8i1ihCGtKD1BsSkToL/9yiW12shtd9FvYiGvBVLjJg==, expected: jST+55jK4w9jTvsNpiVpSXH/n2DAzI0HvxzPUka6NBczcM3VEqceMAW44DJrCnphLUicPlAAzMuVLT4qI5NStQ==. Directory for cached update will be cleaned
+[updater] [warn] disableWebInstaller is set to false, you should set it to true if you do not plan on using a web installer. This will default to true in a future version.
+[updater] [info] Download block maps (old: "https://github.com/tuantuan0218/TDSH/releases/download/v0.1.10/TDSH-Setup-0.1.10.exe.blockmap", new: https://github.com/tuantuan0218/TDSH/releases/download/v0.1.11/TDSH-Setup-0.1.11.exe.blockmap)
+[updater] [error] Cannot download differentially, fallback to full download: Error: Cannot download "https://github.com/tuantuan0218/TDSH/releases/download/v0.1.11/TDSH-Setup-0.1.11.exe.blockmap", status 404: 
+    at ClientRequest.<anonymous> (G:\dsh-desktop\node_modules\.pnpm\builder-util-runtime@9.7.0_supports-color@7.1.0\node_modules\builder-util-runtime\out\httpExecutor.js:245:34)
+    at ClientRequest.emit (node:events:519:28)
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:117771)
+    at SimpleURLLoaderWrapper.emit (node:events:519:28)
+[updater] [info] New version 0.1.11 has been downloaded to C:\Users\Administrator\AppData\Local\tdsh-desktop\pending\TDSH-Setup-0.1.11.exe
+[updater] update downloaded: v0.1.11

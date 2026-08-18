@@ -66,7 +66,7 @@ pnpm start          # 启动桌面端
 | 环境变量 | 行为 |
 |---|---|
 | `DSH_CAPTURE=1` | GUI 加载后截图 `capture.png` 并退出 |
-| `DSH_MORPHCHECK=1` | 输出 preload 注入状态 `morphcheck.json` 并退出 |
+| `DSH_MORPHCHECK=1` | 输出注入状态（session-log 隐藏/窗口键/拖拽区）`morphcheck.json` 并退出 |
 | `DSH_SETTINGSDUMP=1` | 打开设置页并输出注入验证 `settingsdump.json` 并退出 |
 | `DSH_DOMDUMP=1` | dump 页面 DOM / 动画状态 `domdump.json` 并退出 |
 | `DSH_FORCE_SPAWN=1` | 强制自起新服务（不 attach） |

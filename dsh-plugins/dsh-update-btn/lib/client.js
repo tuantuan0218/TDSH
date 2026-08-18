@@ -71,24 +71,47 @@ window.__ModuleLoader__.load({ id: "dsh-update-btn", factory: (require) => {
 		// ---- Button ----
 		var updateBtn = null;
 		var lastState = "idle";
+		var lastVersion = null;
 		var baseUrl = null;
 
 		function renderStatus(status) {
 			var state = (status && status.state) || "idle";
 			lastState = state;
+			if (status && status.version) lastVersion = status.version;
 			// Visibility
 			var visible = state !== "idle";
 			var newDisplay = visible ? "flex" : "none";
 			if (updateBtn.style.display !== newDisplay) updateBtn.style.display = newDisplay;
-			if (!visible) return;
+			if (!visible) {
+				// 移除进度条
+				var pb = document.getElementById("dsh-update-progress");
+				if (pb) pb.remove();
+				return;
+			}
 			// Content
 			var newHtml = updateBtnSvg(state);
 			if (updateBtn.innerHTML !== newHtml) updateBtn.innerHTML = newHtml;
-			var newCls = "dsh-ua-" + state + (state === "checking" ? " dsh-ua-spin" : "") + (state === "available" ? " dsh-ua-available" : "");
+			var newCls = "dsh-ua-" + state + (state === "checking" ? " dsh-ua-spin" : "") + (state === "available" ? " dsh-ua-available" : "") + (state === "downloaded" ? " dsh-ua-downloaded" : "");
 			if (updateBtn.className !== newCls) updateBtn.className = newCls;
-			var tips = { idle: "", checking: "检查中…", available: "新版本可用，点击下载", downloading: "下载中…", downloaded: "更新已就绪，点击安装", error: "检查更新失败" };
+			var tips = { idle: "", checking: "检查中…", available: "新版本可用，点击下载", downloading: "下载中…", downloaded: "安装并重启", error: "检查更新失败" };
 			var tip = tips[state] || "";
 			if (updateBtn.title !== tip) updateBtn.title = tip;
+			// 进度条（下载中）
+			if (state === "downloading") {
+				var pct = (status && status.progress !== undefined) ? Math.round(status.progress * 100) : 0;
+				var pb = document.getElementById("dsh-update-progress");
+				if (!pb) {
+					pb = document.createElement("div");
+					pb.id = "dsh-update-progress";
+					pb.style.cssText = "position:fixed;bottom:42px;right:12px;width:24px;height:4px;background:#333;border-radius:2px;overflow:hidden;z-index:99999;";
+					pb.innerHTML = '<div id="dsh-update-progress-fill" style="height:100%;width:0%;background:#4FC3F7;border-radius:2px;transition:width 0.3s;"></div>';
+					document.body.appendChild(pb);
+				}
+				document.getElementById("dsh-update-progress-fill").style.width = pct + "%";
+			} else {
+				var pb = document.getElementById("dsh-update-progress");
+				if (pb) pb.remove();
+			}
 		}
 
 		function refresh() {
@@ -109,16 +132,39 @@ window.__ModuleLoader__.load({ id: "dsh-update-btn", factory: (require) => {
 					updateBtn = document.createElement("div");
 					updateBtn.id = "dsh-update-btn";
 					updateBtn.addEventListener("click", function(e) {
-						e.preventDefault();
-						e.stopPropagation();
-						if (!baseUrl) return;
-						var action = "check";
-						switch (lastState) {
-							case "available": action = "download"; break;
-							case "downloaded": action = "install"; break;
-						}
-						postUpdate(baseUrl, action);
-					});
+					e.preventDefault();
+					e.stopPropagation();
+					if (!baseUrl) return;
+					var action = "check";
+					switch (lastState) {
+						case "available":
+							action = "download";
+							if (!confirm("检测到新版本 " + (lastVersion || "") + "，是否下载？")) {
+								return;
+							}
+							break;
+						case "downloaded": action = "install"; break;
+					}
+					postUpdate(baseUrl, action);
+					// 一键升级：触发 download 后自动轮询，下载完成自动 install
+					if (action === "download") {
+						var pollTimer = setInterval(function() {
+							fetch(baseUrl + "/__tdsh/update")
+								.then(function(r) { return r.json(); })
+								.then(function(s) {
+									if (s.state === "downloaded") {
+										clearInterval(pollTimer);
+										postUpdate(baseUrl, "install");
+									} else if (s.state === "error") {
+										clearInterval(pollTimer);
+									}
+								})
+								.catch(function() { clearInterval(pollTimer); });
+						}, 1000);
+						// 30 秒超时保护，防止无限轮询
+						setTimeout(function() { clearInterval(pollTimer); }, 30000);
+					}
+				});
 					document.body.appendChild(updateBtn);
 				}
 				refresh();
