@@ -164,7 +164,7 @@ async function reviewTurn(ctx, session, turn) {
   }
 
   reviewText = assembler.blocks()
-    .filter(b => b?.type === 'text')
+    .filter(b => b?.type === 'text' || b?.type === 'reasoning')
     .map(b => b.text)
     .join('')
     .trim()
@@ -175,14 +175,21 @@ async function reviewTurn(ctx, session, turn) {
   // 注入笔记 (推迟到下一 tick 避免重入)
   setTimeout(() => {
     try {
+      // 摘要: 取审核结果前 80 字符 (UI 折叠行显示)
+      const summary = reviewText.slice(0, 80).replace(/\n/g, ' ')
       session.append('user/message',
         createUserMessage({
           content: [{ type: 'text', text: `[Advisor 审核]\n${reviewText}` }],
-          source: { kind: 'plugin', plugin: 'dsh-plugin-advisor' },
+          source: {
+            kind: 'plugin',
+            plugin: 'dsh-plugin-advisor',
+            form: 'notice',    // ← notice 形式: 折叠行显示摘要, 展开全文
+            summary,
+          },
         }),
         { surfaceOp: 'append' },
       )
-      tel(`turn=${turn} note INJECTED`)
+      tel(`turn=${turn} note INJECTED (summary=${summary.slice(0, 40)})`)
     } catch (err) {
       tel(`turn=${turn} inject failed: ${err && err.message}`)
     }
@@ -190,7 +197,7 @@ async function reviewTurn(ctx, session, turn) {
 }
 
 export function apply(ctx) {
-  tel('apply mounted (v5: assistant msg trigger)')
+  tel('apply mounted (v9: notice form + summary)')
   // nong 循环模式下, turn/end 可能永不触发, 用 assistant/message 做辅助触发
   const cooldowns = new Map() // sessionId -> lastReviewMs
 
@@ -217,7 +224,16 @@ export function apply(ctx) {
     if (event?.type === 'turn/end') {
       if (event.data?.reason?.kind !== 'completed') return
       const turn = event.data.turn
-      const key = `${session?.id}/${turn}`
+      // 60s 冷却: 若 assistant/message 已审核过本轮, 跳过 (防重复注入)
+      const sessionId = session?.id
+      const now = Date.now()
+      const last = cooldowns.get(sessionId) || 0
+      if (sessionId && now - last < 60000) {
+        tel(`turn/end skip: cooldown ${now - last}ms for ${sessionId}`)
+        return
+      }
+      if (sessionId) cooldowns.set(sessionId, now)
+      const key = `${sessionId}/${turn}`
       if (reviewed.has(key)) return
       reviewed.add(key)
       if (reviewed.size > 10000) reviewed.clear()
