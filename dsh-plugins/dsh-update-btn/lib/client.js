@@ -38,9 +38,9 @@ window.__ModuleLoader__.load({ id: "dsh-update-btn", factory: (require) => {
 		function getBase() {
 			try {
 				var port = new URLSearchParams(location.search).get("dshDesktopPort");
-				if (!port) return null;
+				if (!port) port = "24000";
 				return "http://127.0.0.1:" + port;
-			} catch { return null }
+			} catch { return "http://127.0.0.1:24000" }
 		}
 
 		// ---- HTTP ----
