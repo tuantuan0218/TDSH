@@ -190,7 +190,10 @@ async function reviewTurn(ctx, session, turn) {
 }
 
 export function apply(ctx) {
-  tel('apply mounted (v4: all turn/end logged)')
+  tel('apply mounted (v5: assistant msg trigger)')
+  // nong 循环模式下, turn/end 可能永不触发, 用 assistant/message 做辅助触发
+  const cooldowns = new Map() // sessionId -> lastReviewMs
+
   ctx.on('session/event', (session, event) => {
     // 精确记录: 只记回合生命周期与审核触发点, 避免 probe 爆炸
     if (event?.type === 'turn/start' || event?.type === 'turn/end' || event?.type === 'assistant/message') {
@@ -209,18 +212,45 @@ export function apply(ctx) {
       if (event?.type === 'turn/end') { tel(`turn/END turn=${turn} reason=${reason}`); wrote = true }
       if (!wrote) return
     }
-    if (event?.type !== 'turn/end') return
-    if (event.data?.reason?.kind !== 'completed') return
-    const turn = event.data.turn
-    const key = `${session?.id}/${turn}`
-    if (reviewed.has(key)) return
-    reviewed.add(key)
-    if (reviewed.size > 10000) reviewed.clear()
-    tel(`turn/end seen: ${key}`)
-    setTimeout(() => {
-      reviewTurn(ctx, session, turn).catch(err => {
-        tel(`reviewTurn threw: ${err && err.message}`)
-      })
-    }, 0)
+
+    // ── 第一触发: turn/end (标准回合结束) ────────────────────────────
+    if (event?.type === 'turn/end') {
+      if (event.data?.reason?.kind !== 'completed') return
+      const turn = event.data.turn
+      const key = `${session?.id}/${turn}`
+      if (reviewed.has(key)) return
+      reviewed.add(key)
+      if (reviewed.size > 10000) reviewed.clear()
+      tel(`turn/end seen: ${key}`)
+      setTimeout(() => {
+        reviewTurn(ctx, session, turn).catch(err => {
+          tel(`reviewTurn threw: ${err && err.message}`)
+        })
+      }, 0)
+    }
+
+    // ── 第二触发: assistant/message (nong 循环模式, turn 永不结束) ──
+    if (event?.type === 'assistant/message') {
+      const sessionId = session?.id
+      if (!sessionId) return
+      const now = Date.now()
+      const last = cooldowns.get(sessionId) || 0
+      if (now - last < 60000) return // 60s 冷却
+      cooldowns.set(sessionId, now)
+      if (cooldowns.size > 1000) cooldowns.clear()
+
+      // 去重 key: 每分钟一次
+      const minuteKey = Math.floor(now / 60000)
+      const key = `${sessionId}/assistant/${minuteKey}`
+      if (reviewed.has(key)) return
+      reviewed.add(key)
+
+      tel(`assistant msg trigger review: ${sessionId} (cooldown=${now - last}ms)`)
+      setTimeout(() => {
+        reviewTurn(ctx, session, 0).catch(err => {
+          tel(`reviewTurn threw: ${err && err.message}`)
+        })
+      }, 0)
+    }
   })
 }
