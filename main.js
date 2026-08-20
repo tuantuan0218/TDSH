@@ -539,6 +539,14 @@ function startCarrier() {
       readBody(req).then((body) => routeUpdateAction(res, body && body.action)).catch((e) => jsonError(res, 400, e.message))
       return
     }
+    if (req.method === 'GET' && pathname === '/__tdsh/agent') {
+      routeGlobalAgentGet(res)
+      return
+    }
+    if (req.method === 'POST' && pathname === '/__tdsh/agent') {
+      readBody(req).then((body) => routeGlobalAgentSave(res, body && body.content)).catch((e) => jsonError(res, 400, e.message))
+      return
+    }
     jsonError(res, 404, 'not found')
   })
   carrierServer.on('error', (e) => {
@@ -562,6 +570,32 @@ function withDesktopParams(url) {
   u.searchParams.set('dshDesktopVersion', app.getVersion())
   u.searchParams.set('dshDesktopPort', String(carrierPort()))
   return u.toString()
+}
+
+// ---- /__tdsh/agent: global AGENTS.md read/write ----
+function routeGlobalAgentGet(res) {
+  const agentPath = path.join(HOME, 'AGENTS.md')
+  try {
+    const content = fs.existsSync(agentPath) ? fs.readFileSync(agentPath, 'utf8') : ''
+    res.writeHead(200, corsHeaders())
+    res.end(JSON.stringify({ content }))
+  } catch (e) {
+    jsonError(res, 500, e.message)
+  }
+}
+
+function routeGlobalAgentSave(res, content) {
+  if (typeof content !== 'string') { jsonError(res, 400, 'content must be a string'); return }
+  const agentPath = path.join(HOME, 'AGENTS.md')
+  try {
+    // Ensure HOME directory exists
+    if (!fs.existsSync(HOME)) fs.mkdirSync(HOME, { recursive: true })
+    fs.writeFileSync(agentPath, content, 'utf8')
+    res.writeHead(200, corsHeaders())
+    res.end(JSON.stringify({ ok: true }))
+  } catch (e) {
+    jsonError(res, 500, e.message)
+  }
 }
 
 // ---- splash window ----

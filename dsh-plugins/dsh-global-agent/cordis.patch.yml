@@ -1,0 +1,10 @@
+# dsh-global-agent bundle patch. Re-enables agent-instructions (disabled by
+# web-app) and registers the global-agent plugin for file read/write via the
+# TDSH HTTP carrier.
+- id: agent-instructions
+  disabled: false
+  config:
+    maxBytes: 65536
+- insert:
+    - id: global-agent
+      name: dsh-global-agent
