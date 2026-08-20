@@ -1,6 +1,6 @@
-﻿{
+{
   "name": "tdsh-desktop",
-  "version": "0.1.15",
+  "version": "0.1.26",
   "description": "TDSH — 团团的 DeepSeek 桌面壳：把 DeepSeek Harness 的 Web 界面装进原生桌面窗口（attach-or-spawn，无边框 + Hanako 式交互）",
   "main": "main.js",
   "private": true,

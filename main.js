@@ -40,20 +40,34 @@ app.commandLine.appendSwitch('disable-renderer-backgrounding')
 app.commandLine.appendSwitch('disable-background-timer-throttling')
 
 // ---- Rule 1: keep every Electron/Chromium write off C: ----
-app.setPath('userData', path.join(APP_DIR, 'userdata'))
+const USER_DATA = path.join(APP_DIR, 'userdata')
+fs.mkdirSync(USER_DATA, { recursive: true })  // 单实例锁依赖该目录存在
+app.setPath('userData', USER_DATA)
 
 // ---- resolved runtime values (env-first, generic fallbacks) ----
 const repoCandidate = (p) => p && fs.existsSync(path.join(p, 'apps', 'cli', 'src', 'bin.ts'))
+
+function repoExtractTarget() {
+  return path.join(APP_DIR, 'repo')
+}
+
 function resolveRepo() {
+  // 1) 已解压的 repo（APP_DIR 或 G 盘）
+  const extracted = repoExtractTarget()
+  if (repoCandidate(extracted)) return extracted
+  // 2) 打包路径（electron-builder extraResources 直接目录）
+  const packaged = process.resourcesPath ? path.join(process.resourcesPath, 'dsh-repo') : null
+  if (packaged && repoCandidate(packaged)) return packaged
+  // 3) 环境变量 DSH_REPO
   if (process.env.DSH_REPO && repoCandidate(process.env.DSH_REPO)) return process.env.DSH_REPO
+  // 4) dev sibling
   const sibling = path.join(APP_DIR, '..', 'deepseek-harness')
   if (repoCandidate(sibling)) return sibling
-  const legacy = path.join('G:', 'mimocode', 'deepseek-harness')
-  if (repoCandidate(legacy)) return legacy
   return process.env.DSH_REPO || sibling
 }
-const REPO = resolveRepo()
-const HOME = process.env.DSH_HOME || path.join('G:', 'mimocode', 'dsh-home')
+
+let REPO = resolveRepo()  // 如果已解压或 env 指定则直接取到，否则 null（首跑需解压）
+const HOME = process.env.DSH_HOME || path.join(APP_DIR, '..', '..', 'dsh-home')
 
 // Official DeepSeek Harness Node floor (root package.json engines):
 //   "^22.19.0 || >=24.0.0"
@@ -76,6 +90,16 @@ function nodeVersion(bin) {
 }
 
 function resolveNodeBin() {
+  const packaged = process.resourcesPath ? path.join(process.resourcesPath, 'portable-node', 'node.exe') : null
+  if (packaged && fs.existsSync(packaged)) {
+    const v = nodeVersion(packaged)
+    if (v && NODE_OK(v.major, v.minor)) {
+      log(`node resolved: ${packaged} (v${v.major}.${v.minor}.${v.patch})`)
+      return { bin: packaged, version: v }
+    }
+    if (v) log(`packaged node rejected (too old for dsh): ${packaged} v${v.major}.${v.minor}.${v.patch}`)
+    else log(`packaged node unavailable: ${packaged}`)
+  }
   const cfg = readAppConfig()
   const candidates = [process.env.DSH_NODE, cfg.node, 'node'].filter(Boolean)
   for (const bin of candidates) {
@@ -542,6 +566,175 @@ function withDesktopParams(url) {
 
 // ---- splash window ----
 let splashWin = null
+// ---- tar.gz 首跑解压（HanaAgent 模式：打包为单文件，首次运行解压到非 C 盘） ----
+// 打包用 tar -czf（保留 symlink，不 dereference），解压用 tar -xzf。
+async function extractTarball() {
+  const tarball = process.resourcesPath ? path.join(process.resourcesPath, 'dsh-repo.tar.gz') : null
+  if (!tarball || !fs.existsSync(tarball)) return false
+  const target = repoExtractTarget()
+  if (repoCandidate(target)) {
+    log('repo already extracted: ' + target)
+    return true
+  }
+  log(`extracting ${tarball} (${fs.statSync(tarball).size} bytes) to ${target} ...`)
+  // 半成品清理：如果目录存在但 repo 不完整，删干净重来（防止 U 盘断开的残留）
+  if (fs.existsSync(target)) { fs.rmSync(target, { recursive: true, force: true }) }
+  fs.mkdirSync(target, { recursive: true })
+  return new Promise((resolve) => {
+    const child = spawn('tar', ['-xzf', tarball, '-C', target], {
+      timeout: 60 * 60 * 1000,
+      windowsHide: true,
+      stdio: ['ignore', 'ignore', 'pipe'],
+    })
+    // 无 -v flag：避免 Windows pipe buffer 死锁（71K 文件输出填满 64KB pipe → tar 阻塞）
+    // 进度用简单旋转指示，不依赖 stdout 计数
+    const frames = ['|', '/', '-', '\\']
+    let frameIdx = 0
+    const interval = setInterval(() => {
+      if (splashWin && !splashWin.isDestroyed()) {
+        const spinner = frames[frameIdx++ % frames.length]
+        splashWin.webContents.executeJavaScript(
+          `document.getElementById('status').textContent = '${spinner} 正在解压中（约 3-6 分钟）';` +
+          `document.getElementById('status').style.opacity = '1';` +
+          `document.getElementById('progress-wrap').style.opacity = '1';` +
+          `document.getElementById('progress-fill').style.width = '50%';` +
+          `document.getElementById('progress-fill').style.animation = 'progress-indeterminate 2s ease-in-out infinite';`
+        ).catch(() => {})
+      }
+    }, 500)
+    child.on('close', (code) => {
+      clearInterval(interval)
+      if (code === 0) {
+        log(`extracted successfully: ${target}`)
+        resolve(true)
+      } else {
+        const err = String(child.stderr?.read() || child.stdout?.read() || '').slice(0, 800)
+        log(`tar extract failed: status=${code} err=${err}`)
+        try { fs.rmSync(target, { recursive: true, force: true }) } catch {}
+        resolve(false)
+      }
+    })
+    child.on('error', (e) => {
+      clearInterval(interval)
+      log(`tar spawn error: ${e.message}`)
+      try { fs.rmSync(target, { recursive: true, force: true }) } catch {}
+      resolve(false)
+    })
+  })
+}
+
+
+// ---- profile bootstrap: create DSH_HOME/profiles/web with TDSH plugins ----
+// dsh web's profile system uses `require.resolve.paths` to find bundles
+// in node_modules/.  No pnpm/npm install needed — just copy plugin dirs in
+// and write the manifest + workspace yaml pointing to the extracted repo.
+// Also creates home-level settings.yaml and .credentials.yaml templates.
+const TDSH_PLUGINS = [
+  'dsh-update-btn',
+  'dsh-window-controls',
+  'dsh-version-label',
+  'dsh-session-log',
+]
+
+function ensureProfile(homeDir, repoDir) {
+  const profileDir = path.join(homeDir, 'profiles', 'web')
+  const manifestPath = path.join(profileDir, 'package.json')
+  if (fs.existsSync(manifestPath)) {
+    log('profile already exists: ' + profileDir)
+    return
+  }
+  log('bootstrapping profile: ' + profileDir)
+  fs.mkdirSync(profileDir, { recursive: true })
+
+  // Write profile manifest with TDSH plugin bundles
+  fs.writeFileSync(manifestPath, JSON.stringify({
+    name: 'dsh-profile-web',
+    private: true,
+    dsh: {
+      profile: {
+        bundles: [
+          '@deepseek-ai/dsh-base',
+          '@deepseek-ai/dsh-web-app',
+          'dsh-update-btn',
+          'dsh-window-controls',
+          'dsh-version-label',
+          'dsh-session-log',
+        ],
+      },
+    },
+  }, null, '  ') + '\n')
+  log('profile manifest written: ' + manifestPath)
+
+  // Empty profile root (patches stacked on top)
+  fs.writeFileSync(path.join(profileDir, 'cordis.yml'), '[]\n')
+  fs.writeFileSync(path.join(profileDir, 'cordis.patch.yml'), '[]\n')
+
+  // Copy TDSH plugins into profile's node_modules — resolveBundleDir
+  // finds them via require.resolve.paths looking for package.json.
+  const nm = path.join(profileDir, 'node_modules')
+  fs.mkdirSync(nm, { recursive: true })
+  for (const p of TDSH_PLUGINS) {
+    const src = path.join(APP_DIR, 'dsh-plugins', p)
+    const dst = path.join(nm, p)
+    if (fs.existsSync(src)) {
+      fs.cpSync(src, dst, { recursive: true })
+      log('copied plugin: ' + p + ' -> ' + dst)
+    } else {
+      log('WARNING: plugin source not found: ' + src)
+    }
+  }
+
+  // Write workspace yaml pointing to the extracted dsh-repo
+  const repo = repoDir.replace(/\\/g, '/')
+  fs.writeFileSync(path.join(profileDir, 'pnpm-workspace.yaml'),
+    'packages:\n' +
+    '  - \'' + repo + '/packages/*/*\'\n' +
+    '  - \'' + repo + '/apps/web\'\n' +
+    'nodeLinker: hoisted\n' +
+    'autoInstallPeers: false\n')
+  log('workspace yaml written (repo: ' + repo + ')')
+}
+
+function ensureHomeConfig(homeDir) {
+  fs.mkdirSync(homeDir, { recursive: true })
+  // Write settings.yaml template if not present
+  const settingsPath = path.join(homeDir, 'settings.yaml')
+  if (!fs.existsSync(settingsPath)) {
+    fs.writeFileSync(settingsPath,
+`ui-onboarding:
+  welcomeNoticeVersion: 2026-08-13.1
+ui-theme:
+  preference: dark
+agent-presets:
+  default: standard
+permission:
+  defaultPreset: danger-full-access
+ui-conversation:
+  busyEnter: steer
+`)
+    log('settings.yaml template written: ' + settingsPath)
+  }
+
+  // Write credentials template if not present
+  const credPath = path.join(homeDir, '.credentials.yaml')
+  if (!fs.existsSync(credPath)) {
+    fs.writeFileSync(credPath,
+`# 在此填写你的 API Key
+# 格式: KEY_NAME: your-api-key-here
+# 示例:
+# A_API_KEY: sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+`)
+    log('credentials template written: ' + credPath)
+  }
+
+  // Write home-level cordis.patch.yml if not present
+  const patchPath = path.join(homeDir, 'cordis.patch.yml')
+  if (!fs.existsSync(patchPath)) {
+    fs.writeFileSync(patchPath, '[]\n')
+    log('home cordis.patch.yml written: ' + patchPath)
+  }
+}
+
 function showSplash() {
   splashWin = new BrowserWindow({
     width: 400,
@@ -555,11 +748,39 @@ function showSplash() {
     webPreferences: { sandbox: true }
   })
   var logo = fs.readFileSync(path.join(APP_DIR, 'assets', 'deepseek-whale.svg'), 'utf8')
-  // 强制鲸鱼白色：移除原 SVG 内的 media query style，所有 path 填白
   logo = logo.replace(/<style>[\s\S]*?<\/style>/g, '')
              .replace(/<path /g, '<path fill="#ffffff" ')
-  splashWin.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent('<!DOCTYPE html>\n<html>\n<head><meta charset="utf-8"><style>\n* { margin: 0; padding: 0; box-sizing: border-box; }\nbody {\n  background: #0D0E12;\n  display: flex; flex-direction: column;\n  align-items: center; justify-content: center;\n  height: 100vh; color: #C0C4CC; font-family: -apple-system, sans-serif;\n  border-radius: 16px; overflow: hidden;\n  user-select: none;\n}\n.logo { margin-bottom: 24px; opacity: 0; animation: fadeIn 0.6s ease forwards; }\n.logo svg { width: 72px; height: 72px; }\n.logo svg path { fill: #ffffff !important; }\n@keyframes fadeIn { to { opacity: 1; } }\n.slogan {\n  font-size: 18px; font-weight: 500; color: #E8EAF0;\n  letter-spacing: 4px; margin-bottom: 36px;\n  opacity: 0; animation: fadeIn 0.6s 0.2s ease forwards;\n}\n.dots { display: flex; gap: 8px; }\n.dot {\n  width: 10px; height: 10px; border-radius: 50%;\n  background: #4FC3F7; animation: bounce 1.4s infinite ease-in-out both;\n}\n.dot:nth-child(1) { animation-delay: -0.32s; }\n.dot:nth-child(2) { animation-delay: -0.16s; }\n.dot:nth-child(3) { animation-delay: 0s; }\n@keyframes bounce {\n  0%, 80%, 100% { transform: scale(0); }\n  40% { transform: scale(1); }\n}\n</style></head>\n<body>\n  <div class="logo">' + logo + '</div>\n  <div class="slogan">探索未至之境</div>\n  <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>\n</body>\n</html>'))
-  splashWin.once('ready-to-show', () => splashWin.show())
+  var html = [
+    '<!DOCTYPE html>',
+    '<html><head><meta charset="utf-8"><style>',
+    '* { margin:0; padding:0; box-sizing:border-box; }',
+    'body { background:#0D0E12; display:flex; flex-direction:column; align-items:center; justify-content:center;',
+    '       height:100vh; color:#C0C4CC; font-family:-apple-system,sans-serif; border-radius:16px; overflow:hidden; user-select:none; }',
+    '.logo { margin-bottom:20px; opacity:0; animation:fadeIn .6s ease forwards; }',
+    '.logo svg { width:64px; height:64px; }',
+    '.logo svg path { fill:#ffffff !important; }',
+    '.slogan { font-size:18px; font-weight:500; color:#E8EAF0; letter-spacing:4px; margin-bottom:16px; opacity:0; animation:fadeIn .6s .2s ease forwards; }',
+    '.dots { display:flex; gap:8px; margin-bottom:16px; }',
+    '.dot { width:10px; height:10px; border-radius:50%; background:#4FC3F7; animation:bounce 1.4s infinite ease-in-out both; }',
+    '.dot:nth-child(1){ animation-delay:-0.32s; } .dot:nth-child(2){ animation-delay:-0.16s; } .dot:nth-child(3){ animation-delay:0s; }',
+    '@keyframes bounce { 0%,80%,100%{ transform:scale(0); } 40%{ transform:scale(1); } }',
+    '@keyframes fadeIn { to{ opacity:1; } }',
+    '#status { font-size:13px; color:#6B7280; margin-top:8px; opacity:0; transition:opacity .3s; }',
+    '#progress-wrap { width:240px; height:4px; background:#1F2937; border-radius:2px; margin-top:10px; overflow:hidden; opacity:0; transition:opacity .3s; }',
+    '#progress-fill { width:0%; height:100%; background:#4FC3F7; border-radius:2px; }',
+    '@keyframes progress-indeterminate { 0%{ width:20%; } 50%{ width:70%; } 100%{ width:20%; } }',
+    '</style></head>',
+    '<body>',
+    '<div class="logo">' + logo + '</div>',
+    '<div class="slogan">\u63A2\u7D22\u672A\u81F3\u4E4B\u5883</div>',
+    '<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>',
+    '<div id="status"></div>',
+    '<div id="progress-wrap"><div id="progress-fill"></div></div>',
+    '</body></html>'
+  ].join('\n')
+  splashWin.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(html))
+  splashWin.once('ready-to-show', () => {})
+  splashWin.show()
 }
 function closeSplash() {
   if (splashWin && !splashWin.isDestroyed()) {
@@ -586,6 +807,25 @@ if (!app.requestSingleInstanceLock()) {
 
   app.whenReady().then(async () => {
     showSplash()
+    // 让 splash 渲染完成后再开始阻塞解压，否则用户看不到窗口
+    await new Promise(r => setImmediate(r))
+    // 确保 repo 已解压（tar.gz 首跑提取）
+    if (!repoCandidate(REPO)) {
+      log('repo not ready, need to extract tar.gz')
+      if (await extractTarball()) {
+        REPO = resolveRepo()
+        log(`repo after extraction: ${REPO}`)
+      } else {
+        closeSplash()
+        dialog.showErrorBox('DSH 桌面端', '无法解压 dsh-repo.tar.gz，请确保有足够磁盘空间。')
+        app.quit()
+        return
+      }
+    }
+    // 确保 DSH_HOME 存在且有基础配置（settings.yaml, .credentials.yaml, cordis.patch.yml）
+    try { ensureHomeConfig(HOME) } catch (e) { log('home config bootstrap failed: ' + e.message) }
+    // 确保 profile 存在且有 TDSH 插件（首次运行自动创建）
+    if (REPO) { try { ensureProfile(HOME, REPO) } catch (e) { log('profile bootstrap failed: ' + e.message) } }
     log(`startup: repo=${REPO} home=${HOME} target=${TARGET_URL}`)
     const node = resolveNodeBin()
     if (node) { NODE_BIN = node.bin; NODE_VER = node.version } else { NODE_BIN = null; NODE_VER = null }

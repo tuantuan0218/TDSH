@@ -1,95 +1,111 @@
 # TDSH — 团团的 DeepSeek 桌面壳
 
 > **T** = 团团（开发者）· **DSH** = DeepSeek Harness
-> 把 DeepSeek Harness 的 Web 界面装进一个原生桌面窗口。双击即用，无需浏览器。
+> 把 DeepSeek Harness 的 Web 界面装进一个原生桌面窗口，双击即用。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 这是什么
+---
 
-TDSH 是 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的轻量 Electron 桌面壳：
+## 功能特性
 
-- 原生窗口承载 DSH Web GUI（Electron 33，无边框深色风格）
-- **attach-or-spawn**：检测本地 `dsh web` 是否已运行——已运行则直接开窗复用；未运行则自动拉起一个新实例
-- **Hanako 式窗口交互**：对话头部即拖拽区、右上角圆角胶囊内嵌最小化/最大化/关闭三键；原 "Session log" 按钮已永久隐藏，其导出能力迁至 **设置 → 会话日志** 入口（缩放/重渲染不会闪现）
-- 单实例锁、外链走系统浏览器、关闭窗口自动回收服务进程
-- **磁盘友善**：userData / Chromium 缓存 / 日志全部落在应用所在目录，不写系统盘（可用环境变量重定向）
+- **DeepSeek 鲸鱼闪屏** — 启动时显示官方 DeepSeek 鲸鱼 Logo + "探索未至之境" 动画，窗口加载完成后自动关闭
+- **一键自动更新** — 检测到新版本时弹出确认对话框，点击确认后后台下载并显示进度条，下载完成后自动安装
+- **版本标签** — 窗口右下角显示当前版本号（如 `v0.1.15`），点击可触发更新检查
+- **attach-or-spawn 模式** — 检测本地 `dsh web` 是否已运行，已运行则直接开窗复用，否则自动拉起新实例
+- **Hanako 式窗口交互** — 对话头部即拖拽区，右上角独立圆角胶囊内嵌最小化/最大化/关闭三键
+- **单实例锁** — 防止重复启动，关闭窗口自动回收子进程
+- **磁盘友善** — 所有数据落盘在应用目录，不写系统盘
 
-## 截图
+## 安装方式
 
-![TDSH](assets/screenshot.png)
+### 从 GitHub Releases 下载安装包
 
-## 快速开始
+1. 前往 [GitHub Releases](https://github.com/tuantuan0218/TDSH/releases) 下载最新版 `TDSH-Setup-x.x.x.exe`
+2. 运行安装程序，按提示完成安装
+3. 安装完成后在桌面启动 TDSH
 
-前置：能跑 `dsh web` 的 DeepSeek Harness 环境，**Node.js ≥ 22.19（或 ≥ 24.0）**。
-> dsh 官方要求 `^22.19.0 || >=24.0.0`（其打包代码会 ESM 导入 `node:util` 的 `parseEnv`，Node 20 会加载失败）。
-> TDSH 启动时按 `DSH_NODE` 环境变量 → 应用目录 `config.json` 的 `node` 字段 → PATH 上 `node` 的顺序探测并校验版本；
-> 找不到合规 Node 时弹出明确错误框，不会静默失败。
+### 开发模式运行
 
 ```bash
 git clone https://github.com/tuantuan0218/TDSH.git
 cd TDSH
-pnpm install        # 安装 electron（安装期缓存可用 ELECTRON_CACHE 等重定向到任意目录）
-pnpm start          # 启动桌面端
+pnpm install
+npx electron . --no-sandbox
 ```
 
-### 环境变量（可覆盖）
+## 配置说明
 
-| 变量 | 默认 | 说明 |
-|---|---|---|
-| `DSH_REPO` | 由仓库位置推断 | DSH 源码根（`apps/cli/src/bin.ts` 所在） |
-| `DSH_HOME` | 继承环境 | DSH 数据主目录（sessions / settings / storages） |
-| `DSH_NODE` | `config.json` 的 `node` 字段，回退 `node`（PATH） | 启动 `dsh web` 用的 Node 可执行文件（需 ≥22.19） |
+`config.json` 位于应用根目录：
 
-### 配置 Node 路径
+| 字段 | 说明 |
+|---|---|
+| `node` | 指定 Node.js 可执行文件路径（如 `H:\\nodejs\\v24.16.0\\node.exe`），用于启动 `dsh web` 后端服务 |
+| `desktopPort` | HTTP carrier 监听端口，默认 `24000`，渲染进程插件通过 `dshDesktopPort` 读取 |
 
-双击桌面快捷方式（Explorer 环境）的 PATH 可能与终端不同，推荐在 `config.json` 固化合规 Node：
+## 更新机制
 
-```json
-{ "node": "H:\\nodejs\\v24.16.0\\node.exe" }
+TDSH 内置了完整的自动更新流水线：
+
+1. 启动时检测 `electron-updater` 更新
+2. 有新版本时，窗口右下角显示更新按钮
+3. 点击按钮 → 确认对话框 → 后台下载（进度条显示） → 自动安装
+4. 安装器下载完成后调用 `electron-updater` 的 `quitAndInstall` 完成替换
+
+更新包的构建和发布流程：
+
+```bash
+# 构建 NSIS 安装包
+npx electron-builder --win --x64 --publish never
+
+# 上传到 GitHub Releases
+gh release upload vx.x.x dist/TDSH-Setup-x.x.x.exe dist/latest.yml dist/TDSH-Setup-x.x.x.exe.blockmap --clobber
 ```
 
-### 行为
-
-1. 启动探测 `http://127.0.0.1:3080`：已活 → 开窗 **attach**；未活 → spawn `dsh web --port 0`，从 stdout 解析真实 URL 后开窗
-2. 单实例锁；关闭窗口 → 结束并回收自起服务
-3. 右上角胶囊内：最小化 / 最大化 / 关闭（关闭红态悬停）
-4. 对话头部 = 拖拽区（内部按钮仍可点击）；非对话页回退为顶部 8px 隐形拖拽带
-5. 运行日志：应用目录下 `app.log`
-
-## 配置
-
-`config.json`（应用目录内）：当前为壳自身说明注释；Session log 按钮永久隐藏、经 设置→会话日志 访问，无开关项。
-
-## 开发钩子（验证用）
+## 开发钩子
 
 | 环境变量 | 行为 |
 |---|---|
 | `DSH_CAPTURE=1` | GUI 加载后截图 `capture.png` 并退出 |
-| `DSH_MORPHCHECK=1` | 输出注入状态（session-log 隐藏/窗口键/拖拽区）`morphcheck.json` 并退出 |
-| `DSH_SETTINGSDUMP=1` | 打开设置页并输出注入验证 `settingsdump.json` 并退出 |
-| `DSH_DOMDUMP=1` | dump 页面 DOM / 动画状态 `domdump.json` 并退出 |
+| `DSH_MORPHCHECK=1` | 输出注入状态验证 JSON |
+| `DSH_SETTINGSDUMP=1` | 打开设置页并输出注入验证 |
 | `DSH_FORCE_SPAWN=1` | 强制自起新服务（不 attach） |
+| `DSH_SHOT=1` | 截图验证（用于 CI 测试） |
 
-## 更新记录
+## 技术栈
 
-- **0.1.0** 首个开源版本：attach-or-spawn 桌面壳、无边框 + 右上角胶囊窗口键、对话头部拖拽、Hanako 式交互
-- **0.1.1** 修复 Windows 无障碍"减少动画"导致的界面动效失效：启动时经 CDP 强制 `prefers-reduced-motion: no-preference` + CSS 兜底；窗口常驻前台渲染（`win.focus()` + 关闭后台节流）
-- **0.1.2** 应用图标换为 DeepSeek 官方黑白鲸鱼标记（`assets/icon.ico` / `icon.png`，源自 DSH Web 的官方 favicon.svg）
-- **0.1.3** Session log 按钮改为永久隐藏（MutationObserver 瞬时响应，无缩放闪现）；窗口三键独立圆角胶囊并跟随窗口缩放重定位；会话日志能力迁入 设置 → 会话日志；修复最大化图标状态同步
-- **0.1.4** 设置注入改用设置面板限定锚点 + React 移除后自动重注入；config.json 移除无效的 hideSessionLog 死字段
-- **0.1.5** 设置内「会话日志」项改为克隆原生设置项（navCell 同构样式 + 下载图标 + 无选中态）；修复 observer 自循环；剥离哈希激活类名
-- **0.1.6** 设置内「会话日志」项与原生项像素级一致（去除 ID 级样式覆盖、保留原生 navLabel 结构、图标归一 16×16）；Node 探测链改为 `DSH_NODE` → `config.json.node` → PATH 并按官方要求（`^22.19.0 || >=24.0.0`）校验版本，双击桌面快捷方式即可一键拉起 `dsh web` 整套系统
+- **Electron 33** — 桌面应用框架
+- **dsh plugin architecture** — 插件化架构，客户端插件通过 HTTP carrier bridge 与主进程通信
+- **electron-updater** — 自动更新机制
+- **electron-builder** — NSIS 安装包构建
+- **Node.js ≥ 22.19** — 后端服务运行环境
 
-## 商标与图标
+## 项目结构
 
-应用图标使用 **DeepSeek Harness** 官方 favicon 中的鲸鱼标记（黑白化渲染），该标记商标归 DeepSeek 所有；本项目为非官方个人项目（TDSH = 团团的 DeepSeek），与 DeepSeek 无隶属关系。图标仅作本地应用标识，不构成商标授权。
+```
+TDSH/
+├── main.js                # Electron 主进程
+├── preload.js             # 预加载脚本（已弃用，功能迁移至 HTTP carrier）
+├── config.json            # 应用配置
+├── electron-builder.yml   # 构建配置
+├── assets/
+│   ├── icon.ico           # 应用图标
+│   ├── icon.png           # 应用图标（PNG）
+│   └── deepseek-whale.svg # DeepSeek 鲸鱼 Logo（闪屏用）
+├── updater/
+│   └── updater.cjs        # 更新检查模块
+├── dsh-plugins/           # 客户端插件
+│   └── dsh-update-btn/
+│       └── lib/client.js  # 更新按钮插件
+└── dist/                  # 构建输出
+    ├── TDSH-Setup-*.exe   # NSIS 安装包
+    └── latest.yml         # 更新清单
+```
 
-## 安全与隐私
+## 商标声明
 
-- 本仓库不含任何 API 密钥、凭据或用户数据（`.gitignore` 排除 userData / 日志 / 测试产物）
-- 与 DSH 的交互仅限本地 loopback（`127.0.0.1`），无遥测、无外部请求
+应用图标和闪屏使用的 **DeepSeek 鲸鱼 Logo** 版权归 DeepSeek 所有。本项目为非官方个人项目，与 DeepSeek 无隶属关系。图标仅作本地应用标识，不构成商标授权。
 
-## License
+## 许可证
 
 [MIT](LICENSE) © 2026 tuantuan0218

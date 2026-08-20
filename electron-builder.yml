@@ -11,6 +11,17 @@ files:
   - assets/**/*
   - node_modules/**/*
   - package.json
+  - dsh-plugins/**/*
+asar: false
+extraResources:
+  - from: G:\dsh-desktop\reltmp\dsh-repo-final.tar.gz
+    to: dsh-repo.tar.gz
+  - from: H:\nodejs\v24.16.0
+    to: portable-node
+    filter:
+      - "**/*"
+npmRebuild: false
+nodeGypRebuild: false
 win:
   target:
     - target: nsis
