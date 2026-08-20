@@ -668,6 +668,7 @@ const TDSH_PLUGINS = [
   'dsh-window-controls',
   'dsh-version-label',
   'dsh-session-log',
+  'dsh-global-agent',
 ]
 
 function ensureProfile(homeDir, repoDir) {
@@ -693,6 +694,7 @@ function ensureProfile(homeDir, repoDir) {
           'dsh-window-controls',
           'dsh-version-label',
           'dsh-session-log',
+          'dsh-global-agent',
         ],
       },
     },
