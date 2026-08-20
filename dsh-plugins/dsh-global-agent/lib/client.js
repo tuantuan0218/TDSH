@@ -48,11 +48,14 @@ window.__ModuleLoader__.load({ id: "dsh-global-agent", factory: (require) => {
 
 		// ---- Base URL from URL param ----
 		function getBase() {
+			// dshDesktopPort is in the URL query string, but SPA routing
+			// (#/settings) may strip it. Fall back to the default port
+			// (24000) if query param is missing.
 			try {
 				var port = new URLSearchParams(location.search).get("dshDesktopPort");
-				if (!port) return null;
+				if (!port) port = "24000";
 				return "http://127.0.0.1:" + port;
-			} catch { return null }
+			} catch { return "http://127.0.0.1:24000" }
 		}
 
 		// ---- Fetch helpers ----
@@ -77,10 +80,10 @@ window.__ModuleLoader__.load({ id: "dsh-global-agent", factory: (require) => {
 		// ---- Panel ----
 		function openPanel() {
 			if (panelOpen) return;
-			panelOpen = true;
 
 			var base = getBase();
 			if (!base) return;
+			panelOpen = true;
 
 			var overlay = document.createElement("div");
 			overlay.id = "dsh-global-agent-panel";
