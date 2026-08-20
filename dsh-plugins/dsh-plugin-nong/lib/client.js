@@ -1,8 +1,8 @@
-// dsh-plugin-nong client plugin: LNG blue-flame logo burn animation when the
-// "弄就行了" (nong) mode is active. LNG/methane complete combustion burns
-// BLUE (cobalt inner flame -> cyan body -> blue-white outer edge). The default
-// UI theme stays untouched — only the logo burns with a cold blue LNG flame,
-// which sits naturally against the existing blue accent.
+// dsh-plugin-nong client plugin: LNG blue-flame burn animation on the HERO
+// "探索未至之境" fish logo when the "弄就行了" (nong) mode is active. LNG/
+// methane complete combustion burns BLUE (cobalt inner -> cyan body ->
+// blue-white outer). The sidebar wordmark and collapsed fish are untouched;
+// default UI theme unchanged.
 window.__ModuleLoader__.load({ id: "dsh-plugin-nong", factory: (require) => {
 
 		var module = { exports: {} };
@@ -37,17 +37,13 @@ window.__ModuleLoader__.load({ id: "dsh-plugin-nong", factory: (require) => {
 			'    filter: drop-shadow(0 0 3px rgba(30, 100, 255, 0.9)) drop-shadow(0 0 8px rgba(0, 120, 255, 0.6)) drop-shadow(0 0 16px rgba(100, 190, 255, 0.35));',
 			'  }',
 			'}',
-			// --- Apply LNG blue flame to whale/fish logo SVGs ---
-			'body[data-dsh-nong="1"] svg[viewBox="0 0 23.16 17.04"],',
-			'body[data-dsh-nong="1"] svg[viewBox="0 0 182 24"] {',
+			// --- Apply LNG blue flame ONLY to the hero's 34px fish logo ---
+			// ("探索未至之境" empty-session centre mark). The sidebar
+			// wordmark (182 banner) and collapsed fish (24) stay untouched.
+			'body[data-dsh-nong="1"] svg[viewBox="0 0 23.16 17.04"][width="34"] {',
 			'  animation: nong-lng-burn 2s ease-in-out infinite;',
 			// Blue-white flame-edge tint on the logo ink itself.
 			'  color: #cfeaff;',
-			'}',
-			// --- Speed up flicker on hover ---
-			'body[data-dsh-nong="1"] [class*="brand"]:hover svg,',
-			'body[data-dsh-nong="1"] [class*="toggle"]:hover svg {',
-			'  animation-duration: 0.5s;',
 			'}',
 		].join("\n");
 
