@@ -13,7 +13,7 @@ window.__ModuleLoader__.load({ id: "dsh-window-controls", factory: (require) => 
 		// ---- CSS ----
 		const CSS = `
 #dsh-win-css{display:none !important;}
-.dsh-pill{position:absolute !important;display:flex !important;align-items:center !important;
+.dsh-pill{position:fixed !important;display:flex !important;align-items:center !important;
   justify-content:space-evenly !important;gap:2px !important;padding:2px 3px !important;
   cursor:default !important;-webkit-app-region:no-drag !important;app-region:no-drag !important;
   z-index:9999 !important;border-radius:16px !important;}
@@ -48,9 +48,9 @@ window.__ModuleLoader__.load({ id: "dsh-window-controls", factory: (require) => 
 		function getBase() {
 			try {
 				var port = new URLSearchParams(location.search).get("dshDesktopPort");
-				if (!port) return null;
+				if (!port) port = "24000";
 				return "http://127.0.0.1:" + port;
-			} catch { return null }
+			} catch { return "http://127.0.0.1:24000" }
 		}
 
 		// ---- HTTP actions ----
@@ -136,20 +136,17 @@ window.__ModuleLoader__.load({ id: "dsh-window-controls", factory: (require) => 
 					cls.addEventListener("click", function(e) { e.preventDefault(); e.stopPropagation(); postWin(base, "close"); });
 				}
 				cluster.append(min, max, cls);
-				(header || document.body).appendChild(cluster);
+				// Always append to body (position:fixed) — header may be
+				// hidden by dsh web on the landing page (headerHidden).
+				document.body.appendChild(cluster);
 				winControlsPill = cluster;
 			}
-			// Position
-			var h = (header || document.body).getBoundingClientRect();
-			var r = winRect
-				? { left: winRect.left - h.left, top: winRect.top - h.top, width: winRect.width, height: winRect.height }
-				: { left: h.width - 145, top: 10, width: 118, height: 32 };
-			var left = Math.max(4, Math.round(r.left));
-			var top = Math.max(2, Math.round(r.top));
-			if (cluster.style.left !== left + "px") cluster.style.left = left + "px";
-			if (cluster.style.top !== top + "px") cluster.style.top = top + "px";
-			if (cluster.style.width !== Math.round(r.width) + "px") cluster.style.width = Math.round(r.width) + "px";
-			if (cluster.style.height !== Math.round(r.height) + "px") cluster.style.height = Math.round(r.height) + "px";
+			// Position: fixed to top-right. Use right:12px for consistent
+			// placement regardless of parent/header dimensions.
+			if (cluster.style.right !== "12px") cluster.style.right = "12px";
+			if (cluster.style.top !== "10px") cluster.style.top = "10px";
+			if (cluster.style.width !== "118px") cluster.style.width = "118px";
+			if (cluster.style.height !== "32px") cluster.style.height = "32px";
 			if (cluster.style.background !== "#0D0E12") cluster.style.background = "#0D0E12";
 			if (cluster.style.border !== "1px solid #1E1F24") cluster.style.border = "1px solid #1E1F24";
 		}
