@@ -104,6 +104,36 @@ export function apply(ctx) {
     if (agent === undefined) return assembled
     agents.set(agent.session.id, agent)
 
+    // ── 自动创建 goal（兜底：模型可能无视 persona 而不调 goal create）──
+    // 每次会话加载时检查一次；已有非 complete 的 goal 就跳过。
+    if (!autoGoalTried.has(agent.session.id)) {
+      autoGoalTried.add(agent.session.id)
+      try {
+        const goalsSvc = ctx.get('goals')
+        if (goalsSvc) {
+          const current = goalsSvc.get(agent)
+          if (!current || (current.phase && current.phase === 'complete')) {
+            const sessionTitle =
+              (agent.session && (agent.session.title || agent.session.name)) ||
+              (agent.session && agent.session.meta && agent.session.meta.title) ||
+              ''
+            const objective = sessionTitle.trim()
+              ? sessionTitle.trim()
+              : '持续推进 AGI 循环'
+            tel('auto-goal: session=' + agent.session.id + ' objective=' + objective.slice(0, 80))
+            goalsSvc.create(agent, { objective })
+            tel('auto-goal CREATED session=' + agent.session.id)
+          } else {
+            tel('auto-goal: session=' + agent.session.id + ' exists phase=' + current.phase)
+          }
+        } else {
+          tel('auto-goal: no goals service available')
+        }
+      } catch (e) {
+        tel('auto-goal FAIL session=' + agent.session.id + ' err=' + (e && e.message))
+      }
+    }
+
     // 诊断: 打原始工具全名 (goal/todo 是否在 assembled.tools).
     const allNames = (assembled.tools || []).map((t) => t.name)
     const hasToolCall = agent.session.events.some((event) => event.type === 'tool/call')
@@ -148,34 +178,6 @@ export function apply(ctx) {
         ? agent
         : [...agents.values()].find((a) => a.session === session)
     if (target === undefined || target.inbox === undefined) return
-
-    // ── 自动创建 goal（规则 0 兜底：模型可能无视 persona 而不调 goal create）──
-    // 每条真实用户消息都检查一次；一旦发现该会话已有任何 goal 状态就停止尝试。
-    if (!autoGoalTried.has(session.id)) {
-      autoGoalTried.add(session.id)
-      try {
-        const goals = ctx.get('goals')
-        const current = goals ? goals.get(target) : undefined
-        if (goals && (!current || (current.phase && current.phase === 'complete'))) {
-          // 从会话标题或消息提炼 objective。
-          const sessionTitle =
-            (session && (session.title || session.name)) ||
-            (session && session.meta && session.meta.title) ||
-            ''
-          const objective = (sessionTitle && sessionTitle.trim())
-            ? sessionTitle.trim()
-            : text.slice(0, 120)
-          tel('auto-goal: session=' + session.id + ' objective=' + objective.slice(0, 80))
-          goals.create(target, { objective })
-          tel('auto-goal CREATED session=' + session.id)
-        } else {
-          tel('auto-goal: session=' + session.id + ' existing=' + (current ? current.phase : 'none'))
-        }
-      } catch (e) {
-        /* goal service may reject (no agent yet / already created between check and create) */
-        tel('auto-goal FAIL session=' + session.id + ' err=' + (e && e.message))
-      }
-    }
 
     // 去重: 同一 user 消息只注一次.
     const key = `${session.id}/${event.id ?? String(Math.random())}`
