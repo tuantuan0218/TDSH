@@ -92,21 +92,46 @@ const GUIDE_CONTINUE_DEEP =
   '\n[弄就行了] 这是复杂/架构性任务. 持续推进: 先想清楚目标与完成度, 探索架构/边界/集成点而不是环境或工具本身, 信息完整即产出, 然后续跑下一目标. 禁止穷举 grep/环境检查或完成即停. 每几轮 nong_heartbeat 维持心跳.'
 
 /**
- * 从会话上下文推导一个「具体起步目标」替换占位符.
- * 优先工作区目录名 (cwd 的最后一段), 其次会话已有标题; 兜底通用目标.
+ * 从会话上下文推导「具体起步目标」替换占位符（优先度从高到低）:
+ *   1. 会话最近一条真实用户消息原文（目标就该是用户要的东西）
+ *   2. 会话已有标题
+ *   3. 工作区目录名 (cwd 最后一段)
+ *   4. 兜底通用目标
  */
-function deriveStarterGoal(session) {
+function deriveStarterGoal(agent) {
+  const session = (agent && agent.session) || {}
+  // 1. 最近一条用户文本消息（跳过系统/注入/占位）
   try {
-    if (session && session.cwd) {
+    const events = (session.events || [])
+    for (let i = events.length - 1; i >= 0; i--) {
+      const ev = events[i]
+      if (!ev) continue
+      const type = ev.type || ev.event
+      if (type !== 'user/message' && type !== 'message' && type !== 'user') continue
+      const txt = extractText(ev.data || ev)
+      const clean = (txt || '').replace(/[\[\]\n\r]/g, ' ').replace(/\s+/g, ' ').trim()
+      // 跳过引导/占位符注入
+      if (clean.length >= 4 && !/^\[弄就行了\]/.test(clean) && !/推进 AGI 循环/.test(clean)) {
+        return '完成用户请求: ' + clean.slice(0, 120)
+      }
+    }
+  } catch (e) { /* fall through */ }
+  // 2. 标题
+  try {
+    if (session.title && typeof session.title === 'string' && session.title.trim()) {
+      return '完成会话目标: ' + session.title.trim()
+    }
+  } catch (e) { /* fall through */ }
+  // 3. 工作区目录名
+  try {
+    if (session.cwd) {
       const basename = String(session.cwd).replace(/[\\/]+$/, '').split(/[\\/]/).pop()
       if (basename && basename !== 'dsh-home' && basename.trim().length > 0) {
         return '持续推进当前工作区「' + basename + '」的任务'
       }
     }
-    if (session && session.title && typeof session.title === 'string' && session.title.trim()) {
-      return '完成会话目标: ' + session.title.trim()
-    }
-  } catch (e) { /* 兜底 */ }
+  } catch (e) { /* fall through */ }
+  // 4. 兜底
   return '持续推进当前工作区的未完成任务'
 }
 
@@ -169,7 +194,7 @@ export function apply(ctx) {
           if (!mctsTriggered.has(mctsKey)) {
             mctsTriggered.add(mctsKey)
             // 从会话上下文推导具体起步目标：优先 cwd 的目录名/已有标题
-            let concrete = deriveStarterGoal(agent.session)
+            let concrete = deriveStarterGoal(agent)
             let editOp = 'unchanged'
             try {
               const ref = { id: current.id, revision: current.revision }
