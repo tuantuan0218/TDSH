@@ -115,13 +115,17 @@ export function apply(ctx) {
           const current = goalsSvc.get(agent)
           if (!current || (current.phase && current.phase === 'complete')) {
             const sessionObj = agent.session || {}
-            const sessionTitle =
+            // 诊断: 打所有可能的 session 属性
+            const sessionProps = Object.keys(sessionObj).join(',')
+            const sessionTitleGuess =
               (sessionObj.title || sessionObj.name) ||
               (sessionObj.meta && sessionObj.meta.title) ||
               (sessionObj.workspace && sessionObj.workspace.name) ||
+              (sessionObj.workspaceName) ||
               ''
-            const objective = sessionTitle.trim()
-              ? sessionTitle.trim()
+            tel('auto-goal: session=' + agent.session.id + ' keys=[' + sessionProps + '] obj=' + (sessionTitleGuess ? sessionTitleGuess.slice(0, 60) : '(empty)'))
+            const objective = sessionTitleGuess.trim()
+              ? sessionTitleGuess.trim()
               : '持续推进 AGI 循环'
             tel('auto-goal: session=' + agent.session.id + ' objective=' + objective.slice(0, 80))
             goalsSvc.create(agent, { objective })
@@ -237,6 +241,12 @@ export function apply(ctx) {
         ? agent
         : [...agents.values()].find((a) => a.session === session)
     const canInject = target !== undefined && target.inbox !== undefined
+
+    // ── session/start 时修正 goal 标题 ──────────────────────────────
+    // session 启动时 workspace 标题可用
+    if (event.type === 'session/start' && target) {
+      updateGoalFromSession(session, target)
+    }
 
     // ── 健康检查：每次事件都检查关键进程 ──────────────────────────────
     // 但只在检测到死亡时注入，且每个会话只注入一次
