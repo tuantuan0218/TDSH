@@ -94,6 +94,8 @@ export function apply(ctx) {
   const agents = new Map() // session id -> Agent (live handle, in-process only)
   // 避免重复注入同一条用户消息 (session/event 可能多播).
   const guided = new Set() // session id + event id combos
+  // 避免重复自动创建 goal (每个会话只尝试一次).
+  const autoGoalTried = new Set()
   tel('apply mounted')
 
   ctx.on('system-prompt/assemble', async (_assembly, context, next) => {
@@ -146,6 +148,34 @@ export function apply(ctx) {
         ? agent
         : [...agents.values()].find((a) => a.session === session)
     if (target === undefined || target.inbox === undefined) return
+
+    // ── 自动创建 goal（规则 0 兜底：模型可能无视 persona 而不调 goal create）──
+    // 每条真实用户消息都检查一次；一旦发现该会话已有任何 goal 状态就停止尝试。
+    if (!autoGoalTried.has(session.id)) {
+      autoGoalTried.add(session.id)
+      try {
+        const goals = ctx.get('goals')
+        const current = goals ? goals.get(target) : undefined
+        if (goals && (!current || (current.phase && current.phase === 'complete'))) {
+          // 从会话标题或消息提炼 objective。
+          const sessionTitle =
+            (session && (session.title || session.name)) ||
+            (session && session.meta && session.meta.title) ||
+            ''
+          const objective = (sessionTitle && sessionTitle.trim())
+            ? sessionTitle.trim()
+            : text.slice(0, 120)
+          tel('auto-goal: session=' + session.id + ' objective=' + objective.slice(0, 80))
+          goals.create(target, { objective })
+          tel('auto-goal CREATED session=' + session.id)
+        } else {
+          tel('auto-goal: session=' + session.id + ' existing=' + (current ? current.phase : 'none'))
+        }
+      } catch (e) {
+        /* goal service may reject (no agent yet / already created between check and create) */
+        tel('auto-goal FAIL session=' + session.id + ' err=' + (e && e.message))
+      }
+    }
 
     // 去重: 同一 user 消息只注一次.
     const key = `${session.id}/${event.id ?? String(Math.random())}`
