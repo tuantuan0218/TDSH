@@ -130,6 +130,22 @@ export function apply(ctx) {
             tel('auto-goal: session=' + agent.session.id + ' objective=' + objective.slice(0, 80))
             goalsSvc.create(agent, { objective })
             tel('auto-goal CREATED session=' + agent.session.id)
+            // 立即触发 MCTS 选目标，不等 AI 自己想起来
+            if (agent.inbox) {
+              setTimeout(() => {
+                try {
+                  agent.inbox.append('next-step', {
+                    id: 'nong-mcts-trigger-' + Date.now(),
+                    role: 'user',
+                    source: { kind: 'plugin', plugin: name },
+                    content: [{ type: 'text', text: '\n[弄就行了] 当前目标为占位符。立即调用 nong_mcts_explore 分析当前状态，选择真实目标，然后用 nong_modify_goal 更新目标。目标更新后开始推进。完成后调 nong_mcts_explore 找下个目标，禁止停下等用户。' }],
+                  })
+                  tel('mcts-trigger injected session=' + agent.session.id)
+                } catch (e) {
+                  tel('mcts-trigger SKIP session=' + agent.session.id + ' err=' + (e && e.message))
+                }
+              }, 0)
+            }
           } else {
             tel('auto-goal: session=' + agent.session.id + ' exists phase=' + current.phase)
           }
@@ -246,6 +262,23 @@ export function apply(ctx) {
     // session 启动时 workspace 标题可用
     if (event.type === 'session/start' && target) {
       updateGoalFromSession(session, target)
+    }
+
+    // ── goal 完成 → 自动触发 MCTS 选新目标 ───────────────────────────
+    if (target && event.type === 'tool/call' && (event.data && event.data.name === 'complete_goal')) {
+      setTimeout(() => {
+        try {
+          target.inbox.append('next-step', {
+            id: 'nong-mcts-next-' + Date.now(),
+            role: 'user',
+            source: { kind: 'plugin', plugin: name },
+            content: [{ type: 'text', text: '\n[弄就行了] 目标已完成。立即调用 nong_mcts_explore 分析当前状态，选择下一个目标，然后用 nong_modify_goal 更新目标。禁止停下等用户。' }],
+          })
+          tel('mcts-next injected session=' + session.id)
+        } catch (e) {
+          tel('mcts-next FAIL session=' + session.id + ' err=' + (e && e.message))
+        }
+      }, 0)
     }
 
     // ── 健康检查：每次事件都检查关键进程 ──────────────────────────────
