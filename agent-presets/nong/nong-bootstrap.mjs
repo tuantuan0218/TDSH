@@ -1,10 +1,9 @@
 /**
  * nong-bootstrap: 薄编排层（gold-signal-loop 模式）。
  *   铁律：
- *    1. 无 goal → 自动创建占位符（持续推进 AGI 循环）
- *    2. MCTS 循环指令写进 system prompt（AI 是否执行是模型的事，编排层不修）
- *    3. 用户发消息 → 若目标是占位符 → 直接改成消息原文（唯一确定性操作）
- *    4. 首轮窄工具面 + 续跑引导 + 健康检查/静默检测
+ *    1. MCTS 循环指令写进 system prompt（模型自主设计目标，编排层不兜底）
+ *    2. 用户发消息 → 若目标是占位符 → 直接改成消息原文（唯一确定性操作）
+ *    3. 首轮窄工具面 + 续跑引导 + 健康检查/静默检测
  *
  * 移植自 router-bootstrap-v1.mjs (yjh051108/dsh-routing-suite, MIT), 裁剪为
  * nong 场景。不做：不试图修复模型行为，不堆多层注入，不叠 fallback。
@@ -55,10 +54,9 @@ const GUIDE_CONTINUE_DEEP = '\n[弄就行了] 这是复杂/架构性任务. 持�
 export function apply(ctx) {
   const agents = new Map()
   const guided = new Set()
-  const autoGoalTried = new Set()
   tel('apply mounted')
 
-  // ── system-prompt/assemble: 全局 MCTS 指令 + 自动创建占位符 goal ──
+  // ── system-prompt/assemble: 全局 MCTS 指令 + 首轮窄工具面 ──
   ctx.on('system-prompt/assemble', async (_assembly, context, next) => {
     const assembled = await next()
     const agent = context.agent
@@ -70,25 +68,6 @@ export function apply(ctx) {
       type: 'text',
       text: '\n[弄就行了] 目标循环：没有真实目标就调 nong_mcts_explore 选择 → 用 nong_modify_goal 更新 → 推进 → 完成后调 complete_goal 再调 nong_mcts_explore 找下个。可以随时替换目标。禁止停下等用户。',
     }]
-
-    // 自动创建占位符 goal（无 goal 时兜底）
-    if (!autoGoalTried.has(agent.session.id)) {
-      autoGoalTried.add(agent.session.id)
-      try {
-        const goalsSvc = ctx.get('goals')
-        if (goalsSvc) {
-          const current = goalsSvc.get(agent)
-          if (!current || (current.phase && current.phase === 'complete')) {
-            goalsSvc.create(agent, { objective: '持续推进 AGI 循环' })
-            tel('auto-goal CREATED session=' + agent.session.id)
-          } else {
-            tel('auto-goal: session=' + agent.session.id + ' exists phase=' + current.phase + ' obj=' + (current.objective || '').slice(0, 60))
-          }
-        }
-      } catch (e) {
-        tel('auto-goal FAIL session=' + agent.session.id + ' err=' + (e && e.message))
-      }
-    }
 
     // 首轮窄工具面
     const allNames = (assembled.tools || []).map((t) => t.name)
