@@ -12,6 +12,7 @@ files:
   - node_modules/**/*
   - package.json
   - dsh-plugins/**/*
+  - agent-presets/**/*
 asar: false
 extraResources:
   - from: G:\dsh-desktop\reltmp\dsh-repo-final.tar.gz

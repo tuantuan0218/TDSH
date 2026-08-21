@@ -669,6 +669,9 @@ const TDSH_PLUGINS = [
   'dsh-version-label',
   'dsh-session-log',
   'dsh-global-agent',
+  'dsh-plugin-nong',
+  'dsh-plugin-advisor',
+  'dsh-plugin-everything',
 ]
 
 function ensureProfile(homeDir, repoDir) {
@@ -695,6 +698,9 @@ function ensureProfile(homeDir, repoDir) {
           'dsh-version-label',
           'dsh-session-log',
           'dsh-global-agent',
+          'dsh-plugin-nong',
+          'dsh-plugin-advisor',
+          'dsh-plugin-everything',
         ],
       },
     },
@@ -768,6 +774,28 @@ ui-conversation:
   if (!fs.existsSync(patchPath)) {
     fs.writeFileSync(patchPath, '[]\n')
     log('home cordis.patch.yml written: ' + patchPath)
+  }
+
+  // Ensure shipped agent-presets available in home: copy agent-presets/*
+  // (e.g. nong 弄就行了) into <home>/.agent-presets/<id>. Pure-BOM copy on
+  // first run only; local edits in .agent-presets are never overwritten.
+  const shippedPresetsDir = path.join(APP_DIR, 'agent-presets')
+  const userPresetsDir = path.join(homeDir, '.agent-presets')
+  try {
+    if (fs.existsSync(shippedPresetsDir)) {
+      for (const id of fs.readdirSync(shippedPresetsDir)) {
+        const src = path.join(shippedPresetsDir, id)
+        const dst = path.join(userPresetsDir, id)
+        if (!fs.statSync(src).isDirectory()) continue
+        if (!fs.existsSync(dst)) {
+          fs.mkdirSync(userPresetsDir, { recursive: true })
+          fs.cpSync(src, dst, { recursive: true })
+          log('copied agent-preset: ' + id + ' -> ' + dst)
+        }
+      }
+    }
+  } catch (e) {
+    log('agent-preset copy failed: ' + e.message)
   }
 }
 
