@@ -3,7 +3,7 @@
  *   铁律：
  *    1. MCTS 循环指令写进 system prompt（模型自主设计目标，编排层不兜底）
  *    2. 用户发消息 → 若目标是占位符 → 直接改成消息原文（唯一确定性操作）
- *    3. 拦截 goal 创建 → 目标末尾追加「完成后继续循环，禁止停下等用户」
+ *    3. 拦截 goal 创建 → 注入续跑指令（完成后必须 MCTS 选新目标，禁止停）
  *    4. 首轮窄工具面 + 续跑引导 + 健康检查/静默检测
  *
  * 移植自 router-bootstrap-v1.mjs (yjh051108/dsh-routing-suite, MIT), 裁剪为
@@ -213,22 +213,21 @@ export function apply(ctx) {
     }
   })
 
-  // ── 拦截 goal 创建，目标末尾追加「完成后继续循环」──
-  // 让 goal 自带续跑指令，模型创建目标时就能看到，不依赖注入
+  // ── 拦截 goal 创建，注入续跑指令 ──
+  // 不编辑 goal（session.append 不可重入+activation 限制），改为消息注入
   ctx.on('session/event', (session, event) => {
     if (event.type !== 'goal/change' || event.data.operation !== 'create') return
     const t = [...agents.values()].find((a) => a.session.id === session.id)
-    if (!t) return
-    const goalsSvc = ctx.get('goals')
-    if (!goalsSvc) return
-    const cur = goalsSvc.get(t)
-    if (!cur) return
-    // 只在目标末尾没写续跑指令时才追加
-    if (/继续循环/.test(cur.objective || '')) return
-    const appended = (cur.objective || '') + '（完成后继续循环，禁止停下等用户）'
-    try {
-      goalsSvc.edit(t, { id: cur.id, revision: cur.revision }, { objective: appended })
-      tel('goal-append-cycle session=' + session.id + ' objective=' + appended.slice(0, 80))
-    } catch (e) { tel('goal-append-cycle FAIL session=' + session.id + ' err=' + (e && e.message)) }
+    if (!t || !t.inbox) return
+    setTimeout(() => {
+      try {
+        t.inbox.append('next-step', {
+          id: 'nong-cycle-' + Date.now(),
+          role: 'user', source: { kind: 'plugin', plugin: name },
+          content: [{ type: 'text', text: '\n[弄就行了] 新目标已创建。记住：完成后必须调 complete_goal 标记完成，再调 nong_mcts_explore 选新目标，用 nong_modify_goal 更新。禁止停下等用户。' }],
+        })
+        tel('goal-cycle-inject session=' + session.id + ' objective=' + ((event.data.goal && event.data.goal.objective) || '').slice(0, 60))
+      } catch (e) { tel('goal-cycle-inject FAIL session=' + session.id + ' err=' + (e && e.message)) }
+    }, 0)
   })
 }
