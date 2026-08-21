@@ -1,8 +1,10 @@
 {
   "name": "dsh-plugin-everything",
-  "version": "0.0.1",
-  "private": true,
+  "version": "0.1.0",
+  "description": "双通道快速文件索引搜索工具 — Everything(es.exe) + 自包含 dsearch 兜底",
   "type": "module",
+  "license": "MIT",
+  "keywords": ["dsh", "dsh-plugin", "deepseek-harness", "everything", "search", "file-index"],
   "main": "lib/index.js",
   "dsh": {
     "bundle": {
@@ -12,6 +14,7 @@
   "exports": {
     ".": "./lib/index.js",
     "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
     "./package.json": "./package.json"
   },
   "files": ["lib", "cordis.patch.yml"]
