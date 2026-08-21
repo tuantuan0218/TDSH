@@ -97,8 +97,6 @@ export function apply(ctx) {
   const guided = new Set() // session id + event id combos
   // 避免重复自动创建 goal (每个会话只尝试一次).
   const autoGoalTried = new Set()
-  // 避免重复注入占位符 MCTS 触发 (每个会话只尝试一次).
-  const mctsPhInjected = new Set()
   tel('apply mounted')
 
   ctx.on('system-prompt/assemble', async (_assembly, context, next) => {
@@ -106,6 +104,13 @@ export function apply(ctx) {
     const agent = context.agent
     if (agent === undefined) return assembled
     agents.set(agent.session.id, agent)
+
+    // ── 全局 MCTS 循环指令（写进 system prompt，每轮都可见）──
+    // 模型根据 MCTS 自主选择目标，完成后自动触发下一轮
+    assembled.sections = [...(assembled.sections || []), {
+      type: 'text',
+      content: '\n[弄就行了] 目标循环：没有真实目标就调 nong_mcts_explore 选择 → 用 nong_modify_goal 更新 → 推进 → 完成后调 complete_goal 再调 nong_mcts_explore 找下个。可以随时替换目标。禁止停下等用户。',
+    }]
 
     // ── 自动创建 goal（兜底：模型可能无视 persona 而不调 goal create）──
     // 每次会话加载时检查一次；已有非 complete 的 goal 就跳过。
@@ -116,60 +121,12 @@ export function apply(ctx) {
         if (goalsSvc) {
           const current = goalsSvc.get(agent)
           if (!current || (current.phase && current.phase === 'complete')) {
-            const sessionObj = agent.session || {}
-            // 诊断: 打所有可能的 session 属性
-            const sessionProps = Object.keys(sessionObj).join(',')
-            const sessionTitleGuess =
-              (sessionObj.title || sessionObj.name) ||
-              (sessionObj.meta && sessionObj.meta.title) ||
-              (sessionObj.workspace && sessionObj.workspace.name) ||
-              (sessionObj.workspaceName) ||
-              ''
-            tel('auto-goal: session=' + agent.session.id + ' keys=[' + sessionProps + '] obj=' + (sessionTitleGuess ? sessionTitleGuess.slice(0, 60) : '(empty)'))
-            const objective = sessionTitleGuess.trim()
-              ? sessionTitleGuess.trim()
-              : '持续推进 AGI 循环'
-            tel('auto-goal: session=' + agent.session.id + ' objective=' + objective.slice(0, 80))
+            const objective = '持续推进 AGI 循环'
+            tel('auto-goal: session=' + agent.session.id + ' objective=' + objective)
             goalsSvc.create(agent, { objective })
             tel('auto-goal CREATED session=' + agent.session.id)
-            // 立即触发 MCTS 选目标，不等 AI 自己想起来
-            if (agent.inbox) {
-              setTimeout(() => {
-                try {
-                  agent.inbox.append('next-step', {
-                    id: 'nong-mcts-trigger-' + Date.now(),
-                    role: 'user',
-                    source: { kind: 'plugin', plugin: name },
-                    content: [{ type: 'text', text: '\n[弄就行了] 当前目标为占位符。立即调用 nong_mcts_explore 分析当前状态，选择真实目标，然后用 nong_modify_goal 更新目标。目标更新后开始推进。完成后调 nong_mcts_explore 找下个目标，禁止停下等用户。' }],
-                  })
-                  tel('mcts-trigger injected session=' + agent.session.id)
-                } catch (e) {
-                  tel('mcts-trigger SKIP session=' + agent.session.id + ' err=' + (e && e.message))
-                }
-              }, 0)
-            }
           } else {
             tel('auto-goal: session=' + agent.session.id + ' exists phase=' + current.phase + ' obj=' + (current.objective || '').slice(0, 60))
-            // 如果现有 goal 是占位符，也触发 MCTS
-            if (current.objective === '持续推进 AGI 循环' && agent.inbox) {
-              const mctsKey = 'mcts-ph-' + agent.session.id
-              if (!mctsPhInjected.has(mctsKey)) {
-                mctsPhInjected.add(mctsKey)
-                setTimeout(() => {
-                  try {
-                    agent.inbox.append('next-step', {
-                      id: 'nong-mcts-ph-' + Date.now(),
-                      role: 'user',
-                      source: { kind: 'plugin', plugin: name },
-                      content: [{ type: 'text', text: '\n[弄就行了] 当前目标仍然是占位符，还没有真实目标。立即调用 nong_mcts_explore 分析当前状态，选择真实目标，然后用 nong_modify_goal 更新目标。目标更新后开始推进。完成后调 nong_mcts_explore 找下个目标，禁止停下等用户。' }],
-                    })
-                    tel('mcts-ph-injected session=' + agent.session.id)
-                  } catch (e) {
-                    tel('mcts-ph SKIP session=' + agent.session.id + ' err=' + (e && e.message))
-                  }
-                }, 0)
-              }
-            }
           }
         } else {
           tel('auto-goal: no goals service available')
@@ -250,27 +207,10 @@ export function apply(ctx) {
 
   // 健康检查注入：只在检测到关键进程死亡时注入一次，避免重复
   const healthInjected = new Set()
+  let lastHealthCheck = 0
+  const HEALTH_INTERVAL = 30000 // 30 秒检查一次，不每次事件都跑 tasklist
 
-  // 更新自动 goal 的 objective：从 session 获取真实 workspace 标题
-  function updateGoalFromSession(session, agent) {
-    try {
-      const goalsSvc = ctx.get('goals')
-      if (!goalsSvc) return
-      const current = goalsSvc.get(agent)
-      // 只有当 goal 是通用 fallback 时才更新
-      if (current && current.objective === '持续推进 AGI 循环' && current.phase !== 'complete') {
-        const title = (session && (session.title || session.name || (session.workspace && session.workspace.name))) || ''
-        if (title.trim() && title.trim() !== '持续推进 AGI 循环') {
-          goalsSvc.create(agent, { objective: title.trim() })
-          tel('auto-goal UPDATED session=' + session.id + ' new-objective=' + title.trim().slice(0, 80))
-        }
-      }
-    } catch (e) {
-      tel('auto-goal UPDATE FAIL session=' + session.id + ' err=' + (e && e.message))
-    }
-  }
-
-  // 主 session/event 处理：引导注入 + 健康检查 + 静默空转检测 + 目标修正
+  // 主 session/event 处理：引导注入 + 健康检查（节流）+ 静默空转检测 + 目标完成触发 MCTS
   ctx.on('session/event', (session, event) => {
     // ── 获取 target agent ─────────────────────────────────────────────
     const agent = ctx.get('agent')
@@ -279,12 +219,6 @@ export function apply(ctx) {
         ? agent
         : [...agents.values()].find((a) => a.session === session)
     const canInject = target !== undefined && target.inbox !== undefined
-
-    // ── session/start 时修正 goal 标题 ──────────────────────────────
-    // session 启动时 workspace 标题可用
-    if (event.type === 'session/start' && target) {
-      updateGoalFromSession(session, target)
-    }
 
     // ── goal 完成 → 自动触发 MCTS 选新目标 ───────────────────────────
     if (target && event.type === 'tool/call' && (event.data && event.data.name === 'complete_goal')) {
@@ -303,9 +237,10 @@ export function apply(ctx) {
       }, 0)
     }
 
-    // ── 健康检查：每次事件都检查关键进程 ──────────────────────────────
-    // 但只在检测到死亡时注入，且每个会话只注入一次
-    if (session && canInject && !healthInjected.has(session.id)) {
+    // ── 健康检查（节流，每 30 秒一次） ──────────────────────────────
+    const now = Date.now()
+    if (session && canInject && !healthInjected.has(session.id) && now - lastHealthCheck > HEALTH_INTERVAL) {
+      lastHealthCheck = now
       const healthStatus = checkCriticalProcesses(session.id)
       if (healthStatus > 0) {
         healthInjected.add(session.id)
