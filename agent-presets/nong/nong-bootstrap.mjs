@@ -33,6 +33,7 @@ export const inject = ['systemPrompt', 'tools']
 
 /** 文件打点 —— web 子进程 console 丢失 (不进 app.log). 写 dsh-home (铁定可写) 双保险. */
 import { appendFileSync } from 'node:fs'
+import { execSync } from 'node:child_process'
 import { tmpdir } from 'node:os'
 const PROBE = 'D:/tdsh/dsh-home/nong-bootstrap-probe.log'
 const PROBE_TMP = tmpdir() + '/nong-bootstrap-probe.log'
@@ -113,9 +114,11 @@ export function apply(ctx) {
         if (goalsSvc) {
           const current = goalsSvc.get(agent)
           if (!current || (current.phase && current.phase === 'complete')) {
+            const sessionObj = agent.session || {}
             const sessionTitle =
-              (agent.session && (agent.session.title || agent.session.name)) ||
-              (agent.session && agent.session.meta && agent.session.meta.title) ||
+              (sessionObj.title || sessionObj.name) ||
+              (sessionObj.meta && sessionObj.meta.title) ||
+              (sessionObj.workspace && sessionObj.workspace.name) ||
               ''
             const objective = sessionTitle.trim()
               ? sessionTitle.trim()
@@ -164,44 +167,168 @@ export function apply(ctx) {
     }
   })
 
-  // ── 近距离续跑引导 ────────────────────────────────────────────────────
-  ctx.on('session/event', (session, event) => {
-    if (event.type !== 'user/message') return
-    const data = event.data ?? {}
-    if (data.source && data.source.kind && data.source.kind !== 'user') return
-    const text = extractText(data)
-    if (!text.trim()) return
+  // ── 健康检查：检测关键进程是否存活，检测静默空转 ──────────────────
+  // agent 不具备感知外部进程的能力。当 hs-script 等关键进程死亡时，没有
+  // 任何消息进入 agent 上下文，agent 会继续空转调工具而不推进。
+  // 本 checker 在每次 tool/call 事件后检查关键进程，死亡时注入唤醒消息。
+  //
+  // 同时检测静默空转：连续 N 次 tool/call 都不是非心跳工具 → 注入引导。
+  let silentToolCount = 0
+  const SILENT_TOOL_THRESHOLD = 15  // 连续 15 次无有效工具调用 → 判定静默空转
+  const PROGRESS_TOOLS = new Set([
+    'read', 'write', 'edit', 'grep', 'glob', 'bash', 'pwsh', 'subagent',
+    'subagent_fork', 'nong_install_plugin', 'nong_mcts_explore',
+    'nong_modify_goal', 'nong_evaluate_paths', 'send_message',
+    'web_search', 'http_request', 'skill', 'todo_write', 'workflow',
+    'read_image', 'vision_toolkit_activate',
+  ])
+  const HEARTBEAT_TOOLS = new Set(['nong_heartbeat', 'nong_start_daemon', 'get_goal', 'list_agents'])
 
+  function checkCriticalProcesses(sessionId) {
+    // 检查 hs-script (Java) 是否存活
+    try {
+      const result = execSync('tasklist /fi "IMAGENAME eq java.exe" /nh 2>nul', { timeout: 3000, encoding: 'utf8' })
+      // 检查 java.exe 是否真的是 hs-script (通过进程命令行)
+      const hsRunning = result.includes('java.exe')
+      if (!hsRunning) {
+        tel('health-check: session=' + sessionId + ' hs-script DEAD')
+        return 1  // 1 = hs-script dead
+      }
+      // 也检查 Hearthstone.exe
+      const hsResult = execSync('tasklist /fi "IMAGENAME eq Hearthstone.exe" /nh 2>nul', { timeout: 3000, encoding: 'utf8' })
+      if (!hsResult.includes('Hearthstone.exe')) {
+        tel('health-check: session=' + sessionId + ' Hearthstone.exe DEAD')
+        return 2  // 2 = Hearthstone dead
+      }
+    } catch (e) {
+      // 健康检查失败（权限不足等）—— 跳过，不阻断
+    }
+    return 0  // 0 = all healthy
+  }
+
+  // 健康检查注入：只在检测到关键进程死亡时注入一次，避免重复
+  const healthInjected = new Set()
+
+  // 更新自动 goal 的 objective：从 session 获取真实 workspace 标题
+  function updateGoalFromSession(session, agent) {
+    try {
+      const goalsSvc = ctx.get('goals')
+      if (!goalsSvc) return
+      const current = goalsSvc.get(agent)
+      // 只有当 goal 是通用 fallback 时才更新
+      if (current && current.objective === '持续推进 AGI 循环' && current.phase !== 'complete') {
+        const title = (session && (session.title || session.name || (session.workspace && session.workspace.name))) || ''
+        if (title.trim() && title.trim() !== '持续推进 AGI 循环') {
+          goalsSvc.create(agent, { objective: title.trim() })
+          tel('auto-goal UPDATED session=' + session.id + ' new-objective=' + title.trim().slice(0, 80))
+        }
+      }
+    } catch (e) {
+      tel('auto-goal UPDATE FAIL session=' + session.id + ' err=' + (e && e.message))
+    }
+  }
+
+  // 主 session/event 处理：引导注入 + 健康检查 + 静默空转检测 + 目标修正
+  ctx.on('session/event', (session, event) => {
+    // ── 获取 target agent ─────────────────────────────────────────────
     const agent = ctx.get('agent')
     const target =
       agent !== undefined && agent.session === session
         ? agent
         : [...agents.values()].find((a) => a.session === session)
-    if (target === undefined || target.inbox === undefined) return
+    const canInject = target !== undefined && target.inbox !== undefined
 
-    // 去重: 同一 user 消息只注一次.
-    const key = `${session.id}/${event.id ?? String(Math.random())}`
-    if (guided.has(key)) return
-    guided.add(key)
-    if (guided.size > 4000) guided.clear() // 防无限增长
-
-    // 深度引导: 复杂/架构性任务 -> 深探; 否则 -> 收敛续跑.
-    const guide = isComplexTask(text) ? GUIDE_CONTINUE_DEEP : GUIDE_CONTINUE
-    // 推迟到下一 tick: session/event 发布期间禁止重入 inbox.append.
-    setTimeout(() => {
-      try {
-        target.inbox.append('next-step', {
-          id: `nong-guide-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-          role: 'user',
-          source: { kind: 'plugin', plugin: name },
-          content: [{ type: 'text', text: guide }],
-        })
-        tel('guide injected session=' + session.id + ' key=' + key + ' complex=' + isComplexTask(text))
-      } catch (e) {
-        /* duplicate/ordering races: skip */
-        tel('guide SKIP session=' + session.id + ' err=' + (e && e.message))
+    // ── 健康检查：每次事件都检查关键进程 ──────────────────────────────
+    // 但只在检测到死亡时注入，且每个会话只注入一次
+    if (session && canInject && !healthInjected.has(session.id)) {
+      const healthStatus = checkCriticalProcesses(session.id)
+      if (healthStatus > 0) {
+        healthInjected.add(session.id)
+        const msg = healthStatus === 1
+          ? '\n[弄就行了] 检测到 hs-script (Java) 进程已退出, Hearthstone 自动化已中断。立即重启 hs-script：先检查 Hearthstone 窗口是否响应, 然后启动 hs-script JAR。'
+          : '\n[弄就行了] 检测到 Hearthstone.exe 进程已退出, 自动对战无法继续。检查是否需要重新启动 Hearthstone 和 Battle.net。'
+        setTimeout(() => {
+          try {
+            target.inbox.append('next-step', {
+              id: `nong-health-${Date.now()}`,
+              role: 'user',
+              source: { kind: 'plugin', plugin: name },
+              content: [{ type: 'text', text: msg }],
+            })
+            tel('health-inject session=' + session.id + ' status=' + healthStatus)
+          } catch (e) {
+            tel('health-inject FAIL session=' + session.id + ' err=' + (e && e.message))
+          }
+        }, 0)
       }
-    }, 0)
+    }
+
+    // ── 静默空转检测：连续 N 次 tool/call 都不是有效工具 → 注入引导 ──
+    if (event.type === 'tool/call') {
+      const toolName = (event.data && event.data.name) || ''
+      if (HEARTBEAT_TOOLS.has(toolName)) {
+        silentToolCount++
+        tel('silent-check session=' + session.id + ' tool=' + toolName + ' count=' + silentToolCount)
+      } else if (PROGRESS_TOOLS.has(toolName)) {
+        silentToolCount = 0  // 有进展，重置计数器
+      }
+      // 其他工具（插件工具等）也算进展
+      else if (toolName && !toolName.startsWith('nong_')) {
+        silentToolCount = 0
+      }
+
+      if (silentToolCount >= SILENT_TOOL_THRESHOLD && canInject) {
+        silentToolCount = 0
+        setTimeout(() => {
+          try {
+            target.inbox.append('next-step', {
+              id: `nong-silent-${Date.now()}`,
+              role: 'user',
+              source: { kind: 'plugin', plugin: name },
+              content: [{ type: 'text', text: '\n[弄就行了] 检测到连续多次空转心跳，没有推进性工具调用。检查当前状态：关键进程是否还在？上一个子任务是否已完成或卡住？如果卡住用 nong_mcts_explore 找新方向, 需要的能力用 nong_install_plugin 热加载。禁止停下等用户。' }],
+            })
+            tel('silent-inject session=' + session.id + ' count=' + SILENT_TOOL_THRESHOLD)
+          } catch (e) {
+            tel('silent-inject FAIL session=' + session.id + ' err=' + (e && e.message))
+          }
+        }, 0)
+      }
+    }
+
+    // ── 用户消息引导 (同原有逻辑, 增加目标修正) ──────────────────────
+    if (event.type === 'user/message') {
+      const data = event.data ?? {}
+      if (data.source && data.source.kind && data.source.kind !== 'user') return
+      const text = extractText(data)
+      if (!text.trim()) return
+
+      // 修正自动 goal 的 objective：用真实 workspace 标题替换通用 fallback
+      if (target) updateGoalFromSession(session, target)
+
+      if (!canInject) return
+
+      // 去重: 同一 user 消息只注一次.
+      const key = `${session.id}/${event.id ?? String(Math.random())}`
+      if (guided.has(key)) return
+      guided.add(key)
+      if (guided.size > 4000) guided.clear()
+
+      // 深度引导: 复杂/架构性任务 -> 深探; 否则 -> 收敛续跑.
+      const guide = isComplexTask(text) ? GUIDE_CONTINUE_DEEP : GUIDE_CONTINUE
+      setTimeout(() => {
+        try {
+          target.inbox.append('next-step', {
+            id: `nong-guide-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+            role: 'user',
+            source: { kind: 'plugin', plugin: name },
+            content: [{ type: 'text', text: guide }],
+          })
+          tel('guide injected session=' + session.id + ' key=' + key + ' complex=' + isComplexTask(text))
+        } catch (e) {
+          tel('guide SKIP session=' + session.id + ' err=' + (e && e.message))
+        }
+      }, 0)
+    }
   })
 
   // ── 卡住检测：agent 输出「待处理」/阻塞项后强制注入指令 ──────────────
