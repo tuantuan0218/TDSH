@@ -139,7 +139,7 @@ export function apply(ctx) {
     }
 
     // ── 占位符 goal 主动触发 MCTS 选目标 ──────────────────────────────
-    // 不等 agent 自己读 system prompt，强制触发一次
+    // 同步注入，agent 当前轮就能看到
     try {
       const goalsSvc = ctx.get('goals')
       if (goalsSvc && agent.inbox) {
@@ -148,19 +148,13 @@ export function apply(ctx) {
           const mctsKey = 'mcts-ph-' + agent.session.id
           if (!mctsTriggered.has(mctsKey)) {
             mctsTriggered.add(mctsKey)
-            setTimeout(() => {
-              try {
-                agent.inbox.append('next-step', {
-                  id: 'nong-mcts-ph-' + Date.now(),
-                  role: 'user',
-                  source: { kind: 'plugin', plugin: name },
-                  content: [{ type: 'text', text: '\n[弄就行了] 当前目标是占位符，还没有真实目标。立即调用 nong_mcts_explore 分析当前状态，选择真实目标，然后用 nong_modify_goal 更新目标。目标更新后开始推进。完成后调 nong_mcts_explore 找下个目标。禁止停下等用户。' }],
-                })
-                tel('mcts-ph-injected session=' + agent.session.id)
-              } catch (e) {
-                tel('mcts-ph SKIP session=' + agent.session.id + ' err=' + (e && e.message))
-              }
-            }, 0)
+            agent.inbox.append('next-step', {
+              id: 'nong-mcts-ph-' + Date.now(),
+              role: 'user',
+              source: { kind: 'plugin', plugin: name },
+              content: [{ type: 'text', text: '\n[弄就行了] 当前目标是占位符，还没有真实目标。立即调用 nong_mcts_explore 分析当前状态，选择真实目标，然后用 nong_modify_goal 更新目标。目标更新后开始推进。完成后调 nong_mcts_explore 找下个目标。禁止停下等用户。' }],
+            })
+            tel('mcts-ph-injected session=' + agent.session.id)
           }
         }
       }
