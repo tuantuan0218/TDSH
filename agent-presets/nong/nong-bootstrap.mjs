@@ -109,7 +109,7 @@ export function apply(ctx) {
     // 模型根据 MCTS 自主选择目标，完成后自动触发下一轮
     assembled.sections = [...(assembled.sections || []), {
       type: 'text',
-      content: '\n[弄就行了] 目标循环：没有真实目标就调 nong_mcts_explore 选择 → 用 nong_modify_goal 更新 → 推进 → 完成后调 complete_goal 再调 nong_mcts_explore 找下个。可以随时替换目标。禁止停下等用户。',
+      text: '\n[弄就行了] 目标循环：没有真实目标就调 nong_mcts_explore 选择 → 用 nong_modify_goal 更新 → 推进 → 完成后调 complete_goal 再调 nong_mcts_explore 找下个。可以随时替换目标。禁止停下等用户。',
     }]
 
     // ── 自动创建 goal（兜底：模型可能无视 persona 而不调 goal create）──
