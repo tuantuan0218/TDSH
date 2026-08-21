@@ -13,9 +13,11 @@
  * 防循环: 若最近一条 user/message 来自本插件 (注入的笔记)，
  * 则该回合由笔记触发 → 跳过审核。否则 笔记→回复→审核→再笔记 无界循环。
  */
-import { createUserMessage, createMessage, createToolResultMessage, BlockAssembler } from '@deepseek-ai/dsh-llm'
-import { readFileSync, existsSync, appendFileSync, statSync, readdirSync } from 'node:fs'
-import { resolve, join, dirname, extname, isAbsolute } from 'node:path'
+import { createUserMessage } from '@deepseek-ai/dsh-llm'
+import { SessionId } from '@deepseek-ai/dsh-session'
+import { randomUUID } from 'node:crypto'
+import { readFileSync, existsSync, appendFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 
 export const name = 'dsh-plugin-advisor'
 export const inject = ['llm', 'sessions', 'systemPrompt', 'agents']
@@ -56,238 +58,6 @@ const ADVISOR_INSTRUCTION = `你是一名严谨的审阅者(advisor)，被动旁
 输出格式：
 - 没有问题: 只输出 "OK"
 - 有问题: 输出 "⚠️ [问题标题]\\n[具体问题描述]\\n[建议]"`
-
-// ── 工具: read / grep / glob (与 OMP ADVISOR_DEFAULT_TOOL_NAMES 一致) ──
-const ADVISOR_TOOLS = [
-  {
-    name: 'read',
-    description: '读取文件内容返回文本。用于验证主 agent 声称的改动是否真实存在。',
-    parameters: {
-      type: 'object',
-      properties: { path: { type: 'string', description: '文件的绝对路径' } },
-      required: ['path'],
-    },
-  },
-  {
-    name: 'grep',
-    description: '在目录或文件中按正则搜索，返回匹配行。用于查找遗漏的调用点或确认改动影响面。',
-    parameters: {
-      type: 'object',
-      properties: {
-        pattern: { type: 'string', description: '正则表达式' },
-        path: { type: 'string', description: '目录或文件的绝对路径' },
-      },
-      required: ['pattern', 'path'],
-    },
-  },
-  {
-    name: 'glob',
-    description: '按通配符列出文件路径。用于确认文件是否存在、目录结构。',
-    parameters: {
-      type: 'object',
-      properties: { pattern: { type: 'string', description: 'glob 模式，如 **/*.ts' } },
-      required: ['pattern'],
-    },
-  },
-]
-
-const STOP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', 'target', '.cache', '__pycache__'])
-const TEXT_EXTS = new Set(['.ts', '.js', '.tsx', '.jsx', '.py', '.json', '.md', '.yml', '.yaml', '.cfg', '.ini', '.txt', '.sh', '.ps1', '.bat', '.csv', '.toml', '.xml', '.html', '.css'])
-
-/** 执行一个工具调用，返回字符串结果。 */
-function runAdvisorTool(name, args) {
-  try {
-    if (name === 'read') return toolRead(args.path)
-    if (name === 'grep') return toolGrep(args.pattern, args.path)
-    if (name === 'glob') return toolGlob(args.pattern)
-    return `未知工具: ${name}`
-  } catch (err) {
-    return `工具执行失败: ${err && err.message ? err.message : String(err)}`
-  }
-}
-
-function safePath(p) {
-  if (typeof p !== 'string' || !p.trim()) return null
-  // Windows/Unix 绝对路径判定
-  return /^[a-zA-Z]:[\\/]/.test(p) || p.startsWith('/') || p.startsWith('\\') ? p : null
-}
-
-function toolRead(p) {
-  const path = safePath(p)
-  if (!path) return `无效路径: ${p}`
-  if (!existsSync(path)) return `文件不存在: ${path}`
-  const st = statSync(path)
-  if (st.isDirectory()) return `${path} 是目录，请用 glob 列目录或用 read 读具体文件`
-  const MAX = 20000
-  const text = readFileSync(path, 'utf-8')
-  const truncated = text.length > MAX
-  return `${truncated ? `[文件 ${text.length} 字符，仅显示前 ${MAX} 字符]\n` : ''}${text.slice(0, MAX)}`
-}
-
-function collectFiles(root, isFile) {
-  const results = []
-  const walk = (dir) => {
-    let entries
-    try { entries = readdirSync(dir, { withFileTypes: true }) } catch { return }
-    for (const ent of entries) {
-      if (results.length >= 200) return
-      const full = join(dir, ent.name)
-      try {
-        if (ent.isDirectory()) {
-          if (STOP_DIRS.has(ent.name)) continue
-          walk(full)
-        } else if (ent.isFile()) {
-          if (isFile) results.push(full)
-        } else if (ent.isSymbolicLink()) {
-          const st = statSync(full)
-          if (st.isDirectory() && !STOP_DIRS.has(ent.name)) walk(full)
-          else if (st.isFile() && isFile) results.push(full)
-        }
-      } catch { /* unreadable entry skip */ }
-    }
-  }
-  walk(root)
-  return results.slice(0, 200)
-}
-
-function toolGrep(pattern, p) {
-  if (!pattern) return '缺少 pattern'
-  let re
-  try { re = new RegExp(pattern) } catch (err) { return `无效正则: ${err.message}` }
-  const target = safePath(p)
-  if (!target) return `无效路径: ${p}`
-  if (!existsSync(target)) return `路径不存在: ${target}`
-
-  const files = statSync(target).isDirectory()
-    ? collectFiles(target, true).filter(f => TEXT_EXTS.has(extname(f).toLowerCase()))
-    : [target]
-  const lines = []
-  for (const file of files) {
-    if (lines.length >= 30) break
-    let text
-    try { text = readFileSync(file, 'utf-8') } catch { continue }
-    for (const [i, line] of text.split('\n').entries()) {
-      if (re.test(line)) {
-        lines.push(`${file}:${i + 1}: ${line.trim().slice(0, 200)}`)
-        if (lines.length >= 30) break
-      }
-    }
-  }
-  return lines.length === 0 ? `(无匹配: ${pattern} in ${target})` : lines.join('\n')
-}
-
-function matchGlobSeg(segment, name) {
-  // 简单 glob: 支持 * / **
-  if (segment === '**') return true
-  const reSource = segment
-    .split('*').map(part => part.replace(/[.+?^${}()|[\]\\]/g, '\\$&')).join('[^\\\\/]*')
-  return new RegExp(`^${reSource}$`).test(name)
-}
-
-function toolGlob(pattern) {
-  if (!pattern || typeof pattern !== 'string') return '缺少 pattern'
-  const segments = pattern.replace(/\\/g, '/').split('/')
-  const roots = []
-  // 找到第一个非 glob 段作为起始根
-  let rootSegs = []
-  let segIdx = 0
-  for (; segIdx < segments.length; segIdx++) {
-    const seg = segments[segIdx]
-    if (seg === '' || seg === '.' || seg === '..' || !/[?*[]/.test(seg)) {
-      rootSegs.push(seg)
-    } else break
-  }
-  const root = '/' + rootSegs.join('/')
-  if (!existsSync(root)) return `路径不存在: ${root}`
-  const rest = segments.slice(segIdx)
-  const hits = []
-  const walk = (dir, depth) => {
-    if (depth > 8 || hits.length >= 100) return
-    let entries
-    try { entries = readdirSync(dir, { withFileTypes: true }) } catch { return }
-    // 若 rest 已匹配完当前深度, 剩余都是文件
-    if (depth >= rest.length) return
-    const seg = rest[depth]
-    for (const ent of entries) {
-      if (STOP_DIRS.has(ent.name) && seg !== '**') continue
-      if (matchGlobSeg(seg, ent.name)) {
-        const full = join(dir, ent.name)
-        if (depth === rest.length - 1) {
-          hits.push(full)
-        } else if (ent.isDirectory()) {
-          walk(full, depth + 1)
-        }
-      }
-    }
-  }
-  walk(root, 0)
-  return hits.length === 0 ? `(无匹配: ${pattern})` : hits.join('\n')
-}
-
-/** 执行一轮 LLM 审核，最多 3 轮工具循环。 */
-async function runAdvisorLlm(ctx, session, provider, model, context) {
-  const messages = [
-    createUserMessage({
-      content: [{ type: 'text', text: `请审核以下对话轮次：\n\n${context}` }],
-      source: { kind: 'plugin', plugin: 'dsh-plugin-advisor' },
-    }),
-  ]
-
-  for (let round = 0; round < 3; round++) {
-    const assembler = new BlockAssembler()
-    tel(`llm round ${round} provider=${provider} model=${model} ctxLen=${context.length}`)
-    try {
-      for await (const chunk of ctx.llm.stream({
-        provider,
-        model,
-        system: ADVISOR_INSTRUCTION,
-        messages,
-        sessionId: session.id,
-        purpose: 'advisor-review',
-        maxTokens: 2048,
-        tools: ADVISOR_TOOLS,
-      })) {
-        assembler.push(chunk)
-      }
-    } catch (err) {
-      return { error: `review LLM error: ${err && err.message}` }
-    }
-
-    const blocks = assembler.blocks()
-    const toolCalls = blocks.filter(b => b?.type === 'tool-call')
-    const reviewText = blocks
-      .filter(b => b?.type === 'text' || b?.type === 'reasoning')
-      .map(b => b.text)
-      .join('')
-      .trim()
-
-    // 记录工具调用
-    if (toolCalls.length > 0) {
-      tel(`llm round ${round} tool calls: ${toolCalls.map(t => `${t.name}(${String(t.arguments).slice(0, 60)})`).join(' | ')}`)
-      // 模型请求了工具 → 附加 assistant tool-call 消息 + 执行结果
-      messages.push(createMessage({
-        role: 'assistant',
-        content: blocks.filter(b => b?.type === 'text' || b?.type === 'tool-call'),
-        source: { kind: 'plugin', plugin: 'dsh-plugin-advisor' },
-      }))
-      for (const tc of toolCalls) {
-        let args = {}
-        try { args = typeof tc.arguments === 'string' ? JSON.parse(tc.arguments) : tc.arguments } catch { args = { raw: tc.arguments } }
-        const result = runAdvisorTool(tc.name, args)
-        tel(`tool ${tc.name} ${String(tc.arguments).slice(0, 60)} -> ${result.slice(0, 80).replace(/\n/g, ' ')}`)
-        messages.push(createToolResultMessage({
-          callId: tc.id,
-          content: [{ type: 'text', text: result.slice(0, 12000) }],
-          isError: result.startsWith('工具执行失败') || result.startsWith('无效') || result.startsWith('未知'),
-        }))
-      }
-      continue // 工具已执行 → 下一轮让模型产出最终审核
-    }
-
-    return { text: reviewText }
-  }
-  return { text: '' } // 3 轮工具循环未产出文本
-}
 
 /** 从 session events 中提取对话上下文。 */
 function extractTurnContext(events, turn) {
@@ -336,7 +106,8 @@ function loadAdvisorConfig() {
   const path = resolve(process.env.DSH_HOME || 'D:/tdsh/dsh-home', '.advisor-config.json')
   try {
     if (existsSync(path)) {
-      const config = JSON.parse(readFileSync(path, 'utf-8'))
+      const raw = readFileSync(path, 'utf-8').replace(/^\uFEFF/, '') // 去 BOM (主 agent 可能写入 BOM)
+      const config = JSON.parse(raw)
       return {
         enabled: config.enabled !== false,
         model: config.model || null,
@@ -347,6 +118,64 @@ function loadAdvisorConfig() {
     tel('config load failed: ' + (err && err.message))
   }
   return { enabled: true, model: null, provider: null }
+}
+
+/** 子代理审核: 创建一次性审核子代理 (完整工具集 read/grep/glob), 审核完 dispose. */
+async function runAdvisorSubagent(ctx, session, provider, model, context) {
+  const agents = ctx.get('agents')
+  if (!agents || typeof agents.create !== 'function') {
+    return { error: 'agents service unavailable' }
+  }
+  const ownerCwd = session?.meta?.cwd || process.cwd()
+
+  let handle
+  try {
+    handle = await agents.create({
+      sessionId: SessionId(`session-advisor-${randomUUID()}`),
+      meta: { cwd: ownerCwd, origin: 'subagent' },
+      agentOptions: { provider, model },
+    })
+  } catch (err) {
+    return { error: `subagent create failed: ${err && err.message}` }
+  }
+
+  try {
+    await handle.agent.whenIdle()
+    const firstSeq = handle.agent.session.seq
+    tel(`subagent ready seq=${firstSeq}`)
+
+    handle.agent.followup(createUserMessage({
+      content: [{ type: 'text', text: `${ADVISOR_INSTRUCTION}\n\n【审核任务】以下是要审核的主 agent 对话轮次：\n\n${context}\n\n请按上面的审核指令和输出格式作答。` }],
+      source: { kind: 'user' },
+    }))
+
+    // 等待子代理完成 (最长 120s; 子代理自带工具, 可读文件验证)
+    await Promise.race([
+      handle.agent.whenIdle(),
+      new Promise(resolve => setTimeout(resolve, 120000)),
+    ])
+
+    // 提取子代理产出: 收集 firstSeq 之后所有 assistant/message 文本
+    const events = handle.agent.session.events
+    const texts = []
+    for (const e of events) {
+      if (e?.seq === undefined || e.seq <= firstSeq) continue
+      if (e?.type !== 'assistant/message') continue
+      const content = e?.data?.message?.content
+      if (!Array.isArray(content)) continue
+      for (const b of content) {
+        if (b?.type === 'text' && typeof b.text === 'string' && b.text.trim()) texts.push(b.text.trim())
+      }
+    }
+    const text = texts.join('\n').trim()
+    tel(`subagent done: ${events.length} events, ${text.length}ch output`)
+    return { text }
+  } catch (err) {
+    return { error: `subagent review failed: ${err && err.message}` }
+  } finally {
+    // 释放子代理
+    try { await handle.agent.dispose?.() } catch {}
+  }
 }
 
 /** 审核一轮对话：收集上下文 → LLM 审核 → 有问题注入笔记 */
@@ -380,11 +209,12 @@ async function reviewTurn(ctx, session, turn) {
 
   tel(`turn=${turn} review start provider=${provider} model=${model} ctxLen=${context.length}`)
 
-  const { text: reviewText, error } = await runAdvisorLlm(ctx, session, provider, model, context)
-  if (error) {
-    tel(`turn=${turn} ${error}`)
+  const result = await runAdvisorSubagent(ctx, session, provider, model, context)
+  if (result?.error) {
+    tel(`turn=${turn} ${result.error}`)
     return
   }
+  const reviewText = (result?.text || '').trim()
   tel(`turn=${turn} review result len=${reviewText.length} head=${reviewText.slice(0, 60).replace(/\n/g, ' ')}`)
 
   if (!reviewText || reviewText === 'OK') return
@@ -420,11 +250,17 @@ async function reviewTurn(ctx, session, turn) {
 }
 
 export function apply(ctx) {
-  tel('apply mounted (v12: truncate long notes)')
+  tel('apply mounted (v14: subagent recursion guard)')
   // nong 循环模式下, turn/end 可能永不触发, 用 assistant/message 做辅助触发
   const cooldowns = new Map() // sessionId -> lastReviewMs
 
   ctx.on('session/event', (session, event) => {
+    // 只审主会话: 跳过所有子代理 (advisor 子代理或任何 origin=subagent 会话)
+    // 防止: 子代理自己的 assistant/message/turn/end → 触发 → 再建子代理 → 无界递归
+    const sessionId = session?.id
+    if (session?.meta?.origin === 'subagent' || String(sessionId || '').startsWith('session-advisor-')) {
+      return
+    }
     // 精确记录: 只记回合生命周期与审核触发点, 避免 probe 爆炸
     if (event?.type === 'turn/start' || event?.type === 'turn/end' || event?.type === 'assistant/message') {
       const reason = event?.data?.reason?.kind
