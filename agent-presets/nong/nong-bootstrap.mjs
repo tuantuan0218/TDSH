@@ -91,6 +91,25 @@ const GUIDE_CONTINUE =
 const GUIDE_CONTINUE_DEEP =
   '\n[弄就行了] 这是复杂/架构性任务. 持续推进: 先想清楚目标与完成度, 探索架构/边界/集成点而不是环境或工具本身, 信息完整即产出, 然后续跑下一目标. 禁止穷举 grep/环境检查或完成即停. 每几轮 nong_heartbeat 维持心跳.'
 
+/**
+ * 从会话上下文推导一个「具体起步目标」替换占位符.
+ * 优先工作区目录名 (cwd 的最后一段), 其次会话已有标题; 兜底通用目标.
+ */
+function deriveStarterGoal(session) {
+  try {
+    if (session && session.cwd) {
+      const basename = String(session.cwd).replace(/[\\/]+$/, '').split(/[\\/]/).pop()
+      if (basename && basename !== 'dsh-home' && basename.trim().length > 0) {
+        return '持续推进当前工作区「' + basename + '」的任务'
+      }
+    }
+    if (session && session.title && typeof session.title === 'string' && session.title.trim()) {
+      return '完成会话目标: ' + session.title.trim()
+    }
+  } catch (e) { /* 兜底 */ }
+  return '持续推进当前工作区的未完成任务'
+}
+
 export function apply(ctx) {
   const agents = new Map() // session id -> Agent (live handle, in-process only)
   // 避免重复注入同一条用户消息 (session/event 可能多播).
@@ -138,8 +157,9 @@ export function apply(ctx) {
       }
     }
 
-    // ── 占位符 goal 主动触发 MCTS 选目标 ──────────────────────────────
-    // 同步注入，agent 当前轮就能看到
+    // ── 占位符 goal 主动替换为具体起步目标 ──────────────────────────
+    // 混合方案：bootstrap 直接用会话上下文设一个具体起步目标（不等 AI 的 MCTS），
+    // 同时注入消息让 AI 后续可 MCTS 接管重定向。
     try {
       const goalsSvc = ctx.get('goals')
       if (goalsSvc && agent.inbox) {
@@ -148,13 +168,23 @@ export function apply(ctx) {
           const mctsKey = 'mcts-ph-' + agent.session.id
           if (!mctsTriggered.has(mctsKey)) {
             mctsTriggered.add(mctsKey)
+            // 从会话上下文推导具体起步目标：优先 cwd 的目录名/已有标题
+            let concrete = deriveStarterGoal(agent.session)
+            let editOp = 'unchanged'
+            try {
+              const ref = { id: current.id, revision: current.revision }
+              goalsSvc.edit(agent, ref, { objective: concrete })
+              editOp = 'edit->' + concrete
+            } catch (e) {
+              tel('mcts-ph-edit FAIL session=' + agent.session.id + ' err=' + (e && e.message))
+            }
             agent.inbox.append('next-step', {
               id: 'nong-mcts-ph-' + Date.now(),
               role: 'system',
               source: { kind: 'plugin', plugin: name },
-              content: [{ type: 'text', text: '\n[弄就行了] 当前目标是占位符，还没有真实目标。立即调用 nong_mcts_explore 分析当前状态，选择真实目标，然后用 nong_modify_goal 更新目标。目标更新后开始推进。完成后调 nong_mcts_explore 找下个目标。禁止停下等用户。' }],
+              content: [{ type: 'text', text: '\n[弄就行了] 已为你设置起步目标："' + concrete + '"。立即围绕它推进。若发现更高价值方向，可调用 nong_mcts_explore 探索并用 nong_modify_goal 重定向目标。禁止停下等用户。' }],
             })
-            tel('mcts-ph-injected session=' + agent.session.id)
+            tel('mcts-ph-injected session=' + agent.session.id + ' ' + editOp)
           }
         }
       }
