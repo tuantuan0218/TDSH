@@ -97,6 +97,8 @@ export function apply(ctx) {
   const guided = new Set() // session id + event id combos
   // 避免重复自动创建 goal (每个会话只尝试一次).
   const autoGoalTried = new Set()
+  // 避免重复注入占位符 MCTS 触发 (每个会话只尝试一次).
+  const mctsPhInjected = new Set()
   tel('apply mounted')
 
   ctx.on('system-prompt/assemble', async (_assembly, context, next) => {
@@ -147,7 +149,27 @@ export function apply(ctx) {
               }, 0)
             }
           } else {
-            tel('auto-goal: session=' + agent.session.id + ' exists phase=' + current.phase)
+            tel('auto-goal: session=' + agent.session.id + ' exists phase=' + current.phase + ' obj=' + (current.objective || '').slice(0, 60))
+            // 如果现有 goal 是占位符，也触发 MCTS
+            if (current.objective === '持续推进 AGI 循环' && agent.inbox) {
+              const mctsKey = 'mcts-ph-' + agent.session.id
+              if (!mctsPhInjected.has(mctsKey)) {
+                mctsPhInjected.add(mctsKey)
+                setTimeout(() => {
+                  try {
+                    agent.inbox.append('next-step', {
+                      id: 'nong-mcts-ph-' + Date.now(),
+                      role: 'user',
+                      source: { kind: 'plugin', plugin: name },
+                      content: [{ type: 'text', text: '\n[弄就行了] 当前目标仍然是占位符，还没有真实目标。立即调用 nong_mcts_explore 分析当前状态，选择真实目标，然后用 nong_modify_goal 更新目标。目标更新后开始推进。完成后调 nong_mcts_explore 找下个目标，禁止停下等用户。' }],
+                    })
+                    tel('mcts-ph-injected session=' + agent.session.id)
+                  } catch (e) {
+                    tel('mcts-ph SKIP session=' + agent.session.id + ' err=' + (e && e.message))
+                  }
+                }, 0)
+              }
+            }
           }
         } else {
           tel('auto-goal: no goals service available')
