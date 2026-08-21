@@ -150,7 +150,7 @@ export function apply(ctx) {
             mctsTriggered.add(mctsKey)
             agent.inbox.append('next-step', {
               id: 'nong-mcts-ph-' + Date.now(),
-              role: 'user',
+              role: 'system',
               source: { kind: 'plugin', plugin: name },
               content: [{ type: 'text', text: '\n[弄就行了] 当前目标是占位符，还没有真实目标。立即调用 nong_mcts_explore 分析当前状态，选择真实目标，然后用 nong_modify_goal 更新目标。目标更新后开始推进。完成后调 nong_mcts_explore 找下个目标。禁止停下等用户。' }],
             })
