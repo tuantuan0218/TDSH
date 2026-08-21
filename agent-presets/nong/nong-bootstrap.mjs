@@ -393,9 +393,31 @@ export function apply(ctx) {
       const data = event.data ?? {}
       if (data.source && data.source.kind && data.source.kind !== 'user') return
       const text = extractText(data)
-      if (!text.trim()) return
+      if (!text.trim() || !canInject) return
 
-      if (!canInject) return
+      // ── 关键: 真实用户消息 → 若目标仍是占位/兜底/无, 直接用消息原文改写 ──
+      // 不靠 AI 执行指令: bootstrap 自己把 goal 改成用户真正要的东西.
+      try {
+        const goalsSvc = ctx.get('goals')
+        const agent = ctx.get('agent')
+        const target = agent !== undefined && agent.session === session
+          ? agent
+          : [...agents.values()].find((a) => a.session === session)
+        if (goalsSvc && target) {
+          const cur = goalsSvc.get(target)
+          // 仅当目标是占位/兜底/引导类时才改写为用户请求, 不动已有具体目标.
+          if (cur && /推进 AGI 循环|当前工作区的未完成任务|完成会话目标|临时起步|完成用户请求/.test(cur.objective || '')) {
+            const clean = text.replace(/[\[\]\r\n]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120)
+            if (clean.length >= 4) {
+              const ref = { id: cur.id, revision: cur.revision }
+              goalsSvc.edit(target, ref, { objective: clean })
+              tel('goal-realign session=' + session.id + ' -> ' + clean)
+            }
+          }
+        }
+      } catch (e) {
+        tel('goal-realign FAIL session=' + session.id + ' err=' + (e && e.message))
+      }
 
       // 去重: 同一 user 消息只注一次.
       const key = `${session.id}/${event.id ?? String(Math.random())}`
