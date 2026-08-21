@@ -670,7 +670,6 @@ const TDSH_PLUGINS = [
   'dsh-session-log',
   'dsh-global-agent',
   'dsh-plugin-nong',
-  'dsh-plugin-advisor',
   'dsh-plugin-everything',
 ]
 
@@ -699,7 +698,6 @@ function ensureProfile(homeDir, repoDir) {
           'dsh-session-log',
           'dsh-global-agent',
           'dsh-plugin-nong',
-          'dsh-plugin-advisor',
           'dsh-plugin-everything',
         ],
       },
