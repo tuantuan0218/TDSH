@@ -13,7 +13,6 @@
  * 防循环: 若最近一条 user/message 来自本插件 (注入的笔记)，
  * 则该回合由笔记触发 → 跳过审核。否则 笔记→回复→审核→再笔记 无界循环。
  */
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
 import { readFileSync, existsSync, appendFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
@@ -70,6 +69,9 @@ function extractTurnContext(events, turn) {
         if (block?.type === 'text') parts.push(`[用户] ${block.text}`)
       }
     } else if (e?.type === 'assistant/message') {
+      // 跳过本插件注入的插话: 不喂回上下文
+      const src2 = e.data?.message?.source
+      if (src2?.kind === 'plugin' && src2?.plugin === 'dsh-plugin-advisor') continue
       for (const block of e.data?.message?.content || []) {
         if (block?.type === 'text') parts.push(`[助手] ${block.text}`)
       }
@@ -85,7 +87,7 @@ function extractTurnContext(events, turn) {
   return parts.join('\n')
 }
 
-/** 触发审核的回合是否为「本插件笔记触发」— 若是则跳过 (防循环). */
+/** 触发审核的回合是否为「本插件插话触发」— 若是则跳过 (防循环). */
 function isSelfTriggered(events) {
   if (!Array.isArray(events)) return false
   for (let i = events.length - 1; i >= 0; i--) {
@@ -94,6 +96,12 @@ function isSelfTriggered(events) {
       const src = e.data?.message?.source
       if (src?.kind === 'plugin' && src?.plugin === 'dsh-plugin-advisor') return true
       return false // 最近一条用户消息不是我们的 → 不是自触发
+    }
+    if (e?.type === 'assistant/message') {
+      const src = e.data?.message?.source
+      if (src?.kind === 'plugin' && src?.plugin === 'dsh-plugin-advisor') return true
+      // 最近一条助手消息不是我们的 → 不是自触发
+      return false
     }
   }
   return false
@@ -206,30 +214,27 @@ async function reviewTurn(ctx, session, turn) {
 
   if (!reviewText || reviewText === 'OK') return
 
-  // 截断过长审核笔记: 仅保留前 2000 字符 (模型可能输出冗长推理)
+  // 截断过长审核笔记: 仅保留前 2000 字符
   const MAX_NOTE = 2000
   const note = reviewText.length > MAX_NOTE
     ? reviewText.slice(0, MAX_NOTE) + '\n…(审核笔记已截断)'
     : reviewText
 
-  // 注入笔记 (推迟到下一 tick 避免重入)
+  // 注入: 通过 inbox 直接插话 — agent 下一轮消费 inbox 时自动写入 session 的 user/message
+  // 借助 agent 本身的 inbox→session.append 机制, source 原样保留, 循环守卫自动识别
   setTimeout(() => {
     try {
-      // 摘要: 取审核结果前 80 字符 (UI 折叠行显示)
-      const summary = note.slice(0, 80).replace(/\n/g, ' ')
-      session.append('user/message',
-        createUserMessage({
-          content: [{ type: 'text', text: `[Advisor 审核]\n${note}` }],
-          source: {
-            kind: 'plugin',
-            plugin: 'dsh-plugin-advisor',
-            form: 'notice',    // ← notice 形式: 折叠行显示摘要, 展开全文
-            summary,
-          },
-        }),
-        { surfaceOp: 'append' },
-      )
-      tel(`turn=${turn} note INJECTED (summary=${summary.slice(0, 40)})`)
+      const agents = ctx.get('agents')
+      if (!agents) return
+      const agent = agents.get(session.id)
+      if (!agent || !agent.inbox || typeof agent.inbox.append !== 'function') return
+      agent.inbox.append('next-step', {
+        id: `advisor-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
+        role: 'user',
+        source: { kind: 'plugin', plugin: 'dsh-plugin-advisor' },
+        content: [{ type: 'text', text: `⚠️ [Advisor 审核]\n${note}` }],
+      })
+      tel(`turn=${turn} note INJECTED via inbox (len=${note.length}ch)`)
     } catch (err) {
       tel(`turn=${turn} inject failed: ${err && err.message}`)
     }
@@ -237,7 +242,7 @@ async function reviewTurn(ctx, session, turn) {
 }
 
 export function apply(ctx) {
-  tel('apply mounted (v15: subagent spawn visible)')
+  tel('apply mounted (v17: inbox直接插话)')
   // nong 循环模式下, turn/end 可能永不触发, 用 assistant/message 做辅助触发
   const cooldowns = new Map() // sessionId -> lastReviewMs
 
