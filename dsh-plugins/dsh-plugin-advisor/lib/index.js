@@ -14,8 +14,6 @@
  * 则该回合由笔记触发 → 跳过审核。否则 笔记→回复→审核→再笔记 无界循环。
  */
 import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import { SessionId } from '@deepseek-ai/dsh-session'
-import { randomUUID } from 'node:crypto'
 import { readFileSync, existsSync, appendFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
@@ -120,61 +118,50 @@ function loadAdvisorConfig() {
   return { enabled: true, model: null, provider: null }
 }
 
-/** 子代理审核: 创建一次性审核子代理 (完整工具集 read/grep/glob), 审核完 dispose. */
+/** 子代理审核: 通过 subagent 基础设施 (spawn provider) 创建可见子代理, 审核完自动释放. */
 async function runAdvisorSubagent(ctx, session, provider, model, context) {
-  const agents = ctx.get('agents')
-  if (!agents || typeof agents.create !== 'function') {
-    return { error: 'agents service unavailable' }
+  const subagents = ctx.get('subagents')
+  if (!subagents || typeof subagents.start !== 'function') {
+    return { error: 'subagents service unavailable' }
   }
-  const ownerCwd = session?.meta?.cwd || process.cwd()
 
-  let handle
+  const agents = ctx.get('agents')
+  const parent = agents?.get(session.id)
+  if (!parent) {
+    return { error: 'parent agent not found' }
+  }
+
+  const prompt = [{
+    type: 'text',
+    text: `${ADVISOR_INSTRUCTION}\n\n【审核任务】以下是要审核的主 agent 对话轮次：\n\n${context}\n\n请按上面的审核指令和输出格式作答。`,
+  }]
+
+  let run
   try {
-    handle = await agents.create({
-      sessionId: SessionId(`session-advisor-${randomUUID()}`),
-      meta: { cwd: ownerCwd, origin: 'subagent' },
+    run = await subagents.start('spawn', {
+      label: 'Advisor 审核',
+      parent,
+      prompt,
       agentOptions: { provider, model },
+      signal: AbortSignal.timeout(120000),
     })
   } catch (err) {
-    return { error: `subagent create failed: ${err && err.message}` }
+    return { error: `subagent start failed: ${err && err.message}` }
   }
 
+  tel(`subagent started: ${run.id}`)
+
   try {
-    await handle.agent.whenIdle()
-    const firstSeq = handle.agent.session.seq
-    tel(`subagent ready seq=${firstSeq}`)
-
-    handle.agent.followup(createUserMessage({
-      content: [{ type: 'text', text: `${ADVISOR_INSTRUCTION}\n\n【审核任务】以下是要审核的主 agent 对话轮次：\n\n${context}\n\n请按上面的审核指令和输出格式作答。` }],
-      source: { kind: 'user' },
-    }))
-
-    // 等待子代理完成 (最长 120s; 子代理自带工具, 可读文件验证)
-    await Promise.race([
-      handle.agent.whenIdle(),
-      new Promise(resolve => setTimeout(resolve, 120000)),
-    ])
-
-    // 提取子代理产出: 收集 firstSeq 之后所有 assistant/message 文本
-    const events = handle.agent.session.events
-    const texts = []
-    for (const e of events) {
-      if (e?.seq === undefined || e.seq <= firstSeq) continue
-      if (e?.type !== 'assistant/message') continue
-      const content = e?.data?.message?.content
-      if (!Array.isArray(content)) continue
-      for (const b of content) {
-        if (b?.type === 'text' && typeof b.text === 'string' && b.text.trim()) texts.push(b.text.trim())
-      }
-    }
-    const text = texts.join('\n').trim()
-    tel(`subagent done: ${events.length} events, ${text.length}ch output`)
+    const result = await run.result
+    const text = (result.output || [])
+      .map(b => b?.type === 'text' ? (b.text || '') : '')
+      .filter(Boolean)
+      .join('\n')
+      .trim()
+    tel(`subagent done: ${text.length}ch output, stop=${result.stopReason}`)
     return { text }
   } catch (err) {
-    return { error: `subagent review failed: ${err && err.message}` }
-  } finally {
-    // 释放子代理
-    try { await handle.agent.dispose?.() } catch {}
+    return { error: `subagent result failed: ${err && err.message}` }
   }
 }
 
@@ -250,15 +237,17 @@ async function reviewTurn(ctx, session, turn) {
 }
 
 export function apply(ctx) {
-  tel('apply mounted (v14: subagent recursion guard)')
+  tel('apply mounted (v15: subagent spawn visible)')
   // nong 循环模式下, turn/end 可能永不触发, 用 assistant/message 做辅助触发
   const cooldowns = new Map() // sessionId -> lastReviewMs
 
   ctx.on('session/event', (session, event) => {
-    // 只审主会话: 跳过所有子代理 (advisor 子代理或任何 origin=subagent 会话)
+    // 只审主会话: 跳过所有子代理 (origin=subagent / session-advisor-* 前缀 / 有 parentSession 血缘)
     // 防止: 子代理自己的 assistant/message/turn/end → 触发 → 再建子代理 → 无界递归
     const sessionId = session?.id
-    if (session?.meta?.origin === 'subagent' || String(sessionId || '').startsWith('session-advisor-')) {
+    if (session?.meta?.origin === 'subagent'
+        || String(sessionId || '').startsWith('session-advisor-')
+        || session?.header?.parentSession) {
       return
     }
     // 精确记录: 只记回合生命周期与审核触发点, 避免 probe 爆炸
