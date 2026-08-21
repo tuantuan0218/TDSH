@@ -3,7 +3,8 @@
  *   铁律：
  *    1. MCTS 循环指令写进 system prompt（模型自主设计目标，编排层不兜底）
  *    2. 用户发消息 → 若目标是占位符 → 直接改成消息原文（唯一确定性操作）
- *    3. 首轮窄工具面 + 续跑引导 + 健康检查/静默检测
+ *    3. 拦截 goal 创建 → 目标末尾追加「完成后继续循环，禁止停下等用户」
+ *    4. 首轮窄工具面 + 续跑引导 + 健康检查/静默检测
  *
  * 移植自 router-bootstrap-v1.mjs (yjh051108/dsh-routing-suite, MIT), 裁剪为
  * nong 场景。不做：不试图修复模型行为，不堆多层注入，不叠 fallback。
@@ -101,8 +102,6 @@ export function apply(ctx) {
   ])
   const HEARTBEAT_TOOLS = new Set(['nong_heartbeat', 'nong_start_daemon', 'get_goal', 'list_agents'])
   const healthInjected = new Set()
-  // 全自主看门狗：每个会话最后活动时间戳
-  const lastActivity = new Map() // session id -> Date.now()
   let lastHealthCheck = 0
   const HEALTH_INTERVAL = 30000
 
@@ -111,8 +110,6 @@ export function apply(ctx) {
     const target = agent !== undefined && agent.session === session
       ? agent : [...agents.values()].find((a) => a.session === session)
     const canInject = target !== undefined && target.inbox !== undefined
-    // 记录每次事件作为活动时间戳
-    lastActivity.set(session.id, Date.now())
 
     // ── goal 完成 → 自动触发 MCTS 选新目标 ──
     if (target && event.type === 'tool/call' && (event.data && event.data.name === 'complete_goal')) {
@@ -216,26 +213,22 @@ export function apply(ctx) {
     }
   })
 
-  // ── 全自主看门狗：每 30 秒检查空闲会话，注入继续指令 ──
-  setInterval(() => {
-    const now = Date.now()
-    for (const [sid, lastTime] of lastActivity) {
-      if (now - lastTime < 120000) continue // 最后活动 2 分钟内，跳过
-      const t = [...agents.values()].find((a) => a.session.id === sid)
-      if (!t || !t.inbox) continue
-      // 防止重复注入（每 2 分钟最多一次）
-      const lastInject = lastActivity.get('__watchdog_' + sid) || 0
-      if (now - lastInject < 120000) continue
-      lastActivity.set('__watchdog_' + sid, now)
-      tel('watchdog: session=' + sid + ' idle=' + Math.round((now - lastTime) / 1000) + 's')
-      try {
-        t.inbox.append('next-step', {
-          id: 'nong-watchdog-' + Date.now(),
-          role: 'user', source: { kind: 'plugin', plugin: name },
-          content: [{ type: 'text', text: '\n[弄就行了] 检测到长时间无活动，继续推进。检查当前状态：目标完成了没有？如果完成了立即调 nong_mcts_explore 选新目标，用 nong_modify_goal 更新。如果卡住了就用 nong_install_plugin 安装需要的能力。禁止停下等用户。' }],
-        })
-        tel('watchdog-inject session=' + sid)
-      } catch (e) { tel('watchdog-inject FAIL session=' + sid + ' err=' + (e && e.message)) }
-    }
-  }, 30000) // 每 30 秒检查一次
+  // ── 拦截 goal 创建，目标末尾追加「完成后继续循环」──
+  // 让 goal 自带续跑指令，模型创建目标时就能看到，不依赖注入
+  ctx.on('session/event', (session, event) => {
+    if (event.type !== 'goal/change' || event.data.operation !== 'create') return
+    const t = [...agents.values()].find((a) => a.session.id === session.id)
+    if (!t) return
+    const goalsSvc = ctx.get('goals')
+    if (!goalsSvc) return
+    const cur = goalsSvc.get(t)
+    if (!cur) return
+    // 只在目标末尾没写续跑指令时才追加
+    if (/继续循环/.test(cur.objective || '')) return
+    const appended = (cur.objective || '') + '（完成后继续循环，禁止停下等用户）'
+    try {
+      goalsSvc.edit(t, { id: cur.id, revision: cur.revision }, { objective: appended })
+      tel('goal-append-cycle session=' + session.id + ' objective=' + appended.slice(0, 80))
+    } catch (e) { tel('goal-append-cycle FAIL session=' + session.id + ' err=' + (e && e.message)) }
+  })
 }
