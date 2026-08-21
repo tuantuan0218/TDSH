@@ -207,7 +207,7 @@ export function apply(ctx) {
               id: 'nong-mcts-ph-' + Date.now(),
               role: 'system',
               source: { kind: 'plugin', plugin: name },
-              content: [{ type: 'text', text: '\n[弄就行了] 已为你设置起步目标："' + concrete + '"。立即围绕它推进。若发现更高价值方向，可调用 nong_mcts_explore 探索并用 nong_modify_goal 重定向目标。禁止停下等用户。' }],
+              content: [{ type: 'text', text: '\n[弄就行了] 当前目标是临时起步目标："' + concrete + '"。它是占位，不是最终目标。立即调用 nong_mcts_explore 分析当前状态/工作区/待办，选出一个更具体、更高价值的真实目标，然后用 nong_modify_goal 把它替换为真实目标。替换后开始推进。如果没有可替换的（当前已是最好方向），就围绕这个起步目标推进。任务完成后若无新目标，再回到 MCTS 找下个。禁止停下等用户。' }],
             })
             tel('mcts-ph-injected session=' + agent.session.id + ' ' + editOp)
           }
@@ -360,15 +360,27 @@ export function apply(ctx) {
 
       if (silentToolCount >= SILENT_TOOL_THRESHOLD && canInject) {
         silentToolCount = 0
+        // 若当前无真实目标(占位/兜底/无), silent 注入也直接给具体目标并指令 MCTS
+        let fallbackHint = ''
+        try {
+          const goalsSvc = ctx.get('goals')
+          const cur = goalsSvc && goalsSvc.get(target)
+          if (cur) {
+            const isPlaceholder = !cur.objective || /推进 AGI 循环|当前工作区的未完成任务|临时起步/.test(cur.objective)
+            if (isPlaceholder) fallbackHint = ' 当前没有真实目标(只是占位/兜底)。先调 nong_mcts_explore 选出一个具体真实目标, 再用 nong_modify_goal 替换。若无从选起, 就围绕工作区「' + (target.session && target.session.cwd ? String(target.session.cwd).split(/[\\/]/).pop() : '当前') + '」的未完成事项推进。'
+          } else {
+            fallbackHint = ' 当前没有目标。调 nong_mcts_explore 选一个具体真实目标, 或直接围绕工作区未完成事项推进。'
+          }
+        } catch (e) { /* best effort */ }
         setTimeout(() => {
           try {
             target.inbox.append('next-step', {
               id: `nong-silent-${Date.now()}`,
               role: 'user',
               source: { kind: 'plugin', plugin: name },
-              content: [{ type: 'text', text: '\n[弄就行了] 检测到连续多次空转心跳，没有推进性工具调用。检查当前状态：关键进程是否还在？上一个子任务是否已完成或卡住？如果卡住用 nong_mcts_explore 找新方向, 需要的能力用 nong_install_plugin 热加载。禁止停下等用户。' }],
+              content: [{ type: 'text', text: '\n[弄就行了] 检测到连续多次空转心跳，没有推进性工具调用。检查当前状态：关键进程是否还在？上一个子任务是否已完成或卡住？' + fallbackHint + ' 如果卡住用 nong_mcts_explore 找新方向, 需要的能力用 nong_install_plugin 热加载。禁止停下等用户。' }],
             })
-            tel('silent-inject session=' + session.id + ' count=' + SILENT_TOOL_THRESHOLD)
+            tel('silent-inject session=' + session.id + ' count=' + SILENT_TOOL_THRESHOLD + (fallbackHint ? ' fallback=yes' : ' fallback=no'))
           } catch (e) {
             tel('silent-inject FAIL session=' + session.id + ' err=' + (e && e.message))
           }
