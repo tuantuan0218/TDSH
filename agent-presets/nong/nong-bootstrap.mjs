@@ -66,7 +66,7 @@ export function apply(ctx) {
     // MCTS 循环指令（写进 system prompt，每轮可见）
     assembled.sections = [...(assembled.sections || []), {
       type: 'text',
-      text: '\n[弄就行了] 目标循环：没有真实目标就调 nong_mcts_explore 选择 → 用 nong_modify_goal 更新 → 推进 → 完成后调 complete_goal 再调 nong_mcts_explore 找下个。可以随时替换目标。禁止停下等用户。',
+      text: '\n[弄就行了] 目标循环：没有真实目标就调 nong_mcts_explore 选择 → 用 nong_modify_goal 更新 → 推进 → 完成后调 complete_goal 再调 nong_mcts_explore 找下个。可以随时替换目标。禁止停下等用户。注意：goal 是缰绳——每轮推进都要先 get_goal 或 update_goal 与它交互，不交互 goal 会自动过期(disarm)，停了就重开一个具体目标。',
     }]
 
     // 首轮窄工具面
