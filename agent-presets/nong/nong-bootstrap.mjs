@@ -302,9 +302,6 @@ export function apply(ctx) {
       const text = extractText(data)
       if (!text.trim()) return
 
-      // 修正自动 goal 的 objective：用真实 workspace 标题替换通用 fallback
-      if (target) updateGoalFromSession(session, target)
-
       if (!canInject) return
 
       // 去重: 同一 user 消息只注一次.
