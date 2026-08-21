@@ -4,6 +4,13 @@
 > 把 DeepSeek Harness 的 Web 界面装进一个原生桌面窗口，双击即用。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+---
+
+## 想参与贡献？
+
+欢迎！看 [CONTRIBUTING.md](CONTRIBUTING.md) 开始。提 bug 用 [Bug 模板](.github/ISSUE_TEMPLATE/bug_report.yml)，提功能用 [Feature 模板](.github/ISSUE_TEMPLATE/feature_request.yml)。
 
 ---
 
