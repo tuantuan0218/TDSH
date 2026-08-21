@@ -280,6 +280,7 @@
 
 - id: tool-ask-user
   name: '@deepseek-ai/dsh-tool-ask-user'
+  disabled: true
 
 - id: tool-todo
   name: '@deepseek-ai/dsh-tool-todo'
