@@ -258,7 +258,6 @@ export class ReactLoopAgent implements Agent {
     }
     phase.turn = turn
     let turnEnds: TurnEndReason | null = null
-    let autoContinued = false
     let target: InboxTarget = 'next-turn'
     try {
       while (true) {
@@ -299,9 +298,7 @@ export class ReactLoopAgent implements Agent {
         }
         if (turnEnds && this.inbox.nextStep.length === 0) {
           // 自动续跑：模型无工具调用完成时，注入继续指令，不让循环 yield。
-          // 只注入一次；若模型仍不调用工具(也不 complete_goal)，说明它确实要停，放行。
-          if (autoContinued) break
-          autoContinued = true
+          // 无限次注入直至模型响应（GPT 风格永不 yield）。
           this.inbox.splice('next-step', this.inbox.nextStep.length, 0, [{
             content: [{ type: 'text', text: '\n[自动续跑] 继续推进。如果当前目标已完成，调用 complete_goal 标记完成；否则继续推进当前目标。禁止停下等用户。' }],
             source: { kind: 'plugin', plugin: 'agent-loop' },

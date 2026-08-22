@@ -526,7 +526,6 @@ var ReactLoopAgent = class {
 		}
 		phase.turn = turn;
 		let turnEnds = null;
-		let autoContinued = false;
 		let target = "next-turn";
 		try {
 			while (true) {
@@ -570,8 +569,6 @@ var ReactLoopAgent = class {
 					signal.throwIfAborted();
 				}
 				if (turnEnds && this.inbox.nextStep.length === 0) {
-					if (autoContinued) break;
-					autoContinued = true;
 					this.inbox.splice('next-step', this.inbox.nextStep.length, 0, [{
 						content: [{ type: 'text', text: '\n[自动续跑] 继续推进。如果当前目标已完成，调用 complete_goal 标记完成；否则继续推进当前目标。禁止停下等用户。' }],
 						source: { kind: 'plugin', plugin: 'agent-loop' },
