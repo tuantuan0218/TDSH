@@ -49,8 +49,8 @@ function isCoreTool(name) {
   )
 }
 
-const GUIDE_CONTINUE = '\n[弄就行了] 记住循环: goal 是缰绳 —— 当前 goal 是什么? 推进到哪了? 推进一步 → 如实解析 → 简短报告 → 自动续跑或换目标. 完成当前 goal 必须走 complete → MCTS → evaluate → modify → create 步骤链, 禁止完成即停等用户. 每几轮 nong_heartbeat 维持心跳.'
-const GUIDE_CONTINUE_DEEP = '\n[弄就行了] 这是复杂/架构性任务. 持续推进: 先想清楚目标与完成度, 探索架构/边界/集成点而不是环境或工具本身, 信息完整即产出, 然后续跑下一目标. 禁止穷举 grep/环境检查或完成即停. 每几轮 nong_heartbeat 维持心跳.'
+const GUIDE_CONTINUE = '\n[弄就行了] 记住循环: 当前在做什么? 推进到哪了? 推进一步 → 如实解析 → 简短报告. 完成当前任务后调 nong_mcts_explore 选下一个方向, 用 create_goal 更新目标让用户看到. 禁止停下等用户. 每几轮 nong_heartbeat 维持心跳.'
+const GUIDE_CONTINUE_DEEP = '\n[弄就行了] 这是复杂/架构性任务. 持续推进: 先想清楚系统现状与完成度, 探索架构/边界/集成点而不是环境或工具本身, 信息完整即产出, 然后调 nong_mcts_explore 选下一方向, create_goal 更新目标. 禁止穷举 grep/环境检查或完成即停. 每几轮 nong_heartbeat 维持心跳.'
 
 export function apply(ctx) {
   const agents = new Map()
@@ -65,10 +65,9 @@ export function apply(ctx) {
     agents.set(agent.session.id, agent)
 
     // MCTS 循环指令（写进 system prompt，每轮可见）
-    // 注意：create_goal/update_goal 会自动在目标末尾追加续跑指令，模型无需手动写
     assembled.sections = [...(assembled.sections || []), {
       type: 'text',
-      text: '\n[弄就行了] 目标循环：没有真实目标就调 nong_mcts_explore 选择 → 用 nong_modify_goal 更新 → 推进 → 完成后调 complete_goal 再调 nong_mcts_explore 找下个。可以随时替换目标。禁止停下等用户。注意：goal 是缰绳——每轮推进都要先 get_goal 或 update_goal 与它交互，不交互 goal 会自动过期(disarm)，停了就重开一个具体目标。create_goal/update_goal 会自动在目标末尾追加（完成后继续循环，禁止停下等用户），你无需手动写，但必须遵守：任何目标都要持续推进，不得完成即停。',
+      text: '\n[弄就行了] 目标循环：完成当前任务后调 nong_mcts_explore 选下一个有意义的方向 → 用 nong_evaluate_paths 评估 → 用 nong_modify_goal 或 create_goal 更新目标，让用户看到你在做什么。可以随时替换目标。禁止停下等用户。注意：goal 是可见状态标记——让用户和你自己都知道当前在做什么。每轮推进都要先 get_goal 或 update_goal 与它交互，不交互 goal 会自动过期(disarm)，过期了就重开一个具体目标。create_goal/update_goal 会自动在目标末尾追加（完成后继续循环，禁止停下等用户），你无需手动写，但必须遵守：任何目标都要持续推进，不得完成即停。',
     }]
 
     // 首轮窄工具面
@@ -211,7 +210,7 @@ export function apply(ctx) {
           t.inbox.append('next-step', {
             id: 'nong-cycle-' + Date.now(),
             role: 'user', source: { kind: 'plugin', plugin: name },
-            content: [{ type: 'text', text: '\n[弄就行了] 新目标已创建。记住：完成后必须调 complete_goal 标记完成，再调 nong_mcts_explore 选新目标，用 nong_modify_goal 更新。禁止停下等用户。' }],
+            content: [{ type: 'text', text: '\n[弄就行了] 新目标已设定。goal 让用户看到你在做什么，推进它，完成后用 nong_mcts_explore 选下一个方向，用 create_goal 更新目标。禁止停下等用户。' }],
           })
           tel('goal-cycle-inject session=' + session.id + ' objective=' + ((event.data.goal && event.data.goal.objective) || '').slice(0, 60))
         } catch (e) { tel('goal-cycle-inject FAIL session=' + session.id + ' err=' + (e && e.message)) }
@@ -241,7 +240,7 @@ export function apply(ctx) {
           t.inbox.append('next-step', {
             id: 'nong-mcts-next-' + Date.now(),
             role: 'user', source: { kind: 'plugin', plugin: name },
-            content: [{ type: 'text', text: '\n[弄就行了] 目标已完成。立即调用 nong_mcts_explore 分析当前状态，选择下一个目标，然后用 nong_modify_goal 更新目标。禁止停下等用户。' }],
+            content: [{ type: 'text', text: '\n[弄就行了] 目标已完成。立即调用 nong_mcts_explore 分析当前状态，选择下一个有意义的任务方向，用 create_goal 设置新目标让用户看到。禁止停下等用户。' }],
           })
           tel('goal-complete-inject session=' + session.id + ' objective=' + ((event.data.goal && event.data.goal.objective) || '').slice(0, 60))
         } catch (e) { tel('goal-complete-inject FAIL session=' + session.id + ' err=' + (e && e.message)) }
