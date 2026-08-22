@@ -3,7 +3,7 @@
  *   铁律：
  *    1. MCTS 循环指令写进 system prompt（模型自主设计目标，编排层不兜底）
  *    2. 用户发消息 → 若目标是占位符 → 直接改成消息原文（唯一确定性操作）
- *    3. 拦截 goal 创建 → 注入续跑指令（完成后必须 MCTS 选新目标，禁止停）
+ *    3. 拦截 goal 创建/解除/完成 → 注入续跑/恢复/MCTS指令
  *    4. 首轮窄工具面 + 续跑引导 + 健康检查/静默检测
  *
  * 移植自 router-bootstrap-v1.mjs (yjh051108/dsh-routing-suite, MIT), 裁剪为
@@ -111,23 +111,6 @@ export function apply(ctx) {
       ? agent : [...agents.values()].find((a) => a.session === session)
     const canInject = target !== undefined && target.inbox !== undefined
 
-    // ── goal 完成 → 自动触发 MCTS 选新目标 ──
-    if (target && event.type === 'tool/call' && (event.data && event.data.name === 'complete_goal')) {
-      setTimeout(() => {
-        try {
-          target.inbox.append('next-step', {
-            id: 'nong-mcts-next-' + Date.now(),
-            role: 'user',
-            source: { kind: 'plugin', plugin: name },
-            content: [{ type: 'text', text: '\n[弄就行了] 目标已完成。立即调用 nong_mcts_explore 分析当前状态，选择下一个目标，然后用 nong_modify_goal 更新目标。禁止停下等用户。' }],
-          })
-          tel('mcts-next injected session=' + session.id)
-        } catch (e) {
-          tel('mcts-next FAIL session=' + session.id + ' err=' + (e && e.message))
-        }
-      }, 0)
-    }
-
     // ── 健康检查（节流，每 30 秒一次） ──
     const now = Date.now()
     if (session && canInject && !healthInjected.has(session.id) && now - lastHealthCheck > HEALTH_INTERVAL) {
@@ -213,21 +196,55 @@ export function apply(ctx) {
     }
   })
 
-  // ── 拦截 goal 创建，注入续跑指令 ──
-  // 不编辑 goal（session.append 不可重入+activation 限制），改为消息注入
+  // ── 拦截 goal 创建/完成/解除，注入续跑指令 ──
   ctx.on('session/event', (session, event) => {
-    if (event.type !== 'goal/change' || event.data.operation !== 'create') return
+    if (event.type !== 'goal/change') return
+    const op = event.data.operation
     const t = [...agents.values()].find((a) => a.session.id === session.id)
     if (!t || !t.inbox) return
-    setTimeout(() => {
-      try {
-        t.inbox.append('next-step', {
-          id: 'nong-cycle-' + Date.now(),
-          role: 'user', source: { kind: 'plugin', plugin: name },
-          content: [{ type: 'text', text: '\n[弄就行了] 新目标已创建。记住：完成后必须调 complete_goal 标记完成，再调 nong_mcts_explore 选新目标，用 nong_modify_goal 更新。禁止停下等用户。' }],
-        })
-        tel('goal-cycle-inject session=' + session.id + ' objective=' + ((event.data.goal && event.data.goal.objective) || '').slice(0, 60))
-      } catch (e) { tel('goal-cycle-inject FAIL session=' + session.id + ' err=' + (e && e.message)) }
-    }, 0)
+
+    // goal 创建 → 注入续跑指令
+    if (op === 'create') {
+      setTimeout(() => {
+        try {
+          t.inbox.append('next-step', {
+            id: 'nong-cycle-' + Date.now(),
+            role: 'user', source: { kind: 'plugin', plugin: name },
+            content: [{ type: 'text', text: '\n[弄就行了] 新目标已创建。记住：完成后必须调 complete_goal 标记完成，再调 nong_mcts_explore 选新目标，用 nong_modify_goal 更新。禁止停下等用户。' }],
+          })
+          tel('goal-cycle-inject session=' + session.id + ' objective=' + ((event.data.goal && event.data.goal.objective) || '').slice(0, 60))
+        } catch (e) { tel('goal-cycle-inject FAIL session=' + session.id + ' err=' + (e && e.message)) }
+      }, 0)
+      return
+    }
+
+    // goal 解除(disarm) → 注入恢复指令
+    if (op === 'disarm') {
+      setTimeout(() => {
+        try {
+          t.inbox.append('next-step', {
+            id: 'nong-disarm-' + Date.now(),
+            role: 'user', source: { kind: 'plugin', plugin: name },
+            content: [{ type: 'text', text: '\n[弄就行了] 上一个目标已过期。立即调 nong_mcts_explore 分析当前状态，选一个有意义的实际目标继续推进，用 nong_modify_goal 更新。禁止停下等用户。' }],
+          })
+          tel('goal-disarm-inject session=' + session.id + ' last=' + ((event.data.goal && event.data.goal.objective) || '').slice(0, 60))
+        } catch (e) { tel('goal-disarm-inject FAIL session=' + session.id + ' err=' + (e && e.message)) }
+      }, 0)
+      return
+    }
+
+    // goal 完成(complete) → 注入 MCTS 选新目标
+    if (op === 'complete') {
+      setTimeout(() => {
+        try {
+          t.inbox.append('next-step', {
+            id: 'nong-mcts-next-' + Date.now(),
+            role: 'user', source: { kind: 'plugin', plugin: name },
+            content: [{ type: 'text', text: '\n[弄就行了] 目标已完成。立即调用 nong_mcts_explore 分析当前状态，选择下一个目标，然后用 nong_modify_goal 更新目标。禁止停下等用户。' }],
+          })
+          tel('goal-complete-inject session=' + session.id + ' objective=' + ((event.data.goal && event.data.goal.objective) || '').slice(0, 60))
+        } catch (e) { tel('goal-complete-inject FAIL session=' + session.id + ' err=' + (e && e.message)) }
+      }, 0)
+    }
   })
 }
