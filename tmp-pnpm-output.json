@@ -1,0 +1,144 @@
+[
+  {
+    "name": "tdsh-desktop",
+    "version": "0.1.15",
+    "path": "G:\\dsh-desktop",
+    "private": true,
+    "dependencies": {
+      "electron-updater": {
+        "from": "electron-updater",
+        "version": "6.8.9",
+        "resolved": "https://registry.npmmirror.com/electron-updater/-/electron-updater-6.8.9.tgz",
+        "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\electron-updater@6.8.9_supports-color@7.1.0\\node_modules\\electron-updater",
+        "dependencies": {
+          "lazy-val": {
+            "from": "lazy-val",
+            "version": "1.0.5",
+            "resolved": "https://registry.npmmirror.com/lazy-val/-/lazy-val-1.0.5.tgz",
+            "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\lazy-val@1.0.5\\node_modules\\lazy-val"
+          },
+          "lodash.escaperegexp": {
+            "from": "lodash.escaperegexp",
+            "version": "4.1.2",
+            "resolved": "https://registry.npmmirror.com/lodash.escaperegexp/-/lodash.escaperegexp-4.1.2.tgz",
+            "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\lodash.escaperegexp@4.1.2\\node_modules\\lodash.escaperegexp"
+          },
+          "lodash.isequal": {
+            "from": "lodash.isequal",
+            "version": "4.5.0",
+            "resolved": "https://registry.npmmirror.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz",
+            "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\lodash.isequal@4.5.0\\node_modules\\lodash.isequal"
+          },
+          "semver": {
+            "from": "semver",
+            "version": "7.7.4",
+            "resolved": "https://registry.npmmirror.com/semver/-/semver-7.7.4.tgz",
+            "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\semver@7.7.4\\node_modules\\semver"
+          },
+          "tiny-typed-emitter": {
+            "from": "tiny-typed-emitter",
+            "version": "2.1.0",
+            "resolved": "https://registry.npmmirror.com/tiny-typed-emitter/-/tiny-typed-emitter-2.1.0.tgz",
+            "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\tiny-typed-emitter@2.1.0\\node_modules\\tiny-typed-emitter"
+          },
+          "js-yaml": {
+            "from": "js-yaml",
+            "version": "4.3.1",
+            "resolved": "https://registry.npmmirror.com/js-yaml/-/js-yaml-4.3.1.tgz",
+            "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\js-yaml@4.3.1\\node_modules\\js-yaml",
+            "dependencies": {
+              "argparse": {
+                "from": "argparse",
+                "version": "2.0.1",
+                "resolved": "https://registry.npmmirror.com/argparse/-/argparse-2.0.1.tgz",
+                "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\argparse@2.0.1\\node_modules\\argparse"
+              }
+            }
+          },
+          "fs-extra": {
+            "from": "fs-extra",
+            "version": "10.1.0",
+            "resolved": "https://registry.npmmirror.com/fs-extra/-/fs-extra-10.1.0.tgz",
+            "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\fs-extra@10.1.0\\node_modules\\fs-extra",
+            "dependencies": {
+              "graceful-fs": {
+                "from": "graceful-fs",
+                "version": "4.2.11",
+                "resolved": "https://registry.npmmirror.com/graceful-fs/-/graceful-fs-4.2.11.tgz",
+                "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\graceful-fs@4.2.11\\node_modules\\graceful-fs"
+              },
+              "universalify": {
+                "from": "universalify",
+                "version": "2.0.1",
+                "resolved": "https://registry.npmmirror.com/universalify/-/universalify-2.0.1.tgz",
+                "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\universalify@2.0.1\\node_modules\\universalify"
+              },
+              "jsonfile": {
+                "from": "jsonfile",
+                "version": "6.2.1",
+                "resolved": "https://registry.npmmirror.com/jsonfile/-/jsonfile-6.2.1.tgz",
+                "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\jsonfile@6.2.1\\node_modules\\jsonfile",
+                "dependencies": {
+                  "graceful-fs": {
+                    "from": "graceful-fs",
+                    "version": "4.2.11",
+                    "resolved": "https://registry.npmmirror.com/graceful-fs/-/graceful-fs-4.2.11.tgz",
+                    "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\graceful-fs@4.2.11\\node_modules\\graceful-fs"
+                  },
+                  "universalify": {
+                    "from": "universalify",
+                    "version": "2.0.1",
+                    "resolved": "https://registry.npmmirror.com/universalify/-/universalify-2.0.1.tgz",
+                    "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\universalify@2.0.1\\node_modules\\universalify"
+                  }
+                }
+              }
+            }
+          },
+          "builder-util-runtime": {
+            "from": "builder-util-runtime",
+            "version": "9.7.0",
+            "resolved": "https://registry.npmmirror.com/builder-util-runtime/-/builder-util-runtime-9.7.0.tgz",
+            "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\builder-util-runtime@9.7.0_supports-color@7.1.0\\node_modules\\builder-util-runtime",
+            "dependencies": {
+              "sax": {
+                "from": "sax",
+                "version": "1.6.1",
+                "resolved": "https://registry.npmmirror.com/sax/-/sax-1.6.1.tgz",
+                "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\sax@1.6.1\\node_modules\\sax"
+              },
+              "debug": {
+                "from": "debug",
+                "version": "4.4.3",
+                "resolved": "https://registry.npmmirror.com/debug/-/debug-4.4.3.tgz",
+                "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\debug@4.4.3_supports-color@7.1.0\\node_modules\\debug",
+                "dependencies": {
+                  "ms": {
+                    "from": "ms",
+                    "version": "2.1.3",
+                    "resolved": "https://registry.npmmirror.com/ms/-/ms-2.1.3.tgz",
+                    "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\ms@2.1.3\\node_modules\\ms"
+                  },
+                  "supports-color": {
+                    "from": "supports-color",
+                    "version": "7.1.0",
+                    "resolved": "https://registry.npmmirror.com/supports-color/-/supports-color-7.1.0.tgz",
+                    "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\supports-color@7.1.0\\node_modules\\supports-color",
+                    "dependencies": {
+                      "has-flag": {
+                        "from": "has-flag",
+                        "version": "4.0.0",
+                        "resolved": "https://registry.npmmirror.com/has-flag/-/has-flag-4.0.0.tgz",
+                        "path": "G:\\dsh-desktop\\node_modules\\.pnpm\\has-flag@4.0.0\\node_modules\\has-flag"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]

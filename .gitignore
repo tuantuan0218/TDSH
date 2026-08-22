@@ -30,3 +30,6 @@ morphcheck.json
 settingsdump.json
 *.err.txt
 *.out.txt
+dist/
+es-tmp.zip
+*.index/

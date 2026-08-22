@@ -1,0 +1,17 @@
+node:internal/modules/esm/utils:213
+  throw new ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING();
+        ^
+
+TypeError [ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING]: A dynamic import callback was not specified.
+    at importModuleDynamicallyCallback (node:internal/modules/esm/utils:213:9)
+    at Object.<anonymous> (D:\AppDataReloc\AppData__Local__node\corepack\pnpm\11.20.0\bin\pnpm.cjs:3:1)
+    at Module2._compile (C:\Program Files\nodejs\node_modules\corepack\dist\lib\corepack.cjs:39483:34)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1435:10)
+    at Module.load (node:internal/modules/cjs/loader:1207:32)
+    at Module._load (node:internal/modules/cjs/loader:1023:12)
+    at executeUserEntryPoint (node:internal/modules/run_main:135:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:81:21) {
+  code: 'ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING'
+}
+
+Node.js v20.11.0
