@@ -24,6 +24,20 @@
 - **单实例锁** — 防止重复启动，关闭窗口自动回收子进程
 - **磁盘友善** — 所有数据落盘在应用目录，不写系统盘
 
+## 关键补丁：agent-loop 无限自动续跑
+
+> **注意：此补丁不在 TDSH 安装包内，需手动应用。**  
+> 备份：`G:/dsh-desktop/harness-patches/agent-loop/`（已推此仓库）
+
+dsh 的 `ReactLoopAgent` 默认在模型产出无工具调用消息时 yield（等待用户输入）。  
+本补丁删除 `autoContinued` 守卫，改为**无限次注入 `[自动续跑]` 指令**——GPT/Claude 风格永不 yield。
+
+**验证结果（deepseek-v4-flash，2026-08-22）：**  
+133+ 分钟连续自主运行 · 21 个目标全部创建并完成 · 零停止
+
+模型完成一个目标 → `complete_goal` → `goal-complete-inject` → MCTS → 新目标 → 循环。  
+期间做了真实工作：修复炉石 JVM idle-halt、GameplayModeStrategy 投降回归、清理 11GB 磁盘、创建 UUMit 技能赚 UT 等。
+
 ## 安装方式
 
 ### 从 GitHub Releases 下载安装包
