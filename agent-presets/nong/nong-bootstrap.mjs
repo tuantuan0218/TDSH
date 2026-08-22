@@ -65,9 +65,10 @@ export function apply(ctx) {
     agents.set(agent.session.id, agent)
 
     // MCTS 循环指令（写进 system prompt，每轮可见）
+    // 注意：create_goal/update_goal 会自动在目标末尾追加续跑指令，模型无需手动写
     assembled.sections = [...(assembled.sections || []), {
       type: 'text',
-      text: '\n[弄就行了] 目标循环：没有真实目标就调 nong_mcts_explore 选择 → 用 nong_modify_goal 更新 → 推进 → 完成后调 complete_goal 再调 nong_mcts_explore 找下个。可以随时替换目标。禁止停下等用户。注意：goal 是缰绳——每轮推进都要先 get_goal 或 update_goal 与它交互，不交互 goal 会自动过期(disarm)，停了就重开一个具体目标。',
+      text: '\n[弄就行了] 目标循环：没有真实目标就调 nong_mcts_explore 选择 → 用 nong_modify_goal 更新 → 推进 → 完成后调 complete_goal 再调 nong_mcts_explore 找下个。可以随时替换目标。禁止停下等用户。注意：goal 是缰绳——每轮推进都要先 get_goal 或 update_goal 与它交互，不交互 goal 会自动过期(disarm)，停了就重开一个具体目标。create_goal/update_goal 会自动在目标末尾追加（完成后继续循环，禁止停下等用户），你无需手动写，但必须遵守：任何目标都要持续推进，不得完成即停。',
     }]
 
     // 首轮窄工具面
