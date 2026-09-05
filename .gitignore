@@ -1,0 +1,44 @@
+# ---- node_modules (everywhere) ----
+node_modules/
+
+# ---- user data & secrets (NEVER commit) ----
+dsh-home/
+resources/app/userdata/
+
+# ---- logs & backups ----
+*.log
+*.bak
+*.pid
+
+# ---- Electron runtime binaries (packaged shell, not source) ----
+TDSH.exe
+*.dll
+*.pak
+*.bin
+*.dat
+locales/
+snapshot_blob.bin
+v8_context_snapshot.bin
+resources.pak
+chrome_100_percent.pak
+chrome_200_percent.pak
+icudtl.dat
+ffmpeg.dll
+d3dcompiler_47.dll
+libEGL.dll
+libGLESv2.dll
+vk_swiftshader.dll
+
+# ---- separate user subprojects ----
+uumit/
+hs_bridge_build/
+suno杩风瑳/
+suno迷笛/
+手机/
+
+# ---- temp tooling ----
+_t.mjs
+_wb.json
+_tid
+_dec.mjs
+_goalmon.mjs

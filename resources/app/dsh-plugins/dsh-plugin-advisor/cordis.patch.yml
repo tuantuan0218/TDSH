@@ -1,0 +1,5 @@
+# dsh-plugin-advisor bundle patch: 被动审核 (Advisor)
+# 每轮审核主 agent 的输出并注入笔记，类似 OMP 的 --advisor 功能
+- insert:
+    - id: dsh-plugin-advisor
+      name: dsh-plugin-advisor

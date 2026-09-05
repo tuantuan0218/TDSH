@@ -1,0 +1,4 @@
+{
+  "_comment": "TDSH 桌面壳配置。Session log 按钮自 v4 起永久隐藏（避免头部杂讯与缩放闪现），其能力通过 设置→会话日志 入口访问；已移除旧的 hideSessionLog 开关（无消费者）。desktopPort: HTTP carrier 监听端口（默认 24000，渲染进程插件经 ?dshDesktopPort 读取；留空/删除则用默认值）。",
+  "node": "H:\\nodejs\\v24.16.0\\node.exe"
+}

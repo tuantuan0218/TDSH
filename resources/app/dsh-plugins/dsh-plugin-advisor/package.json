@@ -1,0 +1,22 @@
+{
+  "name": "dsh-plugin-advisor",
+  "version": "0.1.0",
+  "description": "Advisor 被动审核 — 每轮审核主 agent 的输出并注入笔记",
+  "type": "module",
+  "license": "MIT",
+  "keywords": ["dsh", "dsh-plugin", "deepseek-harness", "advisor", "review"],
+  "main": "lib/index.js",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": ["lib", "cordis.patch.yml"]
+}

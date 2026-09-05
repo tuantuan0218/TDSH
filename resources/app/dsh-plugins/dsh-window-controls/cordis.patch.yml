@@ -1,0 +1,4 @@
+# dsh-window-controls bundle layer. Renders drag strip + window-controls pill.
+- insert:
+    - id: window-controls
+      name: dsh-window-controls

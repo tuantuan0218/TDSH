@@ -1,0 +1,4 @@
+# dsh-plugin-everything bundle patch — Everything 秒级文件搜索
+- insert:
+    - id: dsh-plugin-everything
+      name: dsh-plugin-everything

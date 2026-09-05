@@ -1,0 +1,19 @@
+{
+  "name": "tdsh-desktop",
+  "version": "0.1.28",
+  "description": "TDSH — 团团的 DeepSeek 桌面壳：把 DeepSeek Harness 的 Web 界面装进原生桌面窗口（attach-or-spawn，无边框 + Hanako 式交互）",
+  "main": "main.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tuantuan0218/TDSH.git"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron"
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
+  }
+}
