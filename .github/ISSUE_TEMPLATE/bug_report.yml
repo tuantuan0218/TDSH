@@ -1,0 +1,68 @@
+name: Bug report
+description: 报告 TDSH 的缺陷
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: TDSH 版本
+      description: 窗口右下角显示的版本号，如 v0.1.28
+      placeholder: v0.1.28
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: 问题区域
+      options:
+        - 启动/崩溃
+        - 自动更新
+        - 插件 (nong/advisor/everything)
+        - 窗口/UI
+        - 配置
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: 复现步骤
+      description: 具体如何触发？
+      placeholder: |
+        1. 打开 TDSH
+        2. 点击 ...
+        3. 看到 ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期行为
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志
+      description: 粘贴 tdsh-out.log / tdsh-err.log 的相关片段
+      render: plain
+
+  - type: textarea
+    id: env
+    attributes:
+      label: 环境
+      description: Windows 版本、Node 版本（若用 dev 模式）
+    validations:
+      required: true
