@@ -21,7 +21,7 @@
 ## 截图
 
 <p align="center">
-  <img src="assets/screenshot-thumb.png" alt="TDSH Home Screenshot" width="480" style="border-radius:8px;border:1px solid #30363d;">
+  <img src="assets/screenshot-thumb.png" alt="TDSH Home Screenshot" width="820" style="border-radius:8px;border:1px solid #30363d;">
 </p>
 
 ---
