@@ -164,9 +164,7 @@ export function resolveRetryPolicy(
 ): ResolvedRetryPolicy {
   if (config === undefined) {
     return Object.freeze({
-      mode: 'normal',
-      maxRetries: DEFAULT_MAX_RETRIES,
-      retryableCodes: DEFAULT_RETRYABLE_CODES,
+      mode: 'always',
       ...resolveBackoff(undefined, `${path}.backoff`),
     })
   }
