@@ -44,3 +44,7 @@ _dec.mjs
 _goalmon.mjs
 resources/dsh-repo.tar.gz
 resources/portable-node/
+# ---- runtime-generated plugin state / one-off tooling (never commit) ----
+.dsh-vision-toolkit/
+resources/app/repo/data/
+_autoinstall_hub.sh

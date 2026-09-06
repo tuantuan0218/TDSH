@@ -20,7 +20,8 @@ for ((;;)); do
   if [ -f "$WDLOG" ]; then wd_age=$(date -u -d "now - $(stat -c %Y "$WDLOG") seconds" +%H:%M:%S); fi
   # endpoints
   carr=$(curl.exe -s -m 3 "http://127.0.0.1:24000/__tdsh/meta" 2>/dev/null | head -c 30)
-  web=$(curl.exe -s -m 3 -o /dev/null -w "%{http_code}" "http://127.0.0.1:53667" 2>/dev/null)
+  web_port=$(grep -oE 'server alive at http://127\.0\.0\.1:[0-9]+' "$APP" 2>/dev/null | tail -1 | grep -oE '[0-9]+$')
+  web=$(curl.exe -s -m 3 -o /dev/null -w "%{http_code}" "http://127.0.0.1:${web_port:-0}" 2>/dev/null)
   # age (minutes) of most recent error-ish line in app.log; large = no recent errors
   errline=$(grep -E "\berror\b|\bcrash\b|uncaught|out of memory|TypeError|unhandled" "$APP" 2>/dev/null | tail -1)
   if [ -n "$errline" ]; then
