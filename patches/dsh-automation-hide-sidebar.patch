@@ -1,0 +1,25 @@
+# Patch: hide the 自动化 (Automation) sidebar button in the dsh-automation plugin.
+#
+# Applies to the INSTALLED plugin client bundle (node_modules is gitignored, so
+# the patch is shipped here and applied by apply-automation-hide-sidebar.sh).
+#
+# Target file (relative to D:\tdsh):
+#   dsh-home/profiles/web/node_modules/@dsh-external/dsh-automation/lib/client.js
+#
+# What it does: makes the sidebar-entry registration a no-op. The plugin's
+# tools, conversation view, RPC and scheduling all stay intact. Only the
+# sidebar button is hidden.
+#
+# Revert: restore lib/client.js.bak-* or delete the comment line.
+
+--- a/dsh-home/profiles/web/node_modules/@dsh-external/dsh-automation/lib/client.js
++++ b/dsh-home/profiles/web/node_modules/@dsh-external/dsh-automation/lib/client.js
+@@ -2391,7 +2391,7 @@
+   ctx.effect(() => () => {
+     runtimes.clear();
+   }, "dsh-automation: session runtimes");
+-  ctx.effect(() => installAutomationSidebarEntry(t), "dsh-automation: sidebar entry");
++  // 2026-09-07 user request: hide 自动化 sidebar button only; plugin intact (was: ctx.effect(() => installAutomationSidebarEntry(t), "dsh-automation: sidebar entry"))
+   ctx.slots.inject("conversation.view", () => ctx.slots.register({
+     name: "conversation.view",
+     id: "automation",
