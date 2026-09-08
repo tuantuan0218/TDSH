@@ -11,7 +11,7 @@ import z from '@deepseek-ai/schemastery'
 import { MAX_TIMER_DELAY_MS } from '@deepseek-ai/dsh-timeout'
 import { EMPTY_RESPONSE_CODE } from './error.ts'
 
-const DEFAULT_MAX_RETRIES = 2
+const DEFAULT_MAX_RETRIES = 5
 const DEFAULT_INITIAL_DELAY_MS = 500
 const DEFAULT_MAX_DELAY_MS = 10_000
 const DEFAULT_JITTER_RATIO = 0.1
@@ -31,17 +31,13 @@ export interface BackoffConfig {
   maxDelayMs?: number
   /** Symmetric random multiplier range around one (default 0.1). */
   jitterRatio?: number
-  /** Fixed delay per retry during the flat period in milliseconds (default 0 = no flat period). */
-  flatDelayMs?: number
-  /** Cumulative flat-period delay budget in milliseconds; once retry*flatDelayMs exceeds this, exponential backoff takes over (default 0). */
-  flatDurationMs?: number
 }
 
 /** Current bounded transient retry behavior for one provider route. */
 export interface NormalRetryPolicyConfig {
   /** Retry only configured transient failure codes. */
   mode: 'normal'
-  /** Maximum eligible retries after the first request (default 2). */
+  /** Maximum eligible retries after the first request (default 5). */
   maxRetries?: number
   /** Stable failure codes eligible for this policy. */
   retryableCodes?: string[]
@@ -65,8 +61,6 @@ export interface ResolvedRetryBackoff {
   readonly initialDelayMs: number
   readonly maxDelayMs: number
   readonly jitterRatio: number
-  readonly flatDelayMs: number
-  readonly flatDurationMs: number
 }
 
 /** Fully resolved bounded transient retry policy. */
@@ -88,8 +82,6 @@ const backoffSchema: z<BackoffConfig> = z.object({
   initialDelayMs: z.number().max(MAX_TIMER_DELAY_MS).default(DEFAULT_INITIAL_DELAY_MS),
   maxDelayMs: z.number().max(MAX_TIMER_DELAY_MS).default(DEFAULT_MAX_DELAY_MS),
   jitterRatio: z.number().min(0).max(1).default(DEFAULT_JITTER_RATIO),
-  flatDelayMs: z.number().min(0).max(MAX_TIMER_DELAY_MS).default(0),
-  flatDurationMs: z.number().min(0).max(MAX_TIMER_DELAY_MS).default(0),
 })
 
 const normalPolicySchema: z<NormalRetryPolicyConfig> = z.object({
@@ -113,8 +105,12 @@ export const RetryPolicySchema: z<RetryPolicyConfig> = z.union([
 const NORMAL_POLICY_KEYS: ReadonlySet<string> = new Set([
   'mode', 'maxRetries', 'retryableCodes', 'backoff',
 ])
-const ALWAYS_POLICY_KEYS: ReadonlySet<string> = new Set(['mode', 'backoff'])
-const BACKOFF_KEYS: ReadonlySet<string> = new Set(['initialDelayMs', 'maxDelayMs', 'jitterRatio', 'flatDelayMs', 'flatDurationMs'])
+// Layered configuration can retain normal-only fields after switching modes;
+// always mode ignores those inactive values while still rejecting unknown keys.
+const ALWAYS_POLICY_KEYS: ReadonlySet<string> = new Set([
+  'mode', 'maxRetries', 'retryableCodes', 'backoff',
+])
+const BACKOFF_KEYS: ReadonlySet<string> = new Set(['initialDelayMs', 'maxDelayMs', 'jitterRatio'])
 
 function validateKeys(value: object, allowed: ReadonlySet<string>, path: string): void {
   for (const key of Object.keys(value)) {
@@ -127,8 +123,6 @@ function resolveBackoff(config: BackoffConfig | undefined, path: string): Resolv
   const initialDelayMs = config?.initialDelayMs ?? DEFAULT_INITIAL_DELAY_MS
   const maxDelayMs = config?.maxDelayMs ?? DEFAULT_MAX_DELAY_MS
   const jitterRatio = config?.jitterRatio ?? DEFAULT_JITTER_RATIO
-  const flatDelayMs = config?.flatDelayMs ?? 0
-  const flatDurationMs = config?.flatDurationMs ?? 0
 
   if (!Number.isFinite(initialDelayMs) || initialDelayMs <= 0 || initialDelayMs > MAX_TIMER_DELAY_MS) {
     throw new Error(`${path}.initialDelayMs must be a positive finite number no greater than ${MAX_TIMER_DELAY_MS}`)
@@ -142,14 +136,8 @@ function resolveBackoff(config: BackoffConfig | undefined, path: string): Resolv
   if (!Number.isFinite(jitterRatio) || jitterRatio < 0 || jitterRatio > 1) {
     throw new Error(`${path}.jitterRatio must be between 0 and 1`)
   }
-  if (flatDelayMs < 0 || flatDelayMs > MAX_TIMER_DELAY_MS) {
-    throw new Error(`${path}.flatDelayMs must be a non-negative number no greater than ${MAX_TIMER_DELAY_MS}`)
-  }
-  if (flatDurationMs < 0 || flatDurationMs > MAX_TIMER_DELAY_MS) {
-    throw new Error(`${path}.flatDurationMs must be a non-negative number no greater than ${MAX_TIMER_DELAY_MS}`)
-  }
 
-  return Object.freeze({ initialDelayMs, maxDelayMs, jitterRatio, flatDelayMs, flatDurationMs })
+  return Object.freeze({ initialDelayMs, maxDelayMs, jitterRatio })
 }
 
 /**

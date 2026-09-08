@@ -148,6 +148,8 @@ electron-builder 构建最后尝试 publish 到 GitHub，但缺少 `GH_TOKEN` �
 
 ### 8. 窗口控件用 Segoe MDL2 Assets 字体
 
+按钮渲染依赖 Windows 系统字体 `Segoe MDL2 Assets` (Win 10+ 自带)。如果缺失，字体会回退到 `Segoe UI`，显示为乱码占位符而非图标。**目前无此问题报告。**
+
 ### 9. agent-loop 无限自动续跑 (harness 补丁, 非打包内)
 
 **重要：此补丁直接改运行时文件，不随 TDSH 安装包分发，重装会被覆盖。**
@@ -163,7 +165,33 @@ electron-builder 构建最后尝试 publish 到 GitHub，但缺少 `GH_TOKEN` �
 - 备份: `G:/dsh-desktop/harness-patches/agent-loop/` (已 push tuantuan0218/TDSH 仓库)
 - 恢复: 替换回原始文件（来自 `@deepseek-ai/dsh-agent-loop` 包）
 
-按钮渲染依赖 Windows 系统字体 `Segoe MDL2 Assets` (Win 10+ 自带)。如果缺失，字体会回退到 `Segoe UI`，显示为乱码占位符而非图标。**目前无此问题报告。**
+### 10. DSH 0.1.2 内核升级记录 (2026-09-09)
+
+**升级:** DSH 0.1.0-rc.5 → **0.1.2-rc.1**（官方 next tag；alpha 0.1.3+/0.1.5 含 Session V2/V3 不可降级，未采用）
+
+- 备份: `dsh-home` → `D:\tdsh-backup\dsh-home` (1.7G)；旧内核 `resources\app\repo` → `repo.bak-rc5`
+- 新内核构建: 官方源码 tag `dsh-v0.1.2-rc.1` + pnpm 11.7.0（`nodeLinker=hoisted`，必须写在 pnpm-workspace.yaml）+ `pnpm build:lib` + `vite build`（需 `DSH_CLIENT_BUILD_PROFILE=official`）
+- 前端: `apps/web/dist` 官方源码不含，必须自建；`dsh-experimental-webworker-runtime` 需先 tsdown
+- profiles 195 个符号链接大多指向 `repo/apps/cli/...`，换 repo 后需逐个校验（15 个断链中 11 个已重建为 junction，5 个为 0.1.2 移除包）
+
+**0.1.2 breaking 修复清单（网页实际验收通过）**
+
+| 文件 | 问题 | 修复 |
+|---|---|---|
+| `resources\app\main.js` | 0.1.2 新增 `?token=` 认证，壳正则只取端口 → webview 401 黑屏 | 正则捕获完整 URL 含 token（备份 `main.js.tokenfix.bak`） |
+| `dsh-home\.agent-presets\nong\nong-bootstrap.mjs` | `session.events` 已移除 → `undefined.some()` 本轮运行失败 | 改用 `snapshotEvents()` |
+| hermes-loop / dsh-automation / dsh-loopx-plugin | 同样旧 API（共 8 处） | `session.events` → `session.snapshotEvents()` |
+| `dsh-plugin-nong\lib\index.js` | `ctx.setInterval` 需 timer 注入（0.1.2 上下文无） | 换原生 `setInterval`（插件自有 dispose 清理） |
+| `repo\packages\llm\llm\src\retry-policy.ts`（+ lib） | retryPolicy always（git 8767644）随旧 repo 丢失 | 重新应用：config 未定义时 `mode: always` |
+| agent-loop auto-continue | 旧 rc.5 补丁不适用 0.1.2 | 适配版: `harness-patches\agent-loop\0.1.2-rc.1\`（lib-index.js + autocontinue.patch + apply.sh/revert.sh） |
+
+**已确认工作:** nong 预设挂载、goal 创建、pwsh/读取工具、模型回复；自动续跑（会话日志 10+ 次 `[自动续跑]` 注入）；`nong_start_daemon` 正常；retryPolicy always。
+
+**已知残留（非致命）:**
+- `cannot get property "remote.session" without inject`: 0.1.2 前端注入链问题，不影响对话/工具/续跑；彻底解决需官方完整构建流程（`pnpm build:official`，含 `.dsh-build` record）
+- profiles 5 个断链 = 0.1.2 移除包（client-runtime / client-schema-form / client-web-react / host-apiproxy / tool-subagent-report），无活跃引用
+
+**回滚:** 换回 `repo.bak-rc5` + 还原 `main.js.tokenfix.bak` 即还原 0.1.0-rc.5（会话格式未变，回滚无损）
 
 ## 插件清单
 
@@ -215,3 +243,13 @@ electron-builder 构建最后尝试 publish 到 GitHub，但缺少 `GH_TOKEN` �
 | 0.1.18-22 | 2026-08-19 | 解压进度条、splash、超时修复 |
 | 0.1.15 | 2026-08-18 | 初始发布 (GitHub Latest) |
 | 0.1.11-14 | 2026-08-18 | 早期版本 (无自包含, 需 clone + pnpm install) |
+
+## 2026-09-09 内核升级记录（追加）
+
+DSH 内核 `0.1.0-rc.5` → `0.1.2-rc.1`（详见上方「已知问题 & 坑」第 10 节）：
+
+- 黑屏根因：0.1.2 新增 token 认证，TDSH 壳正则丢弃 token → webview 401
+- 运行失败根因：nong-bootstrap.mjs 等插件使用 0.1.2 已移除的 `session.events` API
+- 无限重试丢失：retryPolicy always 补丁随旧 repo 丢失，已重打
+- agent-loop 自动续跑补丁：已适配 0.1.2 新代码（`harness-patches\agent-loop\0.1.2-rc.1\`）
+- 网页实际验收通过（kimi-webbridge 驱动）：对话回复、goal 创建、工具调用、daemon、续跑全部正常

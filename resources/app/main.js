@@ -355,7 +355,7 @@ function respawnServer(reason) {
     pending += String(d)
     DSH_URL_LINE.lastIndex = 0
     const m = DSH_URL_LINE.exec(pending)
-    if (m) markReady(`http://127.0.0.1:${m[1]}`)
+    if (m) markReady(m[1])
   })
   attachExitWatch(serverChild, 'respawn')
 }
@@ -576,7 +576,7 @@ function waitFor(url, timeoutMs) {
   })
 }
 
-const DSH_URL_LINE = /dsh web: http:\/\/127\.0\.0\.1:(\d+)/g
+const DSH_URL_LINE = /dsh web: (http:\/\/127\.0\.0\.1:\d+[^\s]*)/g
 
 function startServer() {
   // NODE_BIN resolved in whenReady; spawn mode picks a compliant Node or bails
@@ -637,7 +637,7 @@ function startServer() {
       DSH_URL_LINE.lastIndex = 0
       const m = DSH_URL_LINE.exec(pending)
       if (m) {
-        settle(`http://127.0.0.1:${m[1]}`)
+        settle(m[1])
       }
     })
   })
