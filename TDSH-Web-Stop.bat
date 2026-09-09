@@ -1,0 +1,3 @@
+@echo off
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$killed = @(); $c = Get-NetTCPConnection -LocalPort 24001 -State Listen -ErrorAction SilentlyContinue; if ($c) { Stop-Process -Id $c.OwningProcess -Force; $killed += 'web' }; Get-CimInstance Win32_Process -Filter \"Name='node.exe'\" | Where-Object { $_.CommandLine -match 'carrier-mini' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force; $killed += 'carrier' }; if ($killed.Count) { Write-Output ('Stopped: ' + ($killed -join ', ')) } else { Write-Output 'Nothing running' }"
+pause

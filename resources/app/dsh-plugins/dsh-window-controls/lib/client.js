@@ -4,11 +4,82 @@
 // Hand-written __ModuleLoader__ factory (no build step).
 window.__ModuleLoader__.load({ id: "dsh-window-controls", factory: (require) => {
 
+		// ---- Force animations on (plain browser has no Electron switch) ----
+		// Report prefers-reduced-motion: no-preference so dsh web keeps its
+		// native animation timings. The @media override below then never
+		// matches, preserving original durations instead of compressing them.
+		try {
+			var _origMM = window.matchMedia.bind(window);
+			window.matchMedia = function(query) {
+				if (String(query).indexOf("prefers-reduced-motion") !== -1) {
+					var q = String(query);
+					return { matches: false, media: q, onchange: null,
+						addEventListener: function(){}, removeEventListener: function(){},
+						addListener: function(){}, removeListener: function(){},
+						dispatchEvent: function(){ return false; } };
+				}
+				return _origMM(query);
+			};
+		} catch (e) {}
+
+
+
 		var module = { exports: {} };
 		var exports = module.exports;
 
 		const name = "window-controls";
 		const inject = [];
+
+
+		// ---- Strip all @media (prefers-reduced-motion) blocks ----
+		// The desktop client forces prefers-reduced-motion:no-preference via
+		// Electron flags; a plain browser follows the OS setting (which is
+		// ON here), disabling every animation. Remove those media blocks from
+		// every <style> so animations keep their original timings. JS-side
+		// matchMedia is neutralized above.
+		function _stripReducedMotionCss(css) {
+			if (!css || css.indexOf("@media") === -1) return css;
+			var out = "", i = 0;
+			while (i < css.length) {
+				var idx = css.indexOf("@media", i);
+				if (idx === -1) { out += css.slice(i); break; }
+				out += css.slice(i, idx);
+				var brace = css.indexOf("{", idx);
+				if (brace === -1) { out += css.slice(idx); break; }
+				var header = css.slice(idx, brace + 1);
+				var depth = 1, j = brace + 1;
+				while (j < css.length && depth > 0) {
+					if (css[j] === "{") depth++;
+					else if (css[j] === "}") depth--;
+					j++;
+				}
+				if (depth !== 0) { out += css.slice(idx); break; }
+				if (header.indexOf("prefers-reduced-motion") !== -1) {
+					i = j;
+				} else {
+					out += css.slice(idx, j);
+					i = j;
+				}
+			}
+			return out;
+		}
+		function _fixAllStyles() {
+			document.querySelectorAll("style").forEach(function (st) {
+				if (st.getAttribute("data-rm-fixed")) return;
+				var clean = _stripReducedMotionCss(st.textContent);
+				if (clean !== st.textContent) st.textContent = clean;
+				st.setAttribute("data-rm-fixed", "true");
+			});
+		}
+		var _rmObserver = null;
+		function _startReducedMotionFix() {
+			_fixAllStyles();
+			if (_rmObserver) return;
+			try {
+				_rmObserver = new MutationObserver(function () { _fixAllStyles(); });
+				_rmObserver.observe(document.documentElement, { childList: true, subtree: true });
+			} catch (e) {}
+		}
 
 		// ---- CSS ----
 		const CSS = `
@@ -48,9 +119,9 @@ window.__ModuleLoader__.load({ id: "dsh-window-controls", factory: (require) => 
 		function getBase() {
 			try {
 				var port = new URLSearchParams(location.search).get("dshDesktopPort");
-				if (!port) port = "24000";
+				if (!port) return null; // plain browser: no desktop carrier, hide window controls
 				return "http://127.0.0.1:" + port;
-			} catch { return "http://127.0.0.1:24000" }
+			} catch { return null; }
 		}
 
 		// ---- HTTP actions ----
@@ -196,6 +267,7 @@ window.__ModuleLoader__.load({ id: "dsh-window-controls", factory: (require) => 
 		// ---- Apply ----
 		function apply(ctx) {
 			injectCss();
+			_startReducedMotionFix();
 			var base = getBase();
 			// No port param → running in plain browser; skip window controls injection.
 			if (!base) return;
