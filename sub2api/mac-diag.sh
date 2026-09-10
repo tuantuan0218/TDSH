@@ -99,7 +99,24 @@ for v in evs[:8]:
 " || true
 fi
 
-echo; echo "=== 3. 请求错误(用户可见失败,关联上游) ==="
+echo; echo "=== 3b. 渠道监控矩阵(平台×模型,定位坏池,需开 channel-monitor-v2) ==="
+curl "${H[@]}" "$BASE/api/v1/admin/channel-monitor-v2/matrix?range=24h&group_by=platform_model" \
+  | python3 -c "
+import json,sys
+try: d=json.load(sys.stdin)
+except Exception as ex: print('matrix 不可用(功能未开或版本不支持):',ex); raise SystemExit
+m=d.get('data',d) if isinstance(d,dict) else d
+rows=m.get('rows',m.get('matrix',[])) if isinstance(m,dict) else m
+def rate(r):
+    met=r.get('metrics',r)
+    return met.get('error_rate', met.get('errorRate'))
+rows=sorted((r for r in (rows or []) if r), key=lambda r: (rate(r) or 0), reverse=True)
+print('按错误率 Top 8:')
+for r in rows[:8]:
+    print(' ',r.get('platform'),r.get('model'),'| err=',rate(r),'| ttft_p50=',(r.get('metrics',r).get('ttft_p50_ms') if isinstance(r.get('metrics',r),dict) else None))
+" 2>/dev/null || echo "(跳过:channel-monitor-v2 未启用,不影响主流程)"
+
+echo; echo "=== 4. 请求错误(用户可见失败,关联上游) ==="
 # 字段名以 OpsErrorLog 为准:message(非 error_message),model,account_id/account_name。
 curl "${H[@]}" "$BASE/api/v1/admin/ops/request-errors?page=1&page_size=10" \
   | python3 -c "
@@ -115,7 +132,7 @@ for e in (items or [])[:10]:
     print('   关联上游: /api/v1/admin/ops/request-errors/%s/upstream-errors' % e.get('id'))
 " || fail=1
 
-echo; echo "=== 4. 判读 ==="
+echo; echo "=== 5. 判读 ==="
 echo "upstream 条数 >> request 条数 → failover 在救,差值=救回数"
 echo "401/403 → 账号token废; 429 → 限流; 529/5xx/timeout → 过载或代理抖"
 echo "proxy 集中在某一个 → 代理锅; 分散在 1-2 个 acct → 坏号,禁用即回绿"
