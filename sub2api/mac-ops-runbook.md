@@ -114,6 +114,9 @@ TTFT 10s 级别时的调参组合(按顺序,改一个观察一轮):
 - 定时账号探测:`ScheduledTestRunnerService` 每分钟 tick + cron 表达式 + 自动恢复坏号
   (`scheduled_test_runner_service.go`)。建议给核心账号建定时探测计划,
   比等用户报错早半拍;`maxWorkers=10`,别建太多计划打爆上游。
+- 渠道监控矩阵(2026-09-10 续跑新增):`GET /api/v1/admin/channel-monitor-v2/matrix`
+  (平台×模型错误率/TTFT 排行),`mac-diag.sh` §3b 已集成,失败自动跳过(功能未开不影响主流程)。
+  这是定位"哪个平台/模型池坏了"的最快路径,比逐条翻错误日志省一半时间。
 - 口径一致性:面板近 5 分钟直查、历史走 `ops_metrics_hourly` 预聚合,两边
   upstream_excl 都不要求 status>=400、都排除 count_tokens,口径一致。
   唯一差异:预聚合 usage 侧 `INNER JOIN groups`,无 group 成功行会丢 → 分母偏小、
