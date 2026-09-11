@@ -133,6 +133,17 @@ function httpUp(url, timeoutMs) {
   })
 }
 
+// Status-aware probe: distinguishes a healthy authenticated root (200) from a
+// live-but-unauthenticated one (401 "dsh web authentication required"). Only a
+// 200 means this browser session already holds a valid cookie for that origin.
+function httpStatus(url, timeoutMs) {
+  return new Promise((resolve) => {
+    const req = http.get(url, (res) => { res.resume(); resolve({ up: true, status: res.statusCode }) })
+    req.on('error', () => resolve({ up: false, status: 0 }))
+    req.setTimeout(timeoutMs || 1500, () => { req.destroy(); resolve({ up: false, status: 0 }) })
+  })
+}
+
 function waitFor(url, timeoutMs) {
   const deadline = Date.now() + timeoutMs
   return new Promise((resolve) => {
@@ -145,7 +156,11 @@ function waitFor(url, timeoutMs) {
   })
 }
 
-const DSH_URL_LINE = /dsh web: http:\/\/127\.0\.0\.1:(\d+)/g
+// dsh web prints a per-boot auth URL: `dsh web: http://127.0.0.1:<port>/?token=<launchToken>`.
+// That token is the ONLY input that mints the browser session cookie; stripping it
+// yields HTTP 401 "dsh web authentication required; reopen the URL printed by dsh web".
+// Capture the full URL (port + token), not just the port.
+const DSH_URL_LINE = /dsh web: (http:\/\/127\.0\.0\.1:\d+[^\s]*)/g
 
 function startServer() {
   // NODE_BIN resolved in whenReady; spawn mode picks a compliant Node or bails
@@ -155,7 +170,9 @@ function startServer() {
     return Promise.resolve(null)
   }
   const bin = path.join(REPO, 'apps', 'cli', 'src', 'bin.ts')
-  const args = ['--import', 'tsx/esm', bin, 'web', '--port', '0']
+  // --no-open: the Electron window is the browser; keep dsh web from hijacking the
+  // default browser (which would mint the cookie outside this Electron profile).
+  const args = ['--import', 'tsx/esm', bin, 'web', '--port', '0', '--no-open']
   log(`spawn dsh web: ${NODE_BIN} ${args.join(' ')}  cwd=${REPO}`)
   serverChild = spawn(NODE_BIN, args, {
     cwd: REPO,
@@ -206,7 +223,7 @@ function startServer() {
       DSH_URL_LINE.lastIndex = 0
       const m = DSH_URL_LINE.exec(pending)
       if (m) {
-        settle(`http://127.0.0.1:${m[1]}`)
+        settle(m[1])
       }
     })
   })
@@ -897,7 +914,16 @@ if (!app.requestSingleInstanceLock()) {
     try { startCarrier() } catch (e) { log('carrier start failed: ' + e.message) }
     let url = null
     // DSH_FORCE_SPAWN=1 (dev): always start a fresh server instead of attaching.
-    if (process.env.DSH_FORCE_SPAWN === '1' || !(await httpUp(TARGET_URL, 1500))) {
+    // Attach only when the live server already trusts this session (HTTP 200).
+    // A live-but-401 target (external `dsh web`, or a cookie that expired while
+    // the server kept running) must not be attached to — spawn a fresh server
+    // whose per-boot ?token= URL mints a new cookie in this Electron profile.
+    const targetProbe = await httpStatus(TARGET_URL, 1500)
+    const attachable = targetProbe.up && targetProbe.status === 200
+    if (targetProbe.up && targetProbe.status !== 200) {
+      log(`attach skipped: ${TARGET_URL} up but HTTP ${targetProbe.status} (unauthenticated); spawning fresh token URL`)
+    }
+    if (process.env.DSH_FORCE_SPAWN === '1' || !attachable) {
       if (!NODE_BIN) {
         closeSplash()
         dialog.showErrorBox('DSH 桌面端',
