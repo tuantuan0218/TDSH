@@ -345,7 +345,7 @@ function respawnServer(reason) {
   if (quitting) return
   if (!NODE_BIN || !REPO) { log('respawn aborted: NODE_BIN/REPO unavailable'); return }
   const bin = path.join(REPO, 'apps', 'cli', 'lib', 'bin.js')
-  const args = [bin, 'web', '--port', '0']
+  const args = [bin, 'web', '--port', '0', '--no-open']
   log(`respawn dsh web (${reason}): ${NODE_BIN} ${args.join(' ')}`)
   serverChild = spawn(NODE_BIN, args, { cwd: REPO, env: { ...process.env, DSH_HOME: HOME }, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true })
   serverChild.stderr.on('data', (d) => { const s = String(d); log(`[server-err] ${s.trim()}`) })
@@ -355,7 +355,18 @@ function respawnServer(reason) {
     pending += String(d)
     DSH_URL_LINE.lastIndex = 0
     const m = DSH_URL_LINE.exec(pending)
-    if (m) markReady(m[1])
+    if (m) {
+      markReady(m[1])
+      // A respawned server has a NEW per-boot token; the old window URL would 401.
+      // Reload the window against the new token URL when the token changed.
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        const tokenOf = (u) => { try { return new URL(u).searchParams.get('token') || '' } catch { return '' } }
+        const cur = mainWindow.webContents.getURL()
+        if (tokenOf(cur) !== tokenOf(m[1])) {
+          try { mainWindow.loadURL(withDesktopParams(m[1])) } catch (e) { log('[respawn] window reload failed: ' + e.message) }
+        }
+      }
+    }
   })
   attachExitWatch(serverChild, 'respawn')
 }
@@ -564,6 +575,17 @@ function httpUp(url, timeoutMs) {
   })
 }
 
+// Status-aware probe: distinguishes a healthy authenticated root (200) from a
+// live-but-unauthenticated one (401 "dsh web authentication required"). Only a
+// 200 means this browser session already holds a valid cookie for that origin.
+function httpStatus(url, timeoutMs) {
+  return new Promise((resolve) => {
+    const req = http.get(url, (res) => { res.resume(); resolve({ up: true, status: res.statusCode }) })
+    req.on('error', () => resolve({ up: false, status: 0 }))
+    req.setTimeout(timeoutMs || 1500, () => { req.destroy(); resolve({ up: false, status: 0 }) })
+  })
+}
+
 function waitFor(url, timeoutMs) {
   const deadline = Date.now() + timeoutMs
   return new Promise((resolve) => {
@@ -586,7 +608,7 @@ function startServer() {
     return Promise.resolve(null)
   }
   const bin = path.join(REPO, 'apps', 'cli', 'lib', 'bin.js')
-  const args = [bin, 'web', '--port', '0']
+  const args = [bin, 'web', '--port', '0', '--no-open']
   log(`spawn dsh web: ${NODE_BIN} ${args.join(' ')}  cwd=${REPO}`)
   serverChild = spawn(NODE_BIN, args, {
     cwd: REPO,
@@ -1369,7 +1391,16 @@ if (!app.requestSingleInstanceLock()) {
     } catch (e) { log('[autostart] enable failed: ' + e.message) }
     let url = null
     // DSH_FORCE_SPAWN=1 (dev): always start a fresh server instead of attaching.
-    if (process.env.DSH_FORCE_SPAWN === '1' || !(await httpUp(TARGET_URL, 1500))) {
+    // Attach only when the live server already trusts this session (HTTP 200).
+    // A live-but-401 target (external `dsh web`, or a cookie that expired while
+    // the server kept running) must not be attached to — spawn a fresh server
+    // whose per-boot ?token= URL mints a new cookie in this Electron profile.
+    const targetProbe = await httpStatus(TARGET_URL, 1500)
+    const attachable = targetProbe.up && targetProbe.status === 200
+    if (targetProbe.up && targetProbe.status !== 200) {
+      log(`attach skipped: ${TARGET_URL} up but HTTP ${targetProbe.status} (unauthenticated); spawning fresh token URL`)
+    }
+    if (process.env.DSH_FORCE_SPAWN === '1' || !attachable) {
       if (!NODE_BIN) {
         closeSplash()
         dialog.showErrorBox('DSH 桌面端',
