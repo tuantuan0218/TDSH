@@ -32,6 +32,7 @@
   （Cloudflare 源超时）——**保持 text.pollinations.ai/openai 不变即可，勿切 api 域名**
 - **已验证不可用**：OVHcloud AI Endpoints（endpoints.ai.cloud.ovh.net 全模型 content 空）、
   Kilo Gateway（404）、LLM7（匿名 key 全 401 已失效需注册 dash.llm7.io）、
+  HF api-inference（本机 fetch 不可达）、**GitHub Models（410 retirement brownout 服务退休中）**、
   freeshare 代理 OpenRouter :free（403 model not allowed）
 - **候选（需用户注册/给 key）**：OpenRouter（19 个 :free 见下）、Gemini AI Studio、Groq、
   Cerebras、NVIDIA NIM、Cloudflare Workers AI、Mistral、Z.ai/GLM（1000 req/day）
