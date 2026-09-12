@@ -1,0 +1,51 @@
+# 免费 API 渠道地图 — sub2api Tuan 池（2026-09-13 盘点，持续更新）
+
+**职责**：往 Tuan 池里丢免费 API（只新增账号/映射，不碰已有账号调度）。
+**教训铁律**：免费≠无限——所有免费档都有额度/速率上限，用尽即 402/429（SiliconFlow 先例），
+入池一律 prio 90 兜底位 + concurrency 1 + error_rate 自动避让，绝不升为主力。
+
+## 池内现有免费来源（已入池，只读核对 2026-09-13 05:5x）
+
+| 账号 | 免费模型 | 状态 | 备注 |
+|------|---------|------|------|
+| 12 tokenrouter | `z-ai/glm-5.3-free` | ✅ 稳定 200 | 直连实测通过；唯一免费模型 |
+| 9 aio-freeshare | sn/deepseek-v4-flash 等 9 个 | ⚠️ 间歇限流 | active-session=1 硬限制；列表通 chat 间歇超时 |
+| 17 siliconflow-free | DeepSeek-V3 / Qwen2.5-7B / Qwen3.5-4B | ❌ error(402) | 免费额度耗尽（53万token），需充值/重置 |
+
+## 可探索的新渠道（需用户提供 key 或注册动作）
+
+### 1. OpenRouter :free 模型（最推荐，量大）
+- 平台：`https://openrouter.ai/api/v1`（openai 兼容）
+- key：需注册 openrouter.ai（免费，无信用卡），key 格式 `sk-or-v1-…`
+- 免费机制：模型名带 `:free` 后缀 = 官方免费变体，限频约 20 req/min、50-1000 req/day
+- 热门免费模型（2026-09 月榜）：deepseek-r1/llama-4-scout/qwen3-coder 等约 20-28 个
+- 入池：账号模板仿 siliconflow-free（openai/apikey，`openai_responses_supported=false` +
+  `force_chat_completions`，group 5，prio 90，concurrency 1）
+
+### 2. Google Gemini 免费档
+- 平台：`https://generativelanguage.googleapis.com/v1beta`（需 gemini 平台类型或 openai 兼容端点）
+- key：Google AI Studio 免费 key（`AIza…`，无信用卡，有限频）
+- 免费模型：gemini-2.5-flash 等（限频严格，80k token/day 级别）
+
+### 3. Cerebras / SambaNova / Groq 免费档
+- 平台均为 openai 兼容 `/v1`，免费 key 需注册（邮箱即可，限频几 req/min）
+- 免费模型：qwen3 系列 / deepseek 系列 / llama 系列（各平台不同）
+
+### 4. SiliconFlow 恢复（已有 key，额度问题）
+- 充值 ¥10+ 或等官方免费额度重置 → 同 key 复测 200 即自动复活（status=error 是自动降权，
+  admin 侧 `set-status 17 active` 或网关自动恢复）
+
+## 入池标准动作（新渠道 key 到手后）
+
+1. `node probe-free-models.mjs`（predict：/models 能列出哪些）→ 确认模型 ID 与免费性
+2. 直连 chat 单发 200 + 余额/额度实证（免费结论以"200+不限量"为准，警惕隐藏额度）
+3. 写账号模板（参照 `add-siliconflow-pool.mjs`：openai/apikey + extra 四字段 +
+   force_chat_completions + supported=false + prio 90 + concurrency 1 + group 5）
+4. SSH→Mac PG 入池（`mac-add-siliconflow.sh` 模板）→ 只读核对 usage_logs 路由铁证
+5. 更新本地图 + 交接文档 + 快照
+
+## 关键区别（免费 vs 付费的池语义）
+
+- 免费档是**冗余/兜底资源**：主流量仍由付费快号承担，免费档只填峰谷与降级期
+- 免费档 402/429 是常态：error_rate 自动避让 + failover 无感，**不要**手动关调度
+- 免费档永远 concurrency 1（防自撞限流），prio 90（兜底位），不升权
