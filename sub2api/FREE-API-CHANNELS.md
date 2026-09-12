@@ -26,6 +26,10 @@
   llama/mistral/qwen3/deepseek 等）多数 429/404——**只开放 `openai` 单模型匿名路由**，
   只能作兜底，不要扩展映射
 - 注意：匿名限流按 IP（freellmpool 报告 ~200 req/hour 量级），只可作兜底
+- **入口对比（06:5x 探测）**：`text.pollinations.ai/openai`（当前用）与
+  `text.pollinations.ai/v1/chat/completions`（无前缀）均 200 稳定；`/openai/responses` 也
+  200（但保留 force_chat_completions 无害）；`api.pollinations.ai`（新域名）**522 不稳**
+  （Cloudflare 源超时）——**保持 text.pollinations.ai/openai 不变即可，勿切 api 域名**
 - **已验证不可用**：OVHcloud AI Endpoints（endpoints.ai.cloud.ovh.net 全模型 content 空）、
   Kilo Gateway（404）、LLM7（匿名 key 全 401 已失效需注册 dash.llm7.io）、
   freeshare 代理 OpenRouter :free（403 model not allowed）
