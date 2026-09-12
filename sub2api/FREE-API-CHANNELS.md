@@ -72,6 +72,12 @@
 - 充值 ¥10+ 或等官方免费额度重置 → 同 key 复测 200 即自动复活（status=error 是自动降权，
   admin 侧 `set-status 17 active` 或网关自动恢复）
 
+### 5. ModelScope 阿里（需 token，2026-09-13 探测）
+- 端点：`https://api-inference.modelscope.cn/v1/chat/completions`（可达，需 Bearer token，
+  401 无 token 时；模型名格式 `Qwen/Qwen2.5-7B-Instruct` 验证有效）
+- 免费额度：2,000 calls/day 总量（freellmpool 报告）；token 需从 modelscope.cn 申请
+- 入池：拿到 token 走 add-free-api-pool.mjs（SF_BASE=api-inference.modelscope.cn/v1）
+
 ## 入池标准动作（新渠道 key 到手后）
 
 1. `node probe-free-models.mjs`（predict：/models 能列出哪些）→ 确认模型 ID 与免费性
