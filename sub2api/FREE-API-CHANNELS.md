@@ -30,10 +30,11 @@
   `text.pollinations.ai/v1/chat/completions`（无前缀）均 200 稳定；`/openai/responses` 也
   200（但保留 force_chat_completions 无害）；`api.pollinations.ai`（新域名）**522 不稳**
   （Cloudflare 源超时）——**保持 text.pollinations.ai/openai 不变即可，勿切 api 域名**
-- **已验证不可用**：OVHcloud AI Endpoints（endpoints.ai.cloud.ovh.net 全模型 content 空）、
-  Kilo Gateway（404）、LLM7（匿名 key 全 401 已失效需注册 dash.llm7.io）、
-  HF api-inference（本机 fetch 不可达）、**GitHub Models（410 retirement brownout 服务退休中）**、
-  freeshare 代理 OpenRouter :free（403 model not allowed）
+- **已验证不可用（需 key/非匿名）**：Vercel AI Gateway（ai-gateway.vercel.sh，376 模型但 chat 401
+  需 Authorization）、NVIDIA NIM（integrate.api.nvidia.com，82 模型但 401 需 key，且部分模型
+  已 EOL 410）、Cloudflare Workers AI（403 需 X-Auth-Email/X-Auth-Key）、OpenCode Zen（404）；
+  此前已有 OVHcloud content 空 / Kilo 404 / LLM7 401 / HF 不可达 / GitHub Models 退休 /
+  freeshare 代理 403
 - **候选（需用户注册/给 key）**：OpenRouter（19 个 :free 见下）、Gemini AI Studio、Groq、
   Cerebras、NVIDIA NIM、Cloudflare Workers AI、Mistral、Z.ai/GLM（1000 req/day）
 
