@@ -4,13 +4,26 @@
 **教训铁律**：免费≠无限——所有免费档都有额度/速率上限，用尽即 402/429（SiliconFlow 先例），
 入池一律 prio 90 兜底位 + concurrency 1 + error_rate 自动避让，绝不升为主力。
 
-## 池内现有免费来源（已入池，只读核对 2026-09-13 05:5x）
+## ✅ 已入池免费来源（只读核对 2026-09-13 06:1x）
 
 | 账号 | 免费模型 | 状态 | 备注 |
 |------|---------|------|------|
 | 12 tokenrouter | `z-ai/glm-5.3-free` | ✅ 稳定 200 | 直连实测通过；唯一免费模型 |
-| 9 aio-freeshare | sn/deepseek-v4-flash 等 9 个 | ⚠️ 间歇限流 | active-session=1 硬限制；列表通 chat 间歇超时 |
-| 17 siliconflow-free | DeepSeek-V3 / Qwen2.5-7B / Qwen3.5-4B | ❌ error(402) | 免费额度耗尽（53万token），需充值/重置 |
+| 9 aio-freeshare | sn/deepseek-v4-flash 等 9 个 | ⚠️ 间歇限流 | active-session=1 硬限制 |
+| 17 siliconflow-free | DeepSeek-V3/Qwen2.5-7B/Qwen3.5-4B | ❌ error(402) | 免费额度耗尽，需充值/重置 |
+| **18 pollinations-free** | `openai` 等（见下） | ✅ **已真实接单** | **keyless 匿名，无需任何 key** |
+
+### 18 pollinations-free（keyless，2026-09-13 自主接入）
+- 平台：`https://text.pollinations.ai/openai`（openai 兼容，**匿名免费无需 key**，
+  占位 key="anonymous"；/v1/responses 该聚合端点有限需注意，默认 force_chat_completions）
+- 实测：`openai` 模型匿名 5/5 200，平均 ~560ms（含 "pong!" 正常返回）；
+  `openai-fast` 需 key 不可用；`mistral/llama/qwen/deepseek/gpt-4o-mini` 模型名 404
+  （该聚合端点仅开放部分路由，以 /models 返回为准）
+- Tuan→`openai` 映射，prio 90 / concurrency 1 / group 5 / force_chat_completions
+- **路由已实证**：06:19-06:20 两条真实 Tuan→`gpt-oss` 请求 200，0 错误（usage_logs 账号 18）
+- 注意：匿名限流按 IP（freellmpool 报告 ~200 req/hour 量级），只可作兜底
+- **已验证不可用**：OVHcloud AI Endpoints（endpoints.ai.cloud.ovh.net 全模型 content 空）、
+  Kilo Gateway（404）、freeshare 代理 OpenRouter :free（403 model not allowed）
 
 ## 可探索的新渠道（需用户提供 key 或注册动作）
 
