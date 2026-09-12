@@ -23,7 +23,10 @@
 - **路由已实证**：06:19-06:20 两条真实 Tuan→`gpt-oss` 请求 200，0 错误（usage_logs 账号 18）
 - 注意：匿名限流按 IP（freellmpool 报告 ~200 req/hour 量级），只可作兜底
 - **已验证不可用**：OVHcloud AI Endpoints（endpoints.ai.cloud.ovh.net 全模型 content 空）、
-  Kilo Gateway（404）、freeshare 代理 OpenRouter :free（403 model not allowed）
+  Kilo Gateway（404）、LLM7（匿名 key 全 401 已失效需注册 dash.llm7.io）、
+  freeshare 代理 OpenRouter :free（403 model not allowed）
+- **候选（需用户注册/给 key）**：OpenRouter（19 个 :free 见下）、Gemini AI Studio、Groq、
+  Cerebras、NVIDIA NIM、Cloudflare Workers AI、Mistral、Z.ai/GLM（1000 req/day）
 
 ## 可探索的新渠道（需用户提供 key 或注册动作）
 
