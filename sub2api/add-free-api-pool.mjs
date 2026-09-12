@@ -72,7 +72,7 @@ export PATH=/usr/local/opt/postgresql@16/bin:$PATH
 psql -h 127.0.0.1 -U postgres -d sub2api <<'PSQL'
 ${SQL}
 PSQL
-echo "GATE_HTTP:`curl -s -o /dev/null -w %{http_code} http://127.0.0.1:8090/healthz`"
+echo "GATE_HTTP:"\`curl -s -o /dev/null -w %{http_code} http://127.0.0.1:8090/healthz\`
 REMOTE`;
 writeFileSync(sh, body, 'utf8');
 try {
