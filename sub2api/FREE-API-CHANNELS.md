@@ -18,9 +18,21 @@
 - 平台：`https://openrouter.ai/api/v1`（openai 兼容）
 - key：需注册 openrouter.ai（免费，无信用卡），key 格式 `sk-or-v1-…`
 - 免费机制：模型名带 `:free` 后缀 = 官方免费变体，限频约 20 req/min、50-1000 req/day
-- 热门免费模型（2026-09 月榜）：deepseek-r1/llama-4-scout/qwen3-coder 等约 20-28 个
-- 入池：账号模板仿 siliconflow-free（openai/apikey，`openai_responses_supported=false` +
-  `force_chat_completions`，group 5，prio 90，concurrency 1）
+- **实测清单（2026-09-13 直拉 openrouter.ai/api/v1/models，445 模型中 19 个 :free）**：
+  `inclusionai/ling-3.0-flash-vl:free`、`nex-agi/nex-n2.5-mini:free`、`nex-agi/nex-n2.5-pro:free`、
+  `inclusionai/ling-3.0-flash-sante:free`、`inclusionai/ling-3.0-flash-fin:free`、
+  `dots-studio/dots-3-note-preview:free`、`liquid/lfm-2.5-2.6b:free`、
+  `nvidia/nemotron-3.5-lightning:free`、`thinkingmachines/inkling-small:free`、
+  `poolside/laguna-s-2.1:free`、`thinkingmachines/inkling:free`、`poolside/laguna-xs-2.1:free`、
+  `cohere/north-mini-code:free`、`nvidia/nemotron-3.5-content-safety:free`、
+  `nvidia/nemotron-3-ultra-550b-a55b:free`、`nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`、
+  `google/gemma-4-26b-a4b-it:free`、`google/gemma-4-31b-it:free`、
+  `nvidia/nemotron-3-super-120b-a12b:free`；另有 `openrouter/free` 别名（200k ctx 免费路由）
+- **入池方式**：`$env:SF_NAME="openrouter-free"; $env:SF_BASE="https://openrouter.ai/api/v1";
+  $env:SF_KEY="sk-or-v1-…"; $env:SF_MODELS='{"Tuan":"google/gemma-4-26b-a4b-it:free",…}';
+  node add-free-api-pool.mjs`（一键入池，自动 extra 四字段/prio 90/concurrency 1/group 5）
+- **泄漏探测**：freeshare.cc.cd **不代理** OpenRouter :free（403 model not allowed，key 白名单）——
+  不能拿现有聚合 key 蹭，必须独立 OpenRouter key
 
 ### 2. Google Gemini 免费档
 - 平台：`https://generativelanguage.googleapis.com/v1beta`（需 gemini 平台类型或 openai 兼容端点）
