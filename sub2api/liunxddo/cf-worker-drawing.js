@@ -1,4 +1,4 @@
-﻿//本项目授权api_key，防止被恶意调用（填入到one-api/new-api的渠道密钥中）
+//本项目授权api_key，防止被恶意调用（填入到one-api/new-api的渠道密钥中）
 const API_KEY = "sk-1234567890";
 
 //https://sm.ms 图床key，可自行申请，为空则返回base64编码后的图片
