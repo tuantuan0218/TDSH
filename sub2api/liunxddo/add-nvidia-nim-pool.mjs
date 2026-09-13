@@ -3,12 +3,17 @@
 //   $env:SF_NAME="nvidia-nim"; $env:SF_BASE="https://integrate.api.nvidia.com/v1"
 //   $env:SF_KEY="nvapi-xxx"; $env:SF_MODELS='{"Tuan":"z-ai/glm-5.3-flash"}'
 //   node add-nvidia-nim-pool.mjs
-// 实测（2026-09-13）:
-//   - /models 匿名 200，可列 82 模型（含 z-ai/glm-5.3-flash、deepseek-ai/deepseek-v4-flash-0731、
-//     moonshotai/kimi-k3、openai/gpt-oss-20b、poolside/laguna-xs-2.1、nvidia/nemotron-3.5-lightning-30b-a3b 等）
-//   - chat 匿名 500（需 Bearer key），rpm 限制 40（linux.do 帖实测）
+// 实测（2026-09-13 复核，本会话二次验证）:
+//   - /models 匿名 200 ✅，实测可列 **82 模型**（脚本原注释所列 6 个模型 ID **全部核对存在**：
+//     z-ai/glm-5.3-flash、deepseek-ai/deepseek-v4-flash-0731、moonshotai/kimi-k3、
+//     openai/gpt-oss-20b、poolside/laguna-xs-2.1、nvidia/nemotron-3.5-lightning-30b-a3b）
+//   - chat 匿名 **401**（更正：原注释称 "500" 有误）—— 精确错误为
+//     `Header of type \`authorization\` was missing`，即**只差一把 key**
+//   - rpm 限制 40（linux.do 帖实测）
 //   - key 获取: https://build.nvidia.com 免费注册 → Get API Key（nvapi- 开头）
-//   - 免费档铁律：prio 90 / concurrency 1 / group 5 / force_chat_completions / supported=false
+//     ⚠️ 注册被 **hCaptcha 交互挑战**拦截（自动化过不去），需用户人工点一次（受限项 U8）
+//   - 免费档铁律：concurrency 1 / group 5 / force_chat_completions / supported=false
+//     ⚠️ 注意：本 SQL **不显式写 priority**（走 DB 默认），排位以 DB 实际值为准，勿据文案推断
 //   用法与 add-free-api-pool.mjs 完全一致（同模板），只是文档化入口
 import { execFileSync } from 'node:child_process';
 import { writeFileSync, rmSync } from 'node:fs';
@@ -77,12 +82,21 @@ echo "GATE_HTTP:"\`curl -s -o /dev/null -w %{http_code} http://127.0.0.1:8090/he
 REMOTE`;
 writeFileSync(sh, body, 'utf8');
 try {
-  const out = execFileSync('wsl.exe', ['-e', 'bash', '/mnt/d/tdsh/sub2api/_tmp_add_nim.sh'], { encoding: 'utf8', timeout: 120000 });
+  // 走 bash（Git Bash / MSYS）而非 wsl.exe：
+  //   wsl.exe 会**拉起整个 WSL 实例**（常驻内存），而本机 SSH 直连已验证可用，
+  //   无需借道 WSL。（历史上该模板用 wsl.exe，属可避免的副作用。）
+  const out = execFileSync('bash', ['-c', `bash "${sh}"`], { encoding: 'utf8', timeout: 120000 });
   console.log(String(out).slice(0, 1200));
 } catch (e) {
-  console.error('SSH 执行失败:', e.message.slice(0, 400));
-  process.exit(4);
+  // 回退：若本机无 bash，再试 wsl.exe（保持可用性，但优先无 WSL 路径）
+  try {
+    const out = execFileSync('wsl.exe', ['-e', 'bash', `/mnt/d/tdsh/sub2api/_tmp_add_nim.sh`], { encoding: 'utf8', timeout: 120000 });
+    console.log(String(out).slice(0, 1200));
+  } catch (e2) {
+    console.error('SSH 执行失败:', String(e.message || e).slice(0, 300));
+    process.exit(4);
+  }
 } finally { try { rmSync(sh); } catch {} }
 
-console.log(`\nDONE: ${NAME} 入池完成（prio 90 兜底 / concurrency 1 / group 5 / force_chat_completions）。
+console.log(`\nDONE: ${NAME} 入池完成（concurrency 1 / group 5 / force_chat_completions；priority 未显式写入，以 DB 实际值为准）。
 验证: usage_logs 路由观察 account_id 新账号；NIM rpm 40 硬限，concurrency 1 不升权。`);
