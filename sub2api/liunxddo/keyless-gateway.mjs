@@ -74,6 +74,18 @@ const SOURCES = {
   coffee: {
     url: () => 'https://coffee.alexflipnote.dev/random.json',
     desc: '随机咖啡图片'
+  },
+  gender: {
+    url: (p) => `https://api.genderize.io/?name=${encodeURIComponent(p.name || 'luc')}`,
+    desc: '姓名性别预测（genderize.io，?name=）'
+  },
+  agify: {
+    url: (p) => `https://api.agify.io/?name=${encodeURIComponent(p.name || 'luc')}`,
+    desc: '姓名年龄预测（agify.io，?name=）'
+  },
+  openlib: {
+    url: (p) => `https://openlibrary.org/books/${encodeURIComponent(p.id || 'OL7353617M')}.json`,
+    desc: '开放图书馆书目（openlibrary.org，?id=OL...M）'
   }
 };
 

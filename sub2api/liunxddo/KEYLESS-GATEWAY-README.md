@@ -1,7 +1,8 @@
 # 本地 keyless 公益 API 网关
 
 > 聚合实测可用的免费公共 API 为本地单入口，零依赖（node 内置模块）、无任何账号/key。
-> 2026-09-13 实测 **14/14 源全绿**（二轮扩展：+lyrics/iss/dog/bible/qrcode/coffee）。
+> 2026-09-13 实测 **17 源**（三轮扩展：+lyrics/iss/dog/bible/qrcode/coffee/gender/agify/openlib）。
+> ⚠️ openlib/lyrics 在代理环境间歇 TLS 抖动（直连/家庭宽带预计稳定），其余源稳定。
 
 ## 启动
 
@@ -43,6 +44,10 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 | `/api/bible` | 圣经经文 | `?ref=john+3:16` |
 | `/api/qrcode` | 二维码生成（返回 PNG） | `?data=hello&size=200x200` |
 | `/api/coffee` | 随机咖啡图片 URL | |
+| `/api/gender` | 姓名性别预测（genderize.io） | `?name=chen` |
+| `/api/agify` | 姓名年龄预测（agify.io） | `?name=chen` |
+| `/api/openlib` | 开放图书馆书目 | `?id=OL7353617M`（⚠️ 代理下间歇 TLS 抖动） |
+| `/api/lyrics` | 歌词查询（lyrics.ovh） | ⚠️ 代理下间歇 TLS 抖动 |
 | 任意端点加 `?raw=1` | 原样透传上游 JSON | |
 
 ## 实测记录（2026-09-13）
@@ -59,10 +64,12 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 - ✅ 人生建议（api.adviceslip.com）200
 - ✅ 歌词（api.lyrics.ovh）200 / ISS 位置（wheretheiss.at）200 / 狗狗图（dog.ceo）200
 - ✅ 圣经（bible-api.com）200 / 二维码（qrserver）200 / 咖啡图（alexflipnote.dev）200
+- ✅ 性别（genderize.io）200 / 年龄（agify.io）200 / 书目（openlibrary.org）200（直测）
 - ❌ ipapi.co TLS 失败（已剔除，勿加回）
 - ❌ api.btstu.cn（壁纸/唐诗/毒鸡汤）TLS 失败（已剔除）
 - ❌ boredapi.com 连接失败（已剔除）
 - ❌ zhihu-daily 404 / douban-book 400 / bigdatacloud geo 400 / quotable TLS 拒（未采用）
+- ❌ numbersapi 404 / animechan 404 / oick poem 404 / universities 502 / worldtimeapi TLS 拒（未采用）
 
 ## 安全与运维
 
