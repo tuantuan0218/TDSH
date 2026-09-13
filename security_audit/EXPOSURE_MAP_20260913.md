@@ -32,6 +32,16 @@
 
 ⚠️ 我一度用"路径含 hs_/reference"猜归属，把 `hss-src-build`（实为第三方）误报成"自有裸 URL"、把 3 个自有 SDK 目录误分类——**必须按 URL owner 判，不能按目录名猜**。
 
+**U3 的不确定性已消除（09:2x 追补）**：曾以为"若那些仓是私有、pull 依赖 token，改了会拉不动"。实测否证：
+
+- 第一版探测用 `api.github.com` → **7 仓全部 403，包括明显公开的 `Wei-Shaw/sub2api` 与 `xjw580/Hearthstone-Script`** → 那是未授权限流，不是可见性信号，**该结论无效**（已弃用 `repo_visibility.py`）。
+- 改用 git 协议直接测【剥掉凭据的裸 URL】（`repo_visibility_git.py`，`GIT_TERMINAL_PROMPT=0` 保证不弹 GCM、不送凭据）：**7 仓全部 exit 0，裸 URL 可正常列引用** → 全部是公开仓。
+
+→ **结论：给那 4 个第三方仓去掉 origin 里的个人 token，零功能风险**（pull 不受影响）。U3 从"需先确认是否私有"降级为"仅待执行授权"，每仓一行命令：
+`git -C <仓> remote set-url origin https://github.com/<owner>/<repo>.git`
+**未擅自执行**：改他人项目的 git 配置超出资料整理边界，且 §8 禁止把含 token 的旧 URL 存档（无法留回滚凭据），故只交付判定与命令。
+
+
 **这 4 个第三方仓的处置需用户点头**（受限项）：清 token 需 `git remote set-url` 改裸 URL，但若该第三方仓是私有需 token 才能 pull，改了会导致拉取失败。故登记待办、不擅改。
 
 ## 三、QQ SMTP 授权码真实状态（本轮两次更正后的定稿）
@@ -63,7 +73,7 @@
 |---|---|---|
 | U1 | 重置 QQ SMTP 授权码 | 唯一能令历史 161 个提交里的真值彻底失效的动作 |
 | U2 | `automation/stock/config.py` 改环境变量注入 | 修当前邮件功能坏；属实质代码改动，需点头 |
-| U3 | 4 个第三方仓 origin 去 token | 需先确认那些仓是否私有（改了会拉不动） |
+| U3 | 4 个第三方仓 origin 去 token | **已证实零功能风险**（7 仓裸 URL 均可拉，全公开）；仅待执行授权，命令见 §二 |
 | U4 | 第二大脑历史是否 filter-repo 清洗 | 有并发会话在提交，须先协调；`-S` 与"树含明文"两口径别混 |
 | U5 | `dsh-home`（含 AGENTS.md 全局教训）是否建私有备份 | 现无备份；该目录含 settings 里的 token，裸推有风险，须先剥离 |
 

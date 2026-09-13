@@ -1,0 +1,7 @@
+/mnt/d/tdsh/hs_card_sdk
+/mnt/d/tdsh/hs_plugin_src
+/mnt/d/tdsh/hs_strategy_sdk
+/mnt/d/tdsh/炉石传说/_gh_strategy_plugin
+/mnt/d/tdsh/hss-src-build
+/mnt/d/tdsh/sub2api-src
+/mnt/d/tdsh/whs_template
