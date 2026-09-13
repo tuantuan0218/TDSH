@@ -1,0 +1,356 @@
+[
+ {
+  "base": "https://api.freellmapi.com/v1",
+  "modelsStatus": 0,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.llm7.io/v1",
+  "modelsStatus": 200,
+  "modelCount": 47,
+  "sample": [
+   "DeepSeek-V4-Flash-0731",
+   "Inkling",
+   "Inkling-Small",
+   "L3-8B-Lunaris-v1-Turbo",
+   "XiaomiMiMo/MiMo-V2.5"
+  ],
+  "chatStatus": 401,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.airforce/v1",
+  "modelsStatus": 200,
+  "modelCount": 615,
+  "sample": [
+   "glm-4.7-flash",
+   "glm-5.3",
+   "mistral-medium-latest",
+   "image-1",
+   "nano-banana-pro"
+  ],
+  "chatStatus": 401,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.chatanywhere.tech/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.chatanywhere.com.cn/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://free.v36.cm/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.302.ai/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.gptgod.online/v1",
+  "modelsStatus": 200,
+  "modelCount": 322,
+  "sample": [
+   "Doubao-1.5-lite-32k",
+   "Doubao-1.5-pro-256k",
+   "Doubao-1.5-pro-32k",
+   "Doubao-1.5-vision-pro-32k",
+   "advanced-voice"
+  ],
+  "chatStatus": 403,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.openai-proxy.com/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.aigcbest.top/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.oaipro.com/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.moreapi.top/v1",
+  "modelsStatus": 0,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.xiaoai.plus/v1",
+  "modelsStatus": 0,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.zhizengzeng.com/v1",
+  "modelsStatus": 200,
+  "modelCount": 852,
+  "sample": [
+   "gpt-6-astra",
+   "gpt-5.6-luna",
+   "gpt-5.6-terra",
+   "gpt-5.6-sol",
+   "gpt-5.5"
+  ],
+  "chatStatus": 401,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.gptsapi.net/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.geekai.pro/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.deepbricks.ai/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.aimlapi.com/v1",
+  "modelsStatus": 200,
+  "modelCount": 941,
+  "sample": [
+   "sakana/fugu-max",
+   "sakana/fugu-ultra-v2",
+   "deepseek/deepseek-chat",
+   "deepseek/deepseek-v4.1-flash",
+   "inclusionai/ling-3.0-flash-vl"
+  ],
+  "chatStatus": 401,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.zukijourney.com/v1",
+  "modelsStatus": 403,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.shard-ai.xyz/v1",
+  "modelsStatus": 0,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.helixmind.online/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.naga.ac/v1",
+  "modelsStatus": 200,
+  "modelCount": 258,
+  "sample": [
+   "deepseek-v4.1-flash",
+   "ling-3.0-flash-vl:free",
+   "ling-3.0-flash-vl",
+   "nex-n2.5-mini:free",
+   "nex-n2.5-pro:free"
+  ],
+  "chatStatus": 401,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.electronhub.ai/v1",
+  "modelsStatus": 200,
+  "modelCount": 589,
+  "sample": [
+   "gpt-3.5-turbo",
+   "gpt-3.5-turbo-16k",
+   "gpt-3.5-turbo-1106",
+   "gpt-4-turbo",
+   "gpt-4o"
+  ],
+  "chatStatus": 403,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.hyperbolic.xyz/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.novita.ai/v3/openai",
+  "modelsStatus": 200,
+  "modelCount": 117,
+  "sample": [
+   "zai-org/glm-5.3-flash",
+   "zai-org/glm-5.3-p",
+   "deepseek/deepseek-v4.1-flash",
+   "zai-org/glm-5.3",
+   "deepseek/deepseek-v4-pro-0813"
+  ],
+  "chatStatus": 403,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.featherless.ai/v1",
+  "modelsStatus": 200,
+  "modelCount": 21940,
+  "sample": [
+   "recursal/EagleX_1-7T",
+   "recursal/EagleX_1-7T_Chat",
+   "RWKV/EagleX-7B-Chat-V0.5-pth",
+   "RWKV/v6-Finch-14B-HF",
+   "meta-llama/Llama-3.3-70B-Instruct"
+  ],
+  "chatStatus": 401,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.lemonfox.ai/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.arliai.com/v1",
+  "modelsStatus": 401,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.awanllm.com/v1",
+  "modelsStatus": 0,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ },
+ {
+  "base": "https://api.cloudflare.com/client/v4/accounts/x/ai/v1",
+  "modelsStatus": 405,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatText": "",
+  "verdict": "need-key/不可达"
+ }
+]
