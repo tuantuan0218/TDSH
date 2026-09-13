@@ -220,6 +220,28 @@ H.push(['src/main/index.ts',
   resolveAgentHome: (agentId) => hive.piAgentHome(agentId)
 });`]);
 
+/* ═══════════════ index.ts (2/2) ═══════════════
+ * ⚠️ 这一 hunk 是自查后补的：`snapshot()` 只遍历 `agentSessions`（OTel-live 会话），
+ * 从不走 transcriptFallback；而 writeFleetSnapshot 读的正是 snapshot()。所以只补转录根
+ * 与 newestOnly 是不够的——fleet.json 依然全 0。必须让快照也问一次 usage provider
+ * （它内部才有"OTel 优先、转录兜底"的完整语义）。 */
+H.push(['src/main/index.ts',
+`        const u = usageById.get(id);
+        const spans = snap.spans[id] ?? [];`,
+`        // OTel 没有这一席的活体 → snapshot() 给不出 usage；这里补问一次 usageProvider，
+        // 它内部才有"OTel 优先 → 转录兜底"的完整语义。fleet.json 的全部病灶就在这一行。
+        const u = usageById.get(id) ?? usageProvider.getAgentUsage(id) ?? undefined;
+        const spans = snap.spans[id] ?? [];`]);
+
+/* ═══════════════ index.ts (3/3) — 同一个洞的第二处（IPC 视图） ═══════════════ */
+H.push(['src/main/index.ts',
+`    const u = usageById.get(id);
+    const spans = snap.spans[id] ?? [];`,
+`    // 与 writeFleetSnapshot 同源的问题：agentDirectory 也只读 snapshot()。
+    // 兜底读的是带缓存的增量转录（usageCache），与 breaker beat 每拍同价，不新增量级。
+    const u = usageById.get(id) ?? usageProvider.getAgentUsage(id) ?? undefined;
+    const spans = snap.spans[id] ?? [];`]);
+
 /* ═══════════════ hive.ts ═══════════════ */
 H.push(['src/main/hive.ts',
 `  private agentDir(id: string): string {

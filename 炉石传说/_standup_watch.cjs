@@ -53,7 +53,15 @@ for (let i = 1; i < beats.length; i++) {
 }
 // 回执黑洞：以"台账席位 inbox 目录的 mtime"为修复时刻，报修复前/修复后两个数——
 // 只看 24h 总数会把修复前的旧 drop 一起算进来，看着像"没修好"。
-const ledgerEpoch = (() => { try { return fs.statSync('D:/MunderDifflin/hive/agents/scheduler/inbox').mtimeMs; } catch (e) { return 0; } })();
+// 修复时刻必须用**创建时间**（birthtime）。第一版用 mtime，结果 13:53 那封真实回执把目录 mtime 顶到
+// 13:53:27，"修复前/后"的分界就跟着往后漂移——会把 12:39~13:53 之间的 drop 误标成"修复前"。
+const ledgerEpoch = (() => {
+  try {
+    const st = fs.statSync('D:/MunderDifflin/hive/agents/scheduler/inbox');
+    const b = st.birthtimeMs || 0;
+    return b > 0 ? b : st.mtimeMs;
+  } catch (e) { return 0; }
+})();
 const dropsAll = L.filter((o) => o.kind === 'drop' && o.reason === 'no-inbox' && (o.to === 'scheduler' || o.to === 'heartbeat') && o.ts > now - 24 * 3600_000);
 const dropsBefore = dropsAll.filter((o) => o.ts < ledgerEpoch).length;
 const dropsAfter = dropsAll.filter((o) => o.ts >= ledgerEpoch);
@@ -61,6 +69,51 @@ console.log(`to=系统席 的回执 drop：24h 共 ${dropsAll.length}（修复�
   ledgerEpoch ? `@台账建于 ${new Date(ledgerEpoch).toLocaleTimeString('zh-CN', { hour12: false })}` : '(无台账席位)');
 for (const o of dropsAfter) console.log('   !! 修复后仍有 drop:', new Date(o.ts).toLocaleTimeString('zh-CN', { hour12: false }), o.from, '->', o.to);
 console.log(`判定: 缺回执 ${missingAck}/${recent.length} 班 | 历史漏班 ${missingFire} 次 | 修复后 drop ${dropsAfter.length}`);
+// ─── 自愈轨 --heal ──────────────────────────────────────────────────────────────
+// 逾期无回执的班次，用**专属席位 hive-ops**（不共用 external-planner）补投一次。
+// 三条硬护栏，避免"自愈"变成新的噪声源/自激回路：
+//   1) 同一班次永不再补（_heal_log.json 记 beatId → 补投时刻，幂等）；
+//   2) 每小时最多一次（跨班次限流）；
+//   3) 只补 healMaxAge 分钟内的班（默认 60），历史久案只报不动手（--dry 全量可见）。
+// 先 --heal --dry 看决策，再摘掉 --dry 真投。
+const SEAT = 'hive-ops';
+const HEAL_LOG = 'D:/tdsh/炉石传说/_heal_log.json';
+function overdueBeats(graceMs) {
+  return recent.filter((b) => !ackFor(b).ok && now - b.ts > graceMs);
+}
+const cand = overdueBeats(Number(process.env.HEAL_GRACE_MS || 25 * 60_000));
+if (has0('--heal')) {
+  const log = (() => { try { return JSON.parse(fs.readFileSync(HEAL_LOG, 'utf8')); } catch (e) { return {}; } })();
+  const HEAL_MAX_AGE = Number(process.env.HEAL_MAX_AGE_MIN || 60) * 60_000;
+  const HOUR = 3600_000;
+  const recentHeals0 = Object.values(log).filter((t) => now - t < HOUR).length;
+  let budgetUsed = 0;
+  console.log(`\n--heal: 逾期候选 ${cand.length} 班（宽限 ${Math.round(Number(process.env.HEAL_GRACE_MS || 1500000) / 60000)}min）| 历史已补投 ${Object.keys(log).length} 次 | 1h 内已用额度 ${recentHeals0}/1`);
+  for (const b of cand) {
+    const age = Math.round((now - b.ts) / 60000);
+    if (log[b.id]) { console.log(`   跳过 ${new Date(b.ts).toLocaleTimeString('zh-CN', { hour12: false })} 已补投于 ${new Date(log[b.id]).toLocaleTimeString('zh-CN', { hour12: false })}`); continue; }
+    if (age * 60_000 > HEAL_MAX_AGE) { console.log(`   不动手 ${new Date(b.ts).toLocaleTimeString('zh-CN', { hour12: false })} 已过时 ${age}min（> ${HEAL_MAX_AGE / 60000}min），只报不补`); continue; }
+    if (recentHeals0 + budgetUsed >= 1) { console.log('   限流：1 小时内已补投过一次，本班不再补'); continue; }
+    const hhmm = new Date(b.ts).toTimeString().slice(0, 5);
+    if (process.argv.includes('--dry')) { console.log(`   [DRY] 将补投：班 ${hhmm}（逾期 ${age}min）→ god，发件人 ${SEAT}`); continue; }
+    const body = [
+      `运维站会 ${hhmm} 那班逾期 ${age} 分钟无回执（DSH 自愈轨自动补投，同一班只补这一次）。`,
+      '请现在按现行判据核查并回一行：席位停滞看 log.jsonl 各席最后外发时间戳 + fleet 的 inboxBacklog/onHold/breaker；任务看 tasks.json 的 blocked/无人认领；看板看 board.md 头部。',
+      '无异常也回一句「站会 HH:MM 无异常」，收件人写 hive-ops（别写 god 自己，那等于无痕；也别写 scheduler，历史上有 136 条回执在那里被丢）。',
+      '背景与判据出处：D:/MunderDifflin/hive/docs/OPS-STANDUP-NOT-FIRING-20260913.md（§1.2b 两道闸、§11 仪表空转）。'
+    ].join('\n');
+    const id = new Date().toISOString().replace(/[:.]/g, '-') + '-' + Math.random().toString(16).slice(2, 8);
+    fs.mkdirSync(`D:/MunderDifflin/hive/agents/${SEAT}/outbox/.sent`, { recursive: true });
+    fs.writeFileSync(`D:/MunderDifflin/hive/agents/${SEAT}/outbox/${id}.json`,
+      JSON.stringify({ to: 'god', act: 'request', subject: `【自愈补投】站会 ${hhmm} 班逾期 ${age}min 无回执`, body }, null, 2), 'utf8');
+    log[b.id] = now;
+    fs.writeFileSync(HEAL_LOG, JSON.stringify(log, null, 1), 'utf8');
+    console.log(`   ✓ 已补投 班 ${hhmm}（${body.length} 字符，id=${id.slice(-8)}），台账已记`);
+    budgetUsed++;
+  }
+}
+function has0(flag) { return process.argv.includes(flag); }
+
 // 回执台账 + 席位清账。scheduler/heartbeat 是 2026-09-13 由 DSH 建的 synthetic 席位（只有 inbox，
 // 无 outbox → router 见无 outbox 即 skip）。external-planner 是本机 DSH 自建席位（无唤醒轨，
 // 邮件只进不出，实测曾堆到 51 封），所以每轮由本脚本代它 drain。
