@@ -8,10 +8,11 @@
 （82 模型 /models 匿名 200，chat 需 key）；候选均需用户注册 key 后走 add-free-api-pool.mjs 入池。
 **网关与第二张清单（同日）**：
 - **本地 keyless 公益 API 网关已部署**（`liunxddo/keyless-gateway.mjs`，127.0.0.1:8787，
-  **26 源**全实测：一言/60s/天气×2/汇率×2/笑话×2/猫×2/邮编×2/建议/歌词/ISS/狗狗/圣经/二维码/
-  咖啡/性别/年龄/书目/瑞克莫蒂/星战/名言/梗图；**v2 功能**：缓存 TTL60s（X-Cache 头）、
-  限流（每 IP 10s 30 次）、优雅错误 JSON、301/302 跟随；稳定性：唯一失败源 openlib（代理
-  TLS 抖动预期内）；启动 `start-keyless-gateway.cmd`）
+  **33 源**全实测（六轮扩展）：一言/60s/天气×2/汇率×2/笑话×2/猫×2/邮编×2/建议/歌词/ISS/狗狗/
+  圣经/二维码/咖啡/性别/年龄/书目/瑞克莫蒂/星战/名言/梗图/IP/随机用户/FDA药品/足球/Chuck笑话/
+  地震/老爸笑话；**v2 功能**：缓存 TTL60s（X-Cache 头）、限流（每 IP 10s 30 次）、优雅错误
+  JSON、301/302 跟随 + per-source headers；唯一失败源 openlib（代理 TLS 抖动预期内）；
+  启动 `start-keyless-gateway.cmd`）
 - **免费 key 渠道第二张实测清单**（`liunxddo/FREE-KEY-CHANNELS-VERIFIED.md`）：Cerebras/Groq/
   Mistral/ZenMux/Poe 匿名 /models 全部需 key（403/401/404），NIM 是唯一可匿名验证模型列表的平台；
   扩池推荐序 NIM > hub.linux.do > Cerebras > Mistral > 国内三家
