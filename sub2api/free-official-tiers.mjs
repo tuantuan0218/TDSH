@@ -109,6 +109,41 @@ export function funnel(records) {
   };
 }
 
+/**
+ * 告警构造（纯函数，导出以便受控快照回放测试）。
+ *
+ * 之所以抽成纯函数：此前它内联在 main 里，导致"21 项自测全过"只证明了
+ * diffTiers/extractFreeModels 等纯函数正确，**无法证明落盘报告里真的出现了告警**。
+ * 抽出来后即可用构造输入断言输出告警文案，从而端到端验证告警链路。
+ */
+export function buildAlerts({ stale, generatedAt, hasPrev, orOk, orStale, freeModelCount, diffs, freeDiffs }) {
+  const alerts = [];
+  if (stale && stale.stale) alerts.push(`⏳ **源数据陈旧**：${stale.reason}（generated_at=${generatedAt}）→ 厂商额度结论可能已过期，需去官方控制台复核`);
+  if (!hasPrev) alerts.push('ℹ️ 首轮基线已建立，下一轮起可 diff');
+  if (orOk) {
+    alerts.push(`🟢 **新鲜源在线**：OpenRouter 实时目录抓到 ${freeModelCount} 个零价模型（可随时复核，不受 yangmao 陈旧拖累）`);
+  } else if (orStale) {
+    alerts.push('🛡 OpenRouter 本轮抓取失败 → 沿用 last-good 免费模型清单（不报"免费模型消失"）');
+  } else {
+    alerts.push('🔴 OpenRouter 实时源不可用且无 last-good → 本轮缺失新鲜侧证据，只看 yangmao 陈旧数据需谨慎');
+  }
+  if (stale && stale.stale && orOk) {
+    alerts.push(`🔍 **交叉判读**：yangmao 描述陈旧（${stale.ageDays} 天）但 OpenRouter 价格字段是实时的 → 前者当"厂商入口索引"用，后者当"当下是否真免费"的权威判据`);
+  }
+  const d = diffs || {};
+  const fd = freeDiffs || {};
+  (d.added || []).forEach((x) => alerts.push(`🆕 新增免费档厂商 ${x}`));
+  (d.removed || []).forEach((x) => alerts.push(`⚫ 免费档消失 ${x}`));
+  (d.creditChanged || []).forEach((x) => alerts.push(`💰 额度变化 ${x}`));
+  (d.rateChanged || []).forEach((x) => alerts.push(`⏱ 限速变化 ${x}`));
+  (d.modelChanged || []).forEach((x) => alerts.push(`🧩 模型变化 ${x}`));
+  (d.accessChanged || []).forEach((x) => alerts.push(`🌐 直连变化 ${x}`));
+  (fd.freeAdded || []).forEach((x) => alerts.push(`🎉 新增零价模型 ${x}`));
+  (fd.freeRemoved || []).forEach((x) => alerts.push(`💸 零价模型消失/转收费 ${x}`));
+  (fd.ctxChanged || []).forEach((x) => alerts.push(`🧮 ${x}`));
+  return alerts;
+}
+
 /* ---------------- 抓取 ---------------- */
 
 async function fetchJson(url) {
@@ -322,28 +357,16 @@ if (prev) renameSync(latestPath, SNAPDIR + 'snapshot-prev.json');
 writeFileSync(latestPath, JSON.stringify(cur, null, 1));
 
 /* ---------------- 报告 ---------------- */
-const alerts = [];
-if (st.stale) alerts.push(`⏳ **源数据陈旧**：${st.reason}（generated_at=${json.generated_at}）→ 厂商额度结论可能已过期，需去官方控制台复核`);
-if (!prev) alerts.push('ℹ️ 首轮基线已建立，下一轮起可 diff');
-if (orOk) {
-  alerts.push(`🟢 **新鲜源在线**：OpenRouter 实时目录抓到 ${effFree.length} 个零价模型（可随时复核，不受 yangmao 陈旧拖累）`);
-} else if (orStale) {
-  alerts.push('🛡 OpenRouter 本轮抓取失败 → 沿用 last-good 免费模型清单（不报"免费模型消失"）');
-} else {
-  alerts.push('🔴 OpenRouter 实时源不可用且无 last-good → 本轮缺失新鲜侧证据，只看 yangmao 陈旧数据需谨慎');
-}
-if (st.stale && orOk) {
-  alerts.push(`🔍 **交叉判读**：yangmao 描述陈旧（${st.ageDays} 天）但 OpenRouter 价格字段是实时的 → 前者当"厂商入口索引"用，后者当"当下是否真免费"的权威判据`);
-}
-d.added.forEach((x) => alerts.push(`🆕 新增免费档厂商 ${x}`));
-d.removed.forEach((x) => alerts.push(`⚫ 免费档消失 ${x}`));
-d.creditChanged.forEach((x) => alerts.push(`💰 额度变化 ${x}`));
-d.rateChanged.forEach((x) => alerts.push(`⏱ 限速变化 ${x}`));
-d.modelChanged.forEach((x) => alerts.push(`🧩 模型变化 ${x}`));
-d.accessChanged.forEach((x) => alerts.push(`🌐 直连变化 ${x}`));
-fd.freeAdded.forEach((x) => alerts.push(`🎉 新增零价模型 ${x}`));
-fd.freeRemoved.forEach((x) => alerts.push(`💸 零价模型消失/转收费 ${x}`));
-fd.ctxChanged.forEach((x) => alerts.push(`🧮 ${x}`));
+const alerts = buildAlerts({
+  stale: st,
+  generatedAt: json.generated_at,
+  hasPrev: !!prev,
+  orOk,
+  orStale,
+  freeModelCount: effFree.length,
+  diffs: d,
+  freeDiffs: fd,
+});
 
 const byId = (a, b) => (a.name < b.name ? -1 : 1);
 const cnList = records.filter((r) => r.chinaDirect).sort(byId);
