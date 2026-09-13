@@ -124,12 +124,37 @@ print(client.chat.completions.create(
 
 ## 五、复现
 
+### 5.1 单点复验（任一端点）
+
 ```bash
 curl -s -o /dev/null -w "%{http_code}\n" https://text.pollinations.ai/openai \
   -H "Content-Type: application/json" \
   -d '{"model":"openai-fast","messages":[{"role":"user","content":"PONG"}],"max_tokens":16}'
 # 期望：200 且响应含 "content":"PONG"
 ```
+
+### 5.2 批量探测（本会话新增工具）
+
+```bash
+node probe-keyless-endpoints.mjs                    # 内置 20 个候选
+node probe-keyless-endpoints.mjs urls.txt           # 自备候选（每行一个 base URL）
+node probe-keyless-endpoints.mjs --json out.json    # 输出结构化结果
+```
+
+**两步门逻辑**：先测 `GET /models` 免 key 是否可列 → 仅当通过才测 `POST /chat/completions` 是否免 key 出词。
+① 过 ② 不过 = "仅清单开放（需 key）"，**不算免 key 可用**。
+
+### 5.3 2026-09-13 全量扫描结果（20 候选）
+
+| 判定 | 数量 | 端点 |
+|---|---|---|
+| ✅ **免 key 真出词** | **2** | `text.pollinations.ai/openai`、`ai-api.xzt.plus/v1` |
+| 🟡 仅清单开放（需 key） | 4 | `bazaarlink.ai/api/v1`(171模型)、`api.airforce/v1`(615)、`api.llm7.io/v1`(47)、`free.suyu.io/v1`(9) |
+| ⚪ 需 key（models 即 401/403/410） | 14 | 硅基流动 / DeepSeek / 智谱 / 百炼 / Moonshot / 火山方舟 / 腾讯混元 / 百度千帆 / MiniMax / 阶跃 / 零一万物 / 百川 / ChatAnywhere / gpt.ge |
+
+**结论**：国产 12 家大厂**全部**在 `/models` 阶段即返回 401（零一万物 410、百度千帆 403），
+**没有任何一家免 key 可列**；能免 key 列模型的 4 家（bazaarlink/airforce/llm7/suyu）聊天仍要 key。
+**免 key 真可用端点经过 20 个候选系统扫描后仍稳定为 2 个**，与单点结论一致（互为独立复核）。
 
 ## 六、与本机既有体系的关系
 

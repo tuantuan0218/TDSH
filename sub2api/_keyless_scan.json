@@ -1,0 +1,269 @@
+[
+ {
+  "base": "https://api.siliconflow.cn/v1",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://api.deepseek.com/v1",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://open.bigmodel.cn/api/paas/v4",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://api.moonshot.cn/v1",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://ark.cn-beijing.volces.com/api/v3",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://api.hunyuan.cloud.tencent.com/v1",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://qianfan.baidubce.com/v2",
+  "modelsStatus": 403,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://api.minimax.chat/v1",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://api.stepfun.com/v1",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://api.lingyiwanwu.com/v1",
+  "modelsStatus": 410,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://api.baichuan-ai.com/v1",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://text.pollinations.ai/openai",
+  "modelsStatus": 200,
+  "modelsOpen": true,
+  "modelCount": 1,
+  "sample": [
+   "openai-fast"
+  ],
+  "chatStatus": 200,
+  "chatUsable": true,
+  "chatModel": "openai-fast",
+  "chatText": "PONG",
+  "verdict": "★KEYLESS-USABLE"
+ },
+ {
+  "base": "https://ai-api.xzt.plus/v1",
+  "modelsStatus": 200,
+  "modelsOpen": true,
+  "modelCount": 24,
+  "sample": [
+   "PaddlePaddle/PaddleOCR-VL-1.5",
+   "Qwen/Qwen2.5-7B-Instruct",
+   "Qwen/Qwen3-8B",
+   "Qwen/Qwen3.5-4B"
+  ],
+  "chatStatus": 200,
+  "chatUsable": true,
+  "chatModel": "Qwen/Qwen2.5-7B-Instruct",
+  "chatText": "PONG",
+  "verdict": "★KEYLESS-USABLE"
+ },
+ {
+  "base": "https://bazaarlink.ai/api/v1",
+  "modelsStatus": 200,
+  "modelsOpen": true,
+  "modelCount": 171,
+  "sample": [
+   "qwen3.8-max",
+   "deepseek-v3.2",
+   "glm-5.1",
+   "deepseek-v4-flash"
+  ],
+  "chatStatus": 401,
+  "chatUsable": false,
+  "chatModel": "qwen3.8-max",
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://free.suyu.io/v1",
+  "modelsStatus": 200,
+  "modelsOpen": true,
+  "modelCount": 9,
+  "sample": [
+   "gpt-5.5",
+   "gpt-5.4-mini",
+   "gpt-5.4",
+   "gpt-4o"
+  ],
+  "chatStatus": 401,
+  "chatUsable": false,
+  "chatModel": "gpt-5.5",
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.llm7.io/v1",
+  "modelsStatus": 200,
+  "modelsOpen": true,
+  "modelCount": 47,
+  "sample": [
+   "DeepSeek-V4-Flash-0731",
+   "Inkling",
+   "Inkling-Small",
+   "L3-8B-Lunaris-v1-Turbo"
+  ],
+  "chatStatus": 401,
+  "chatUsable": false,
+  "chatModel": "DeepSeek-V4-Flash-0731",
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.airforce/v1",
+  "modelsStatus": 200,
+  "modelsOpen": true,
+  "modelCount": 615,
+  "sample": [
+   "ministral-14b-2512",
+   "gemini-3.6-flash",
+   "open-mistral-nemo",
+   "ministral-14b-latest"
+  ],
+  "chatStatus": 401,
+  "chatUsable": false,
+  "chatModel": "ministral-14b-2512",
+  "chatText": "",
+  "verdict": "list-only(需key)"
+ },
+ {
+  "base": "https://api.chatanywhere.tech/v1",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ },
+ {
+  "base": "https://api.gpt.ge/v1",
+  "modelsStatus": 401,
+  "modelsOpen": false,
+  "modelCount": 0,
+  "sample": [],
+  "chatStatus": 0,
+  "chatUsable": false,
+  "chatModel": "",
+  "chatText": "",
+  "verdict": "need-key(或不可达)"
+ }
+]
