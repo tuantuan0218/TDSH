@@ -69,4 +69,19 @@
 - topic-2005411-raw.txt：闲置 API 置换公益 = hub.linux.do 官方帖（2026-04，955 楼活跃）
 - topic-1349579-raw.txt：免费大模型厂商整理（2025-12，最详实）
 - topic-1557611-raw.txt：公益站 API 使用指南（令牌创建/签到）
+- topic-111737-raw.txt：DeepLX 翻译 API（linux.do Connect 认证）
 - 已失效帖：275566（硅基流动公益）、267437（Claude 公益）、144264、261941 → 404/私密
+
+## 六、实测结论补录（2026-09-13 第二轮）
+
+- **hub.linux.do 匿名性**：AxonHub 网关所有 /v1 端点（chat/completions、models）均需
+  `Authorization: Bearer <key>`，无匿名通道（源码路由表核实：routes.go 全部 openaiGroup
+  端点走认证中间件）。必须注册领 key，无可绕过路径。
+- **NVIDIA NIM**：/models 匿名 200 可列 82 模型；chat 匿名 500（需 key）。免费注册即用。
+- **oaipro**（api.oaipro.com）：端点活，401 "无效的令牌"（neo_api_error）→ 需 key。
+- **WONG**（wzw.pp.ua）：端点活，401 "未提供令牌"（new_api_error）→ 需 key。
+- **7xnn**（api.7xnn.cn）：TLS 拒绝，已死，勿再尝试。
+- **DeepLX**（api.deeplx.org）：无 key→400 invalid arguments，错 key→401 invalid api key；
+  key 从 connect.linux.do 领取（`api.deeplx.org/<api-key>/translate`）；vercel 版已被 451 封锁。
+- **非 LLM 公益 API（keyless 实测）**：一言 hitokoto（v1.hitokoto.cn）200 keyless；
+  60s API（60s.viki.moe/v2/60s）200 keyless；xxapi.cn / img.viki.moe TLS 拒绝。
