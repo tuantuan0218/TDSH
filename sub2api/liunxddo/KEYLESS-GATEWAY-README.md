@@ -98,6 +98,9 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 - ❌ boredapi.com 连接失败（已剔除）
 - ❌ zhihu-daily 404 / douban-book 400 / bigdatacloud geo 400 / quotable TLS 拒（未采用）
 - ❌ numbersapi 404 / animechan 404 / oick poem 404 / universities 502 / worldtimeapi TLS 拒（未采用）
+- ❌ 第七批探测（2026-09-13）：spacexdata 525（CF 源超时）/ kvdb HTML 非纯 keyless /
+  qr-decode 需可达 URL（代理下失败）/ programming-quotes 429 / futurama TLS 拒 / numbersapi 404
+  ——本批无可新增源，33 源保持（常见免费 keyless API 已高覆盖）
 
 ## 安全与运维
 
