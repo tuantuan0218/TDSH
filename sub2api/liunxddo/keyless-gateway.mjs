@@ -42,6 +42,14 @@ const SOURCES = {
   catfact: {
     url: () => 'https://catfact.ninja/fact',
     desc: '随机猫事实'
+  },
+  zip: {
+    url: (p) => `https://api.zippopotam.us/${encodeURIComponent(p.country || 'us')}/${encodeURIComponent(p.code || '90210')}`,
+    desc: '邮编地理查询（zippopotam.us）'
+  },
+  advice: {
+    url: () => 'https://api.adviceslip.com/advice',
+    desc: '随机人生建议（Advice Slip）'
   }
 };
 

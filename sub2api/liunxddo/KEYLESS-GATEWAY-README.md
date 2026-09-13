@@ -22,6 +22,8 @@ node D:\tdsh\sub2api\liunxddo\keyless-gateway.mjs 8787
 | `/api/rate?base=CNY` | 汇率（exchangerate-api） | 默认 USD |
 | `/api/joke` | 英文随机笑话 | |
 | `/api/catfact` | 随机猫事实 | |
+| `/api/zip` | 邮编地理查询 | `?country=us&code=90210`（zippopotam.us 仅部分国家） |
+| `/api/advice` | 随机人生建议（英文） | |
 | 任意端点加 `?raw=1` | 原样透传上游 JSON | |
 
 ## 实测记录（2026-09-13）
@@ -32,7 +34,11 @@ node D:\tdsh\sub2api\liunxddo\keyless-gateway.mjs 8787
 - ✅ 汇率（api.exchangerate-api.com/v4）200
 - ✅ 笑话（official-joke-api.appspot.com）200
 - ✅ 猫事实（catfact.ninja）200
+- ✅ 邮编地理（api.zippopotam.us）200
+- ✅ 人生建议（api.adviceslip.com）200
 - ❌ ipapi.co TLS 失败（已剔除，勿加回）
+- ❌ api.btstu.cn（壁纸/唐诗/毒鸡汤）TLS 失败（已剔除）
+- ❌ boredapi.com 连接失败（已剔除）
 
 ## 安全与运维
 
