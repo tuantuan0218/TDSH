@@ -86,6 +86,30 @@ const SOURCES = {
   openlib: {
     url: (p) => `https://openlibrary.org/books/${encodeURIComponent(p.id || 'OL7353617M')}.json`,
     desc: '开放图书馆书目（openlibrary.org，?id=OL...M）'
+  },
+  cat: {
+    url: () => 'https://api.thecatapi.com/v1/images/search',
+    desc: '随机猫图（thecatapi）'
+  },
+  postcodes: {
+    url: () => 'https://api.postcodes.io/random/postcodes',
+    desc: '英国随机邮编（postcodes.io）'
+  },
+  rickmorty: {
+    url: (p) => `https://rickandmortyapi.com/api/character/${encodeURIComponent(p.id || '1')}`,
+    desc: '瑞克与莫蒂角色（?id=）'
+  },
+  swapi: {
+    url: (p) => `https://swapi.dev/api/people/${encodeURIComponent(p.id || '1')}/`,
+    desc: '星球大战人物（SWAPI，?id=）'
+  },
+  jokeapi: {
+    url: () => 'https://v2.jokeapi.dev/joke/Any?type=single',
+    desc: '随机笑话（JokeAPI，多语言）'
+  },
+  zenquotes: {
+    url: () => 'https://zenquotes.io/api/random',
+    desc: '名言金句（ZenQuotes）'
   }
 };
 

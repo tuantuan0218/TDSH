@@ -1,7 +1,8 @@
 # 本地 keyless 公益 API 网关
 
 > 聚合实测可用的免费公共 API 为本地单入口，零依赖（node 内置模块）、无任何账号/key。
-> 2026-09-13 实测 **17 源**（三轮扩展：+lyrics/iss/dog/bible/qrcode/coffee/gender/agify/openlib）。
+> 2026-09-13 实测 **23 源**（四轮扩展：+lyrics/iss/dog/bible/qrcode/coffee/gender/agify/openlib/
+> cat/postcodes/rickmorty/swapi/jokeapi/zenquotes）。
 > ⚠️ openlib/lyrics 在代理环境间歇 TLS 抖动（直连/家庭宽带预计稳定），其余源稳定。
 
 ## 启动
@@ -48,6 +49,12 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 | `/api/agify` | 姓名年龄预测（agify.io） | `?name=chen` |
 | `/api/openlib` | 开放图书馆书目 | `?id=OL7353617M`（⚠️ 代理下间歇 TLS 抖动） |
 | `/api/lyrics` | 歌词查询（lyrics.ovh） | ⚠️ 代理下间歇 TLS 抖动 |
+| `/api/cat` | 随机猫图（thecatapi） | |
+| `/api/postcodes` | 英国随机邮编（postcodes.io） | |
+| `/api/rickmorty` | 瑞克与莫蒂角色 | `?id=1` |
+| `/api/swapi` | 星球大战人物（SWAPI） | `?id=1` |
+| `/api/jokeapi` | 随机笑话（JokeAPI） | |
+| `/api/zenquotes` | 名言金句（ZenQuotes） | |
 | 任意端点加 `?raw=1` | 原样透传上游 JSON | |
 
 ## 实测记录（2026-09-13）
@@ -65,6 +72,8 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 - ✅ 歌词（api.lyrics.ovh）200 / ISS 位置（wheretheiss.at）200 / 狗狗图（dog.ceo）200
 - ✅ 圣经（bible-api.com）200 / 二维码（qrserver）200 / 咖啡图（alexflipnote.dev）200
 - ✅ 性别（genderize.io）200 / 年龄（agify.io）200 / 书目（openlibrary.org）200（直测）
+- ✅ 猫图（thecatapi）200 / 英国邮编（postcodes.io）200 / 瑞克莫蒂（rickandmortyapi）200
+- ✅ 星战（swapi.dev）200 / 笑话（jokeapi.dev）200 / 名言（zenquotes.io）200
 - ❌ ipapi.co TLS 失败（已剔除，勿加回）
 - ❌ api.btstu.cn（壁纸/唐诗/毒鸡汤）TLS 失败（已剔除）
 - ❌ boredapi.com 连接失败（已剔除）
