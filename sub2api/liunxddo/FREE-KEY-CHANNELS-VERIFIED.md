@@ -26,6 +26,9 @@ nemotron-3-ultra / laguna-xs-2.1）全部在列、无新增无下架——候选
 api 子域 403 Unauthorized、/openai/v1 405、/api/v1 401）——chat 需 key（**受限项**），
 仅"模型清单可获得"层面与 NIM 并列。注册送 $100-300 额度（有邀请返利，非纯公益）。
 模型清单价值：可作为 key 到手后的即时入池参照。
+  **keyless chat 路径探测（2026-09-13 15:4x）**：18 个变体路径（/proxy/v1、/api/v1、
+  /openai/chat、/chat/completions、/api/chat 等 + anonymous Bearer）全部 401/404/405；
+  api 子域明确 "Unauthorized - Invalid token"——**不存在 keyless chat 路径**，chat 必须 key。
 
 ## 二、免费模型与限流（linux.do 帖 1349579 整理）
 
