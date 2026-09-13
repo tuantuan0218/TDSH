@@ -70,3 +70,9 @@ sub2api/verify-*.mjs
 sub2api/hunt-credit-source.js
 sub2api/credit-*.js
 sub2api/ROUND-2026-09-13-siliconflow.md
+
+# 运行数据与日志（纯本地）
+sub2api/health-log.jsonl
+sub2api/probe-runs/
+sub2api/pi-host-dump/
+sub2api/analysis-output.txt
