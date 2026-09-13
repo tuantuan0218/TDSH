@@ -12,8 +12,8 @@
 | `/mnt/d/tdsh/resources/app/repo` | 412 | 第三方 harness，同上 |
 | `/mnt/h/second-brain` | 46 | 需深挖（同第二大脑族） |
 | `/mnt/i/Obsidian/vaults/第二大脑` | 53 | 已深挖，见 §三 |
-| `/mnt/d/tdsh/黄金` | 1 | 待判读（数量小，疑测试常量） |
-| `whs_template` | 2 | 第三方模板 |
+| `/mnt/d/tdsh/黄金` | 1 | ⚠️ 更正：该计数出自 **v2 宽口径**（噪音版），v3 收紧后的清单里并无此项 → 属 `apiKey`/JSX `key=` 类假阳，非真实候选。我最初写"待判读"是不准确的措辞（并未真判读），现更正 |
+| `whs_template` | 2 | 同上：v2 计数，v3 清单无此项；第三方模板源码噪音 |
 | **suno迷笛 / personal-model / uumit / recording_gear / patchwork / 各 hs_* 第三方克隆** | **0** | 干净 |
 
 **收紧后（v3，要求字段为"密钥语义名"+值像凭据+排除注入形态/占位符）**：全仓合计 645 处候选，其中 **harness/第三方源码占绝对多数**（`apiKeyEnv`、`policyKey`、JSX `key=` 等指向"名字"而非密钥本体），自有内容仓的真实候选集中在第二大脑族。
@@ -45,6 +45,17 @@
 
 ### 🔴 功能性副作用（比泄漏更紧急，需用户决定）
 `automation/stock/config.py` 里 `SENDER_AUTH` 被**就地涂成占位符字面量**，而该文件**没有任何 `os.environ`/`getenv`**（全文 31 行已核）→ **stock 邮件当前必然认证失败**。修法见 AGENTS.md §8"正确修法"（改注入 + 重置授权码 + 可选历史清洗，三步缺一不可）。
+
+### ✅ 已做成可复用检查器：`redaction_fixed_check.py`
+判据不是"值被涂掉"，而是三件事同时成立：①字段不再是字面量 ②文件确有 `os.environ/getenv` ③HEAD 无真值形态。实测：
+
+| 目标 | 判定 |
+|---|---|
+| `automation/stock/config.py`（活动） | **NOT_FIXED**（涂占位符但无 env 注入 ⇒ 假清 + 功能坏） |
+| `99_archive/…/stock/config.py`（归档） | **NOT_FIXED**（同上） |
+| `OH-Works/…/script-audit-report-20260811.md` | PARTIAL（文档含占位符 + 提及 env，属记录形态） |
+
+→ 可直接当**验收门**用：任何一次"脱敏"改动后跑它，只有全 `FIXED` 才算真到位，防止再出现"涂值即算清"。
 
 ## 四、待用户决定（受限项，本次一律未擅动）
 
