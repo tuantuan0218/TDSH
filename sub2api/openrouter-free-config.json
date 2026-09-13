@@ -1,0 +1,254 @@
+{
+ "generatedAt": "2026-09-13T18:50:53.838Z",
+ "source": "https://openrouter.ai/api/v1/models",
+ "totalModels": 445,
+ "freeModels": 22,
+ "gate": {
+  "modelsEndpoint": "HTTP 200 免 key（可公开列出）",
+  "chatEndpoint": "HTTP 401 \"No cookie auth credentials found\" —— chat 必须带 sk-or-v1-* key",
+  "conclusion": "免费模型的真实门槛 = 免费注册 OpenRouter 账号并创建 key；无 key 不可用"
+ },
+ "tiers": {
+  "A": 9,
+  "B": 8,
+  "C": 3,
+  "D": 2
+ },
+ "recommendedPoolMapping": {
+  "Tuan": "openrouter/free",
+  "nvidia/nemotron-3.5-lightning:free": "nvidia/nemotron-3.5-lightning:free",
+  "nvidia/nemotron-3-ultra-550b-a55b:free": "nvidia/nemotron-3-ultra-550b-a55b:free"
+ },
+ "models": [
+  {
+   "id": "nvidia/nemotron-3.5-lightning:free",
+   "name": "NVIDIA: Nemotron 3.5 Lightning (free)",
+   "ctx": 1000000,
+   "modality": "text->text",
+   "tier": "A",
+   "why": "纯文本 + 大上下文(1000000)，适合当兜底主力",
+   "maxCompletion": 65536,
+   "moderated": false
+  },
+  {
+   "id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "name": "NVIDIA: Nemotron 3 Ultra (free)",
+   "ctx": 1000000,
+   "modality": "text->text",
+   "tier": "A",
+   "why": "纯文本 + 大上下文(1000000)，适合当兜底主力",
+   "maxCompletion": 65536,
+   "moderated": false
+  },
+  {
+   "id": "inclusionai/ling-3.0-flash-sante:free",
+   "name": "inclusionAI: Ling 3.0 Flash Sante (free)",
+   "ctx": 262144,
+   "modality": "text->text",
+   "tier": "A",
+   "why": "纯文本 + 大上下文(262144)，适合当兜底主力",
+   "maxCompletion": 32768,
+   "moderated": false
+  },
+  {
+   "id": "inclusionai/ling-3.0-flash-fin:free",
+   "name": "inclusionAI: Ling 3.0 Flash Fin (free)",
+   "ctx": 262144,
+   "modality": "text->text",
+   "tier": "A",
+   "why": "纯文本 + 大上下文(262144)，适合当兜底主力",
+   "maxCompletion": 32768,
+   "moderated": false
+  },
+  {
+   "id": "poolside/laguna-s-2.1:free",
+   "name": "Poolside: Laguna S 2.1 (free)",
+   "ctx": 262144,
+   "modality": "text->text",
+   "tier": "A",
+   "why": "纯文本 + 大上下文(262144)，适合当兜底主力",
+   "maxCompletion": 32768,
+   "moderated": false
+  },
+  {
+   "id": "poolside/laguna-xs-2.1:free",
+   "name": "Poolside: Laguna XS 2.1 (free)",
+   "ctx": 262144,
+   "modality": "text->text",
+   "tier": "A",
+   "why": "纯文本 + 大上下文(262144)，适合当兜底主力",
+   "maxCompletion": 32768,
+   "moderated": false
+  },
+  {
+   "id": "nvidia/nemotron-3-super-120b-a12b:free",
+   "name": "NVIDIA: Nemotron 3 Super (free)",
+   "ctx": 262144,
+   "modality": "text->text",
+   "tier": "A",
+   "why": "纯文本 + 大上下文(262144)，适合当兜底主力",
+   "maxCompletion": 235929,
+   "moderated": false
+  },
+  {
+   "id": "cohere/north-mini-code:free",
+   "name": "Cohere: North Mini Code (free)",
+   "ctx": 256000,
+   "modality": "text->text",
+   "tier": "A",
+   "why": "纯文本 + 大上下文(256000)，适合当兜底主力",
+   "maxCompletion": 64000,
+   "moderated": true
+  },
+  {
+   "id": "openrouter/free",
+   "name": "Free Models Router",
+   "ctx": 200000,
+   "modality": "text+image->text",
+   "tier": "A",
+   "why": "官方免费聚合路由，自动选可用免费模型（最省心）",
+   "maxCompletion": null,
+   "moderated": false
+  },
+  {
+   "id": "thinkingmachines/inkling-small:free",
+   "name": "Thinking Machines: Inkling Small (free)",
+   "ctx": 1048576,
+   "modality": "text+image+audio->text",
+   "tier": "B",
+   "why": "多模态 + 大上下文，可作次选",
+   "maxCompletion": 262144,
+   "moderated": false
+  },
+  {
+   "id": "thinkingmachines/inkling:free",
+   "name": "Thinking Machines: Inkling (free)",
+   "ctx": 1048576,
+   "modality": "text+image+audio->text",
+   "tier": "B",
+   "why": "多模态 + 大上下文，可作次选",
+   "maxCompletion": 262144,
+   "moderated": false
+  },
+  {
+   "id": "dots-studio/dots-3-note-preview:free",
+   "name": "Dots Studio: Dots3-Note Preview (free)",
+   "ctx": 512000,
+   "modality": "text+image->text",
+   "tier": "B",
+   "why": "多模态 + 大上下文，可作次选",
+   "maxCompletion": 460800,
+   "moderated": false
+  },
+  {
+   "id": "inclusionai/ling-3.0-flash-vl:free",
+   "name": "inclusionAI: Ling 3.0 Flash VL (free)",
+   "ctx": 262144,
+   "modality": "text+image+video->text",
+   "tier": "B",
+   "why": "多模态 + 大上下文，可作次选",
+   "maxCompletion": 32768,
+   "moderated": false
+  },
+  {
+   "id": "nex-agi/nex-n2.5-mini:free",
+   "name": "Nex AGI: Nex-N2.5-Mini (free)",
+   "ctx": 262144,
+   "modality": "text+image->text",
+   "tier": "B",
+   "why": "多模态 + 大上下文，可作次选",
+   "maxCompletion": 235929,
+   "moderated": false
+  },
+  {
+   "id": "nex-agi/nex-n2.5-pro:free",
+   "name": "Nex AGI: Nex-N2.5-Pro (free)",
+   "ctx": 262144,
+   "modality": "text+image->text",
+   "tier": "B",
+   "why": "多模态 + 大上下文，可作次选",
+   "maxCompletion": 235929,
+   "moderated": false
+  },
+  {
+   "id": "google/gemma-4-26b-a4b-it:free",
+   "name": "Google: Gemma 4 26B A4B  (free)",
+   "ctx": 262144,
+   "modality": "text+image+video->text",
+   "tier": "B",
+   "why": "多模态 + 大上下文，可作次选",
+   "maxCompletion": 32768,
+   "moderated": false
+  },
+  {
+   "id": "google/gemma-4-31b-it:free",
+   "name": "Google: Gemma 4 31B (free)",
+   "ctx": 262144,
+   "modality": "text+image+video->text",
+   "tier": "B",
+   "why": "多模态 + 大上下文，可作次选",
+   "maxCompletion": 32768,
+   "moderated": false
+  },
+  {
+   "id": "google/lyria-3-pro-preview",
+   "name": "Google: Lyria 3 Pro Preview",
+   "ctx": 1048576,
+   "modality": "text+image->text+audio",
+   "tier": "C",
+   "why": "音频生成，非文本对话",
+   "maxCompletion": 65536,
+   "moderated": false
+  },
+  {
+   "id": "google/lyria-3-clip-preview",
+   "name": "Google: Lyria 3 Clip Preview",
+   "ctx": 1048576,
+   "modality": "text+image->text+audio",
+   "tier": "C",
+   "why": "音频生成，非文本对话",
+   "maxCompletion": 65536,
+   "moderated": false
+  },
+  {
+   "id": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+   "name": "NVIDIA: Nemotron 3 Nano Omni (free)",
+   "ctx": 256000,
+   "modality": "text+image+audio+video->text",
+   "tier": "C",
+   "why": "多模态专用",
+   "maxCompletion": 65536,
+   "moderated": false
+  },
+  {
+   "id": "nvidia/nemotron-3.5-content-safety:free",
+   "name": "NVIDIA: Nemotron 3.5 Content Safety (free)",
+   "ctx": 128000,
+   "modality": "text+image->text",
+   "tier": "D",
+   "why": "安全审核模型，非通用对话",
+   "maxCompletion": 8192,
+   "moderated": false
+  },
+  {
+   "id": "liquid/lfm-2.5-2.6b:free",
+   "name": "LiquidAI: LFM2.5-2.6B (free)",
+   "ctx": 65536,
+   "modality": "text->text",
+   "tier": "D",
+   "why": "极小参数/小模型，仅极轻量任务",
+   "maxCompletion": 8192,
+   "moderated": false
+  }
+ ],
+ "poolCommand": {
+  "note": "key 到位后执行（本文件不含明文 key）",
+  "env": {
+   "SF_NAME": "openrouter-free",
+   "SF_BASE": "https://openrouter.ai/api/v1",
+   "SF_KEY": "<用户提供 sk-or-v1-...>",
+   "SF_MODELS": "{\"Tuan\":\"openrouter/free\",\"nvidia/nemotron-3.5-lightning:free\":\"nvidia/nemotron-3.5-lightning:free\",\"nvidia/nemotron-3-ultra-550b-a55b:free\":\"nvidia/nemotron-3-ultra-550b-a55b:free\"}"
+  },
+  "cmd": "node D:\\tdsh\\sub2api\\add-free-api-pool.mjs"
+ }
+}
