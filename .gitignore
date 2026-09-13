@@ -48,3 +48,10 @@ resources/portable-node/
 .dsh-vision-toolkit/
 resources/app/repo/data/
 _autoinstall_hub.sh
+
+# sub2api 敏感文件（含完整 api_key，严禁入库）
+sub2api/TUAN-POOL-HANDOVER.md
+sub2api/tuan-pool-snapshot.json
+sub2api/tuan-pool-snapshot.public.json
+sub2api/s2a-creds-full.txt
+sub2api/*pool*.mjs
