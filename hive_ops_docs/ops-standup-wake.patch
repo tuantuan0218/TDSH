@@ -1,0 +1,90 @@
+diff --git a/src/main/config.ts b/src/main/config.ts
+index b3c03a1..62f8e9e 100644
+--- a/src/main/config.ts
++++ b/src/main/config.ts
+@@ -57,8 +57,22 @@ export interface ScheduledMission {
+    *  inbox/outbox mtimes, any PTY output) has moved in this many ms. Default
+    *  ~5 min. NOT derived from registry.status (which never transitions in main). */
+   quietThresholdMs?: number;
++  /** Dispatch missions only, DEFAULT ON (opt out with `wake: false`). A wake-eligible
++   *  beat is NOT treated as the scheduler's own noise: while it sits UNANSWERED in
++   *  god's inbox it counts as actionable mail, so an agent stuck in a 30-minute turn
++   *  can no longer bulk-file the ops standup into inbox/.done without answering it.
++   *
++   *  Self-limiting by construction: the count is over UNREAD inbox mail, so the nag
++   *  stops the moment the beat is drained, and `WAKE_BEAT_WINDOW_MS` bounds it even
++   *  if the floor never drains. Heartbeat digests and breaker steers stay excluded —
++   *  that exclusion is what stops steer->inbox->wake->steer self-exciting (#151), and
++   *  this change does not touch either sender. */
++  wake?: boolean;
+ }
+ 
++/** How long an unanswered wake beat stays actionable (bounded nag). */
++export const WAKE_BEAT_WINDOW_MS = 20 * 60_000;
++
+ /** The built-in hourly ops standup: god reviews who's doing what + whether tasks
+  *  are on track and agents are running, and every terminal's context is compacted.
+  *  Shipped enabled by default; users can toggle it off in the Command Center. */
+diff --git a/src/main/index.ts b/src/main/index.ts
+index 9c5b341..a9b12b4 100644
+--- a/src/main/index.ts
++++ b/src/main/index.ts
+@@ -15,7 +15,7 @@ import { initAutoUpdater, abortPendingRestart } from './updater';
+ import { RealtimeFloorWatcher } from './realtimeFloorWatcher';
+ import {
+   readConfig, writeConfig, setAgentTokenCap, resetConfig, onConfigWritten, ensureHarnessHome, ensureClaudePermissionsAccepted,
+-  modelForRole, OPS_STANDUP_MISSION, HEARTBEAT_MISSION, COMPACT_MAINTENANCE_MISSION, type HarnessConfig, type ScheduledMission
++  modelForRole, OPS_STANDUP_MISSION, HEARTBEAT_MISSION, COMPACT_MAINTENANCE_MISSION, WAKE_BEAT_WINDOW_MS, type HarnessConfig, type ScheduledMission
+ } from './config';
+ import { listDir, readFileText, readFileBinary, writeFileText, statAbs, expandTilde } from './fs';
+ import { normalizeWeekly, weeklyDelayMs } from '../shared/weeklySchedule';
+@@ -730,6 +730,10 @@ function syncMissions(): void {
+         // their prior behaviour, including the historical empty-body send (Pam N1).
+         if (m.kind !== 'compact' && hive.enabled()) {
+           hive.send({ to: m.to, act: 'request', subject: m.label, body: m.body }, 'scheduler');
++          // Opt-in wake semantics: until this beat is drained (and at most
++          // WAKE_BEAT_WINDOW_MS), the heartbeat counts it as actionable mail and
++          // re-engages god. Fixes "the standup fires but nobody holds me to it".
++          if (m.wake !== false) markWakeBeat(m.label);
+         }
+         // Auto-compact: do NOT jam /compact into busy terminals. Hand it to the
+         // renderer, which queues a /compact per agent (deduped — never two at
+@@ -1172,6 +1176,29 @@ function buildHeartbeatDigest(quietMs: number, actionable = 0): string {
+  *  mail god must act on. Kept narrow so any future real sender counts by default. */
+ const SYSTEM_SENDERS = new Set(['heartbeat', 'scheduler', 'breaker', 'system']);
+ 
++/** Beat subject -> ms timestamp of the last `wake` mission fire carrying it. The
++ *  scheduler dispatches missions with `subject: m.label`, so the label is the join
++ *  key back to the mission that owns the mail. Pruned on read. */
++const wakeBeats = new Map<string, number>();
++
++/** Stamp a mission beat as demanding an answer (called from the mission fire()). */
++function markWakeBeat(label: string, at = Date.now()): void {
++  wakeBeats.set(label, at);
++}
++
++/** Is this scheduler beat an unanswered, still-in-window `wake` mission request?
++ *  Deliberately narrow: sender must be 'scheduler' (never 'heartbeat'/'breaker'),
++ *  act must be 'request', and the beat must be a mission that opted in and is
++ *  inside WAKE_BEAT_WINDOW_MS. Everything else keeps the old non-waking behaviour. */
++function isWakeEligibleMail(m: { from: string; act?: string; subject?: string; created_at?: string }): boolean {
++  if (!wakeBeats.size) return false;
++  if (m.from !== 'scheduler' || m.act !== 'request') return false;
++  const firedAt = wakeBeats.get(m.subject ?? '');
++  if (firedAt === undefined) return false;
++  if (Date.now() - firedAt > WAKE_BEAT_WINDOW_MS) { wakeBeats.delete(m.subject ?? ''); return false; }
++  return true;
++}
++
+ /** Count of UNREAD actionable messages in god's inbox — real agent/human mail,
+  *  excluding the scheduler's own beats. Drives an inbox-aware re-engage so a
+  *  worker's reply (or a human answer) doesn't sit unread while the floor is busy:
+@@ -1181,7 +1208,7 @@ function godActionableInboxCount(): number {
+   try {
+     const godId = hive.registry().godId;
+     if (!godId) return 0;
+-    return hive.inbox(godId).filter((m) => !SYSTEM_SENDERS.has(m.from)).length;
++    return hive.inbox(godId).filter((m) => !SYSTEM_SENDERS.has(m.from) || isWakeEligibleMail(m)).length;
+   } catch { return 0; }
+ }
+ 

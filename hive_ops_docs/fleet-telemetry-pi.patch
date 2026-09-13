@@ -1,0 +1,261 @@
+diff --git a/src/main/hive.ts b/src/main/hive.ts
+index 68abd52..30a8c83 100644
+--- a/src/main/hive.ts
++++ b/src/main/hive.ts
+@@ -428,6 +428,14 @@ export class HiveManager {
+   private agentDir(id: string): string {
+     return join(this.root()!, 'agents', id);
+   }
++  /** Public per-agent PI_CODING_AGENT_DIR (…/agents/<id>/.pi-agent) for the usage
++   *  fallback. Deliberately a separate accessor: agentDir() stays private so no
++   *  caller can write through it by accident. */
++  piAgentHome(id: string): string | null {
++    if (!this.root()) return null;
++    const dir = join(this.agentDir(id), '.pi-agent');
++    return existsSync(dir) ? dir : null;
++  }
+   /** IPC endpoint the cth-hook shim talks to (Phase 1 autonomy).
+    *  On POSIX this is a Unix-domain socket file under the hive root. On Windows,
+    *  Node's `net` IPC uses named pipes (a flat `\\.\pipe\` namespace, not the
+diff --git a/src/main/index.ts b/src/main/index.ts
+index 9c5b341..5ab9383 100644
+--- a/src/main/index.ts
++++ b/src/main/index.ts
+@@ -252,7 +252,10 @@ const telemetry = new TelemetryCollector({
+   resolveCwd: (agentId) => hive.registry().agents[agentId]?.cwd ?? null,
+   // D11: scopes the transcript fallback to this agent's own session instead of
+   // summing every transcript in a (routinely shared) cwd.
+-  resolveSessionId: (agentId) => hive.lastSession(agentId)
++  resolveSessionId: (agentId) => hive.lastSession(agentId),
++  // pi 席位的转录在 agents/<id>/.pi-agent/sessions/<key>/ 下，不在 ~/.claude。
++  // 不接这一根，fleet.json 的 tokens/lastTool/lastActiveSecAgo 就永远是常量。
++  resolveAgentHome: (agentId) => hive.piAgentHome(agentId)
+ });
+ // Usage provider (Seam 1) — the INTEGRATION swap: Oscar's telemetry collector (#7)
+ // IS the provider, replacing Lane A's interim StubUsageProvider. Same
+diff --git a/src/main/telemetry.ts b/src/main/telemetry.ts
+index 29dee3a..bddcd76 100644
+--- a/src/main/telemetry.ts
++++ b/src/main/telemetry.ts
+@@ -123,6 +123,10 @@ export interface TelemetryCollectorOptions {
+    *  cwd (the common case for hive workers) pulls in every other agent's and
+    *  every past session's history too. */
+   resolveSessionId?: (agentId: string) => string | undefined;
++  /** Resolve an agent's PI_CODING_AGENT_DIR (…/agents/<id>/.pi-agent) so the
++   *  fallback can read pi transcripts, which do not live under ~/.claude at all.
++   *  Optional: absent ⇒ pi seats keep reporting "no data" exactly as today. */
++  resolveAgentHome?: (agentId: string) => string | null;
+ }
+ 
+ export class TelemetryCollector {
+@@ -133,6 +137,7 @@ export class TelemetryCollector {
+   private readonly emit?: (channel: string, payload: unknown) => void;
+   private readonly resolveCwd?: (agentId: string) => string | null;
+   private readonly resolveSessionId?: (agentId: string) => string | undefined;
++  private readonly resolveAgentHome?: (agentId: string) => string | null;
+ 
+   /** sessionId → running accumulation. */
+   private readonly sessions = new Map<string, SessionAccum>();
+@@ -152,6 +157,7 @@ export class TelemetryCollector {
+     this.emit = opts.emit;
+     this.resolveCwd = opts.resolveCwd;
+     this.resolveSessionId = opts.resolveSessionId;
++    this.resolveAgentHome = opts.resolveAgentHome;
+   }
+ 
+   /** Bind the loopback OTLP listener. The handler is live the instant this
+@@ -433,8 +439,12 @@ export class TelemetryCollector {
+     const cwd = this.resolveCwd?.(agentId);
+     if (!cwd) return null;
+     const sessionId = this.resolveSessionId?.(agentId);
+-    if (!sessionId) return null;
+-    const u = readAgentUsage(cwd, { sessionId });
++    const agentHomeDir = this.resolveAgentHome?.(agentId) ?? undefined;
++    // Claude 路径维持 D11 的严格语义：没有会话身份就报"无数据"，绝不退化成求和。
++    // pi 路径不一样：会话身份在文件名里，所以按"最新一场"作用域读是安全的，
++    // 也是今天唯一能让 fleet 不再全 0 的读法。
++    if (!sessionId && !agentHomeDir) return null;
++    const u = readAgentUsage(cwd, sessionId ? { sessionId } : { agentHomeDir, newestOnly: true });
+     if (!u.inputTokens && !u.outputTokens && !u.cacheReadTokens && !u.cacheWriteTokens) return null;
+     return {
+       agentId,
+diff --git a/src/main/transcript.ts b/src/main/transcript.ts
+index 0d63140..68e0d06 100644
+--- a/src/main/transcript.ts
++++ b/src/main/transcript.ts
+@@ -14,6 +14,39 @@ function projectKey(cwd: string): string {
+   return cwd.replace(/[^a-zA-Z0-9]/g, '-');
+ }
+ 
++/** Pi (earendil-works) spells the same key but wraps it in a dash on each side,
++ *  and writes under a PER-AGENT home instead of ~/.claude:
++ *    <agentHome>/sessions/<piProjectKey(cwd)>/<isoTs>_<uuid>.jsonl
++ *  Calibrated on live data (7/7 seats, 5 distinct cwds):
++ *    D:/MunderDifflin -> --D--MunderDifflin--
++ *  A near-miss here is invisible: callers read an absent directory as "no
++ *  transcripts yet" and publish zeros — which is how fleet.json came to show
++ *  tokens=0 / lastActiveSecAgo=null for a fleet that was working (2026-09-13).
++ *  So piProjectDir WARNS once per missing root instead of returning quietly:
++ *  "no such directory" and "no activity" are different facts. */
++export function piProjectKey(cwd: string): string {
++  return '--' + projectKey(cwd) + '--';
++}
++
++const piMissingWarned = new Set<string>();
++
++export function piProjectDir(agentHomeDir: string, cwd: string): string | null {
++  const dir = path.join(agentHomeDir, 'sessions', piProjectKey(cwd));
++  if (existsSync(dir)) return dir;
++  if (!piMissingWarned.has(dir)) {
++    piMissingWarned.add(dir);
++    console.warn('[transcript] pi 转录根不存在:', dir, '(cwd=', cwd, ')');
++  }
++  return null;
++}
++
++/** Pi carries the session identity in the FILE NAME, not in the records, so
++ *  per-session scoping has to come from the name. */
++function piSessionIdOf(file: string): string | undefined {
++  const m = /_([0-9a-fA-F-]{20,40})[.]jsonl$/.exec(file);
++  return m ? m[1] : undefined;
++}
++
+ /** The pre-2026 POSIX key: leading slash DROPPED, only slashes dashed, so dots
+  *  survived (/Users/me/MDv0.3.0 → Users-me-MDv0.3.0). Kept solely so transcripts
+  *  written before the change stay readable. */
+@@ -151,6 +184,13 @@ export interface ReadUsageOptions {
+    *  every `.jsonl` under the shared project dir. When unset, all are summed
+    *  (the legacy behavior, used when the agent's session id isn't yet known). */
+   sessionId?: string;
++  /** provider 感知（pi）：该席位的 PI_CODING_AGENT_DIR（…/agents/<id>/.pi-agent）。
++   *  给了它才额外扫 pi 的转录根；不给则行为与今天完全一致。 */
++  agentHomeDir?: string;
++  /** 只统计 mtime 最新的那一个会话文件。这是 pi 侧唯一能把"这一席这一场"与
++   *  "该席全部历史（或其他席串线进来的场次）"分开的判据。实测按目录求和虚高
++   *  16.7x–126.4x（ryan/creed 因真零调用场次虚高到 2.4e6x）。 */
++  newestOnly?: boolean;
+ }
+ 
+ /** Per-file incremental parse state for the usage cache. Transcripts are
+@@ -195,7 +235,19 @@ const USAGE_CACHE_MAX = 2048;
+  *  agent count, which is exactly when it must stay cheap. Parsing every
+  *  record into every bucket it belongs to, once, up front, means a filtered
+  *  query is a Map lookup instead of a re-parse. */
+-function parseUsageLines(text: string, entry: FileUsageEntry): void {
++/** Claude: type:'assistant' + input_tokens/output_tokens/cache_*.
++ *  Pi:     type:'message' + message.role:'assistant' + input/output/cacheRead/cacheWrite.
++ *  Both shapes must be accepted, or a pi transcript parses to all-zero — which is
++ *  harder to notice than a missing file, because it looks like a quiet agent. */
++function isUsageRecord(rec: { type?: unknown; message?: { role?: unknown; usage?: unknown } }): boolean {
++  if (rec.type !== 'assistant' && rec.type !== 'message') return false;
++  const msg = rec.message;
++  if (!msg || !msg.usage) return false;
++  if (rec.type === 'message' && msg.role !== 'assistant') return false;
++  return true;
++}
++
++function parseUsageLines(text: string, entry: FileUsageEntry, fileSessionId?: string): void {
+   for (const line of text.split('\n')) {
+     const trimmed = line.trim();
+     if (!trimmed) continue;
+@@ -209,14 +261,14 @@ function parseUsageLines(text: string, entry: FileUsageEntry): void {
+     } catch {
+       continue;
+     }
+-    if (rec.type !== 'assistant') continue;
++    if (!isUsageRecord(rec)) continue;
+     const u = rec.message?.usage;
+     if (!u) continue;
+     const model = typeof rec.message?.model === 'string' ? normalizeModel(rec.message.model) : undefined;
+-    const rIn = num(u.input_tokens);
+-    const rOut = num(u.output_tokens);
+-    const rCacheWrite = num(u.cache_creation_input_tokens);
+-    const rCacheRead = num(u.cache_read_input_tokens);
++    const rIn = num(u.input_tokens ?? u.input);
++    const rOut = num(u.output_tokens ?? u.output);
++    const rCacheWrite = num(u.cache_creation_input_tokens ?? u.cacheWrite);
++    const rCacheRead = num(u.cache_read_input_tokens ?? u.cacheRead);
+     // Price THIS record by its own model, then accumulate — so a mixed-model
+     // agent (rare) is still costed correctly rather than at one flat rate.
+     const cost = estimateCostUsd(model, {
+@@ -226,11 +278,12 @@ function parseUsageLines(text: string, entry: FileUsageEntry): void {
+       cacheWriteTokens: rCacheWrite
+     });
+     const targets: AgentUsage[] = [entry.all];
+-    if (typeof rec.sessionId === 'string' && rec.sessionId) {
+-      let bucket = entry.perSession.get(rec.sessionId);
++    const sid = typeof rec.sessionId === 'string' && rec.sessionId ? rec.sessionId : fileSessionId;
++    if (sid) {
++      let bucket = entry.perSession.get(sid);
+       if (!bucket) {
+         bucket = zero();
+-        entry.perSession.set(rec.sessionId, bucket);
++        entry.perSession.set(sid, bucket);
+       }
+       targets.push(bucket);
+     }
+@@ -283,7 +336,7 @@ function readFileUsage(dir: string, file: string): FileUsageEntry | null {
+         const lastNl = text.lastIndexOf('\n');
+         if (lastNl !== -1) {
+           const complete = text.slice(0, lastNl + 1);
+-          parseUsageLines(complete, entry);
++          parseUsageLines(complete, entry, piSessionIdOf(file));
+           entry.offset += Buffer.byteLength(complete, 'utf8');
+         }
+       }
+@@ -313,21 +366,41 @@ function readFileUsage(dir: string, file: string): FileUsageEntry | null {
+ export function readAgentUsage(cwd: string, opts: ReadUsageOptions = {}): AgentUsage {
+   const usage = zero();
+   try {
+-    const dir = projectDir(cwd);
+-    if (!existsSync(dir)) return usage;
+-    const files = readdirSync(dir).filter((f) => f.endsWith('.jsonl'));
++    // 转录根：Claude 的 ~/.claude/projects/<key>，外加（给了 agentHomeDir 时）pi 的
++    // <home>/sessions/--key--。逐根独立累加，绝不跨根混合求和。
++    const roots: string[] = [];
++    const cdir = projectDir(cwd);
++    if (existsSync(cdir)) roots.push(cdir);
++    if (opts.agentHomeDir) {
++      const pdir = piProjectDir(opts.agentHomeDir, cwd);
++      if (pdir) roots.push(pdir);
++    }
++    if (!roots.length) return usage;
+     let lastModel: string | undefined;
+-    for (const file of files) {
+-      const entry = readFileUsage(dir, file);
+-      if (!entry) continue;
+-      const totals = opts.sessionId ? entry.perSession.get(opts.sessionId) : entry.all;
+-      if (!totals) continue;
+-      usage.inputTokens += totals.inputTokens;
+-      usage.outputTokens += totals.outputTokens;
+-      usage.cacheWriteTokens += totals.cacheWriteTokens;
+-      usage.cacheReadTokens += totals.cacheReadTokens;
+-      usage.estimatedCostUsd += totals.estimatedCostUsd;
+-      if (totals.model) lastModel = totals.model;
++    for (const dir of roots) {
++      let files = readdirSync(dir).filter((f) => f.endsWith('.jsonl'));
++      // newestOnly：只取该根下 mtime 最新的一场会话。按目录求和会把席位自己的历史
++      // 算成当前用量（2026-09-13 实测虚高 16.7x–126.4x，零调用席位达 2.4e6x），
++      // 而虚高会驱动断路器与 token 帽做错误裁决 —— 比"全 0"更危险。
++      if (opts.newestOnly) {
++        files = files
++          .map((f) => ({ f, m: (() => { try { return statSync(path.join(dir, f)).mtimeMs; } catch (e) { return 0; } })() }))
++          .sort((a, b) => b.m - a.m)
++          .slice(0, 1)
++          .map((x) => x.f);
++      }
++      for (const file of files) {
++        const entry = readFileUsage(dir, file);
++        if (!entry) continue;
++        const totals = opts.sessionId ? entry.perSession.get(opts.sessionId) : (opts.newestOnly ? entry.perSession.get(piSessionIdOf(file) ?? '') : entry.all);
++        if (!totals) continue;
++        usage.inputTokens += totals.inputTokens;
++        usage.outputTokens += totals.outputTokens;
++        usage.cacheWriteTokens += totals.cacheWriteTokens;
++        usage.cacheReadTokens += totals.cacheReadTokens;
++        usage.estimatedCostUsd += totals.estimatedCostUsd;
++        if (totals.model) lastModel = totals.model;
++      }
+     }
+     if (lastModel) usage.model = lastModel;
+     return usage;
