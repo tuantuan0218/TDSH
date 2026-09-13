@@ -177,3 +177,49 @@ ssh zhaozicheng@192.168.1.3 "psql -h 127.0.0.1 -U postgres -d sub2api -c \"SELEC
 2. **key 安全**: 所有 key 只入数据库，不入仓（.gitignore 已配置）
 3. **额度监控**: 用 `health-check.js` 定期检查 402/429 状态
 4. **error_rate 自动避让**: 网关内置，免费渠道触发错误会自动降权
+
+---
+
+## ⚠️ 伪免费警告（逆向代理验证结果 - 2026-09-13 实测）
+
+以下项目经实际 clone + 启动验证，**并非真正免费**，需要付费订阅前置条件：
+
+### ❌ cursor-free-api (cursor2api)
+- **声称**: 免费使用 Cursor Web Docs AI API
+- **实测结果**: HTTP 500 错误 - Cursor API 需要有效的 _vcrcs cookie（Vercel 安全验证）
+- **真实前置条件**: 
+  - Cursor 账号 + 浏览器登录获取 cookie
+  - 可能需要 Cursor Pro 订阅
+  - cookie 有效期短，需频繁更新
+- **结论**: **不推荐入池** - 维护成本高，非真正免费
+
+### ❌ copilot-api (ericc-ch) / copilot-openai-api (yuchanns)
+- **声称**: 将 GitHub Copilot 转为 OpenAI API
+- **实测结果**: `GitHub Copilot config not found at %LOCALAPPDATA%/github-copilot`
+- **真实前置条件**:
+  - **GitHub Copilot 付费订阅**（/月 或 /年）
+  - 需在 VS Code/Vim 等 IDE 安装 Copilot 插件并登录
+  - 生成 hosts.json + 	oken.json 配置文件
+- **结论**: **非免费** - 需要 Copilot 订阅，已有付费用户可考虑复用
+
+### ⚠️ claude-code-proxy
+- **实际功能**: 模型映射器（Claude Code → OpenAI/Gemini/Ollama）
+- **不是免费 API 来源**: 只是协议转换，需要用户提供自己的 API key
+- **适用场景**: 已有 OpenAI/Gemini key，想让 Claude Code CLI 调用
+
+---
+
+## ✅ 真正可用的免费方案总结
+
+| 类型 | 平台 | 免费额度 | 推荐度 |
+|------|------|---------|--------|
+| **官方免费档** | 讯飞 Lite / 快手 KAT-Air / iflow | 永久免费 | ⭐⭐⭐⭐⭐ |
+| **大厂免费额度** | Groq / Cerebras / Mistral | 每日重置 | ⭐⭐⭐⭐ |
+| **Keyless 匿名** | Pollinations / OVHcloud | 按 IP 限流 | ⭐⭐⭐ |
+| **逆向代理** | cursor-free-api / copilot-api | ❌ 需付费订阅 | ❌ 不推荐 |
+
+**最佳实践**: 优先使用官方永久免费档（iflow/讯飞/快手），其次是每日重置的大厂额度（Groq/Cerebras），最后才是 keyless 匿名端点作兜底。逆向代理方案维护成本高且有封号风险，不建议入池。
+
+---
+
+*文档生成时间: 2026-09-13 14:35 UTC | 验证方法: git clone + 本地启动 + API 调用实测*
