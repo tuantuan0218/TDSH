@@ -236,6 +236,34 @@ log('='.repeat(72));
     log('     若其 priority 数值小于可用账号，可能在调度中抢先被选中 → 必然失败并消耗重试。');
     log('     有 model_mapping 说明"配置到一半"，可能是并行会话的半成品。');
     log('     ▶ 建议（需人工确认）：置 schedulable=false，或补全 base_url。**本脚本不自动改**。');
+
+    // 影响量化：排序视角 —— 有多少可用账号排在僵尸之后
+    const q2 = `WITH live AS (
+        SELECT a.id, a.priority,
+          CASE WHEN coalesce(a.credentials->>'base_url','')='' THEN false ELSE true END AS has_base
+        FROM accounts a
+        WHERE a.deleted_at IS NULL AND a.status='active' AND a.schedulable
+      )
+      SELECT
+        (SELECT min(priority) FROM live WHERE NOT has_base) AS first_zombie_prio,
+        (SELECT count(*) FROM live WHERE has_base
+           AND priority > (SELECT min(priority) FROM live WHERE NOT has_base)) AS working_after;`;
+    assertReadOnly(q2, '排序影响');
+    const r2 = psql(q2);
+    if (!r2.error && r2.length && r2[0][0] !== null) {
+      log(`  📊 排序影响：首个僵尸 priority=${r2[0][0]}，其名次之后仍有 **${r2[0][1]} 个可用账号**`);
+    }
+    // 保护态核查：僵尸是否被系统自动屏蔽
+    const q3 = `SELECT count(*) FROM accounts
+      WHERE deleted_at IS NULL AND status='active' AND schedulable
+        AND coalesce(credentials->>'base_url','')=''
+        AND (temp_unschedulable_until IS NOT NULL OR overload_until IS NOT NULL);`;
+    assertReadOnly(q3, '僵尸保护态');
+    const r3 = psql(q3);
+    if (!r3.error && r3.length) {
+      log(`  🛡 其中被系统自动屏蔽（temp_unschedulable/overload）的：${r3[0][0]} 个` +
+          (r3[0][0] === '0' ? ' → **系统未自动屏蔽，需人工处置**' : ''));
+    }
   }
 }
 
