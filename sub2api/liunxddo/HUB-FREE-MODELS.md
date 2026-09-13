@@ -1,0 +1,308 @@
+# hub.linux.do 免费模型清单（2026-09-13 拉取，/v1/models 全量 2688 中 453 个 free 标记）
+
+## 分类统计
+- 总数: 453
+- `:free` 后缀(OpenRouter 系): 378
+- `-free` 后缀(平台系): 39
+- 其他含 free: 36
+- 按 owned_by: {"openai":392,"openrouter":59,"deepseek":1,"anthropic":1}
+
+## :free 后缀（OpenRouter 免费变体）378 个
+- `laguna-xs-2.1:free`
+- `glm-5.2:free`
+- `laguna-s-2.1:free`
+- `nemotron-3-ultra-550b-a55b:free`
+- `lfm-2.5-2.6b:free`
+- `nemotron-3-nano-omni-30b-a3b-reasoning:free`
+- `nemotron-3.5-content-safety:free`
+- `nemotron-3-super-120b-a12b:free`
+- `minimax-m2.5:free`
+- `qwen3-coder:free`
+- `gpt-oss-120b:free`
+- `gemma-4-31b-it:free`
+- `glm-4.5-air:free`
+- `dolphin-mistral-24b-venice-edition:free`
+- `gemma-4-26b-a4b-it:free`
+- `nvidia/nemotron-nano-12b-v2-vl:free`
+- `openai/gpt-oss-120b:free`
+- `google/gemma-3-12b-it:free`
+- `meta-llama/llama-3.2-3b-instruct:free`
+- `nousresearch/hermes-3-llama-3.1-405b:free`
+- `google/gemma-4-26b-a4b-it:free`
+- `minimax/minimax-m2.5:free`
+- `liquid/lfm-2.5-1.2b-thinking:free`
+- `nvidia/nemotron-nano-9b-v2:free`
+- `cognitivecomputations/dolphin-mistral-24b-venice-edition:free`
+- `google/gemma-3n-e2b-it:free`
+- `openai/gpt-oss-20b:free`
+- `qwen/qwen3-coder:free`
+- `meta-llama/llama-3.3-70b-instruct:free`
+- `nvidia/nemotron-3-super-120b-a12b:free`
+- `arcee-ai/trinity-large-preview:free`
+- `nvidia/nemotron-3-nano-30b-a3b:free`
+- `qwen/qwen3-next-80b-a3b-instruct:free`
+- `z-ai/glm-4.5-air:free`
+- `google/gemma-3n-e4b-it:free`
+- `google/gemma-3-4b-it:free`
+- `google/gemma-3-27b-it:free`
+- `google/gemma-4-31b-it:free`
+- `liquid/lfm-2.5-1.2b-instruct:free`
+- `inclusionai/ling-2.6-1t:free`
+- `inclusionai/ling-2.6-flash:free`
+- `baidu/qianfan-ocr-fast:free`
+- `tencent/hy3-preview:free`
+- `qwen/qwen3-coder-plus:free`
+- `qwen/qwen3.6-27b:free`
+- `qwen/qwen3-max:free`
+- `qwen/qwen3.5-397b-a17b:free`
+- `qwen/qwen-plus-2025-07-28:free`
+- `qwen/qwen3.8-max:free`
+- `qwen/qwen3.5-flash:free`
+- `qwen/qwen3.6-max-preview:free`
+- `qwen/qwen3.6-35b-a3b:free`
+- `qwen/qwen3-vl-plus:free`
+- `qwen/qwen3.5-plus:free`
+- `qwen/qwen3.6-plus:free`
+- `qwen/qwen3.7-plus:free`
+- `qwen/qwen3-omni-flash:free`
+- `qwen/qwen3.5-omni-flash:free`
+- `qwen/qwen3.7-max:free`
+- `qwen/qwen3.5-omni-plus:free`
+- `moonshotai/kimi-k2:free`
+- `poolside/laguna-xs.2:free`
+- `poolside/laguna-m.1:free`
+- `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`
+- `cohere/north-mini-code:free`
+- `nvidia/nemotron-3-ultra-550b-a55b:free`
+- `inclusionai/ling-3.0-tiny:free`
+- `poolside/laguna-xs-2.1:free`
+- `nvidia/nemotron-3.5-content-safety:free`
+- `poolside/laguna-s-2.1:free`
+- `sarvam-30b:free`
+- `whisper-1:free`
+- `glm-4-flash-search:free`
+- `glm-4-flashx-250414:free`
+- `gemini-3.6-flash:free`
+- `kimi-k2.7-code:free`
+- `prefect-pony:free`
+- `sapphira-l3.3-70b-0.1:free`
+- `nemotron-nano-12b-v2-vl:free`
+- `magistral-medium-2509:free`
+- `glm-4-air-thinking:free`
+- `glm-4.1v-thinking-flashx-think-search:free`
+- `sea-lion-modernbert-embedding-300m:free`
+- `laborratse-uncensored:free`
+- `jina-embeddings-v2-base-de:free`
+- `nemotron-nano-9b-v2:free`
+- `glm-4.6v-flash:free`
+- `gemini-robotics-er-1.6-preview:free`
+- `glm-deep-research-search:free`
+- `ministral-3-14b:free`
+- `qwen2.5-coder-3b-instruct:free`
+- `glm-4-air:free`
+- `nemotron-mini-4b-instruct:free`
+- `glm-deep-research-thinking:free`
+- `embed-english-light-v3.0:free`
+- `qwen-mt-plus:free`
+- `qwen-sea-lion-v4.5-27b-it:free`
+- `qwen2.5-coder-32b:free`
+- `codestral-latest:free`
+- `llama-prompt-guard-2-86m:free`
+- `anything-v5:free`
+- `qwen3-235b-a22b-fp8:free`
+- `jina-embeddings-v5-text-nano:free`
+- `mistral-medium:free`
+- `glm-4.5:free`
+- `l3.3-ms-nevoria-70b:free`
+- `o4-mini:free`
+- `jina-embeddings-v4:free`
+- `glm-5-think-search:free`
+- `intern-s1-pro:free`
+- `jina-embeddings-v2-base-zh:free`
+- `mn-violet-lotus-12b:free`
+- `gpt-image-2:free`
+- `glm-4-air-search:free`
+- `icbinp-i-cant-believe-its-not-photography:free`
+- `sonar-reasoning-pro:free`
+- `omni-moderation-latest:free`
+- `glm-4.6v-flash-think-search:free`
+- `gemma-2-2b-it:free`
+- `jina-embeddings-v5-text-small:free`
+- `o3-mini:free`
+- `kat-coder-air-v1:free`
+- `pllum-12b-instruct:free`
+- `qwen3.5-122b-a10b:free`
+- `glm-4.7-flash-think-search:free`
+- `glm-4.6v-flash-search:free`
+- `llama-4-maverick-17b-128e-instruct:free`
+- `text-embedding-v4:free`
+- `glm-4-think-search:free`
+- `qwen3-vl-plus:free`
+- `mistral-large-3-675b:free`
+- `gpt-image-1.5:free`
+- `glm-zero-preview:free`
+- `nv-embedqa-mistral-7b-v2:free`
+- `sea-lion-e5-embedding-600m:free`
+- `whisper-large-v3:free`
+- `agnes-image-2.1-flash:free`
+- `cogview-4-250304:free`
+- `glm-image-1:free`
+- `glm-5v-turbo:free`
+- `big-pickle:free`
+- `qwen3-reranker-0.6b:free`
+- `glm-4.6:free`
+- `bge-base-en-v1.5:free`
+- `text-embedding-v3:free`
+- `nova-anime-xl:free`
+- `embed-multilingual-v3.0:free`
+- `gemini-3.1-flash-lite:free`
+- `glm-5v-turbo-thinking:free`
+- `kinfra-text-embedding-4b:free`
+- `llama-3.2-3b:free`
+- `compound-mini:free`
+- `glm-5v-turbo-search:free`
+- `glm-4-thinking:free`
+- `llama-3.1-nemotron-nano-vl-8b-v1:free`
+- `glm-4-flash-thinking:free`
+- `gemini-flash-lite-latest:free`
+- `quiet-goodnight-xl:free`
+- `qwen2.5-vl-7b-instruct-awq:free`
+- `glm-5.1:free`
+- `glm-5.2-search:free`
+- `qwen3-coder-plus:free`
+- `qwen3-30b-a3b:free`
+- `sarvam-105b:free`
+- `jina-embeddings-v2-base-es:free`
+- `jina-code-embeddings-0.5b:free`
+- `mistral-small-4-119b-2603:free`
+- `jina-embeddings-v3:free`
+- `qwen3-coder-next:free`
+- `gemma-4-26b:free`
+- `glm-4-flash:free`
+- `glm-zero-preview-thinking:free`
+- `nova-furry-pony:free`
+- `command-r-plus:free`
+- `seed-oss-36b:free`
+- `c4ai-aya-expanse-32b:free`
+- `juggernaut-xl:free`
+- `agnes-image-2.0-flash:free`
+- `north-mini-code:free`
+- `sea-lion-modernbert-embedding-600m:free`
+- `glm-5.1-search:free`
+- `fustercluck:free`
+- `llama-3.2-90b-vision:free`
+- `glm-5-turbo-think-search:free`
+- `swamponyxl:free`
+- `villanova-2b-2512-preview-apnea-ft:free`
+- `llama-3.2-nv-embedqa-1b-v1:free`
+- `diffusiongemma-26b-a4b-it:free`
+- `sonar-pro:free`
+- `command-r-7b:free`
+- `glm-5v-turbo-think-search:free`
+- `mistral-small:free`
+- `glm-4.5v:free`
+- `emotional-36b:free`
+- `qwen3-32b:free`
+- `lfm-2.5-1.2b-thinking:free`
+- `bge-small-en-v1.5:free`
+- `manta-flash-1.0:free`
+- `glm-4.5-thinking:free`
+- `glm-deep-research:free`
+
+## -free 后缀（平台免费档）39 个
+- `coding-glm-5.1-free`
+- `gpt-4o-free`
+- `step-3.5-flash-free`
+- `kimi-for-coding-free`
+- `coding-minimax-m2.5-free`
+- `coding-glm-5-turbo-free`
+- `gpt-4.1-mini-free`
+- `glm-4.7-flash-free`
+- `coding-glm-4.7-free`
+- `k2.6-code-preview-free`
+- `coding-minimax-m2-free`
+- `coding-minimax-m2.7-free`
+- `coding-glm-5-free`
+- `gpt-4.1-free`
+- `coding-minimax-m2.1-free`
+- `coding-glm-4.6-free`
+- `gemini-3-flash-preview-free`
+- `gpt-4.1-nano-free`
+- `longcat-2.0-free`
+- `ling-3.0-tiny-free`
+- `nemotron-3-ultra-free`
+- `mimo-v2.5-free`
+- `ling-3.0-flash-free`
+- `laguna-s-2.1-free`
+- `north-mini-code-free`
+- `deepseek-v4-flash-free`
+- `z-ai/glm-4.7-flash-free`
+- `z-ai/glm-4.6v-flash-free`
+- `muse-spark-1.3-contributor-free`
+- `muse-spark-1.2-contributor-free`
+- `ling-3.0-flash-fin-free`
+- `nemotron-3.5-lightning-free`
+- `moonshotai/kimi-k3-free`
+- `glm-5.3-flash-free`
+- `glm-5.3-free`
+- `deepseek-v4f-free`
+- `community/AkshayCoder48/laguna-s-2.1-free`
+- `community/AkshayCoder48/kilo-auto-free`
+- `community/Catniti/deepseek-r1-free`
+
+## 其他（free 别名等）36 个
+- `free`
+- `openrouter/free`
+- `kilo-auto/free`
+- `free-deepseek-v4-flash`
+- `[free]deepseek-v4-pro-0813`
+- `[free]kimi-k3`
+- `[free]qwen3.8-max`
+- `[free]GLM-5.3`
+- `[free]gpt-5.6-sol`
+- `[free]claude-opus-5`
+- `free/deepseek-v4-flash-0731`
+- `free/deepseek-v4-pro-0813`
+- `free/glm-5.3-flash`
+- `free/gpt-5.6-luna`
+- `free/gemini-3.1-pro`
+- `free/gemini-3.8-flash`
+- `community/AkshayCoder48/free-voice`
+- `qwen/qwen3.5-27b(free)`
+- `z-ai/glm-4.6v(free)`
+- `agent/qwen3-coder-30b-a3b-instruct(free)`
+- `baai/bge-m3(free)`
+- `qwen/qwen-image-edit(free)`
+- `qwen/qwen3-8b(free)`
+- `deepseek/deepseek-ocr(free)`
+- `qwen/qwen-image(free)`
+- `qwen/qwen3.5-35b-a3b(free)`
+- `kwai-kolors/kolors(free)`
+- `qwen/qwen3-30b-a3b-instruct-2507(free)`
+- `qwen/qwen3-embedding-0.6b(free)`
+- `qwen/qwen3-reranker-0.6b(free)`
+- `qwen/qwen3.5-4b(free)`
+- `stepfun-ai/step-3.5-flash(free)`
+- `agent/deepseek-v3.2(free)`
+- `qwen/qwen-image-edit-2509(free)`
+- `qwen/qwen3-vl-30b-a3b-instruct(free)`
+- `qwen/qwen3-vl-30b-a3b-thinking(free)`
+
+## 实测结论（2026-09-13，hub key 直测 chat）
+
+| 模型 | 结果 | 说明 |
+|------|------|------|
+| free | ✅ 200 (1.3s) | 通用免费别名 |
+| openrouter/free | ✅ 200 (1.6s) | OpenRouter 免费路由 |
+| gpt-4o-free | ✅ 200 (1.4s) | |
+| gpt-4.1-mini-free | ✅ 200 (1.7s) | |
+| coding-glm-5.1-free | ✅ 200 (4.7s) | |
+| gemini-3-flash-preview-free | ✅ 200 (3.4s) | |
+| step-3.5-flash-free / kimi-for-coding-free | ❌ 400 no_available_channel | 渠道暂歇 |
+| glm-5.2:free | ❌ 超时 | :free 系普遍不稳 |
+| [free] 前缀 6 个 | ❌ 422/500 | 上游 gemai.huchan.cn 不可达 |
+| :free 变体 5 个 | ❌ 401 User not found | 需独立 OpenRouter 账号 |
+
+**结论**：hub 有真实可用免费 API（free/openrouter/free + 5 个 -free 平台模型实测 200），
+但 453 个 free 标记大部分不可用（:free 需 OpenRouter 授权 / [free] 上游挂 / 渠道暂歇）——
+**以实测为准，入池前逐个直测**。推荐映射候选：free（最稳）或 gpt-4.1-mini-free。
