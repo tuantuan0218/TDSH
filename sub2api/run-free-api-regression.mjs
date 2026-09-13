@@ -56,11 +56,15 @@ const CASES = [
     pass: /get\(\) 返回形态不一/, net: false,
   },
   {
-    // 免key探测器自证：必须命中已知的两个免key可用端点（pollinations + xzt）。
-    // 若为 0，说明探测器失效 —— 由此得出的"免key端点已全部失效"结论不可信。
-    name: '免key探测·探测器自证',
+    // 免key探测器自证：必须至少命中 1 个**通过知识校验**的真免key端点（xzt）。
+    // 2026-09-13 起判据升级为三步门（models → chat出词 → 知识校验），
+    //   故断言从"真出词 **2**"改为"通过知识校验 **≥1**"：
+    //   · pollinations 当前可能处于预算耗尽（会返回 200+预算文本）→ 被正确判为 ⛔ 而非可用
+    //   · 期望值不再写死 2，避免因单个端点常态波动而误报回归失败
+    // 若为 0，说明探测器失效或所有已知端点都挂了 —— 两种都必须人工看。
+    name: '免key探测·探测器自证（三步门）',
     file: 'probe-keyless-endpoints.mjs', args: ['_scan_fixtures/keyless-controls.txt'],
-    pass: /免 key 真出词 \*\*2\*\*/, net: true,
+    pass: /通过知识校验\*\*的 \*\*[1-9]/, net: true,
   },
 ];
 
