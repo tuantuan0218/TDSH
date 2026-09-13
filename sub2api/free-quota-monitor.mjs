@@ -170,7 +170,16 @@ export function parseV2ex(html) {
 }
 
 /* ---------------- anonymous probe（两级门：models 可见 ≠ 可调用，入池只认 chat 真出词） ---------------- */
-const CONTROL = ['https://text.pollinations.ai/openai'];
+// 阳性对照 = 已实测"免 key 真出词"的端点。**必须至少一个稳定可用**，否则本轮"无匿名可用"结论作废。
+// 2026-09-13 深夜扩为 2 个（此前只有 Pollinations）：
+//   - Pollinations：模型 openai-fast（目录里的第一个即可）
+//   - ai-api.xzt.plus：免 key 24 模型，实测 6 个出词；必须**指定模型名**，
+//     因为其目录首个是 PaddleOCR-VL（视觉模型），直接拿来 chat 会得到非预期输出。
+//     选用 deepseek-ai/DeepSeek-V3.2（实测连测 3/3 稳定）。
+const CONTROL = [
+  { url: 'https://text.pollinations.ai/openai', name: 'pollinations(对照)' },
+  { url: 'https://ai-api.xzt.plus/v1', name: 'xzt-ai-proxy(对照)', chatModel: 'deepseek-ai/DeepSeek-V3.2' },
+];
 // 已知"models 开、chat 关"的负对照：free.suyu.io（2026-09-13 实测 /models 200 9模型 + chat 401 未提供令牌）
 const NEG_CONTROL = 'https://free.suyu.io/v1';
 export function modelsUrl(u) {
@@ -325,7 +334,10 @@ const benefits = parseBenefits(raw.benefits);
 const mirror = parseMirror(raw.linuxdoMirror);
 const v2ex = parseV2ex(raw.v2exTag);
 const probes = [];
-for (const u of CONTROL) { const p = await probe(u); probes.push({ ...p, control: true, name: 'pollinations(对照)' }); }
+for (const c of CONTROL) {
+  const p = await probe(c.url, c.chatModel ? { chatModel: c.chatModel } : {});
+  probes.push({ ...p, control: true, name: c.name });
+}
 { const p = await probe(NEG_CONTROL); probes.push({ ...p, negControl: true, name: 'suyu(负对照:models开/chat关)' }); }
 for (const s of stations) { if (!s.domain) continue; const p = await probe('https://' + s.domain); probes.push({ ...p, name: s.name }); }
 const ctrl = probes.find(p => p.control && isPoolable(p));

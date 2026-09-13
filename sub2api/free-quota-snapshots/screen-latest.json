@@ -1,0 +1,165 @@
+{
+ "ts": "2026-09-13T18:49:17.289Z",
+ "live": [
+  {
+   "h": "ai.dext.top",
+   "reg": true,
+   "pwreg": true,
+   "ev": false,
+   "ts": true,
+   "ck": false,
+   "sys": "dext超级api",
+   "verdict": "captcha"
+  },
+  {
+   "h": "ai.mrcwoods.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "跑路中转站",
+   "verdict": "email_code"
+  },
+  {
+   "h": "api.cnwks.top",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": true,
+   "ck": true,
+   "sys": "坤鹏算力",
+   "verdict": "captcha"
+  },
+  {
+   "h": "api.justwoker.icu",
+   "reg": true,
+   "pwreg": false,
+   "ev": false,
+   "ts": true,
+   "ck": true,
+   "sys": "JustDoWork",
+   "verdict": "oauth_only"
+  },
+  {
+   "h": "api.openrealm.dev",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "OpenApi",
+   "verdict": "email_code"
+  },
+  {
+   "h": "api.qfgapi.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "清风阁API",
+   "verdict": "email_code"
+  },
+  {
+   "h": "api.tmlab.store",
+   "reg": true,
+   "pwreg": true,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "Z-API",
+   "verdict": "gold"
+  },
+  {
+   "h": "api.tu-zi.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "兔子API",
+   "verdict": "email_code"
+  },
+  {
+   "h": "api.wuai.ai",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "吾爱 AI",
+   "verdict": "email_code"
+  },
+  {
+   "h": "api.ykh.ai",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "YKH.AI",
+   "verdict": "email_code"
+  },
+  {
+   "h": "api.ywcode.top",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "YW Code API",
+   "verdict": "email_code"
+  },
+  {
+   "h": "baosiapi.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "BaosiAPI",
+   "verdict": "email_code"
+  },
+  {
+   "h": "byesu.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "Byesu API",
+   "verdict": "email_code"
+  },
+  {
+   "h": "newapi.columbina.eu.org",
+   "reg": true,
+   "pwreg": true,
+   "ev": false,
+   "ts": false,
+   "ck": true,
+   "sys": "New API",
+   "verdict": "gold"
+  },
+  {
+   "h": "tian-shu.org",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "天枢",
+   "verdict": "email_code"
+  },
+  {
+   "h": "wuai.ai",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "吾爱 AI",
+   "verdict": "email_code"
+  }
+ ]
+}
