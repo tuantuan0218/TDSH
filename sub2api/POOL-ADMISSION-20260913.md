@@ -60,5 +60,13 @@ concurrency : 1       ← 兜底位铁律
 
 ## 五、待办
 
+## 六、2026-09-14 aitools-free 入池（账号 44，新 goal 首单）
+
+- 来源：V2EX `t/1181529` 帖站 `platform.aitools.cfd`，**免注册**，页内点两次即领 key（每 IP 每小时 1 个，永久有效，每 key 3 秒 1 次）。
+- 验证（入池前直连）：`zhipu/glm-4-flash` 200 出词、`google/gemma-4-31b` 200 出词；`openai/gpt-oss-20b` 偶发 500（上游不稳）。
+- 入池：`aitools-free`，base `https://platform.aitools.cfd/api/v1`，映射 Tuan→glm-4-flash /
+  Tuan-gemma→gemma-4-31b / Tuan-gptoss→gpt-oss-20b，prio50/conc1/group5。key 只入 PG credentials，**不落文档**。
+- 注意：该站 429 限流严（3 秒 1 次），只做兜底。
+
 - 观察 `usage_logs` 中新账号是否被路由（兜底位只在主力打满/失败时接管，served=0 属结构性正常）
 - ⚠️ 工具输出文案称"prio 90"，与实际写入的 **50** 不符 —— **以 DB 实际值为准**（工具文案小瑕疵，已在下方记录）

@@ -18,3 +18,8 @@ run-nvidia.mjs
 cdp-email-submit.mjs
 .tmp-pool-query.sh
 .tmp-nv-pass.txt
+.wb-*.txt
+wb-req-*.json
+wb-*.cjs
+tmp-*.cjs
+tmp-*.ps1
