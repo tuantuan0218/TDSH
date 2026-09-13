@@ -38,11 +38,19 @@ async function getModels() {
  *   · 区分"模型不可用"与"内容审核拦截"（403 且 message 含 moderation）
  */
 const RETRY = Number(process.env.XZT_RETRY || 2);
-const GAP_MS = Number(process.env.XZT_GAP_MS || 6500);   // 保守：≈9 req/min < 10/min 上限
+// ★ 节流间隔（2026-09-13 修正）：
+//   原以为"10 次/分钟"是唯一约束，故设 6500ms（≈9.2/min）。
+//   但实测发现：**触发 429 后会进入较长冷却**（本轮观测 ≥2 分钟仍未恢复），
+//   且低速探测（6/min）在冷却期内同样被拒（code=ip_throttled）。
+//   ⇒ 默认放宽到 11000ms（≈5.5/min），远低于阈值；且触发 429 后走长退避。
+const GAP_MS = Number(process.env.XZT_GAP_MS || 11000);
+const THROTTLE_BACKOFF_MS = Number(process.env.XZT_BACKOFF_MS || 65000); // 遇 429 的长退避
 const MAX_TOKENS = Number(process.env.XZT_MAX_TOKENS || 1024); // 推理模型需留足预算，见下方注释
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const isDeterministicReject = (status) => status === 401 || status === 403 || status === 404;
+/** 识别限流：HTTP 429 或显式 code=ip_throttled */
+const isThrottled = (res) => res && (res.status === 429 || res.throttleCode === 'ip_throttled');
 
 async function tryModelOnce(model) {
   const t0 = Date.now();
@@ -86,6 +94,7 @@ async function tryModelOnce(model) {
       text: content.slice(0, 50).replace(/\s+/g, ' '),
       raw: txt.slice(0, 120),
       moderationBlocked: errCode === 'moderation_output_blocked' || /审核|moderation/i.test(errMsg),
+      throttleCode: errCode === 'ip_throttled' ? 'ip_throttled' : '',
       errCode,
       // 便于识别"靠 reasoning_content 才拿到内容"的推理模型
       viaReasoning: !!(content && /reasoning/i.test(fields.join(','))),
@@ -115,14 +124,21 @@ function extractContent(msg, choice) {
   }
   return '';
 }
-/** 带重试与节流的单模型测试；返回 {r, attempts, throttled} */
+/** 带重试与节流的单模型测试；返回 {r, attempts, throttled}
+ * ★ 限流处理：遇 429/ip_throttled 走**长退避**（实测触发后冷却 ≥2 分钟），
+ *   而非仅等下一个小间隔 —— 否则会在冷却期内空转并继续消耗探测次数。
+ */
 async function tryModel(model) {
   let last = null;
   let throttled = 0;
   for (let i = 1; i <= RETRY; i++) {
     last = await tryModelOnce(model);
     if (last.usable) return { r: last, attempts: i, throttled };
-    if (last.status === 429) throttled++;
+    if (isThrottled(last)) {
+      throttled++;
+      // 已被限流：长退避后再试（若还有次数）
+      if (i < RETRY) { await sleep(THROTTLE_BACKOFF_MS); continue; }
+    }
     if (isDeterministicReject(last.status)) return { r: last, attempts: i, throttled, definite: true };
     if (i < RETRY) await sleep(GAP_MS);
   }
@@ -131,7 +147,8 @@ async function tryModel(model) {
 
 const models = await getModels();
 console.log(`xzt 端点模型总数：${models.length}`);
-console.log(`节流策略：每模型最多 ${RETRY} 次尝试、间隔 ${GAP_MS}ms（≈${(60000 / GAP_MS).toFixed(1)} req/min，低于端点 10/min 上限）\n`);
+console.log(`节流策略：间隔 ${GAP_MS}ms（≈${(60000 / GAP_MS).toFixed(1)} req/min）、每模型最多 ${RETRY} 次尝试`);
+console.log(`          遇限流退避 ${THROTTLE_BACKOFF_MS}ms（实测触发后冷却 ≥2 分钟）\n`);
 
 const results = [];
 for (const [idx, m] of models.entries()) {
