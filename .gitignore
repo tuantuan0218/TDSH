@@ -76,3 +76,8 @@ sub2api/health-log.jsonl
 sub2api/probe-runs/
 sub2api/pi-host-dump/
 sub2api/analysis-output.txt
+
+# liunxddo 第三方二进制（DeepLX 25MB，不入库，手动部署用）
+sub2api/liunxddo/bin/
+sub2api/liunxddo/gateway.log
+

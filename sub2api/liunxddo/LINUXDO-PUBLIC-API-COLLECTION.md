@@ -85,3 +85,16 @@
   key 从 connect.linux.do 领取（`api.deeplx.org/<api-key>/translate`）；vercel 版已被 451 封锁。
 - **非 LLM 公益 API（keyless 实测）**：一言 hitokoto（v1.hitokoto.cn）200 keyless；
   60s API（60s.viki.moe/v2/60s）200 keyless；xxapi.cn / img.viki.moe TLS 拒绝。
+
+## 七、第三轮实测补录（老帖公益站）
+
+- **图床/随机图帖（169025）、Pixiv 图帖（214281）**：均已失效（404/私密），勿再尝试。
+- **Flux 绘图 CF Worker 变体（218423）**：帖活，完整 worker 代码（支持 FLUX.1-Schnell-CF /
+  DS-8-CF / SD-XL 系列 + 外部提示词 API 选项）→ 与 222639 方案二选一部署，均需 CF 账号。
+- **DeepLX 本地 API（111602）**：✅ **已实际部署**（`liunxddo/bin/deeplx_windows_amd64.exe`，
+  v1.2.4，2026-08 发布，25MB，D 盘非 C 盘），服务监听 `0.0.0.0:1188`，POST `/translate`
+  （JSON: text/source_lang/target_lang）。
+  - 实测：本地服务正常响应；当前出口 IP 被 DeepL 官方临时封锁（429 too many requests），
+    属上游限流非部署故障——换出口/等待解封即恢复。独立于 linux.do Connect key 的
+    **自主部署免费翻译方案**，比 api.deeplx.org（需 connect key）更可控。
+  - 启停：启动见 `bin/deeplx.log`；日志在 bin/ 目录；需要常驻时复制到自管目录手动启动。
