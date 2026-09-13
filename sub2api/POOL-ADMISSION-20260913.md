@@ -74,5 +74,13 @@ concurrency : 1       ← 兜底位铁律
   Tuan-gemma→gemma-4-31b / Tuan-gptoss→gpt-oss-20b，prio50/conc1/group5。key 只入 PG credentials，**不落文档**。
 - 注意：该站 429 限流严（3 秒 1 次），只做兜底。
 
+## 八、2026-09-14 freemodel-free 占位入池（账号 46）
+
+- 来源：`freemodel.dev`，**邮箱验证码直注**（临时邮箱收码 `768599` 秒到），建 key 全程无卡点。
+- 验证：`/v1/models` 双面 200（OpenAI 面 gpt-5.6 系 3 个 / cc 面 claude-opus-5 等）；
+  chat 401（OpenAI 空）/`Insufficient balance`（cc 面）——**key 有效、余额 0**，帖子说的 $30/$300 未到账。
+- 入池：`freemodel-free`，Tuan→gpt-5.6-sol / Tuan-luna / Tuan-terra，prio50/conc1/group5。
+  额度到账自动复活。key 只入 PG，**不落文档**。
+
 - 观察 `usage_logs` 中新账号是否被路由（兜底位只在主力打满/失败时接管，served=0 属结构性正常）
 - ⚠️ 工具输出文案称"prio 90"，与实际写入的 **50** 不符 —— **以 DB 实际值为准**（工具文案小瑕疵，已在下方记录）
