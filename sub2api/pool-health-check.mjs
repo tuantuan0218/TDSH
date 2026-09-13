@@ -137,6 +137,46 @@ log('='.repeat(72));
   if (adminAcc === '401') log('  > 官方管理 API 可用（需凭据）→ 改池应优先走它（自动纳管调度、可审计），而非裸 SQL');
 }
 
+/* ---------- 0b. 池内免 key 端点「真实性」核验（知识校验，可选）----------
+ * 2026-09-13 动机：上轮抓到 completions.me 是假服务（任何输入返回同一句固定文本）。
+ *   故需回答"池内免 key 端点是不是真的"。
+ * 方法：问有唯一正解的问题（17*23=391）+ 换题看回答是否变化（防固定回复）。
+ * 仅对**免 key** 端点执行（无需凭据）；默认跳过，用 --verify-endpoints 启用（会发外部请求）。
+ */
+if (process.argv.includes('--verify-endpoints')) {
+  const Q1 = 'What is 17 * 23? Reply with only the number.';
+  const Q2 = 'Reply with exactly: ZULU-99';
+  const ask = async (base, model, q) => {
+    try {
+      const r = await fetch(base.replace(/\/+$/, '') + '/chat/completions', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0' },
+        body: JSON.stringify({ model, max_tokens: 40, messages: [{ role: 'user', content: q }] }),
+        signal: AbortSignal.timeout(60000),
+      });
+      const t = await r.text();
+      let c = ''; try { c = JSON.parse(t).choices?.[0]?.message?.content ?? ''; } catch {}
+      return { status: r.status, text: String(c).trim() };
+    } catch (e) { return { status: 0, text: 'ERR' }; }
+  };
+  log(`\n## 0b. 免 key 端点真实性核验（知识门：17*23 应为 391）`);
+  for (const t of [
+    { n: 'xzt', base: 'https://ai-api.xzt.plus/v1', model: 'deepseek-ai/DeepSeek-V3.2' },
+    { n: 'pollinations', base: 'https://text.pollinations.ai/openai', model: 'openai-fast' },
+  ]) {
+    const a1 = await ask(t.base, t.model, Q1);
+    const a2 = await ask(t.base, t.model, Q2);
+    const ok1 = /\b391\b/.test(a1.text);
+    const ok2 = /ZULU-99/.test(a2.text);
+    const fixed = a1.text && a1.text === a2.text;
+    const real = ok1 && ok2 && !fixed;
+    log(`  ${real ? '✅ 真实' : ok1 ? '⚠️ 可疑' : '⚠️ 异常'}  ${t.n} [${t.model}]  HTTP ${a1.status}`);
+    log(`     17*23→"${a1.text.slice(0, 55)}"   ZULU-99→"${a2.text.slice(0, 35)}"`);
+    if (fixed) log('     ⚠️ 两题回答相同 → 固定回复嫌疑（可能是假服务，或预算耗尽文本）');
+    if (!ok1 && /budget|quota|exhausted/i.test(a1.text)) log('     ℹ️ 命中 BAD_OUT 类文本：端点预算/额度耗尽（非假站）');
+  }
+}
+
 /* ---------- 1. 总览 ---------- */
 {
   const sql = `SELECT
