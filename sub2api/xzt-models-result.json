@@ -1,0 +1,200 @@
+{
+ "base": "https://ai-api.xzt.plus/v1",
+ "ts": "2026-09-13T20:14:35.569Z",
+ "total": 24,
+ "usable": 7,
+ "results": [
+  {
+   "model": "PaddlePaddle/PaddleOCR-VL-1.5",
+   "status": 200,
+   "ms": 280,
+   "usable": true,
+   "text": "💬 💬 ✅",
+   "raw": "{\"id\":\"chatcmpl-e576d81fa5cb46c19f30fad83b47aeef\",\"object\":\"chat.completion\",\"created\":1789328860,\"model\":\"PaddlePaddle/"
+  },
+  {
+   "model": "Qwen/Qwen2.5-7B-Instruct",
+   "status": 200,
+   "ms": 271,
+   "usable": true,
+   "text": "PONG",
+   "raw": "{\"id\":\"01a09c4fa689608bde8484771d58c02e\",\"object\":\"chat.completion\",\"created\":1789328860,\"model\":\"Qwen/Qwen2.5-7B-Instru"
+  },
+  {
+   "model": "Qwen/Qwen3-8B",
+   "status": 200,
+   "ms": 5048,
+   "usable": true,
+   "text": "PONG",
+   "raw": "{\"id\":\"01a09c67e50afc129f86c2996f3c5267\",\"object\":\"chat.completion\",\"created\":1789330449,\"model\":\"Qwen/Qwen3-8B\",\"choice"
+  },
+  {
+   "model": "Qwen/Qwen3.5-4B",
+   "status": 200,
+   "ms": 274,
+   "usable": false,
+   "text": "",
+   "raw": "{\"id\":\"chatcmpl-b39dc39916307eb7\",\"object\":\"chat.completion\",\"created\":1789328875,\"model\":\"Qwen/Qwen3.5-4B\",\"choices\":[{"
+  },
+  {
+   "model": "Qwen/Qwen3.5-9B",
+   "status": 200,
+   "ms": 278,
+   "usable": false,
+   "text": "",
+   "raw": "{\"id\":\"chatcmpl-bd894a831c68ae0b\",\"object\":\"chat.completion\",\"created\":1789328877,\"model\":\"Qwen/Qwen3.5-9B\",\"choices\":[{"
+  },
+  {
+   "model": "THUDM/GLM-Z1-9B-0414",
+   "status": 200,
+   "ms": 4806,
+   "usable": true,
+   "text": "PONG",
+   "raw": "{\"id\":\"01a09c67fab384982af2daa268f9b2f7\",\"object\":\"chat.completion\",\"created\":1789330455,\"model\":\"THUDM/GLM-Z1-9B-0414\","
+  },
+  {
+   "model": "agnes-2.5-flash",
+   "status": 200,
+   "ms": 335,
+   "usable": true,
+   "text": "PONG",
+   "raw": "{\"id\":\"e2a5e1a2f8d04b43a06eeb53217c0dac\",\"created\":1789328897,\"model\":\"agnes-2.5-flash\",\"object\":\"chat.completion\",\"choi"
+  },
+  {
+   "model": "deepseek-ai/DeepSeek-OCR",
+   "status": 200,
+   "ms": 478,
+   "usable": true,
+   "text": "(after deserializing the right thing) Assuming y",
+   "raw": "{\"id\":\"01a09c680eb1255785a0764b0635776d\",\"object\":\"chat.completion\",\"created\":1789330460,\"model\":\"deepseek-ai/DeepSeek-O"
+  },
+  {
+   "model": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+   "status": 403,
+   "ms": 10354,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"模型输出被内容审核策略拦截\",\"code\":\"moderation_output_blocked\"}}"
+  },
+  {
+   "model": "deepseek-ai/DeepSeek-V3.2",
+   "status": 200,
+   "ms": 279,
+   "usable": true,
+   "text": "PONG",
+   "raw": "{\"id\":\"01a09c505176caa03046ec7fbc5a18f2\",\"object\":\"chat.completion\",\"created\":1789328904,\"model\":\"deepseek-ai/DeepSeek-V"
+  },
+  {
+   "model": "diffusiongemma-26b-a4b-it",
+   "status": 429,
+   "ms": 279,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 38 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "gemma-4-31b-it",
+   "status": 429,
+   "ms": 521,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 38 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "gpt-oss-20b",
+   "status": 429,
+   "ms": 268,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 37 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "ising-calibration-1.5-31b",
+   "status": 429,
+   "ms": 267,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 37 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "kilo-auto/free",
+   "status": 429,
+   "ms": 483,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 37 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "muse-glimmer-30b",
+   "status": 429,
+   "ms": 263,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 36 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "nemotron-3-nano-omni-30b-a3b-reasoning",
+   "status": 429,
+   "ms": 267,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 36 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "nemotron-3-super",
+   "status": 429,
+   "ms": 259,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 36 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "nemotron-3-ultra",
+   "status": 429,
+   "ms": 277,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 35 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "nemotron-3.5-lightning-30b-a3b",
+   "status": 429,
+   "ms": 271,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 35 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "openrouter/free",
+   "status": 429,
+   "ms": 273,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 35 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "step-3.5-flash",
+   "status": 429,
+   "ms": 268,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 35 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "step-3.7-flash",
+   "status": 429,
+   "ms": 276,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 34 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  },
+  {
+   "model": "tencent/Hunyuan-MT-7B",
+   "status": 429,
+   "ms": 268,
+   "usable": false,
+   "text": "",
+   "raw": "{\"error\":{\"message\":\"请求过于频繁，同 IP 每分钟最多 10 次请求，请 34 秒后重试\",\"code\":\"rate_limit_exceeded\"}}"
+  }
+ ]
+}

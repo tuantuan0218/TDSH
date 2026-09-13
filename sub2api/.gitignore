@@ -1,5 +1,20 @@
 # sub2api 本地临时文件（凭据/探测脚本，不入库）
 .tmp-mailtm.json
+.freemodel-cred.json
+.*-cred.json
 tmp-mailtm*.cjs
 probe-*.mjs
 _tmp_add_free.sh
+mailtm.mjs
+check-nv-mail.mjs
+fm-*.mjs
+cdp2-*.mjs
+cdp-nv-*.mjs
+cdp-nav.mjs
+cdp-click.mjs
+cdp-fill.mjs
+cdp-signup.mjs
+run-nvidia.mjs
+cdp-email-submit.mjs
+.tmp-pool-query.sh
+.tmp-nv-pass.txt
