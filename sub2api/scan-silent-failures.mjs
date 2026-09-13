@@ -56,6 +56,11 @@ function shapeOf(expr) {
   if (/^(true|false)\b/.test(v)) return 'bool';
   if (/^(null|undefined)\b/.test(v)) return 'nullish';
   if (/^-?\d/.test(v)) return 'number';
+  // 修正 C：常见**数字语义**属性访问（状态码/长度/计数）应判为 number 而非 expr，
+  // 否则 `return r.status;` vs `return -1;` 会被误报成形态不一致（probe 脚本实测假阳性）。
+  if (/\.(status|statusCode|length|size|count|n|index|len)\b(?!\()/.test(v)) return 'number';
+  if (/^performance\.now\(\)/.test(v)) return 'number';
+  if (/^Date\.now\(\)/.test(v)) return 'number';
   if (/^(await\s+)?fetch\b/.test(v)) return 'object';
   if (/^JSON\.parse\b/.test(v)) return 'object';
   if (/^JSON\.stringify\b/.test(v)) return 'string';
@@ -63,6 +68,19 @@ function shapeOf(expr) {
   if (/^\(?\s*[A-Za-z0-9_$.]+\.trim\(\)/.test(v)) return 'string';
   if (/^String\(/.test(v)) return 'string';
   if (/^(readFileSync)\b/.test(v)) return 'string';
+  // 模板字符串（含 `` `...` `` 或以反引号开头的拼接）
+  if (/^`/.test(v)) return 'string';
+  if (/^\s*`/.test(v)) return 'string';
+  // 字符串拼接（"a" + x / x + "a"）：只要有一侧是字面量字符串，整体即为 string
+  if (/['"`]/.test(v) && /\+/.test(v)) return 'string';
+
+  // 修正 D：**纯标识符**（单个变量名）无法静态定形，判为 unknown 而不是 expr。
+  // 反例（曾造成假阳性）：`return imageUrl;`（来自返回字符串的 uploadImage）
+  //   与 `return "失败" + msg;`（string）被误判为形态不一致。
+  // 对无法定形的标识符保持沉默（unknown 不参与形态比对），避免噪声淹没真缺陷。
+  if (/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(v)) return 'unknown';
+  if (/^[A-Za-z_$][A-Za-z0-9_$]*\.[A-Za-z_$][A-Za-z0-9_$]*$/.test(v)) return 'unknown';
+
   // 数组方法链（.map/.filter/.slice）与函数调用返回，统一视为 expr（无法静态定形）
   if (/\.(map|filter|slice|concat|join)\(/.test(v)) return 'expr';
   return 'expr';
@@ -140,7 +158,10 @@ for (const f of files) {
   const fns = collectReturns(src);
 
   for (const fn of fns) {
-    const shapes = [...new Set(fn.rets.map((r) => r.shape))];
+    // 先剔除 unknown（无法静态定形的标识符/属性访问）——它们不代表真形态差异，
+    // 纳入比对只会制造噪声（imageUrl / base64Image 等实测假阳性即此因）。
+    const known = fn.rets.filter((r) => r.shape !== 'unknown');
+    const shapes = [...new Set(known.map((r) => r.shape))];
     // R1：同一函数返回形态不一致
     if (shapes.length > 1) {
       // 排除 nullish 混用（`return null` 作错误态是常见且合理的）
@@ -148,11 +169,11 @@ for (const f of files) {
       if (meaningful.length > 1) {
         issues++;
         report.push(`  ⚠ R1 ${f}:${fn.line} ${fn.name}() 返回形态不一 → [${shapes.join(', ')}]`);
-        fn.rets.forEach((r) => report.push(`        line ${r.line}: ${r.shape.padEnd(8)} ${r.expr}`));
+        known.forEach((r) => report.push(`        line ${r.line}: ${r.shape.padEnd(8)} ${r.expr}`));
       }
     }
     // R2：catch 段里的 return 与成功路径形态不同
-    const inCatch = fn.rets.filter((r) => /err|error/i.test(r.expr));
+    const inCatch = known.filter((r) => /err|error/i.test(r.expr));
     if (inCatch.length && shapes.length > 1) {
       const okShapes = shapes.filter((s) => !inCatch.some((c) => c.shape === s));
       if (okShapes.length && inCatch.some((c) => !okShapes.includes(c.shape))) {
