@@ -65,8 +65,10 @@
 - **2026 新公益站（补充收集 2026-09-13，全部需 linux.do 账号=受限项）**：V-API
   （v-api.de5.net，实测活：/api/status 200、/v1/models 401 需 key；New API 系，Connect
   鉴权+LDC 兑换）· 魔方公益站（Connect 鉴权+签到 10-100 额度，RPM 10，域名图片不可见未提取）·
-  汐洛公益（原帖失效，邀请码+签到）· GG_API（5000 刀/日共享额度）。共性：Connect 鉴权+
-  签到/积分兑换防滥用；hub（marketplace 型）比这些（公共号池型）更可持续，推荐序不变
+  汐洛公益（原帖失效，邀请码+签到）· GG_API（5000 刀/日共享额度）· picpi 皮皮（Codex 主力，
+  邀请码制，原帖失效）· **FreeModel.dev（/v1/models 匿名 200 可列 7 个 GPT-5.x 前沿模型，
+  chat 需 key；注册送 $100-300，有邀请返利非纯公益）** · Zero Bug（提及待补）。共性：Connect
+  鉴权+签到/积分兑换防滥用；hub（marketplace 型）比这些（公共号池型）更可持续，推荐序不变
 - **NVIDIA NIM**：`https://integrate.api.nvidia.com/v1`；**/models 匿名 200 已实测 82 模型**
   （z-ai/glm-5.3-flash、deepseek-v4-flash/pro、kimi-k3、gpt-oss-20b、nemotron-3.5-lightning 等），
   chat 需 key（rpm 40）；key 免费注册 build.nvidia.com → 入池脚本模板

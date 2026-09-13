@@ -19,6 +19,13 @@
 **复查（2026-09-13 14:5x）**：/models 仍匿名 200、模型总数 82 不变、8 个核心免费模型
 （glm-5.3-flash / deepseek-v4-flash/pro / kimi-k3 / gpt-oss-20b / nemotron-3.5-lightning /
 nemotron-3-ultra / laguna-xs-2.1）全部在列、无新增无下架——候选项状态未漂移，入池即用。
+**重要补充（2026-09-13 15:3x）**：**FreeModel.dev 是继 NIM 后第二个匿名可列模型的平台**——
+`freemodel.dev/v1/models` 与 `api.freemodel.dev/v1/models` 均匿名 200；`freemodel.dev` 列 7 模型
+全为前沿 GPT-5.x（gpt-5.6-sol/terra/luna、gpt-5.5、gpt-5.4、gpt-5.4-mini、gpt-5.3-codex）、
+`api.` 子域 3 模型（gpt-5.6 系）。**但 chat 匿名不可用**（/v1/chat/completions 404、
+api 子域 403 Unauthorized、/openai/v1 405、/api/v1 401）——chat 需 key（**受限项**），
+仅"模型清单可获得"层面与 NIM 并列。注册送 $100-300 额度（有邀请返利，非纯公益）。
+模型清单价值：可作为 key 到手后的即时入池参照。
 
 ## 二、免费模型与限流（linux.do 帖 1349579 整理）
 
