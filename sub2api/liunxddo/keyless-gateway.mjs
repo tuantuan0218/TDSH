@@ -17,10 +17,21 @@ import https from 'node:https';
 const PORT = Number(process.argv[2] || process.env.PORT || 8787);
 const TIMEOUT = 12000;
 const CACHE_TTL = 60_000; // 缓存 60s
+const CACHE_MAX = 500;    // 缓存上限，超限清理过期项防内存增长
 const CACHE = new Map();
-const RATE = { limit: 30, count: {} }; // 每 IP 每 10s 窗口 30 次
-setInterval(() => { RATE.count = {}; }, 10_000); // 定期清限流窗口
-if (CACHE.size > 500) CACHE.clear(); // 防缓存无限增长
+const RATE = { limit: 30, count: {}, window: 0 }; // 每 IP 每 10s 窗口 30 次
+
+// 限流窗口 + 缓存清理：同一个 10s tick，窗口对齐（与 key 的 win 一致）
+setInterval(() => {
+  RATE.window = Math.floor(Date.now() / 10000);
+  RATE.count = {};
+  const now = Date.now();
+  for (const [k, v] of CACHE) {
+    if (now - v.ts > Math.max(CACHE_TTL, 10_000)) CACHE.delete(k); // 过期即清（health 10s / api 60s）
+  }
+  if (CACHE.size > CACHE_MAX) CACHE.clear(); // 超限兜底全清
+}, 10_000);
+CACHE.set = function (k, v) { if (CACHE.size >= CACHE_MAX) CACHE.clear(); return Map.prototype.set.call(this, k, v); };
 
 // 上游源定义（name -> 请求配置；headers 可选，transform 可选）
 const SOURCES = {
@@ -284,3 +295,12 @@ server.listen(PORT, '127.0.0.1', () => {
   console.log(`keyless gateway listening on http://127.0.0.1:${PORT}`);
   console.log(`sources: ${Object.keys(SOURCES).join(', ')}`);
 });
+
+// 优雅关闭：Ctrl+C / SIGTERM 时落日志后退出（防静默消失无法取证）
+function shutdown(sig) {
+  console.log(`[${new Date().toISOString()}] gateway ${sig} received, shutting down (cache=${CACHE.size}, rate keys=${Object.keys(RATE.count).length})`);
+  server.close(() => process.exit(0));
+  setTimeout(() => process.exit(0), 1500).unref();
+}
+process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('SIGTERM', () => shutdown('SIGTERM'));
