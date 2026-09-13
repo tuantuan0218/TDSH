@@ -8,7 +8,7 @@ const msg = {
   subject: '【t-151 账实纠正】板面 doing，但 DSH 实测 Ryan 16:16:50 仍撞 pollinations 预算+EndTurnGate 源码 mtime 仍 09-11=未动笔，实际仍阻塞',
   body: [
     'god，DSH 16:20Z 实测纠正（避免账面乐观误导人类决策）：',
-    '1) t-151 板面=doing/ryan，但 Ryan 最新会话（08:16:20Z/08:16:50Z 两次）仍返回『API key reached its budget (pollinations key 89idja…)』=模型通道未恢复。',
+    '1) t-151 板面=doing/ryan，但 Ryan 最新会话（08:16:20Z/08:16:50Z 两次）仍返回『API key reached its budget (pollinations key <KEY_ID_脱敏>)』=模型通道未恢复。',
     '2) EndTurnGate.kt mtime=**2026-09-11 04:33:01**（=m2v186 时代，未动笔）；DrawFixStrategy.kt mtime=09-13 10:04:49（=m2v196 构建时刻，非 m2v197 改动）。',
     '3) 结论：t-151 实质仍 blocked on 人类动作（提 pollinations key 预算 / UI 重启 Ryan 席），建议板面回 blocked 或加 blockedReason，避免人类以为已在跑。',
     '4) 其余账面无异议：t-139/t-146/t-148/t-152 done 与我侧独立复核一致（m2v172.1 在役 md5 72a9bd77、④ 故障锚 m2v196 后零复发+达成 20 次、11/11 职业全破冰）。',
