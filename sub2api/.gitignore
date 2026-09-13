@@ -1,0 +1,5 @@
+# sub2api 本地临时文件（凭据/探测脚本，不入库）
+.tmp-mailtm.json
+tmp-mailtm*.cjs
+probe-*.mjs
+_tmp_add_free.sh
