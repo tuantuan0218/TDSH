@@ -1,0 +1,4394 @@
+[
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/apps/cli/tests/built-bin.e2e.ts",
+  "line": "371",
+  "field": "apiKey",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/apps/cli/tests/built-bin.e2e.ts",
+  "line": "421",
+  "field": "apiKey",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/apps/cli/tests/built-bin.e2e.ts",
+  "line": "469",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/apps/cli/tests/headless-shutdown.e2e.ts",
+  "line": "91",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 24,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/apps/cli/tests/lazy-search-startup.compat.spec.ts",
+  "line": "51",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 23,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/apps/web/tests/hmr-live.e2e.ts",
+  "line": "98",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/apps/web/tests/smoke-real.e2e.ts",
+  "line": "168",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/apps/web/tests/smoke-real.e2e.ts",
+  "line": "234",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/apps/web/tests/smoke-real.e2e.ts",
+  "line": "347",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/apps/web/tests/smoke-real.e2e.ts",
+  "line": "429",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/apps/web/tests/web-search-round.e2e.ts",
+  "line": "28",
+  "field": "SEARCH_CREDENTIAL",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/examples/headless-agent/tests/resume.e2e.ts",
+  "line": "18",
+  "field": "SECRET",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/examples/jsonrpc-agent/tests/keyless-smoke.e2e.ts",
+  "line": "82",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/examples/jsonrpc-agent/tests/keyless-smoke.e2e.ts",
+  "line": "187",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/client/ui-settings-models/tests/provider-form.client.spec.tsx",
+  "line": "443",
+  "field": "apiKey",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/client/ui-theme/tests/scrollbar-styles.client.spec.ts",
+  "line": "32",
+  "field": "TOKEN_PREFIX",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/credentials/credentials-local/tests/local.spec.ts",
+  "line": "249",
+  "field": "secret",
+  "vlen": 31,
+  "fp": "c+d+g+l+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/e2b/e2b/tests/composition.e2e.ts",
+  "line": "31",
+  "field": "NPM_TOKEN",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/e2b/subprocess-e2b/tests/subprocess.spec.ts",
+  "line": "399",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/llm/llm/src/error.ts",
+  "line": "48",
+  "field": "INVALID_CREDENTIAL_CODE",
+  "vlen": 18,
+  "fp": "c+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/session-query/tool-session-query/tests/tool-session-query.spec.ts",
+  "line": "835",
+  "field": "secret",
+  "vlen": 29,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/session/session-telemetry-otel/tests/loader-composition.e2e.ts",
+  "line": "26",
+  "field": "FIXTURE_SECRET",
+  "vlen": 23,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/session/session-telemetry/tests/redact.spec.ts",
+  "line": "17",
+  "field": "FIXTURE_SECRET",
+  "vlen": 20,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/subagent/subagent-claude-code/tests/subagent-claude-code.spec.ts",
+  "line": "340",
+  "field": "ANTHROPIC_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/subagent/subagent-claude-code/tests/subagent-claude-code.spec.ts",
+  "line": "375",
+  "field": "ANTHROPIC_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/subagent/subagent-claude-code/tests/subagent-claude-code.spec.ts",
+  "line": "385",
+  "field": "ANTHROPIC_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/subagent/subagent-claude-code/tests/subagent-claude-code.spec.ts",
+  "line": "545",
+  "field": "ANTHROPIC_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/subagent/subagent-claude-code/tests/subagent-claude-code.spec.ts",
+  "line": "564",
+  "field": "ANTHROPIC_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/subagent/subagent-codex/tests/real-product.spec.ts",
+  "line": "88",
+  "field": "OPENAI_API_KEY",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/subagent/subagent-dsh-sdk/tests/subagent-dsh-sdk.spec.ts",
+  "line": "135",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/web/web-search-deepseek/tests/redirect.spec.ts",
+  "line": "17",
+  "field": "TEST_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/packages/web/web-search-deepseek/tests/settings.spec.ts",
+  "line": "92",
+  "field": "apiKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/python/sdk/tests/test_bundled_runtime.py",
+  "line": "99",
+  "field": "api_key",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/python/sdk/tests/test_bundled_runtime.py",
+  "line": "143",
+  "field": "api_key",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/scripts/smoke-python-runtime.py",
+  "line": "524",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/scripts/smoke-python-runtime.py",
+  "line": "548",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/scripts/smoke-python-runtime.py",
+  "line": "577",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh",
+  "file": "resources/app/repo/scripts/smoke-python-runtime.py",
+  "line": "607",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "README.md",
+  "line": "545",
+  "field": "secret",
+  "vlen": 37,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "README.md",
+  "line": "808",
+  "field": "api_key",
+  "vlen": 19,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "README_CN.md",
+  "line": "558",
+  "field": "secret",
+  "vlen": 37,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "README_JA.md",
+  "line": "545",
+  "field": "secret",
+  "vlen": 37,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/group/group.go",
+  "line": "126",
+  "field": "FieldRequireOauthOnly",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/identityadoptiondecision/identityadoptiondecision.go",
+  "line": "32",
+  "field": "EdgePendingAuthSession",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/mutation.go",
+  "line": "72",
+  "field": "TypeAuthIdentity",
+  "vlen": 12,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/mutation.go",
+  "line": "89",
+  "field": "TypePendingAuthSession",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/mutation.go",
+  "line": "94",
+  "field": "TypeSecuritySecret",
+  "vlen": 14,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/pendingauthsession/pendingauthsession.go",
+  "line": "38",
+  "field": "FieldRegistrationPasswordHash",
+  "vlen": 26,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/usagelog/usagelog.go",
+  "line": "48",
+  "field": "FieldInputTokens",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/usagelog/usagelog.go",
+  "line": "50",
+  "field": "FieldOutputTokens",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/usagelog/usagelog.go",
+  "line": "52",
+  "field": "FieldCacheCreationTokens",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/usagelog/usagelog.go",
+  "line": "54",
+  "field": "FieldCacheReadTokens",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/usagelog/usagelog.go",
+  "line": "56",
+  "field": "FieldCacheCreation5mTokens",
+  "vlen": 24,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/usagelog/usagelog.go",
+  "line": "58",
+  "field": "FieldCacheCreation1hTokens",
+  "vlen": 24,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/usagelog/usagelog.go",
+  "line": "84",
+  "field": "FieldFirstTokenMs",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/ent/user/user.go",
+  "line": "91",
+  "field": "EdgePendingAuthSessions",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/config/config_test.go",
+  "line": "907",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/config/config_test.go",
+  "line": "1469",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/account_codex_import_test.go",
+  "line": "164",
+  "field": "AccessToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/account_codex_import_test.go",
+  "line": "205",
+  "field": "AccessToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/account_codex_import_test.go",
+  "line": "206",
+  "field": "RefreshToken",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/account_codex_import_test.go",
+  "line": "207",
+  "field": "IDToken",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/account_codex_import_test.go",
+  "line": "266",
+  "field": "AccessToken",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/grok_oauth_handler_test.go",
+  "line": "220",
+  "field": "SSOToken",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/setting_handler_auth_source_defaults_test.go",
+  "line": "310",
+  "field": "SettingKeyOIDCConnectTokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/setting_handler_auth_source_defaults_test.go",
+  "line": "366",
+  "field": "SettingKeyOIDCConnectTokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/setting_handler_auth_source_defaults_test.go",
+  "line": "390",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/setting_handler_partial_payload_test.go",
+  "line": "85",
+  "field": "SettingKeyTurnstileSecretKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/setting_handler_partial_payload_test.go",
+  "line": "117",
+  "field": "SettingKeyTencentCaptchaAppSecretKey",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/setting_handler_partial_payload_test.go",
+  "line": "177",
+  "field": "SettingKeyTencentCaptchaAppSecretKey",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/setting_handler_platform_quota_test.go",
+  "line": "75",
+  "field": "TencentCaptchaAppSecretKey",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/setting_handler_platform_quota_test.go",
+  "line": "76",
+  "field": "TencentCaptchaCloudSecretID",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/admin/setting_handler_platform_quota_test.go",
+  "line": "77",
+  "field": "TencentCaptchaCloudSecretKey",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_email_oauth_test.go",
+  "line": "49",
+  "field": "ClientSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_email_oauth_test.go",
+  "line": "105",
+  "field": "ClientSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_email_oauth_test.go",
+  "line": "154",
+  "field": "ClientSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_email_oauth_test.go",
+  "line": "191",
+  "field": "SettingKeyGitHubOAuthClientID",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_email_oauth_test.go",
+  "line": "192",
+  "field": "SettingKeyGitHubOAuthClientSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "132",
+  "field": "ClientSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "139",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "178",
+  "field": "ClientSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "185",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "220",
+  "field": "ClientSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "227",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "264",
+  "field": "ClientSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "271",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "355",
+  "field": "ClientSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "362",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "441",
+  "field": "ClientSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "448",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "509",
+  "field": "ClientSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "516",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "589",
+  "field": "ClientSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "596",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "652",
+  "field": "ClientSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "659",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "754",
+  "field": "ClientSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "761",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "830",
+  "field": "ClientSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_linuxdo_oauth_test.go",
+  "line": "837",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_oidc_oauth_test.go",
+  "line": "150",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_oidc_oauth_test.go",
+  "line": "202",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_oidc_oauth_test.go",
+  "line": "250",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_oidc_oauth_test.go",
+  "line": "1239",
+  "field": "AccessToken",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_oidc_oauth_test.go",
+  "line": "1302",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_wechat_oauth.go",
+  "line": "41",
+  "field": "wechatPaymentOAuthRedirect",
+  "vlen": 29,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_wechat_oauth.go",
+  "line": "43",
+  "field": "wechatPaymentOAuthScope",
+  "vlen": 26,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_wechat_oauth_test.go",
+  "line": "40",
+  "field": "SettingKeyWeChatConnectAppSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_wechat_oauth_test.go",
+  "line": "73",
+  "field": "SettingKeyWeChatConnectAppSecret",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_wechat_oauth_test.go",
+  "line": "492",
+  "field": "appSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/auth_wechat_oauth_test.go",
+  "line": "499",
+  "field": "appSecret",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/ops_error_logger.go",
+  "line": "41",
+  "field": "opsErrInvalidAPIKey",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/ops_error_logger.go",
+  "line": "42",
+  "field": "opsErrAPIKeyRequired",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/ops_error_logger.go",
+  "line": "53",
+  "field": "opsCodeInvalidAPIKey",
+  "vlen": 15,
+  "fp": "c+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/ops_error_logger.go",
+  "line": "54",
+  "field": "opsCodeAPIKeyRequired",
+  "vlen": 16,
+  "fp": "c+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/ops_error_logger.go",
+  "line": "55",
+  "field": "opsCodeAPIKeyExpired",
+  "vlen": 15,
+  "fp": "c+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/ops_error_logger.go",
+  "line": "56",
+  "field": "opsCodeAPIKeyDisabled",
+  "vlen": 16,
+  "fp": "c+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "23",
+  "field": "auditToken",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "24",
+  "field": "auditToken",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "25",
+  "field": "auditToken",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "26",
+  "field": "auditToken",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "27",
+  "field": "auditToken",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "28",
+  "field": "auditToken",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "29",
+  "field": "auditToken",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "30",
+  "field": "auditToken",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "31",
+  "field": "auditToken",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "32",
+  "field": "auditToken",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "33",
+  "field": "auditToken",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "34",
+  "field": "auditToken",
+  "vlen": 30,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/security_audit_order_test.go",
+  "line": "35",
+  "field": "auditToken",
+  "vlen": 30,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/handler/setting_handler_public_test.go",
+  "line": "126",
+  "field": "SettingKeyWeChatConnectAppSecret",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/antigravity/client_test.go",
+  "line": "626",
+  "field": "AccessToken",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/antigravity/client_test.go",
+  "line": "904",
+  "field": "AccessToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/antigravity/client_test.go",
+  "line": "908",
+  "field": "RefreshToken",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/antigravity/client_test.go",
+  "line": "1046",
+  "field": "AccessToken",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/antigravity/oauth.go",
+  "line": "73",
+  "field": "defaultClientSecret",
+  "vlen": 35,
+  "fp": "c+d+g+l+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/claude/constants.go",
+  "line": "14",
+  "field": "BetaOAuth",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/claude/constants.go",
+  "line": "18",
+  "field": "BetaTokenCounting",
+  "vlen": 25,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/geminicli/constants.go",
+  "line": "42",
+  "field": "GeminiCLIOAuthClientSecret",
+  "vlen": 35,
+  "fp": "c+d+g+l+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/geminicli/oauth_test.go",
+  "line": "459",
+  "field": "ClientSecret",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/geminicli/oauth_test.go",
+  "line": "567",
+  "field": "ClientSecret",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/geminicli/oauth_test.go",
+  "line": "594",
+  "field": "ClientSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/geminicli/oauth_test.go",
+  "line": "608",
+  "field": "ClientSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/geminicli/oauth_test.go",
+  "line": "634",
+  "field": "ClientSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/geminicli/oauth_test.go",
+  "line": "656",
+  "field": "ClientSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/geminicli/oauth_test.go",
+  "line": "753",
+  "field": "ClientSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/xai/billing.go",
+  "line": "15",
+  "field": "CLITokenAuthHeader",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/xai/billing.go",
+  "line": "16",
+  "field": "CLITokenAuthValue",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/xai/cli_identity.go",
+  "line": "25",
+  "field": "CLITokenAuth",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/xai/oauth.go",
+  "line": "39",
+  "field": "EnvAuthorizeURL",
+  "vlen": 23,
+  "fp": "c+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/pkg/xai/oauth.go",
+  "line": "40",
+  "field": "EnvTokenURL",
+  "vlen": 19,
+  "fp": "c+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/repository/account_repo_integration_test.go",
+  "line": "55",
+  "field": "OwnerToken",
+  "vlen": 24,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/repository/claude_oauth_service_test.go",
+  "line": "309",
+  "field": "AccessToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/repository/claude_oauth_service_test.go",
+  "line": "312",
+  "field": "RefreshToken",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/repository/claude_oauth_service_test.go",
+  "line": "317",
+  "field": "AccessToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/repository/claude_oauth_service_test.go",
+  "line": "318",
+  "field": "RefreshToken",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/repository/github_release_service_test.go",
+  "line": "69",
+  "field": "updateGitHubToken",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/repository/github_release_service_test.go",
+  "line": "111",
+  "field": "updateGitHubToken",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/repository/migrations_runner.go",
+  "line": "59",
+  "field": "latestAPIKeyIPIndex",
+  "vlen": 32,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/repository/tencent_captcha_service_test.go",
+  "line": "47",
+  "field": "CloudSecretID",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/repository/tencent_captcha_service_test.go",
+  "line": "48",
+  "field": "CloudSecretKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/securityaudit/prompt_handler_test.go",
+  "line": "243",
+  "field": "ConfirmationToken",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/server/api_contract_test.go",
+  "line": "673",
+  "field": "SettingKeyOIDCConnectTokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/server/api_contract_test.go",
+  "line": "1034",
+  "field": "ClientSecret",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/server/api_contract_test.go",
+  "line": "1039",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/server/api_contract_test.go",
+  "line": "1049",
+  "field": "OpenAppSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/account.go",
+  "line": "109",
+  "field": "openAIEndpointCapabilitiesCredentialKey",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/account.go",
+  "line": "117",
+  "field": "OpenAIAuthModePersonalAccessToken",
+  "vlen": 19,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/account.go",
+  "line": "119",
+  "field": "openAIAuthModeLegacyCredentialKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/account_scheduling_threshold_eval.go",
+  "line": "29",
+  "field": "accountSchedulingThresholdCredentialKey",
+  "vlen": 28,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/admin_service_bulk_update_test.go",
+  "line": "400",
+  "field": "openAIEndpointCapabilitiesCredentialKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/aliyun_captcha_service_test.go",
+  "line": "175",
+  "field": "TurnstileToken",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/aliyun_captcha_service_test.go",
+  "line": "204",
+  "field": "TurnstileToken",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/aliyun_captcha_service_test.go",
+  "line": "214",
+  "field": "TurnstileToken",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/anthropic_apikey_auth_ollama_test.go",
+  "line": "83",
+  "field": "wantXAPIKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/anthropic_apikey_auth_ollama_test.go",
+  "line": "88",
+  "field": "wantXAPIKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/anthropic_apikey_auth_ollama_test.go",
+  "line": "99",
+  "field": "wantXAPIKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/anthropic_apikey_auth_ollama_test.go",
+  "line": "104",
+  "field": "wantXAPIKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/anthropic_apikey_auth_ollama_test.go",
+  "line": "109",
+  "field": "wantXAPIKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/anthropic_apikey_auth_ollama_test.go",
+  "line": "114",
+  "field": "wantXAPIKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/anthropic_apikey_auth_ollama_test.go",
+  "line": "119",
+  "field": "wantXAPIKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/anthropic_apikey_auth_ollama_test.go",
+  "line": "125",
+  "field": "wantXAPIKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/antigravity_gateway_compat_test.go",
+  "line": "65",
+  "field": "token",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/antigravity_gateway_service.go",
+  "line": "85",
+  "field": "antigravityProjectIDFallbackCredentialKey",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/antigravity_gateway_service_test.go",
+  "line": "326",
+  "field": "antigravityProjectIDFallbackCredentialKey",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/audit_log.go",
+  "line": "21",
+  "field": "AuditAuthMethodAdminAPIKey",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/auth_service_captcha_test.go",
+  "line": "170",
+  "field": "SettingKeyTurnstileSecretKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/bedrock_request.go",
+  "line": "494",
+  "field": "bedrockContextManagementBetaToken",
+  "vlen": 29,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/claude_token_provider_test.go",
+  "line": "285",
+  "field": "RefreshToken",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/claude_token_provider_test.go",
+  "line": "685",
+  "field": "AccessToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/claude_token_provider_test.go",
+  "line": "686",
+  "field": "RefreshToken",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/composite_model_route.go",
+  "line": "17",
+  "field": "CompositeRouteEndpointCountTokens",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "229",
+  "field": "SettingKeySMTPUsername",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "230",
+  "field": "SettingKeySMTPPassword",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "232",
+  "field": "SettingKeySMTPFromName",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "233",
+  "field": "SettingKeySMTPUseTLS",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "238",
+  "field": "SettingKeyTurnstileSecretKey",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "243",
+  "field": "SettingKeyTencentCaptchaAppSecretKey",
+  "vlen": 30,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "304",
+  "field": "SettingKeyWeChatConnectAppSecret",
+  "vlen": 25,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "308",
+  "field": "SettingKeyWeChatConnectMPAppSecret",
+  "vlen": 28,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "323",
+  "field": "SettingKeyOIDCConnectClientSecret",
+  "vlen": 26,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "326",
+  "field": "SettingKeyOIDCConnectAuthorizeURL",
+  "vlen": 26,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "327",
+  "field": "SettingKeyOIDCConnectTokenURL",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "333",
+  "field": "SettingKeyOIDCConnectTokenAuthMethod",
+  "vlen": 30,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "344",
+  "field": "SettingKeyGitHubOAuthEnabled",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "345",
+  "field": "SettingKeyGitHubOAuthClientID",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "346",
+  "field": "SettingKeyGitHubOAuthClientSecret",
+  "vlen": 26,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "349",
+  "field": "SettingKeyGoogleOAuthEnabled",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "350",
+  "field": "SettingKeyGoogleOAuthClientID",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "351",
+  "field": "SettingKeyGoogleOAuthClientSecret",
+  "vlen": 26,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "417",
+  "field": "SettingKeyAdminAPIKey",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/domain_constants.go",
+  "line": "524",
+  "field": "SettingKeyModelPlazaRequireAuth",
+  "vlen": 24,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/gateway_anthropic_vertex_beta_filter_test.go",
+  "line": "131",
+  "field": "BetaToken",
+  "vlen": 29,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/gateway_service_bedrock_beta_test.go",
+  "line": "50",
+  "field": "BetaToken",
+  "vlen": 28,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/gateway_service_bedrock_beta_test.go",
+  "line": "91",
+  "field": "BetaToken",
+  "vlen": 27,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/gateway_service_bedrock_beta_test.go",
+  "line": "136",
+  "field": "BetaToken",
+  "vlen": 23,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/gateway_service_bedrock_beta_test.go",
+  "line": "181",
+  "field": "BetaToken",
+  "vlen": 27,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/gateway_service_bedrock_beta_test.go",
+  "line": "225",
+  "field": "BetaToken",
+  "vlen": 21,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/gemini_oauth_service_test.go",
+  "line": "60",
+  "field": "ClientSecret",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/gemini_oauth_service_test.go",
+  "line": "76",
+  "field": "ClientSecret",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/gemini_oauth_service_test.go",
+  "line": "630",
+  "field": "ClientSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/gemini_oauth_service_test.go",
+  "line": "1330",
+  "field": "ClientSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_credential_failure_test.go",
+  "line": "348",
+  "field": "cachedToken",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_credential_failure_test.go",
+  "line": "411",
+  "field": "token",
+  "vlen": 24,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_credential_failure_test.go",
+  "line": "443",
+  "field": "token",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_credential_failure_test.go",
+  "line": "805",
+  "field": "token",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_credential_failure_test.go",
+  "line": "832",
+  "field": "token",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_oauth_reconciliation.go",
+  "line": "23",
+  "field": "GrokOAuthReconcileReasonCredentialRejected",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_oauth_service_test.go",
+  "line": "50",
+  "field": "AccessToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_oauth_service_test.go",
+  "line": "254",
+  "field": "AccessToken",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_oauth_service_test.go",
+  "line": "279",
+  "field": "AccessToken",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_oauth_service_test.go",
+  "line": "303",
+  "field": "AccessToken",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_oauth_service_test.go",
+  "line": "304",
+  "field": "RefreshToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_oauth_service_test.go",
+  "line": "328",
+  "field": "AccessToken",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_oauth_service_test.go",
+  "line": "329",
+  "field": "RefreshToken",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_quota_service_test.go",
+  "line": "572",
+  "field": "upstreamSecret",
+  "vlen": 29,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_token_provider_test.go",
+  "line": "104",
+  "field": "AccessToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_token_provider_test.go",
+  "line": "162",
+  "field": "token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_token_provider_test.go",
+  "line": "175",
+  "field": "token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_token_provider_test.go",
+  "line": "208",
+  "field": "token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_token_provider_test.go",
+  "line": "221",
+  "field": "token",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_token_provider_test.go",
+  "line": "238",
+  "field": "token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_token_provider_test.go",
+  "line": "350",
+  "field": "AccessToken",
+  "vlen": 27,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/grok_token_provider_test.go",
+  "line": "453",
+  "field": "token",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/notification_email_service.go",
+  "line": "42",
+  "field": "notificationEmailUnsubscribeSecretKey",
+  "vlen": 37,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/oauth_service_test.go",
+  "line": "258",
+  "field": "AccessToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/oauth_service_test.go",
+  "line": "261",
+  "field": "RefreshToken",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/oauth_service_test.go",
+  "line": "397",
+  "field": "AccessToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/oauth_service_test.go",
+  "line": "400",
+  "field": "RefreshToken",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/oauth_service_test.go",
+  "line": "499",
+  "field": "AccessToken",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/oauth_service_test.go",
+  "line": "582",
+  "field": "AccessToken",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/openai_agent_identity_compat_test.go",
+  "line": "196",
+  "field": "token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/openai_agent_identity_compat_test.go",
+  "line": "197",
+  "field": "token",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/openai_agent_identity_compat_test.go",
+  "line": "198",
+  "field": "token",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/openai_codex_pat_service_test.go",
+  "line": "68",
+  "field": "AccessToken",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/openai_live_lifecycle_test.go",
+  "line": "366",
+  "field": "Secret",
+  "vlen": 25,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/openai_live_test.go",
+  "line": "147",
+  "field": "Secret",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/openai_live_test.go",
+  "line": "150",
+  "field": "Secret",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/openai_live_test.go",
+  "line": "169",
+  "field": "Secret",
+  "vlen": 28,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/openai_token_provider_test.go",
+  "line": "190",
+  "field": "RefreshToken",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/ops_upstream_context.go",
+  "line": "30",
+  "field": "OpsTimeToFirstTokenMsKey",
+  "vlen": 26,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/ops_upstream_context_test.go",
+  "line": "45",
+  "field": "Password",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/payment_order_result_test.go",
+  "line": "375",
+  "field": "SettingKeyWeChatConnectAppSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/payment_order_result_test.go",
+  "line": "448",
+  "field": "SettingKeyWeChatConnectAppSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/payment_order_result_test.go",
+  "line": "485",
+  "field": "SettingKeyWeChatConnectAppSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/payment_order_result_test.go",
+  "line": "521",
+  "field": "SettingKeyWeChatConnectAppSecret",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/payment_resume_service.go",
+  "line": "37",
+  "field": "wechatPaymentResumeTokenType",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_parse.go",
+  "line": "117",
+  "field": "SettingKeyOIDCConnectTokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_oidc_config_test.go",
+  "line": "85",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_oidc_config_test.go",
+  "line": "166",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_oidc_config_test.go",
+  "line": "198",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_oidc_config_test.go",
+  "line": "234",
+  "field": "TokenAuthMethod",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_public_test.go",
+  "line": "188",
+  "field": "SettingKeyWeChatConnectAppSecret",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_public_test.go",
+  "line": "231",
+  "field": "OpenAppSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_wechat_config_test.go",
+  "line": "59",
+  "field": "SettingKeyWeChatConnectAppSecret",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_wechat_config_test.go",
+  "line": "92",
+  "field": "OpenAppSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_wechat_config_test.go",
+  "line": "94",
+  "field": "MPAppSecret",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_wechat_config_test.go",
+  "line": "126",
+  "field": "OpenAppSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_wechat_config_test.go",
+  "line": "128",
+  "field": "MPAppSecret",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/setting_service_wechat_config_test.go",
+  "line": "149",
+  "field": "OpenAppSecret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/settings_view.go",
+  "line": "640",
+  "field": "BetaToken",
+  "vlen": 20,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/settings_view.go",
+  "line": "645",
+  "field": "BetaToken",
+  "vlen": 21,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/tencent_captcha_settings_test.go",
+  "line": "76",
+  "field": "CloudSecretID",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/tencent_captcha_settings_test.go",
+  "line": "77",
+  "field": "CloudSecretKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/user_service_update_fields_test.go",
+  "line": "70",
+  "field": "CurrentPassword",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/user_service_update_fields_test.go",
+  "line": "71",
+  "field": "NewPassword",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "backend/internal/service/websearch_config_test.go",
+  "line": "107",
+  "field": "APIKey",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "deploy/config.example.yaml",
+  "line": "904",
+  "field": "secret",
+  "vlen": 37,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "deploy/config.example.yaml",
+  "line": "947",
+  "field": "token_auth_method",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "deploy/config.example.yaml",
+  "line": "980",
+  "field": "token_auth_method",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "deploy/tests/install-github-token-test.sh",
+  "line": "25",
+  "field": "GITHUB_TOKEN",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "deploy/tests/install-github-token-test.sh",
+  "line": "72",
+  "field": "UPDATE_GITHUB_TOKEN",
+  "vlen": 13,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/api/__tests__/client.spec.ts",
+  "line": "380",
+  "field": "refresh_token",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/api/__tests__/passkey.spec.ts",
+  "line": "79",
+  "field": "session_token",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/api/__tests__/passkey.spec.ts",
+  "line": "106",
+  "field": "session_token",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/api/__tests__/passkey.spec.ts",
+  "line": "127",
+  "field": "session_token",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/api/__tests__/passkey.spec.ts",
+  "line": "159",
+  "field": "session_token",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/api/__tests__/passkey.spec.ts",
+  "line": "179",
+  "field": "session_token",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/api/__tests__/payment.spec.ts",
+  "line": "37",
+  "field": "resume_token",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/api/__tests__/tokenRefresh.spec.ts",
+  "line": "90",
+  "field": "refresh_token",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/api/__tests__/tokenRefresh.spec.ts",
+  "line": "126",
+  "field": "refresh_token",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/CreateAccountModal.vue",
+  "line": "1451",
+  "field": "sync-credentials",
+  "vlen": 22,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/CreateAccountModal.vue",
+  "line": "1938",
+  "field": "sync-credentials",
+  "vlen": 22,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/CreateAccountModal.vue",
+  "line": "2279",
+  "field": "sync-credentials",
+  "vlen": 22,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/CreateAccountModal.vue",
+  "line": "3471",
+  "field": "auth-url",
+  "vlen": 14,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/CreateAccountModal.vue",
+  "line": "3493",
+  "field": "cookie-auth",
+  "vlen": 16,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/CreateAccountModal.vue",
+  "line": "3494",
+  "field": "validate-refresh-token",
+  "vlen": 26,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/CreateAccountModal.vue",
+  "line": "3495",
+  "field": "validate-mobile-refresh-token",
+  "vlen": 28,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/CreateAccountModal.vue",
+  "line": "3496",
+  "field": "validate-session-token",
+  "vlen": 26,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/CreateAccountModal.vue",
+  "line": "3500",
+  "field": "authorize-password",
+  "vlen": 27,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/CreateAccountModal.vue",
+  "line": "5385",
+  "field": "anthropic_apikey_auth_scheme",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/EditAccountModal.vue",
+  "line": "5365",
+  "field": "anthropic_apikey_auth_scheme",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/ReAuthAccountModal.vue",
+  "line": "122",
+  "field": "auth-url",
+  "vlen": 14,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/ReAuthAccountModal.vue",
+  "line": "134",
+  "field": "cookie-auth",
+  "vlen": 16,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/__tests__/CreateAccountModal.spec.ts",
+  "line": "546",
+  "field": "authMode",
+  "vlen": 13,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/__tests__/EditAccountModal.spec.ts",
+  "line": "178",
+  "field": "access_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/__tests__/EditAccountModal.spec.ts",
+  "line": "179",
+  "field": "refresh_token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/credentialsBuilder.ts",
+  "line": "13",
+  "field": "ANTIGRAVITY_PROJECT_ID_CREDENTIAL_KEY",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/credentialsBuilder.ts",
+  "line": "30",
+  "field": "HEADER_OVERRIDE_ENABLED_CREDENTIAL_KEY",
+  "vlen": 23,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/account/credentialsBuilder.ts",
+  "line": "31",
+  "field": "HEADER_OVERRIDES_CREDENTIAL_KEY",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/admin/account/ReAuthAccountModal.vue",
+  "line": "126",
+  "field": "auth-url",
+  "vlen": 14,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/admin/account/ReAuthAccountModal.vue",
+  "line": "142",
+  "field": "cookie-auth",
+  "vlen": 16,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/admin/account/ReAuthAccountModal.vue",
+  "line": "143",
+  "field": "validate-refresh-token",
+  "vlen": 26,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/admin/account/__tests__/ReAuthAccountModal.grok.spec.ts",
+  "line": "20",
+  "field": "validate-refresh-token",
+  "vlen": 26,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/common/__tests__/PlatformTypeBadge.grok.spec.ts",
+  "line": "103",
+  "field": "authMode",
+  "vlen": 13,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/common/__tests__/PlatformTypeBadge.grok.spec.ts",
+  "line": "109",
+  "field": "authMode",
+  "vlen": 19,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "47",
+  "field": "apiKey",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "92",
+  "field": "apiKey",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "139",
+  "field": "api_key",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "170",
+  "field": "apiKey",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "185",
+  "field": "apiKey",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "210",
+  "field": "ANTHROPIC_AUTH_TOKEN",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "279",
+  "field": "ANTHROPIC_AUTH_TOKEN",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "288",
+  "field": "apiKey",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "326",
+  "field": "experimental_bearer_token",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "729",
+  "field": "apiKey",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "854",
+  "field": "apiKey",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/keys/__tests__/UseKeyModal.spec.ts",
+  "line": "903",
+  "field": "apiKey",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/user/profile/__tests__/ProfileIdentityBindingsSection.spec.ts",
+  "line": "337",
+  "field": "password",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/components/user/profile/__tests__/ProfileIdentityBindingsSection.spec.ts",
+  "line": "499",
+  "field": "password",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/composables/__tests__/useAntigravityOAuth.spec.ts",
+  "line": "48",
+  "field": "refresh_token",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/composables/__tests__/useGrokOAuth.spec.ts",
+  "line": "68",
+  "field": "password",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/features/prompt-audit/__tests__/PromptAuditView.spec.ts",
+  "line": "70",
+  "field": "confirmation_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/features/prompt-audit/__tests__/PromptAuditView.spec.ts",
+  "line": "214",
+  "field": "confirmation_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/features/prompt-audit/__tests__/PromptAuditView.spec.ts",
+  "line": "237",
+  "field": "confirmation_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/features/prompt-audit/__tests__/api.spec.ts",
+  "line": "26",
+  "field": "token",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/features/prompt-audit/__tests__/components.spec.ts",
+  "line": "46",
+  "field": "token",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/features/prompt-audit/__tests__/viewModel.spec.ts",
+  "line": "52",
+  "field": "token",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/i18n/locales/en/admin/accounts.ts",
+  "line": "444",
+  "field": "reAuthorize",
+  "vlen": 12,
+  "fp": "c+l+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/i18n/locales/en/admin/settings.ts",
+  "line": "238",
+  "field": "appSecretKey",
+  "vlen": 12,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/i18n/locales/zh/admin/settings.ts",
+  "line": "238",
+  "field": "appSecretKey",
+  "vlen": 12,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/stores/__tests__/auth.spec.ts",
+  "line": "47",
+  "field": "access_token",
+  "vlen": 14,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/stores/__tests__/auth.spec.ts",
+  "line": "48",
+  "field": "refresh_token",
+  "vlen": 17,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/stores/__tests__/auth.spec.ts",
+  "line": "220",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/stores/__tests__/auth.spec.ts",
+  "line": "232",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/stores/__tests__/auth.spec.ts",
+  "line": "245",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/stores/__tests__/auth.spec.ts",
+  "line": "253",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/stores/__tests__/auth.spec.ts",
+  "line": "269",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/stores/__tests__/auth.spec.ts",
+  "line": "284",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/stores/__tests__/auth.spec.ts",
+  "line": "297",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/stores/__tests__/auth.spec.ts",
+  "line": "310",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/stores/auth.ts",
+  "line": "25",
+  "field": "PendingAuthTokenField",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/admin/AccountsView.vue",
+  "line": "185",
+  "field": "refresh-token",
+  "vlen": 22,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/admin/AccountsView.vue",
+  "line": "320",
+  "field": "manual-refresh-token",
+  "vlen": 23,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/admin/DashboardView.vue",
+  "line": "308",
+  "field": "ranking-total-tokens",
+  "vlen": 18,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/admin/SettingsView.vue",
+  "line": "9717",
+  "field": "oidc_connect_token_auth_method",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/admin/__tests__/SettingsView.spec.ts",
+  "line": "442",
+  "field": "oidc_connect_token_auth_method",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/admin/__tests__/SettingsView.spec.ts",
+  "line": "847",
+  "field": "tencent_captcha_app_secret_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/admin/__tests__/SettingsView.spec.ts",
+  "line": "848",
+  "field": "tencent_captcha_cloud_secret_id",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/admin/__tests__/SettingsView.spec.ts",
+  "line": "849",
+  "field": "tencent_captcha_cloud_secret_key",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/admin/__tests__/SettingsView.spec.ts",
+  "line": "918",
+  "field": "aliyun_captcha_access_key_secret",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/admin/ops/OpsDashboard.vue",
+  "line": "92",
+  "field": "refresh-token",
+  "vlen": 21,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/admin/ops/OpsDashboard.vue",
+  "line": "103",
+  "field": "refresh-token",
+  "vlen": 21,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/DingTalkCallbackView.vue",
+  "line": "341",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/EmailVerifyView.vue",
+  "line": "229",
+  "field": "PendingAuthTokenField",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/LinuxDoCallbackView.vue",
+  "line": "342",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/LoginView.vue",
+  "line": "217",
+  "field": "temp-token",
+  "vlen": 13,
+  "fp": "c+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/OidcCallbackView.vue",
+  "line": "354",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/README.md",
+  "line": "207",
+  "field": "password",
+  "vlen": 13,
+  "fp": "c+d+g+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/README.md",
+  "line": "230",
+  "field": "password",
+  "vlen": 13,
+  "fp": "c+d+g+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/README.md",
+  "line": "231",
+  "field": "confirmPassword",
+  "vlen": 13,
+  "fp": "c+d+g+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/USAGE_EXAMPLES.md",
+  "line": "18",
+  "field": "password",
+  "vlen": 15,
+  "fp": "c+d+g+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/USAGE_EXAMPLES.md",
+  "line": "49",
+  "field": "password",
+  "vlen": 13,
+  "fp": "c+d+g+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/USAGE_EXAMPLES.md",
+  "line": "50",
+  "field": "password",
+  "vlen": 13,
+  "fp": "c+d+g+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/USAGE_EXAMPLES.md",
+  "line": "158",
+  "field": "password",
+  "vlen": 15,
+  "fp": "c+d+g+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/USAGE_EXAMPLES.md",
+  "line": "174",
+  "field": "password",
+  "vlen": 13,
+  "fp": "c+d+g+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/USAGE_EXAMPLES.md",
+  "line": "192",
+  "field": "Password",
+  "vlen": 13,
+  "fp": "c+d+g+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/USAGE_EXAMPLES.md",
+  "line": "207",
+  "field": "Password",
+  "vlen": 13,
+  "fp": "c+d+g+l+u"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/WechatCallbackView.vue",
+  "line": "433",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "40",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "201",
+  "field": "token",
+  "vlen": 15,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "202",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "229",
+  "field": "pending_auth_token",
+  "vlen": 15,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "274",
+  "field": "token",
+  "vlen": 15,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "275",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "308",
+  "field": "pending_auth_token",
+  "vlen": 15,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "464",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "506",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "517",
+  "field": "auth_result",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "544",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "554",
+  "field": "token",
+  "vlen": 15,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "555",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "569",
+  "field": "access_token",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "570",
+  "field": "refresh_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "599",
+  "field": "access_token",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "600",
+  "field": "refresh_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "612",
+  "field": "token",
+  "vlen": 15,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "613",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "628",
+  "field": "turnstile_token",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "633",
+  "field": "access_token",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "634",
+  "field": "refresh_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "660",
+  "field": "pending_auth_token",
+  "vlen": 15,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "661",
+  "field": "turnstile_token",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "684",
+  "field": "token",
+  "vlen": 15,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "685",
+  "field": "token_field",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "700",
+  "field": "turnstile_token",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "742",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "761",
+  "field": "auth_result",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/EmailVerifyView.spec.ts",
+  "line": "792",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/LinuxDoCallbackView.spec.ts",
+  "line": "129",
+  "field": "access_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/LinuxDoCallbackView.spec.ts",
+  "line": "130",
+  "field": "refresh_token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/LinuxDoCallbackView.spec.ts",
+  "line": "158",
+  "field": "pending_oauth_token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/LinuxDoCallbackView.spec.ts",
+  "line": "388",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/LinuxDoCallbackView.spec.ts",
+  "line": "449",
+  "field": "auth_result",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/LinuxDoCallbackView.spec.ts",
+  "line": "499",
+  "field": "access_token",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/LinuxDoCallbackView.spec.ts",
+  "line": "500",
+  "field": "refresh_token",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/LinuxDoCallbackView.spec.ts",
+  "line": "649",
+  "field": "access_token",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/LinuxDoCallbackView.spec.ts",
+  "line": "650",
+  "field": "refresh_token",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/LinuxDoCallbackView.spec.ts",
+  "line": "680",
+  "field": "password",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/LinuxDoCallbackView.spec.ts",
+  "line": "705",
+  "field": "access_token",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/OidcCallbackView.spec.ts",
+  "line": "133",
+  "field": "access_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/OidcCallbackView.spec.ts",
+  "line": "134",
+  "field": "refresh_token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/OidcCallbackView.spec.ts",
+  "line": "162",
+  "field": "pending_oauth_token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/OidcCallbackView.spec.ts",
+  "line": "342",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/OidcCallbackView.spec.ts",
+  "line": "398",
+  "field": "auth_result",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/OidcCallbackView.spec.ts",
+  "line": "449",
+  "field": "access_token",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/OidcCallbackView.spec.ts",
+  "line": "450",
+  "field": "refresh_token",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/OidcCallbackView.spec.ts",
+  "line": "599",
+  "field": "access_token",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/OidcCallbackView.spec.ts",
+  "line": "600",
+  "field": "refresh_token",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/OidcCallbackView.spec.ts",
+  "line": "630",
+  "field": "password",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/OidcCallbackView.spec.ts",
+  "line": "655",
+  "field": "access_token",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "323",
+  "field": "access_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "324",
+  "field": "refresh_token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "350",
+  "field": "pending_oauth_token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "395",
+  "field": "access_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "396",
+  "field": "refresh_token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "486",
+  "field": "access_token",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "487",
+  "field": "refresh_token",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "530",
+  "field": "auth_result",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "669",
+  "field": "access_token",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "670",
+  "field": "refresh_token",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "733",
+  "field": "token_field",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "846",
+  "field": "access_token",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "847",
+  "field": "refresh_token",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "877",
+  "field": "password",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "994",
+  "field": "access_token",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatCallbackView.spec.ts",
+  "line": "995",
+  "field": "refresh_token",
+  "vlen": 17,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/auth/__tests__/WechatPaymentCallbackView.spec.ts",
+  "line": "77",
+  "field": "wechat_resume_token",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/AirwallexPaymentView.spec.ts",
+  "line": "49",
+  "field": "clientSecret",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/AirwallexPaymentView.spec.ts",
+  "line": "109",
+  "field": "client_secret",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/AirwallexPaymentView.spec.ts",
+  "line": "125",
+  "field": "client_secret",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/PaymentResultView.spec.ts",
+  "line": "158",
+  "field": "resume_token",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/PaymentResultView.spec.ts",
+  "line": "178",
+  "field": "resumeToken",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/PaymentResultView.spec.ts",
+  "line": "253",
+  "field": "resume_token",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/PaymentView.spec.ts",
+  "line": "576",
+  "field": "wechat_resume_token",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/PaymentView.spec.ts",
+  "line": "618",
+  "field": "resume_token",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/PaymentView.spec.ts",
+  "line": "707",
+  "field": "wechat_resume_token",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/PaymentView.spec.ts",
+  "line": "715",
+  "field": "wechat_resume_token",
+  "vlen": 21,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/PaymentView.spec.ts",
+  "line": "749",
+  "field": "wechat_resume_token",
+  "vlen": 21,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/PaymentView.spec.ts",
+  "line": "765",
+  "field": "wechat_resume_token",
+  "vlen": 15,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/PaymentView.spec.ts",
+  "line": "795",
+  "field": "wechat_resume_token",
+  "vlen": 15,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/StripePaymentView.spec.ts",
+  "line": "101",
+  "field": "client_secret",
+  "vlen": 12,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/paymentWechatResume.spec.ts",
+  "line": "8",
+  "field": "wechat_resume_token",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/paymentWechatResume.spec.ts",
+  "line": "15",
+  "field": "wechatResumeToken",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/sub2api-src",
+  "file": "frontend/src/views/user/__tests__/paymentWechatResume.spec.ts",
+  "line": "45",
+  "field": "wechat_resume_token",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": ".agents/notes/implemented/feature/2026-08-18-pi-ai-wire-compat-surface.md",
+  "line": "9",
+  "field": "maxTokensField",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": ".agents/notes/implemented/feature/2026-08-18-pi-ai-wire-compat-surface.zh.md",
+  "line": "9",
+  "field": "maxTokensField",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/built-bin.e2e.ts",
+  "line": "416",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 33,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/built-bin.e2e.ts",
+  "line": "438",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 25,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/built-bin.e2e.ts",
+  "line": "483",
+  "field": "apiKey",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/built-bin.e2e.ts",
+  "line": "567",
+  "field": "apiKey",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/built-bin.e2e.ts",
+  "line": "618",
+  "field": "apiKey",
+  "vlen": 20,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/built-bin.e2e.ts",
+  "line": "666",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/github-webhook-real.e2e.ts",
+  "line": "24",
+  "field": "SECRET",
+  "vlen": 30,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/headless-shutdown.e2e.ts",
+  "line": "91",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 24,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/lazy-search-startup.compat.spec.ts",
+  "line": "51",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 23,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/profiles/acp/tests/image-offload.expected.e2e.ts",
+  "line": "213",
+  "field": "DSH_SNAPSHOT_API_KEY",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/profiles/headless/tests/resume.e2e.ts",
+  "line": "18",
+  "field": "SECRET",
+  "vlen": 16,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/profiles/sdk/keyless-smoke.e2e.ts",
+  "line": "85",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/profiles/sdk/keyless-smoke.e2e.ts",
+  "line": "207",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/profiles/sdk/keyless-smoke.e2e.ts",
+  "line": "278",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/web-browser-open.expected.e2e.ts",
+  "line": "53",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 28,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/web-browser-open.expected.e2e.ts",
+  "line": "112",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 28,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/web-browser-open.expected.e2e.ts",
+  "line": "159",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 28,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/cli/tests/web-browser-open.expected.e2e.ts",
+  "line": "206",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 28,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/web/tests/github-ready-review.e2e.ts",
+  "line": "32",
+  "field": "SECRET",
+  "vlen": 28,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/web/tests/hmr-live.e2e.ts",
+  "line": "105",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/web/tests/smoke-real.e2e.ts",
+  "line": "309",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/web/tests/smoke-real.e2e.ts",
+  "line": "432",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 21,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/web/tests/smoke-real.e2e.ts",
+  "line": "547",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/web/tests/smoke-real.e2e.ts",
+  "line": "632",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "apps/web/tests/web-search-round.e2e.ts",
+  "line": "28",
+  "field": "SEARCH_CREDENTIAL",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "docs/user/guide/python-sdk.md",
+  "line": "53",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "docs/user/guide/python-sdk.zh.md",
+  "line": "53",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/client/ui-settings-models/tests/provider-form.client.spec.tsx",
+  "line": "507",
+  "field": "apiKey",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/client/ui-theme/tests/corner-shape-styles.client.spec.ts",
+  "line": "17",
+  "field": "TOKEN",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/client/ui-theme/tests/scrollbar-styles.client.spec.ts",
+  "line": "25",
+  "field": "TOKEN_PREFIX",
+  "vlen": 22,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/credentials/credentials-local/tests/local.spec.ts",
+  "line": "286",
+  "field": "secret",
+  "vlen": 31,
+  "fp": "c+d+g+l+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/e2b/e2b/tests/composition.e2e.ts",
+  "line": "32",
+  "field": "NPM_TOKEN",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/e2b/subprocess-e2b/tests/subprocess.spec.ts",
+  "line": "397",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 15,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/llm/llm/src/error.ts",
+  "line": "48",
+  "field": "INVALID_CREDENTIAL_CODE",
+  "vlen": 18,
+  "fp": "c+s+u+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/session-query/tool-session-query/tests/tool-session-query.spec.ts",
+  "line": "846",
+  "field": "secret",
+  "vlen": 29,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/session/session-telemetry-otel/tests/loader-composition.e2e.ts",
+  "line": "26",
+  "field": "FIXTURE_SECRET",
+  "vlen": 23,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/session/session-telemetry/tests/redact.spec.ts",
+  "line": "17",
+  "field": "FIXTURE_SECRET",
+  "vlen": 20,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/subagent/subagent-claude-code/tests/subagent-claude-code.spec.ts",
+  "line": "622",
+  "field": "ANTHROPIC_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/subagent/subagent-claude-code/tests/subagent-claude-code.spec.ts",
+  "line": "713",
+  "field": "ANTHROPIC_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/subagent/subagent-claude-code/tests/subagent-claude-code.spec.ts",
+  "line": "858",
+  "field": "ANTHROPIC_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/subagent/subagent-claude-code/tests/subagent-claude-code.spec.ts",
+  "line": "886",
+  "field": "ANTHROPIC_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/subagent/subagent-codex/tests/real-product.spec.ts",
+  "line": "106",
+  "field": "OPENAI_API_KEY",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/subagent/subagent-dsh-sdk/tests/subagent-dsh-sdk.spec.ts",
+  "line": "295",
+  "field": "DEEPSEEK_API_KEY",
+  "vlen": 18,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/web/web-search-deepseek/tests/redirect.spec.ts",
+  "line": "17",
+  "field": "TEST_API_KEY",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/web/web-search-deepseek/tests/settings.spec.ts",
+  "line": "92",
+  "field": "apiKey",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/webhook/webhook-github/tests/handler.spec.ts",
+  "line": "16",
+  "field": "secret",
+  "vlen": 14,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "packages/webhook/webhook-github/tests/handler.spec.ts",
+  "line": "253",
+  "field": "secret",
+  "vlen": 12,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "python/sdk/tests/test_bundled_runtime.py",
+  "line": "80",
+  "field": "api_key",
+  "vlen": 17,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "scripts/smoke-python-runtime.py",
+  "line": "935",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "scripts/smoke-python-runtime.py",
+  "line": "967",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "scripts/smoke-python-runtime.py",
+  "line": "999",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "scripts/smoke-python-runtime.py",
+  "line": "1042",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "scripts/smoke-python-runtime.py",
+  "line": "1075",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "scripts/smoke-python-runtime.py",
+  "line": "1156",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "scripts/smoke-python-runtime.py",
+  "line": "1192",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/d/tdsh/resources/app/repo",
+  "file": "scripts/smoke-python-runtime.py",
+  "line": "1244",
+  "field": "api_key",
+  "vlen": 16,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019f76ca-a937-74c0-b59d-2c34b444b6d4.md\"",
+  "line": "1957",
+  "field": "OPENAI_API_KEY",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019f76ca-a937-74c0-b59d-2c34b444b6d4.md\"",
+  "line": "1957",
+  "field": "OPENAI_API_KEY",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019f9386-b1d6-7232-9f62-7403f5a755e3.md\"",
+  "line": "902",
+  "field": "token",
+  "vlen": 32,
+  "fp": "c+d+g+l"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019f9386-b1d6-7232-9f62-7403f5a755e3.md\"",
+  "line": "921",
+  "field": "token",
+  "vlen": 32,
+  "fp": "c+d+g+l"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019f9386-b1d6-7232-9f62-7403f5a755e3.md\"",
+  "line": "942",
+  "field": "token",
+  "vlen": 32,
+  "fp": "c+d+g+l"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019f9386-b1d6-7232-9f62-7403f5a755e3.md\"",
+  "line": "965",
+  "field": "token",
+  "vlen": 32,
+  "fp": "c+d+g+l"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019f9386-b1d6-7232-9f62-7403f5a755e3.md\"",
+  "line": "970",
+  "field": "token",
+  "vlen": 32,
+  "fp": "c+d+g+l"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019f9386-b1d6-7232-9f62-7403f5a755e3.md\"",
+  "line": "983",
+  "field": "token",
+  "vlen": 32,
+  "fp": "c+d+g+l"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019f9a52-3168-7b10-9714-13cb1997ce84.md\"",
+  "line": "52",
+  "field": "OPENAI_API_KEY",
+  "vlen": 19,
+  "fp": "c+l+s+y"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019fa2e2-c7eb-7177-ba24-9dd5c2bb2be5.md\"",
+  "line": "751",
+  "field": "napi_key",
+  "vlen": 35,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019fa2e2-c7eb-7177-ba24-9dd5c2bb2be5.md\"",
+  "line": "758",
+  "field": "napi_key",
+  "vlen": 35,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/hanako/2026-07/019fa491-cfdc-77a0-b48d-155021c95303.md\"",
+  "line": "1264",
+  "field": "napi_key",
+  "vlen": 35,
+  "fp": "c+d+g+l+s+u+y"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"00_\\345\\217\\231\\344\\272\\213\\350\\256\\260\\345\\277\\206/AI\\345\\257\\271\\350\\257\\235\\350\\256\\260\\345\\275\\225/agent-sync/omp/2026-08/019fd768-8bbe-7000-b108-4487ee812c92.md\"",
+  "line": "4088",
+  "field": "token",
+  "vlen": 36,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "\"99_archive/G\\347\\233\\230agents\\344\\274\\232\\350\\257\\235\\350\\256\\260\\345\\275\\225_20260912/OMP/2026-08-14_Task-Discover-all-WU-PWS-stations-near-Lau-Fau-S.md\"",
+  "line": "24",
+  "field": "WU_API_KEY",
+  "vlen": 32,
+  "fp": "c+d+g+l"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "sub2api-tuan-pool/add-tele-qwen-pool.mjs",
+  "line": "45",
+  "field": "api_key",
+  "vlen": 18,
+  "fp": "c+d+g+l+s+y"
+ },
+ {
+  "repo": "/mnt/i/Obsidian/vaults/第二大脑",
+  "file": "sub2api-tuan-pool/restore-tuan-pool.mjs",
+  "line": "72",
+  "field": "api_key",
+  "vlen": 18,
+  "fp": "c+d+g+l+s+y"
+ }
+]
