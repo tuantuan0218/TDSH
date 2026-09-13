@@ -36,7 +36,10 @@ concurrency : 1       ← 兜底位铁律
 | `nemotron-3-ultra` | ✅ 出词 | 11281ms |
 | `gemma-4-31b-it` | ✅ 出词 | 3660ms |
 
-**模型映射**：`Tuan → deepseek-ai/DeepSeek-V3.2`（主）+ `nemotron-3-ultra` + `gemma-4-31b-it`（备）
+**模型映射**（2026-09-14 扩到 5 映射，旧 `nemotron-3-ultra`/`gemma-4-31b-it` 同名字段被替换，5/5 直连 200 出词已验）：
+`Tuan → deepseek-ai/DeepSeek-V3.2`（主）+ `Tuan-qwen → Qwen/Qwen2.5-7B-Instruct`（中文好）+
+`Tuan-nemo → nemotron-3.5-lightning-30b-a3b` + `Tuan-hunyuan → tencent/Hunyuan-MT-7B` +
+`Tuan-ocr → PaddlePaddle/PaddleOCR-VL-1.5`
 
 ## 三、关于"免 key 端点如何入池"
 
