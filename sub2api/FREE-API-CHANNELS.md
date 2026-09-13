@@ -35,7 +35,7 @@
 
 ### 18 pollinations-free（keyless，2026-09-13 自主接入）
 - 平台：`https://text.pollinations.ai/openai`（openai 兼容，**匿名免费无需 key**，
-  占位 key="anonymous"；/v1/responses 该聚合端点有限需注意，默认 force_chat_completions）
+  占位 key 见入池脚本；/v1/responses 该聚合端点有限需注意，默认 force_chat_completions）
 - 实测：`openai` 模型匿名 5/5 200，平均 ~560ms（含 "pong!" 正常返回）；
   `openai-fast` 需 key 不可用；`mistral/llama/qwen/deepseek/gpt-4o-mini` 模型名 404
   （该聚合端点仅开放部分路由，以 /models 返回为准）

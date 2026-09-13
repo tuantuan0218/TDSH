@@ -135,7 +135,7 @@
 - **llm7 47 模型全清单**（`api.llm7.io/v1/models` 匿名 200）：仅 `L3-8B-Lunaris-v1-Turbo` 等少数为真开源权重，
   其余 gpt-5.x/claude/opus-5/gemini/grok/kimi-k3/glm-5.3 均为**网关聚合**（schema_endpoints 全 openai，
   anthropic 面仅 claude 系 7 个）。→ 模型多≠免费多，chat 一律需 `dash.llm7.io` 领 key。
-- **llm7 鉴权矩阵**：无 Authorization/空 Bearer → 401 `Missing API key`；`Bearer anonymous` →
+- **llm7 鉴权矩阵**：无 Authorization/空 Bearer → 401 `Missing API key`；任意占位 Bearer →
   401 `invalid, expired, or revoked... Generate a new key at dash.llm7.io`。→ 无匿名口。
 - **freellm.net 链路挖掘**：页内 203KB 无 `sk-` 明文 key；外链 = 各官方 key 页 + `token.llm7.io` +
   `glhf.chat`（超时）+ `aionlabs`。`token.llm7.io/` 仅 669 字节空壳（`Token LLM7.io`），
