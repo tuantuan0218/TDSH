@@ -66,6 +66,7 @@
   （z-ai/glm-5.3-flash、deepseek-v4-flash/pro、kimi-k3、gpt-oss-20b、nemotron-3.5-lightning 等），
   chat 需 key（rpm 40）；key 免费注册 build.nvidia.com → 入池脚本模板
   `liunxddo/add-nvidia-nim-pool.mjs` 已就绪，key 到手即跑
+  **复查（2026-09-13 14:5x）**：82 模型不变、8 核心免费模型全在、无新增下架——状态未漂移
 - **阿里 ModelScope**：`https://api-inference.modelscope.cn/v1`，每天 2000 次（单模型≤500）
 - **字节火山方舟**：每模型每天 250 万 token（豆包系 + deepseek-v3.2/kimi-k2）
 - **美团 LongCat**：每天 50 万 token；**七牛 AI**：300 万 token 一年（可调 OpenAI/Claude 系）
