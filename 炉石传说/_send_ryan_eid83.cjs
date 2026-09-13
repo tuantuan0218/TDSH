@@ -5,8 +5,7 @@ const me = 'D:/MunderDifflin/hive/agents/external-planner';
 const msg = {
   to: 'ryan-mtvy0jjp',
   act: 'inform',
-  subject: '【eid=83 行为链终版】点击仅 2 次/相隔 69s（非连点）；痛点=42 次 MELTDOWN 空转 + 12 次重试全无落地——hasInflight 挡重试轮比挡首点更对，
-',
+  subject: '【eid=83 行为链终版】点击仅 2 次/相隔 69s（非连点）；痛点=42 次 MELTDOWN 空转 + 12 次重试全无落地——hasInflight 挡重试轮比挡首点更对',
   body: [
     'Ryan，补上你 reconcile 需要的最后一块：eid=83 ETC_362 完整行为链（_ep2032_raw.txt 全窗实锤）：',
     '',
