@@ -48,6 +48,13 @@ const CASES = [
     file: 'e2e-monitor-alert.mjs', args: [],
     pass: /E2E-MONITOR ALL PASS/, net: false,
   },
+  {
+    // 扫描器精度自证：必须抓到阳性对照（复刻已修的 get() 缺陷），且不误报阴性对照。
+    // 若此检查挂掉，说明"没有发现隐蔽缺陷"这一结论本身不可信。
+    name: '隐蔽缺陷·扫描器精度自证',
+    file: 'scan-silent-failures.mjs', args: ['_scan_fixtures/positive-control-get.mjs'],
+    pass: /get\(\) 返回形态不一/, net: false,
+  },
 ];
 
 console.log('免费 API 监控体系 — 回归验证 ' + UA_NOTE);
