@@ -27,7 +27,10 @@ const strip = h => h.replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<style
   .replace(/\s+/g, ' ').trim();
 
 async function get(key, useFixtures) {
-  if (useFixtures && existsSync(FIXTURE[key])) return readFileSync(FIXTURE[key], 'utf8');
+  // 必须与网络分支**返回同构的 {err, html}**。
+  // 历史缺陷：此处曾直接 return 字符串，而 main 按 r.html 取值 → fixtures 模式（离线回归路径）
+  // 恒拿到 undefined，被 last-good 保护吞成"源不可达"，导致离线自测长期静默失效。
+  if (useFixtures && existsSync(FIXTURE[key])) return { err: null, html: readFileSync(FIXTURE[key], 'utf8'), fixture: true };
   try {
     const ctrl = new AbortController(); const tm = setTimeout(() => ctrl.abort(), 25000);
     const res = await fetch(SRC[key], { headers: { 'user-agent': UA, 'accept-language': 'zh-CN,zh;q=0.9' }, redirect: 'follow', signal: ctrl.signal });
@@ -382,5 +385,54 @@ if (!argv.includes('--no-official')) {
   });
   if (!argv.includes('--quiet')) {
     console.log(r.status === 0 ? '✅ 官方免费档追踪已并入（见 FREE-OFFICIAL-TIERS.md）' : `⚠️ 官方免费档追踪失败（exit ${r.status}），不影响本轮公益站结论`);
+  }
+}
+
+
+/* ---------------- --screen：把「哪些站现在可自动开户」变成可 diff 的指标 ----------------
+ * 动机：本会话三轮挖站的结论是"门是动态的"——白名单会放宽、注册位会开关、签到额度会变。
+ * 人工重跑 mine2 不可持续，故把精筛并入监控轮：hostsFile 来自 mine2 的榨取产物。
+ * 只在 --screen 时执行（136 域名一轮约 60~90s），失败不影响主监控结论。
+ */
+if (argv.includes('--screen')) {
+  const HOSTS_FILE = 'D:/tdsh/forum_leads_20260913/mined-hosts.json';
+  const classify = d => {
+    if (!d || d.register_enabled === undefined) return null;
+    const o = { reg: !!d.register_enabled, pwreg: !!d.password_register_enabled, ev: !!d.email_verification, ts: !!d.turnstile_check, ck: !!d.checkin_enabled, sys: d.system_name || '' };
+    o.verdict = !o.reg ? 'closed' : !o.pwreg ? 'oauth_only' : o.ts ? 'captcha' : o.ev ? 'email_code' : 'gold';
+    return o;
+  };
+  if (!existsSync(HOSTS_FILE)) {
+    console.log('⚠️ --screen 缺 hosts 文件（先跑 mine2.mjs 榨域名）');
+  } else {
+    const hosts = JSON.parse(readFileSync(HOSTS_FILE, 'utf8'));
+    const live = []; const q = [...hosts];
+    async function w() {
+      while (q.length) {
+        const h = q.shift();
+        try {
+          const r = await fetch('https://' + h + '/api/status', { headers: { 'user-agent': UA }, redirect: 'manual', signal: AbortSignal.timeout(7000) });
+          if (r.status !== 200) continue;
+          let d = null; try { d = (await r.json()).data; } catch { continue; }
+          const c = classify(d); if (!c) continue;
+          live.push({ h, ...c });
+        } catch { }
+      }
+    }
+    await Promise.all(Array.from({ length: 16 }, w));
+    live.sort((a, b) => a.h.localeCompare(b.h));
+    const SCREEN = SNAPDIR + 'screen-latest.json';
+    const prevS = existsSync(SCREEN) ? JSON.parse(readFileSync(SCREEN, 'utf8')) : null;
+    const pm = new Map((prevS?.live || []).map(x => [x.h, x])), cm = new Map(live.map(x => [x.h, x]));
+    const sAlerts = [];
+    for (const [h, v] of cm) { const o = pm.get(h); if (!o) sAlerts.push(`🆕 新活站 ${h} (${v.sys}) verdict=${v.verdict} 签到=${v.ck}`); else if (o.verdict !== v.verdict) sAlerts.push(`🔄 ${h} 门变了: ${o.verdict} → ${v.verdict} (签到 ${o.ck}→${v.ck})`); }
+    if (pm.size && cm.size) for (const h of pm.keys()) if (!cm.has(h)) sAlerts.push(`⚫ 站下线/不再回 status: ${h}`);
+    const gold = live.filter(x => x.verdict === 'gold'), code = live.filter(x => x.verdict === 'email_code' && x.ck);
+    writeFileSync(SCREEN, JSON.stringify({ ts: cur.ts, live }, null, 1));
+    console.log(`\n=== --screen 精筛（${live.length} 家活 New API / 探测 ${hosts.length} 域名）===`);
+    console.log(`  gold(纯自动可开户): ${gold.map(g => g.h).join(', ') || '无'}`);
+    console.log(`  email_code+签到(给常规邮箱即可): ${code.map(g => g.h).join(', ') || '无'}`);
+    sAlerts.forEach(a => console.log('  ' + a));
+    console.log('  screen 快照 -> ' + SCREEN);
   }
 }
