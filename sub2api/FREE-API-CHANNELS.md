@@ -62,6 +62,11 @@
 - **hub.linux.do**（Linux DO 官方闲置 API 置换公益站，AxonHub 网关）：
   `https://hub.linux.do/v1`（备用 `hub.oaifree.com/v1`）；需 linux.do Connect 登录注册领 key，
   闲置额度挂渠道赚 credits 再消费别的模型；**最正规候选，优先**
+- **2026 新公益站（补充收集 2026-09-13，全部需 linux.do 账号=受限项）**：V-API
+  （v-api.de5.net，实测活：/api/status 200、/v1/models 401 需 key；New API 系，Connect
+  鉴权+LDC 兑换）· 魔方公益站（Connect 鉴权+签到 10-100 额度，RPM 10，域名图片不可见未提取）·
+  汐洛公益（原帖失效，邀请码+签到）· GG_API（5000 刀/日共享额度）。共性：Connect 鉴权+
+  签到/积分兑换防滥用；hub（marketplace 型）比这些（公共号池型）更可持续，推荐序不变
 - **NVIDIA NIM**：`https://integrate.api.nvidia.com/v1`；**/models 匿名 200 已实测 82 模型**
   （z-ai/glm-5.3-flash、deepseek-v4-flash/pro、kimi-k3、gpt-oss-20b、nemotron-3.5-lightning 等），
   chat 需 key（rpm 40）；key 免费注册 build.nvidia.com → 入池脚本模板

@@ -18,7 +18,7 @@ index 68abd52..30a8c83 100644
     *  On POSIX this is a Unix-domain socket file under the hive root. On Windows,
     *  Node's `net` IPC uses named pipes (a flat `\\.\pipe\` namespace, not the
 diff --git a/src/main/index.ts b/src/main/index.ts
-index 9c5b341..5ab9383 100644
+index 9c5b341..73c6d05 100644
 --- a/src/main/index.ts
 +++ b/src/main/index.ts
 @@ -252,7 +252,10 @@ const telemetry = new TelemetryCollector({
@@ -33,6 +33,28 @@ index 9c5b341..5ab9383 100644
  });
  // Usage provider (Seam 1) — the INTEGRATION swap: Oscar's telemetry collector (#7)
  // IS the provider, replacing Lane A's interim StubUsageProvider. Same
+@@ -1301,7 +1304,9 @@ function writeFleetSnapshot(): void {
+     const agents = Object.entries(reg.agents)
+       .filter(([, a]) => !a.archived)
+       .map(([id, a]) => {
+-        const u = usageById.get(id);
++        // OTel 没有这一席的活体 → snapshot() 给不出 usage；这里补问一次 usageProvider，
++        // 它内部才有"OTel 优先 → 转录兜底"的完整语义。fleet.json 的全部病灶就在这一行。
++        const u = usageById.get(id) ?? usageProvider.getAgentUsage(id) ?? undefined;
+         const spans = snap.spans[id] ?? [];
+         const tokens = u ? u.input + u.output + u.cacheRead + u.cacheCreation : 0;
+         // `usd` is LIFETIME (reset-corrected). Until the first fold completes we
+@@ -3900,7 +3905,9 @@ ipcMain.handle('hive:agentDirectory', () => {
+   const usageById = new Map(snap.usage.map((u) => [u.agentId, u]));
+   const now = Date.now();
+   const agents = Object.entries(reg.agents).map(([id, a]) => {
+-    const u = usageById.get(id);
++    // 与 writeFleetSnapshot 同源的问题：agentDirectory 也只读 snapshot()。
++    // 兜底读的是带缓存的增量转录（usageCache），与 breaker beat 每拍同价，不新增量级。
++    const u = usageById.get(id) ?? usageProvider.getAgentUsage(id) ?? undefined;
+     const spans = snap.spans[id] ?? [];
+     const tokens = u ? u.input + u.output + u.cacheRead + u.cacheCreation : 0;
+     const ctx = hookServer.contextFor(id);
 diff --git a/src/main/telemetry.ts b/src/main/telemetry.ts
 index 29dee3a..bddcd76 100644
 --- a/src/main/telemetry.ts

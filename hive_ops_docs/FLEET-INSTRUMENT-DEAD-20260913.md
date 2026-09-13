@@ -77,7 +77,7 @@
 
 ## 3bis. 实施结果（补丁 #2 已写出并四重验证，13:53–14:17）
 
-**落点**：`hive/docs/fleet-telemetry-pi.patch`（13,248 B；`transcript.ts`/`telemetry.ts`/`hive.ts`/`index.ts` 共 14 个 hunk）。
+**落点**：`hive/docs/fleet-telemetry-pi.patch`（**v2 = 14,702 B / 16 hunk**；`transcript.ts`/`telemetry.ts`/`hive.ts`/`index.ts`。v1 是 14 hunk/13,248 B，不够，见 §3bis.0）。
 生成器 `D:\tdsh\炉石传说\_make_telemetry_patch.cjs`（只读源文件，副本上做锚点替换）。
 
 与原设计的三处**有意偏差**（都是往保守方向改）：
@@ -90,7 +90,35 @@
 3. **目录不存在时 `console.warn` 一次**（`piMissingWarned` 去重），因为"没有目录"和"没有活动"是两件事——
    本次误诊的根源正是静默返回 0。
 
-**四重验证**（全在 `D:\tmp_ts\tel\{pristine,patched}` 副本上，`src/` 零改动）：
+### 3bis.0 🔴 第一版补丁不够（自查发现，已修）：`snapshot()` 根本不走转录兜底
+
+写完 v1（14 hunk）后按第一性原理追了一遍数据流，发现**修的不是出问题的那条路**：
+
+```
+writeFleetSnapshot()  →  telemetry.snapshot()  →  for (agentId of this.agentSessions.keys()) aggregateLive(agentId)
+                                                   ↑ 只有 OTel 活体会话；transcriptFallback 只在 getAgentUsage() 里
+```
+
+pi 席位没有 OTel 活体 → `agentSessions` 里没它 → `snapshot().usage` 永远不含它 →
+**fleet.json 依然全 0**。v1 只补强了 `getAgentUsage()` 的调用方（断路器那一拍），
+也就是说：v1 若上线，我会对着仍然全 0 的 fleet 宣布"补丁无效"。
+
+v2 因此加两个 hunk（同一洞的两处视图）：
+
+- `writeFleetSnapshot()`：`const u = usageById.get(id) ?? usageProvider.getAgentUsage(id) ?? undefined;`
+- `ipcMain.handle('hive:agentDirectory')`（渲染层读数）：同一处理。
+
+并**明确划出本补丁不修的两件事**（免得下次有人拿它们当验收）：
+
+1. `lastTool` 仍为 null —— 它来自 `snap.spans`，而 spans 只有 OTLP `tool_result` 才填；
+   pi 的 `PostToolUse` 走的是 hook 通道（进 roster，不进 spans）。要修得再动 telemetry，另案。
+2. `cost-ledger.jsonl` 仍不创建 —— 见 §3 偏差 ②，那是 #56 去重闸门，刻意不碰。
+
+→ 并为此写了上线验收门 `_verify_telemetry_live.cjs`（能自动分辨"上线前/上线后"两种预期，
+且**独立复算**盘上真实用量做对照：14:52 实测 god 最新一场 in+out=401,568 而 fleet 报 0，
+证明"全 0 是读取路径坏了，不是没干活"）。
+
+**四重验证**（全在 `D:\tmp_ts\tel*\{pristine,patched}` 副本上，`src/` 零改动）：
 
 | 门 | 结果 |
 |---|---|
