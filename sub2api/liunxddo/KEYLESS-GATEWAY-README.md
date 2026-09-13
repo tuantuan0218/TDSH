@@ -5,11 +5,24 @@
 
 ## 启动
 
+**方式 A：双击启动（推荐，防连坐）**
+双击 `start-keyless-gateway.cmd` —— 自动 cd 到脚本目录、日志重定向到同目录 `gateway.log`。
+启动后窗口保持前台（关窗即停）。换端口：编辑 .cmd 里的 `set PORT=8787`。
+
+**方式 B：命令行手动**
 ```powershell
 node D:\tdsh\sub2api\liunxddo\keyless-gateway.mjs 8787
 ```
 
 （默认端口 8787，可用参数覆盖；仅监听 127.0.0.1）
+
+## 验证与停止
+
+```powershell
+curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常）
+# 停止：关闭启动窗口（方式 A）或 Ctrl+C / kill 对应 node 进程（方式 B）
+# 日志：D:\tdsh\sub2api\liunxddo\gateway.log（方式 A 自动追加）
+```
 
 ## 端点
 
