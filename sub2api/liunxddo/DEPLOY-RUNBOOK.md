@@ -30,6 +30,8 @@
   3. 把自己的 OpenAI/Anthropic/豆包等闲置 key 作为 channel 挂出赚 credits，或用 starter
      credits 直接消费他人渠道（浏览器 playground 可无代码试用，流式输出）
 - **端点**：`https://hub.linux.do/v1`（备用 `https://hub.oaifree.com/v1`）
+- **备用域名实测（2026-09-13）**：同 key 在 `hub.oaifree.com/v1/models` 200（2688 模型同清单）、
+  `chat qwen3.8-flash` 200（2.3s）——主域名故障时可无缝切换 base_url 到备用域名，无需换 key。
 - **验证**：`curl https://hub.linux.do/v1/models -H "Authorization: Bearer <key>"` 应 200
 - **入池**：
   ```powershell
