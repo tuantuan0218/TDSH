@@ -3,6 +3,9 @@
 **职责**：往 Tuan 池里丢免费 API（只新增账号/映射，不碰已有账号调度）。
 **教训铁律**：免费≠无限——所有免费档都有额度/速率上限，用尽即 402/429（SiliconFlow 先例），
 入池一律 prio 90 兜底位 + concurrency 1 + error_rate 自动避让，绝不升为主力。
+**2026-09-13 补充：linux.do（liunxddo）公益 API 收集完成**，详见 `liunxddo/LINUXDO-PUBLIC-API-COLLECTION.md`。
+结论：官方公益中转 hub.linux.do 需 linux.do Connect 登录领 key；NVIDIA NIM 免费模型最多
+（82 模型 /models 匿名 200，chat 需 key）；候选均需用户注册 key 后走 add-free-api-pool.mjs 入池。
 
 ## ✅ 已入池免费来源（只读核对 2026-09-13 06:1x）
 
@@ -44,6 +47,20 @@
   Cerebras、NVIDIA NIM、Cloudflare Workers AI、Mistral、Z.ai/GLM（1000 req/day）
 
 ## 可探索的新渠道（需用户提供 key 或注册动作）
+
+### 0. linux.do 公益 API 候选（2026-09-13 收集，全部需 key/注册）
+- **hub.linux.do**（Linux DO 官方闲置 API 置换公益站，AxonHub 网关）：
+  `https://hub.linux.do/v1`（备用 `hub.oaifree.com/v1`）；需 linux.do Connect 登录注册领 key，
+  闲置额度挂渠道赚 credits 再消费别的模型；**最正规候选，优先**
+- **NVIDIA NIM**：`https://integrate.api.nvidia.com/v1`；**/models 匿名 200 已实测 82 模型**
+  （z-ai/glm-5.3-flash、deepseek-v4-flash/pro、kimi-k3、gpt-oss-20b、nemotron-3.5-lightning 等），
+  chat 需 key（rpm 40）；key 免费注册 build.nvidia.com → 入池脚本模板
+  `liunxddo/add-nvidia-nim-pool.mjs` 已就绪，key 到手即跑
+- **阿里 ModelScope**：`https://api-inference.modelscope.cn/v1`，每天 2000 次（单模型≤500）
+- **字节火山方舟**：每模型每天 250 万 token（豆包系 + deepseek-v3.2/kimi-k2）
+- **美团 LongCat**：每天 50 万 token；**七牛 AI**：300 万 token 一年（可调 OpenAI/Claude 系）
+- **Cerebras**：glm-4.7 免费（tpd 100 万 / rpm 10）；**智谱 GLM-Flash**：免费小模型
+- 其余老帖公益站（oaipro/7xnn/WONG 等）时效差，仅作参考不优先
 
 ### 1. OpenRouter :free 模型（最推荐，量大）
 - 平台：`https://openrouter.ai/api/v1`（openai 兼容）

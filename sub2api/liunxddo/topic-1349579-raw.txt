@@ -1,0 +1,306 @@
+Title: 整理下AI大模型厂商和平台，能长期稳定提供免费额度的API (非公益站) - 资源荟萃 - LINUX DO
+
+URL Source: https://linux.do/t/topic/1349579
+
+Published Time: 2025-12-22T06:37:47+00:00
+
+Markdown Content:
+## post by uptonking on Dec 22, 2025
+
+现在AI的使用场景越来越多，公益站有时也不稳定，给大家整理一些能提供相对长期稳定大模型api的厂商和平台，作为备用或测试。
+
+这里主要收集文本大模型，图片视频生成相关的大模型没有专门做整理。
+
+![Image 1: :pushpin:](https://linux.do/images/emoji/twemoji/pushpin.png?v=15)**tldr**
+
+*   国内大模型平台太卷了，免费额度真的很多，如果没有特殊需求，国内的api就够用了。
+*   主力模型推荐: 阿里iflow, 字节火山引擎, 阿里 modelscope 魔搭社区。
+*   免费vibe coding推荐: 腾讯codebuddy, 快手codeflicker, 阿里通义灵码/qwen-code
+
+## [](https://linux.do/t/topic/1349579#p-11535851-h-1)![Image 2: :new_button:](https://linux.do/images/emoji/twemoji/new_button.png?v=15) 最新渠道(可能不稳定)
+
+一些平台会不定期推出吸引用户的免费活动，适合测试，过期了的就评论下提醒我删掉。
+
+*   20260109: cerebras 免费提供 glm-4.7, 注意每天免费token数为100w，虽然少但速度快
+
+    *   [Rate Limits - Cerebras Inference](https://inference-docs.cerebras.ai/support/rate-limits): tpd-1M, rpm-10
+
+*   20260105: minimax-m2.1 限免
+
+    *   [Cline 3.47.0 adds Background Edits and free MiniMax 2.1](https://cline.bot/blog/cline-3-47-0-adds-background-edits-and-a-free-minimax-2-1)
+    *   ~~[kilo code限时免费 minimax-m2.1](https://blog.kilo.ai/p/minimax-m21-is-free-in-kilo-for-a)~~
+    *   ~~RooCode直接免费了minimax-m2.1, 实测能用~~
+
+*   20260103: [NVIDIA NIM APIs](https://build.nvidia.com/models) 开始免费提供 **glm-4.7, minimax-m2.1**
+
+    *   因为才刚开始免费提供这些最新模型，所以资源紧张，速度可能较慢
+    *   虽然模型名没在官方页面列出，但实测已经可用了，可以用自己的api key试试
+    *   api url: [https://integrate.api.nvidia.com/v1](https://integrate.api.nvidia.com/v1)
+    *   模型名: z-ai/glm4.7, minimaxai/minimax-m2.1
+
+*   限免结束的历史渠道(可以不定期检查下是否有新活动)
+
+    *   [AI Ping](https://aiping.cn/modelList)
+        *   20260109: 限时免费 Kimi-K2-0905
+        *   20251226: ~~限时免费 glm-4.7, minimax-m2.1~~
+
+> 模型限制相关说明
+> 
+> 
+> *   rpm(Requests per minute): 每分钟请求次数
+> *   rpd(Requests per day): 每天请求次数
+> *   tpm(Tokens per minute): 每分钟输入输出的token数
+> *   tpd(Tokens per day): 每天输入输出的token数
+
+## [](https://linux.do/t/topic/1349579#p-11535851-vibe-coding-2)![Image 3: :input_latin_lowercase:](https://linux.do/images/emoji/twemoji/input_latin_lowercase.png?v=15) Vibe Coding 免费代码工具
+
+*   国内的 ai coding 太卷了，各家都提供了很大的免费额度
+
+## [](https://linux.do/t/topic/1349579#p-11535851-codebuddyhttpscopilottencentcomide-ide-3)[腾讯云代码助手 CodeBuddy](https://copilot.tencent.com/ide/), 独立IDE
+
+*   目前(20251222)免费使用 glm-4.6, deepseek-v3.1-terminus, huyuan-2.0
+
+    *   ![Image 4: :fire:](https://linux.do/images/emoji/twemoji/fire.png?v=15) 20251223: 免费提供最新的 **glm-4.7**
+
+*   ![Image 5: :bug:](https://linux.do/images/emoji/twemoji/bug.png?v=15) 有佬友反馈可能碰到请求次数上限的问题
+
+## [](https://linux.do/t/topic/1349579#p-11535851-codeflicker-httpswwwcodeflickerai-ide-4)快手 [CodeFlicker](https://www.codeflicker.ai/), 独立IDE
+
+*   目前(20251222)免费使用 kimi-k2-0905, deepseek-v3.2, glm-4.6, minimax-m2, kat-coder-pro
+
+## [](https://linux.do/t/topic/1349579#p-11535851-httpslingmaaliyuncom-ide-5)阿里 [通义灵码](https://lingma.aliyun.com/), 独立IDE
+
+*   免费不限量使用 千问系列模型，但不可更换使用其他模型
+
+## [](https://linux.do/t/topic/1349579#p-11535851-qwen-codehttpsgithubcomqwenlmqwen-code-cli-6)阿里 [qwen-code](https://github.com/QwenLM/qwen-code), cli命令行
+
+*   **free tier** : use an OpenAI-compatible API, or sign in with Qwen OAuth to get **2,000** free requests/day. 
+    *   rpd 每天 2000 次，免费额度很大，且长期稳定
+
+## [](https://linux.do/t/topic/1349579#p-11535851-clinehttpsclinebotpricing-vscode-cli-7)[Cline](https://cline.bot/pricing), vscode扩展 / cli命令行
+
+*   提供多种使用方式，包括vscode里的扩展、独立的cli
+*   vscode的模型配置界面长期提供免费模型 
+    *   20251223免费: minimax-m2, devstral-2512, grok-code-fast, kat-coder-pro
+
+## [](https://linux.do/t/topic/1349579#p-11535851-roo-codehttpsroocodecompricing-vscode-cloud-agents-8)[Roo Code](https://roocode.com/pricing), vscode扩展 / Cloud Agents
+
+*   提供多种使用方式，包括vscode里的扩展、云端编程
+*   vscode的模型配置界面长期提供免费模型 
+    *   [Roo Code Cloud Models](https://app.roocode.com/models)
+    *   20251223免费: MiniMax-M2, Grok Code Fast 1
+
+## [](https://linux.do/t/topic/1349579#p-11535851-kilo-codehttpskiloai-vscode-cli-9)[Kilo Code](https://kilo.ai/), vscode扩展 / cli命令行
+
+*   提供多种使用方式，包括vscode里的扩展、独立的cli
+*   vscode的模型配置界面长期提供免费模型 
+    *   [Models](https://kilo.ai/models)
+    *   20251223免费: minimax-m2, devstral-2512, kat-coder-pro
+    *   20260105免费: minimax-m2.1
+
+## [](https://linux.do/t/topic/1349579#p-11535851-opencodehttpsopencodeai-cli-10)[OpenCode](https://opencode.ai/), cli命令行
+
+*   最近也提供了OpenCode Desktop的使用方式，长期提供免费模型 
+    *   [Zen Models](https://opencode.ai/docs/zen#models)
+    *   20251223免费: **glm-4.7, minimax-m2.1**, Grok Code Fast 1, Big Pickle
+
+## [](https://linux.do/t/topic/1349579#p-11535851-others-11)代码工具 Others
+
+*   **字节**[TRAE](https://docs.trae.cn/ide/models), **独立IDE**
+    *   提供很多免费模型: **GLM-4.7, MiniMax-M2.1**, Kimi-K2-0905, DeepSeek-V3.1-Terminus, Qwen-3-Coder
+    *   还支持通过 API 密钥（API Key）接入其他平台的模型，但我没找到使用公益站url和key的方法，有知道的佬友可以指导下
+    *   ![Image 6: :bug:](https://linux.do/images/emoji/twemoji/bug.png?v=15) 注意小红书上有用户反馈使用**最新模型**时经常碰到要**排队**的情况，国际版和国内版都有排队的限制，而使用**auto模型**时系统很可能分配旧模型或豆包模型，此时排队的情况会少点
+
+## [](https://linux.do/t/topic/1349579#p-11535851-coding-12)coding 工具说明
+
+## [](https://linux.do/t/topic/1349579#p-11535851-h-13)![Image 7: :pushpin:](https://linux.do/images/emoji/twemoji/pushpin.png?v=15) 国内厂商或平台
+
+## [](https://linux.do/t/topic/1349579#p-11535851-iflow-14)阿里心流 iflow
+
+## [](https://linux.do/t/topic/1349579#p-11535851-h-15)字节火山方舟大模型
+
+*   目前 **每个模型** 每天免费 **250w** token， 速度很快，体验很好，但单模型token不够用，经常切换模型我觉得麻烦
+*   主要提供的模型: 豆包系列模型较多，最新的deepseek-v3.2, Kimi-K2-Instruct-0905
+*   ![Image 8: :framed_picture:](https://linux.do/images/emoji/twemoji/framed_picture.png?v=15) 还提供文生图相关模型
+*   [免费推理额度](https://www.volcengine.com/docs/82379/1399514?lang=zh)
+    *   rpm/tpm各模型不同，一般rpm为1000～10000， tpm为500w
+
+## [](https://linux.do/t/topic/1349579#p-11535851-modelscope-16)阿里 modelscope 魔搭社区
+
+*   每天允许进行 **总数为 2000 次** 的API-Inference调用，其中每**单个模型不超过 500 次**，具体每个模型的限制可能随时动态调整。
+*   我不太喜欢阿里的modelscope， **受欢迎的模型总是开放一段时间就下架**，但提供的免费额度很稳定，千问系列模型很稳定
+*   ![Image 9: :framed_picture:](https://linux.do/images/emoji/twemoji/framed_picture.png?v=15) 还提供文生图相关模型
+*   [限制](https://modelscope.cn/docs/model-service/API-Inference/intro)
+    *   在每个模型每天不超过 500 次调用的基础上，平台可能对于部分模型再进行单独的限制，例如，deepseek-ai/DeepSeek-R1-0528，deepseek-ai/DeepSeek-V3.1等规格较大模型，当前限制 **单模型每天200次** 调用额度。
+
+ -在上述调用次数限制的基础上，不同模型允许的调用并发，会根据平台的压力进行动态的速率限制调整，原则上以保障开发者单并发正常使用为目标
+
+## [](https://linux.do/t/topic/1349579#p-11535851-kat-coder-17)快手 KAT-Coder 系列模型
+
+*   KAT-Coder-Pro V1 和 KAT-Coder-Air 目前都提供免费使用，其中 KAT-Coder-Air 长期提供免费使用
+*   我经常拿来做测试，速度很快，对结果要求不高可以试试
+*   [KAT-Coder-Air V1 模型免费使用规则](https://www.streamlake.com/document/WANQING/mh1g9y6knewv5sft54k)
+    *   高峰时段: 08:00-02:00（次日）, **每6小时**内您将可以发起 **120次** 对话请求。
+    *   非高峰时段: 02:00-08:00, **每6小时**内您将可以发起 **200次** 对话请求
+
+## [](https://linux.do/t/topic/1349579#p-11535851-glm-flash-18)智谱 glm flash 系列模型
+
+*   [智谱AI开放平台 福利专区](https://bigmodel.cn/dev/activities/free/glm-4-flash)
+*   少数的模型厂商自己提供免费模型api，长期稳定，免费的都是小模型，但种类比较全
+*   速度很快，但效果不好，适合用来测试
+*   模型包括: GLM-4-Flash-250414, GLM-4.1V-Thinking-Flash, Cogview-3-Flash(文生图), CogVideoX-Flash(视频生成)
+*   [速率限制](https://www.bigmodel.cn/dev/howuse/rate-limits)
+    *   限制的维度是请求 **并发** 数量（在途请求任务数量）， GLM-4-Flash为200, GLM-4V-Flash为10
+
+## [](https://linux.do/t/topic/1349579#p-11535851-siliconflow-19)硅基流动 SiliconFlow
+
+*   长期稳定提供免费的小模型，大多7b/8b/9b的小模型，速度快
+*   不提供32b以上的免费模型，小模型质量较差，我平时用的少
+*   [Rate Limits](https://docs.siliconflow.cn/cn/userguide/rate-limits/rate-limit-and-upgradation)
+    *   大多都是 tpm-50k
+
+## [](https://linux.do/t/topic/1349579#p-11535851-others-20)国内 Others
+
+*   上面都是我用的比较多的，下面是一些其他免费模型，大家也可以补充
+
+*   **美团 LongCat 系列模型**
+
+    *   [LongCat API开放平台](https://longcat.chat/platform/docs/zh/)
+    *   每个账号每天自动获得 **500,000 Tokens** 免费额度
+    *   单次请求限制 输出文本：最大8K Tokens， 当触发限流时，API将返回HTTP状态码429
+
+*   ![Image 10: :hot_springs:](https://linux.do/images/emoji/twemoji/hot_springs.png?v=15) 特别提及: **七牛 AI 大模型推理服务**
+
+    *   这是我所知的国内仅有的大模型平台，官方能提供 OpenAI/Claude/Gemini 模型，不知道是不是 2API 的渠道 ![Image 11: :zany_face:](https://linux.do/images/emoji/twemoji/zany_face.png?v=15)
+    *   官方提供300w免费token, 有效期一年，
+    *   速度很快，强烈推荐，能用各种模型
+    *   [AI 大模型推理服务 - 七牛云](https://www.qiniu.com/ai/chat)
+    *   官方虽然没在模型广场上写出claude/gpt-5/gemini, 但领到资源包后，在控制台 `订单管理 / 资源包管理 / 资源包明细` 界面 可查看具体 `适用范围和抵扣规则`， 里面可以搜索到claude/gpt， 实测可以在cline/cherry-studio这些工具里使用，并且速度可达 100+ token/s
+
+## [](https://linux.do/t/topic/1349579#p-11535851-h-21)![Image 12: :pushpin:](https://linux.do/images/emoji/twemoji/pushpin.png?v=15) 国外厂商或平台
+
+## [](https://linux.do/t/topic/1349579#p-11535851-nvidia-nim-api-22)显卡一哥英伟达老黄的福利 - Nvidia NIM API
+
+*   我觉得比openrouter更好用，似乎免费不限量
+*   提供各种模型， 包括国外的模型: glm-4.7, minimax-m2.1, deepseek-v3.2, qwen3-coder-480b, kimi-k2-thinking, mistral-large, devstral 
+    *   不支持:
+
+*   ![Image 13: :framed_picture:](https://linux.do/images/emoji/twemoji/framed_picture.png?v=15) 还支持部分文生图模型, FLUX.1-dev免费 25 requests, 可以试试
+*   [Try NVIDIA NIM APIs](https://build.nvidia.com/models)
+    *   限制 rpm: 40
+
+## [](https://linux.do/t/topic/1349579#p-11535851-cerebras-inference-23)Cerebras Inference
+
+## [](https://linux.do/t/topic/1349579#p-11535851-openrouter-24)OpenRouter
+
+*   长期稳定，模型丰富
+*   [API Rate Limits](https://openrouter.ai/docs/api/reference/limits)
+    *   免费次数: 不充钱的用户每天 50 rpd, 充了10刀的用户每天 1000 rpd， 在免费额度内使用不会扣费
+    *   注册了不需要绑卡和充钱就可以免费50次，只能使用模型名里面带free的，**模型名不带free的不能免费使用**
+
+*   很多公益站都用了 OpenRouter 的渠道
+
+## [](https://linux.do/t/topic/1349579#p-11535851-mistral-25)Mistral
+
+*   欧洲主流模型厂商，提供长期稳定的模型api
+*   我试过在官方聊天网站 [Le Chat](https://chat.mistral.ai/chat) 体验的效果很差，远不如国内的模型，
+*   我还试过在本地用 Ollama / LM Studio 跑 mistral/devstral 系列的模型也远不如国内的qwen3-32b内的模型，但reddit论坛很多人都在吹mistral系列的模型，我觉得就是老欧人的自嗨
+*   [Rate Limits & Usage tiers](https://docs.mistral.ai/deployment/ai-studio/tier)
+    *   免费额度非常大，
+    *   Tokens per Minute 500,000
+    *   Tokens per Month 1,000,000,000，大约每天 rpd 是 3300w ![Image 14: :scream:](https://linux.do/images/emoji/twemoji/scream.png?v=15)
+
+*   [Codestral](https://docs.mistral.ai/capabilities/code_generation)
+    *   mistral系列专注于coding的模型似乎有额外的免费额度，但我没用过，因为coding模型竞争太激烈了，有其他选择
+
+## [](https://linux.do/t/topic/1349579#p-11535851-others-26)国外 Others
+
+*   **groq**
+
+    *   免费模型种类多，但大模型不多，大多是小模型， 免费额度较少
+    *   免费大模型包括: kimi-k2-instruct-0905, gpt-oss-120b, llama-4-maverick-17b-128e
+    *   [Rate Limits](https://console.groq.com/docs/rate-limits)
+        *   rpm - 10~60
+        *   tokens per day 是 100K~500K, 每天的token太少了，不够用
+
+*   **Poe**
+
+    *   poe 既不是模型研发厂商，也不是聚合平台，主要业务是方便用户通过ui创建chat-bot和自动化任务bot，也提供了模型api供用户使用
+    *   免费用户每天发放 3000 points, 仅当日有效 
+        *   [Poe FAQs](https://help.poe.com/hc/en-us/articles/19944206309524-Poe-FAQs)
+
+    *   官方文档提到了支持 claude-code, cline, cursor, continue
+    *   > 佬友 tips: 用之前建议一个个模型按费率和收费标准选一下，像 Grok-4.1-Fast 、Gemini Flash 系列、GPT-5-mini/GPT-5-nano 都不怎么耗积分
+
+    *   ![Image 15: :bug:](https://linux.do/images/emoji/twemoji/bug.png?v=15) 我个人不推荐使用这家的api， 因为不支持结构化输出，这是ai非聊天类工具大多需要的基础功能 
+        *   Structured outputs are not supported
+        *   The `strict` parameter for function calling is ignored, which means the tool use JSON is not guaranteed to follow the supplied schema.
+        *   [OpenAI Compatible API](https://creator.poe.com/docs/external-applications/openai-compatible-api)
+
+*   **ZenMux**
+
+    *   目前提供了4个免费模型: gemini-3-flash-preview-free, xiaomi/mimo-v2-flash, kuaishou/kat-coder-pro-v1, z-ai/glm-4.6v-flash 
+        *   [Free Models - ZenMux](https://zenmux.ai/models?sort=pricingLowToHigh)
+
+    *   测试时gemini-3-flash返回异常429, xiaomi-mino能用但速度一般
+    *   这个平台我看25年8月才开始运营，是不是长期稳定还要让子弹飞一会儿，以后会关注更新
+
+*   **~~Chutes~~**
+
+    *   目前限时免费的模型~~有4个: GLM 4.5 Air, Gpt Oss 20b, Gemma 3 4b, Tongyi DeepResearch 30B~~
+        *   免费的模型参数不够大，不如其他平台
+        *   [Chutes Free Models](https://chutes.ai/app?free=true)
+
+    *   目前测试注册就可以用，不需要充钱，只写了限时免费，没找到请求速度限制说明
+    *   不推荐使用这个平台，因为免费规则经常调整，在25年7月需要充5刀了才给200rpd免费额度
+    *   ![Image 16: :eyes:](https://linux.do/images/emoji/twemoji/eyes.png?v=15) 20251230: **已取消所有免费模型**
+
+*   国外平台我用的少，大家可以补充一些反馈和其他平台
+
+## [](https://linux.do/t/topic/1349579#p-11535851-h-27)其他
+
+*   这么多免费大模型api，不知道有没有什么好的统一管理的方法 ![Image 17: :thinking:](https://linux.do/images/emoji/twemoji/thinking.png?v=15)
+
+1.9k likes
+
+read  24 min
+
+## post by yqyan on Dec 22, 2025
+
+## post by tzsmc on Dec 22, 2025
+
+## post by handsome on Dec 22, 2025
+
+## post by B1ues on Dec 22, 2025
+
+## post by bing_666 on Dec 22, 2025
+
+## post by fyk on Dec 22, 2025
+
+## post by Barry_max on Dec 22, 2025
+
+## post by uptonking on Dec 22, 2025
+
+## post by bookpple on Dec 22, 2025
+
+## post by Yolon on Dec 22, 2025
+
+## post by colt on Dec 22, 2025
+
+## post by dollaring on Dec 22, 2025
+
+## post by astro_void on Dec 22, 2025
+
+## post by Cora_Tracy on Dec 22, 2025
+
+## post by hiagfh on Dec 22, 2025
+
+## post by huangsheng on Dec 22, 2025
+
+## post by schipper0165 on Dec 22, 2025
+
+## post by JIUUIJ on Dec 22, 2025
+
+## post by Google.bing on Dec 22, 2025
+
+## Load more posts below
