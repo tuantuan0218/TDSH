@@ -1,5 +1,5 @@
 {
- "ts": "2026-09-13T20:09:59.258Z",
+ "ts": "2026-09-13T19:54:15.646Z",
  "sourceErrors": {},
  "stations": [
   {
@@ -26,7 +26,7 @@
    "score": 96,
    "compat": 0,
    "availEffective": 100,
-   "ci95low": 97.64,
+   "ci95low": 97.63,
    "recentStatuses": [
     "degraded",
     "degraded",
@@ -309,7 +309,7 @@
    "batch": "FluxionAI 兑换码",
    "quota": "$3 体验额度",
    "stock": 120,
-   "endsIn": "46天 09:48:09",
+   "endsIn": "46天 10:03:52",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -317,7 +317,7 @@
    "batch": "九月新用户福利",
    "quota": "10U试用订阅周卡",
    "stock": 72,
-   "endsIn": "12:26:09",
+   "endsIn": "12:41:52",
    "note": "10U试用订阅周卡 10U试用额度7天有效，试用订阅仅可使用试用订阅绑定分组 "
   },
   {
@@ -325,7 +325,7 @@
    "batch": "RickToken 兑换码",
    "quota": "$3 体验额度",
    "stock": 67,
-   "endsIn": "15天 10:04:09",
+   "endsIn": "15天 10:19:52",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -333,7 +333,7 @@
    "batch": "I Code Easy 兑换码第二期",
    "quota": "¥3 体验额度",
    "stock": 58,
-   "endsIn": "4天 15:09:09",
+   "endsIn": "4天 15:24:52",
    "note": "¥3 新用户体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值，仅限新用户。 "
   },
   {
@@ -341,7 +341,7 @@
    "batch": "元流兑换码",
    "quota": "$5 体验额度",
    "stock": 42,
-   "endsIn": "15天 09:57:09",
+   "endsIn": "15天 10:12:52",
    "note": "$5 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -349,7 +349,7 @@
    "batch": "Z-API九月福利",
    "quota": "3元体验额度",
    "stock": 39,
-   "endsIn": "16天 10:19:09",
+   "endsIn": "16天 10:34:52",
    "note": "3元体验额度 每个账号仅限一次，30天有效 "
   },
   {
@@ -357,7 +357,7 @@
    "batch": "AI 聚合平台 · 2026年9月体验福利",
    "quota": "5算力（平台人民币5元充值对应额度，非美元）",
    "stock": 37,
-   "endsIn": "2天 11:52:09",
+   "endsIn": "2天 12:07:52",
    "note": "5算力 AI创作与API体验额度 共50份，每份5算力。兑换后到账AI聚合平台余额，可按平台实际报价用于AI对话、图片、视频、音频创作及API调用，无需先充值。平台1元人民币=1算"
   },
   {
@@ -365,7 +365,7 @@
    "batch": "九月新用户福利",
    "quota": "$3 无门槛体验额度",
    "stock": 27,
-   "endsIn": "16天 08:48:09",
+   "endsIn": "16天 09:03:52",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -373,7 +373,7 @@
    "batch": "CodeGo 兑换码",
    "quota": "$3 体验额度",
    "stock": 19,
-   "endsIn": "16天 04:18:09",
+   "endsIn": "16天 04:33:52",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -381,7 +381,7 @@
    "batch": "LV Ping 兑换码",
    "quota": "$20 体验额度",
    "stock": 8,
-   "endsIn": "17天 08:31:09",
+   "endsIn": "17天 08:46:52",
    "note": "3 天 $20 体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   }
  ],
@@ -472,7 +472,7 @@
    "sample": "gpt-5.5,gpt-5.4-mini,gpt-5.4,gpt-4o,claude-sonnet-4-6,deepseek-v4-flash",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{ \"error\": { \"message\": \"未提供令牌 (request id: 20260914040955818992sbU7IuIP)\", \"typ",
+   "chatSnippet": "{ \"error\": { \"message\": \"未提供令牌 (request id: 20260914035413686761GqlvZw84)\", \"typ",
    "err": null,
    "budgetTextHit": false,
    "negControl": true,
@@ -499,7 +499,7 @@
    "sample": "",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"message\":\"未提供令牌 (request id: 20260914040956740015098EAcPrPom)\",\"type\":\"new_api_",
+   "chatSnippet": "{\"error\":{\"message\":\"未提供令牌 (request id: 2026091403541548192294696nI704X)\",\"type\":\"new_api_",
    "err": null,
    "budgetTextHit": false,
    "name": "Any Router"
@@ -551,7 +551,7 @@
    "sample": "",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"code\":\"\",\"message\":\"Invalid token (request id: 202609132009589567337808268d9d6D",
+   "chatSnippet": "{\"error\":{\"code\":\"\",\"message\":\"Invalid token (request id: 202609131954189183200188268d9d6l",
    "err": null,
    "budgetTextHit": false,
    "name": "columbina"

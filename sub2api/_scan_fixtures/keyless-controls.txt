@@ -1,0 +1,3 @@
+https://text.pollinations.ai/openai
+https://ai-api.xzt.plus/v1
+https://free.suyu.io/v1

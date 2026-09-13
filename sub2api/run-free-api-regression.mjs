@@ -55,6 +55,13 @@ const CASES = [
     file: 'scan-silent-failures.mjs', args: ['_scan_fixtures/positive-control-get.mjs'],
     pass: /get\(\) 返回形态不一/, net: false,
   },
+  {
+    // 免key探测器自证：必须命中已知的两个免key可用端点（pollinations + xzt）。
+    // 若为 0，说明探测器失效 —— 由此得出的"免key端点已全部失效"结论不可信。
+    name: '免key探测·探测器自证',
+    file: 'probe-keyless-endpoints.mjs', args: ['_scan_fixtures/keyless-controls.txt'],
+    pass: /免 key 真出词 \*\*2\*\*/, net: true,
+  },
 ];
 
 console.log('免费 API 监控体系 — 回归验证 ' + UA_NOTE);

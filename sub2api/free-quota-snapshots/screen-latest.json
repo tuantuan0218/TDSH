@@ -1,5 +1,5 @@
 {
- "ts": "2026-09-13T18:49:17.289Z",
+ "ts": "2026-09-13T19:54:15.646Z",
  "live": [
   {
    "h": "ai.dext.top",
@@ -20,16 +20,6 @@
    "ck": true,
    "sys": "跑路中转站",
    "verdict": "email_code"
-  },
-  {
-   "h": "api.cnwks.top",
-   "reg": true,
-   "pwreg": true,
-   "ev": true,
-   "ts": true,
-   "ck": true,
-   "sys": "坤鹏算力",
-   "verdict": "captcha"
   },
   {
    "h": "api.justwoker.icu",
@@ -122,6 +112,16 @@
    "verdict": "email_code"
   },
   {
+   "h": "beizhi.sylu.cc",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "Liminality",
+   "verdict": "email_code"
+  },
+  {
    "h": "byesu.com",
    "reg": true,
    "pwreg": true,
@@ -132,33 +132,53 @@
    "verdict": "email_code"
   },
   {
-   "h": "newapi.columbina.eu.org",
+   "h": "crowllm.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "CrowLLM",
+   "verdict": "email_code"
+  },
+  {
+   "h": "easymax.ai",
    "reg": true,
    "pwreg": true,
    "ev": false,
    "ts": false,
-   "ck": true,
-   "sys": "New API",
+   "ck": false,
+   "sys": "Easy API - 多模型聚合网关 国际站",
    "verdict": "gold"
   },
   {
-   "h": "tian-shu.org",
+   "h": "emtf.aipm9527.online",
+   "reg": true,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "AIPM",
+   "verdict": "oauth_only"
+  },
+  {
+   "h": "www.getunikey.ai",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": true,
+   "ck": false,
+   "sys": "UNIKEY",
+   "verdict": "captcha"
+  },
+  {
+   "h": "www.sotamodel.net",
    "reg": true,
    "pwreg": true,
    "ev": true,
    "ts": false,
    "ck": false,
-   "sys": "天枢",
-   "verdict": "email_code"
-  },
-  {
-   "h": "wuai.ai",
-   "reg": true,
-   "pwreg": true,
-   "ev": true,
-   "ts": false,
-   "ck": true,
-   "sys": "吾爱 AI",
+   "sys": "SOTA Model",
    "verdict": "email_code"
   }
  ]
