@@ -68,7 +68,7 @@
 - 公益站导航（三镜像同一内容）：https://github.com/1sh1ro/ai-api-gongyi-nav ／ https://github.com/bubblevv/ai-api-gongyi-nav ／ https://github.com/weed33834/ai-api-gongyi-nav （在线页 https://bubblevv.github.io/ai-api-gongyi-nav/）
 - 签到类书签：https://github.com/QHSsss/charity_site_bookmark （wong/b4u/elysiver/黑与白等）
 - ChatAnywhere 免费额度（10000点/日刷新，GPT/DeepSeek）：https://github.com/chatanywhere/GPT_API_free
-- 直接可用免注册 key 表（有次数限制）：https://github.com/alistaitsacle/free-llm-api-keys/blob/main/README_CN.md
+- ~~直接可用免注册 key 表（有次数限制）：https://github.com/alistaitsacle/free-llm-api-keys/blob/main/README_CN.md~~ → **⛔ 已作废（2026-07-08 被 GitHub 按 ToS 封禁，四镜像全 404）；据此搭的 FreeLLMKeys.com 连坐失效。见第十二节。**
 - cups 公益（登录送200次，可续）：https://www.cups.moe/archives/free-llm-api.html
 - 辉哥中转公益站（注册控制台生成密钥）：https://lzhiyu.ccwu.cc/
 - 速语 API 公益站（GitHub 登录，GPT-5.5/Claude/DeepSeek/Gemini）：https://free.suyu.io/
@@ -111,3 +111,60 @@
 3. 想薅公益站：NodeSeek 推广区按"注册送+签到"挑 1-2 家实测；奶昔 New API 用论坛点数兑；V2EX 邮件申请制随缘。
 4. X：只蹲兑换码，不做主力。
 5. 任何 key 到手 → 走 `add-free-api-pool.mjs` 入池（prio 90/concurrency 1 兜底位铁律）。
+
+## 十一、深夜增量轮（21:4x→22:1x；全文见 `FREE-API-KEYS-INCREMENT-20260913-LATE.md`）
+
+- **抓到论坛公开 key 并实测生死**：v2ex `t/1236455` 帖内明文 base `api.aitokensflux.com/v1` + key（指纹
+  `sk-PfYs8…`/43位，模型 ox-alpha）→ `/v1/models` 与 `chat/completions` **均 401，已失效**；帖内第 4 天就有人报废。
+  → 样本寿命＝**发帖到蹬废 ≈3 天**，"抄论坛明文 key"这条路本身是死的。
+- **新金矿＝GoAIHop**（v2ex `t/1236342`，目录站 goaihop.com）：
+  - `/public-benefit` 6 家公益中转站，自带近7天可用率+评分：**Agent Router(agentrouter.org) 100%/96分**、
+    **columbina(newapi.columbina.eu.org) 50%/70分**；GoRouter/TaBiAI/JustDoWork(注册送$70)/AnyRouter(注册送$50) 可用率 0%。
+  - `/benefits` 10 个明码体验码批次（FluxionAI $3、元流 $5、RickToken $3、CodeGo $3、Top API $3、Z-API 3元、
+    I Code Easy ¥3、Orbelis 10U周卡、**LV Ping 3天$20@1x**、AI聚合 5算力），库存/有效期可见 → 兑换需站内积分+验证邮箱（受限项）。
+- **33 端点匿名扫描全灭**（6 公益 + 27 中转域名逐个 `GET /v1/models`：401 API_KEY_REQUIRED / 403 CF / 404 / HTML），
+  且**阳性对照通过**（`text.pollinations.ai/openai/models` = ANON-OPEN）→ "零匿名开放"是真结论非假绿；Pollinations 仍唯一真匿名。
+- **奶昔机制补齐**：端点 `newapi.naixi.net/v1`，令牌 4 分组（default/claudecode/translate/experience），
+  开户 5 刀 + 每日签到 1–2 刀 + 积分商城礼品卡；游客不能站内搜索。⚠️ 本机到该域名 **fetch failed**（疑需代理），入池前必测。
+- **cups 行更正**：`www.cups.moe/archives/free-llm-api.html` 实为 **200 可达但 hCaptcha 挡内容**；
+  `free-llm.cupsfunny.com` 才是 DNS 不可达。上一行"域名不可达/待复查"应据此拆分。
+- linux.do 本周新帖：SoleAPI($10)、CUN.AI(**每日$0.50**+300张码)、快跑AI($10 + GLM-5.3/Qwen3.8-Flash 限免)、
+  PQH($5)、中转站自由市场(评论ID盲盒保底2.5$)、哲の深夜测试(`t/2821740`，3时段×100份×10$)、
+  PM公益站 Free组(`t/2894645`，dsv4.1-flash)、松贝公益站生图、Workbuddy(dsv4.1-flash 倍率0+每日签到100点)、智谱ZCode(3亿token)。
+- NodeSeek 补：`post-923808`（一 Key 调 gpt-6-astra/opus-5/glm-5.3/dsv4-flash）、`post-922604`
+  （**未付费每天 20 次**、评论 ID 送 $3）、`api.66o.uk`（实测 401）、Dooong(`post-662180`)。CF 拦直抓，站域名需浏览器。
+- X：登录墙，本轮未覆盖 → 受限项（不擅自用登录态）。
+- **净增量结论**：本轮可入池匿名端 **0 新增**；真正"可抄的作业"是 GoAIHop 体验码批次表与公益站可用率排名。
+
+## 十二、第三轮复扫（09-13 深夜，本轮全文见 `免费API_实测清单.md`）
+
+本轮口径：**只看 HTTP 实测响应，不采信宣传**。结论是"清理过期线索 + 钉死活性"。
+
+**① 更正上一轮遗留的悬案（重要，此前只有猜测）**
+- `alistaitsacle/free-llm-api-keys`：**GitHub 已按 ToS 封禁**（API 明确回 `Repository access blocked / tos /
+  created_at 2026-07-08`），raw/raw CDN/jsdelivr/ghproxy **四条镜像全 404**。它不是"残页无 key"，而是**整仓已死**。
+  → 第七节第 71 行"直接可用免注册 key 表"的表述**必须按此作废**，不要再照它去找。
+- `FreeLLMKeys.com`：抓 JS chunk 后定位到它的**真实数据源就是上面那个被封的仓库**（`raw.githubusercontent.com/
+  alistaitsacle/...`），故页面计数 `Showing 0 of 0 keys` —— 属**连坐死亡**，非自身故障。
+  其宣称的 base `aiapiv2.pekpik.com` 实测**活着**（New API 系统，返回 `new_api_error: Invalid token`），
+  但**没有 key 可拿** → 空壳，不入池。
+
+**② 新增活性判定（本轮首次实测）**
+| 端点 | 实测 | 判定 |
+|---|---|---|
+| `free.empero.org/v1`（V2EX 8/27 帖最火，"任意 key"） | **503** `We are switching the free endpoint to new models` | ⚠️ 官方维护中，**可能复活**，值得复扫 |
+| `aihubmix.com/v1/models` | **200 真返模型表**（`gpt-6-astra`/`gemini-3.8-flash`/`auto` 路由） | ★ 全轮**唯一新增的 200 可用面**；免费项 Coding GLM 5.3，需注册拿 key |
+| `wecoding.xyz`（NS `post-878033` 号称"无条件免费"） | `/health`=200 `{"status":"ok"}`、`/v1/models`=401 `API_KEY_REQUIRED` | 服务**真活**，但"无条件"名不副实 → 仍需注册拿 key |
+| `tokenharbor.ai/v1`（V2EX 推荐） | **明确拒绝**：封中国大陆/港澳/受制裁区 | ❌ 大陆永久不可用，别再试 |
+| `qwq.aigpu.cn` | 12s 连接超时 | ❌ 已挂（"50 台家用机免费 QwQ"是过期宣传） |
+| `free-llm.cupsfunny.com` | 连接失败 | ❌ 与第 130 行 cups 拆分结论一致 |
+
+**③ 结构化数据源（新增，供监控器直接吃）**
+- `https://yangmao.ai/zh/data/ai-free-tiers/`：**162 家**免费额度厂商，每日更新，**提供 JSON/CSV 下载**，
+  含 82 个免费 API 选项 / 90 个大陆直连 / 36 个开源厂商 → 比逐帖捡漏高效，建议并入 `free-quota-monitor.mjs`。
+- 官方控制台可达性实测（10 家）：AI Studio / OpenRouter / 智谱 / 百炼 / 硅基流动 / GitHub Models /
+  Cloudflare / Mistral 均 **200 或 303（正常重定向）**；Groq / Cerebras 为 **403（Cloudflare 挡 bot）**
+  → 403 是**反爬不是站点故障**，浏览器可正常打开，勿误判为死站。
+
+**④ 净增量**：本轮可入池匿名端仍为 **0 新增**（与上轮一致，互为独立复核）；
+真正增量是 **AIHubMix 200 可用面** + **alistaitsacle 整仓已死的定论** + **TokenHarbor 大陆不可用定论**。
