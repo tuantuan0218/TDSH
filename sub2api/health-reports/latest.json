@@ -1,0 +1,84 @@
+{
+  "timestamp": "2026-09-13T17:11:17.297Z",
+  "results": [
+    {
+      "name": "Pollinations-Text",
+      "url": "https://text.pollinations.ai/openai",
+      "status": "healthy",
+      "latency": 1042,
+      "error": null,
+      "models": 1
+    },
+    {
+      "name": "Pollinations-Fast",
+      "url": "https://text.pollinations.ai/openai",
+      "status": "healthy",
+      "latency": 267,
+      "error": null,
+      "models": 1
+    },
+    {
+      "name": "OVHcloud",
+      "url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
+      "status": "healthy",
+      "latency": 1346,
+      "error": null,
+      "models": 25
+    },
+    {
+      "name": "LLM7",
+      "url": "https://api.llm7.io/v1",
+      "status": "healthy",
+      "latency": 831,
+      "error": null,
+      "models": 47
+    },
+    {
+      "name": "Kilo-AI",
+      "url": "https://api.kilo.ai/api/gateway",
+      "status": "healthy",
+      "latency": 1460,
+      "error": null,
+      "models": 377
+    },
+    {
+      "name": "NVIDIA-NIM",
+      "url": "https://integrate.api.nvidia.com/v1",
+      "status": "healthy",
+      "latency": 333,
+      "error": null,
+      "models": 82
+    },
+    {
+      "name": "Groq",
+      "url": "https://api.groq.com/openai/v1",
+      "status": "needs_key",
+      "latency": 831,
+      "error": "HTTP 403"
+    },
+    {
+      "name": "Cerebras",
+      "url": "https://api.cerebras.ai/v1",
+      "status": "needs_key",
+      "latency": 159,
+      "error": "HTTP 403"
+    },
+    {
+      "name": "ModelScope",
+      "url": "https://api-inference.modelscope.cn/v1",
+      "status": "healthy",
+      "latency": 180,
+      "error": null,
+      "models": 48
+    }
+  ],
+  "summary": {
+    "total": 9,
+    "healthy": 7,
+    "needsKey": 2,
+    "rateLimited": 0,
+    "timeout": 0,
+    "unreachable": 0,
+    "error": 0
+  }
+}
