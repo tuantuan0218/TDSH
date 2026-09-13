@@ -1,10 +1,41 @@
-# 官方免费档追踪（yangmao 数据集）
-> 生成 2026-09-13T18:41:27.148Z · 源 generated_at=2026-06-24T23:24:29.534Z · schema 2026-05-07
+# 官方免费档追踪（yangmao 数据集 + OpenRouter 实时目录）
+> 生成 2026-09-13T18:46:45.177Z · yangmao generated_at=2026-06-24T23:24:29.534Z · schema 2026-05-07
+> 双源口径：**yangmao**=厂商入口索引（含额度/限速描述，但可能滞后）；**OpenRouter**=当下是否真免费的实时价格判据（源：openrouter-live）。
 > 漏斗：全库 168 → 有免费API 82 → 大陆直连 39 → 大陆+OpenAI兼容 **24**
 > 追踪口径：有免费 API 且非本地自托管（共 76 家）。**不含任何 key 明文**。
 
 ## 与上轮 diff
-⏳ **源数据陈旧**：源数据已 80 天未更新（generated_at=2026-06-24T23:24:29.534Z）→ 额度结论可能已过期，需去官方控制台复核
+⏳ **源数据陈旧**：源数据已 80 天未更新（generated_at=2026-06-24T23:24:29.534Z）→ 厂商额度结论可能已过期，需去官方控制台复核
+🟢 **新鲜源在线**：OpenRouter 实时目录抓到 22 个零价模型（可随时复核，不受 yangmao 陈旧拖累）
+🔍 **交叉判读**：yangmao 描述陈旧（80 天）但 OpenRouter 价格字段是实时的 → 前者当"厂商入口索引"用，后者当"当下是否真免费"的权威判据
+
+## OpenRouter 实时零价模型（22 个）
+> 判据：`pricing.prompt == 0 && pricing.completion == 0`（实时可复核，非二手描述）
+
+| 模型 ID | 上下文 | 模态 |
+|---|---|---|
+| cohere/north-mini-code:free | 256000 | text->text |
+| dots-studio/dots-3-note-preview:free | 512000 | text+image->text |
+| google/gemma-4-26b-a4b-it:free | 262144 | text+image+video->text |
+| google/gemma-4-31b-it:free | 262144 | text+image+video->text |
+| google/lyria-3-clip-preview | 1048576 | text+image->text+audio |
+| google/lyria-3-pro-preview | 1048576 | text+image->text+audio |
+| inclusionai/ling-3.0-flash-fin:free | 262144 | text->text |
+| inclusionai/ling-3.0-flash-sante:free | 262144 | text->text |
+| inclusionai/ling-3.0-flash-vl:free | 262144 | text+image+video->text |
+| liquid/lfm-2.5-2.6b:free | 65536 | text->text |
+| nex-agi/nex-n2.5-mini:free | 262144 | text+image->text |
+| nex-agi/nex-n2.5-pro:free | 262144 | text+image->text |
+| nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free | 256000 | text+image+audio+video->text |
+| nvidia/nemotron-3-super-120b-a12b:free | 262144 | text->text |
+| nvidia/nemotron-3-ultra-550b-a55b:free | 1000000 | text->text |
+| nvidia/nemotron-3.5-content-safety:free | 128000 | text+image->text |
+| nvidia/nemotron-3.5-lightning:free | 1000000 | text->text |
+| openrouter/free | 200000 | text+image->text |
+| poolside/laguna-s-2.1:free | 262144 | text->text |
+| poolside/laguna-xs-2.1:free | 262144 | text->text |
+| thinkingmachines/inkling-small:free | 1048576 | text+image+audio->text |
+| thinkingmachines/inkling:free | 1048576 | text+image+audio->text |
 
 ## 大陆直连免费档（33 家）
 | 厂商 | 免费额度 | 限速 | 模型 | 入口 | 核验 |

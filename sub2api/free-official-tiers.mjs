@@ -123,6 +123,45 @@ async function fetchJson(url) {
   } finally { clearTimeout(tm); }
 }
 
+/* ---------------- 新鲜数据源：OpenRouter 实时模型目录 ----------------
+ * 背景：yangmao 数据集 generated_at 常滞后数月（实测 2026-06-24 距今 80 天）→
+ *       "额度未变化"这一结论本身会失真。故补一路**免 key、实时**的数据源做交叉验证。
+ * 实测：GET https://openrouter.ai/api/v1/models 免 key 返回 200，445 模型 / 22 个零价模型。
+ * 口径：pricing.prompt 与 pricing.completion 同时为 0 → 判定为"当前免费"。
+ *       这是**可实时复验的硬事实**（价格字段），不是二手整理的描述文字。
+ */
+const OPENROUTER_URL = 'https://openrouter.ai/api/v1/models';
+
+/** 从 OpenRouter 原始响应提取免费模型（纯函数，可离线自测） */
+export function extractFreeModels(json) {
+  const list = (json && json.data) || [];
+  return list
+    .filter((m) => m && m.id && m.pricing && Number(m.pricing.prompt) === 0 && Number(m.pricing.completion) === 0)
+    .map((m) => ({
+      id: String(m.id),
+      name: m.name || '',
+      ctx: m.context_length || 0,
+      modality: (m.architecture && m.architecture.modality) || '',
+      created: m.created || 0,
+    }))
+    .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+}
+
+/** 免费模型集合的 diff（新增/消失/上下文变化） */
+export function diffFreeModels(prev, cur) {
+  const d = { freeAdded: [], freeRemoved: [], ctxChanged: [] };
+  if (!prev || !Array.isArray(prev)) return d;
+  const pm = new Map(prev.map((m) => [m.id, m]));
+  const cm = new Map(cur.map((m) => [m.id, m]));
+  for (const [id, c] of cm) {
+    const p = pm.get(id);
+    if (!p) { d.freeAdded.push(`${c.id} (ctx ${c.ctx || '-'})`); continue; }
+    if (p.ctx !== c.ctx) d.ctxChanged.push(`${c.id}: 上下文 ${p.ctx}→${c.ctx}`);
+  }
+  for (const [id, p] of pm) if (!cm.has(id)) d.freeRemoved.push(`${p.id}（已不再免费/下架）`);
+  return d;
+}
+
 /* ---------------- selftest（离线，含正/负对照） ---------------- */
 
 function selftest() {
@@ -187,6 +226,37 @@ function selftest() {
   ck(staleness('2026-08-01T00:00:00Z', now).stale === true, '43 天前的数据判为陈旧');
   ck(staleness('not-a-date', now).stale === true, '非法时间戳判为陈旧（保守）');
 
+  /* --- OpenRouter 实时免费模型（新鲜数据源） --- */
+  const orFixture = {
+    data: [
+      { id: 'a/free-model:free', name: 'FreeA', context_length: 1000, pricing: { prompt: '0', completion: '0' }, architecture: { modality: 'text' } },
+      { id: 'b/paid-model', name: 'PaidB', context_length: 2000, pricing: { prompt: '0.000001', completion: '0.000002' }, architecture: { modality: 'text' } },
+      { id: 'c/half-free', name: 'HalfC', context_length: 3000, pricing: { prompt: '0', completion: '0.5' }, architecture: { modality: 'text' } },
+      { id: 'd/free-ok:free', name: 'FreeD', context_length: 4000, pricing: { prompt: '0', completion: '0' }, architecture: { modality: 'text+image' } },
+      { id: 'e/no-pricing', name: 'NoPrice' },
+    ],
+  };
+  const fm = extractFreeModels(orFixture);
+  ck(fm.length === 2, `extractFreeModels 命中 ${fm.length} 个真免费（应 2）`);
+  ck(fm.every((m) => m.id.includes('free-model') || m.id.includes('free-ok')), '只保留 prompt+completion 同时为 0 的模型');
+  ck(!fm.some((m) => m.id.includes('half-free')), '负对照：仅 prompt=0 但 completion 收费的半免费模型被排除');
+  ck(!fm.some((m) => m.id.includes('paid-model')), '负对照：收费模型被排除');
+  ck(!fm.some((m) => m.id.includes('no-pricing')), '负对照：缺 pricing 字段的模型被安全跳过（不抛错）');
+  ck(extractFreeModels(null).length === 0, 'null 输入安全返回空（不抛错）');
+
+  const fd = diffFreeModels(fm, extractFreeModels({
+    data: [
+      ...orFixture.data,
+      { id: 'x/new-free:free', name: 'NewFree', context_length: 500, pricing: { prompt: '0', completion: '0' }, architecture: { modality: 'text' } },
+    ],
+  }));
+  ck(fd.freeAdded.length === 1, `检出新增免费模型 ${fd.freeAdded.length} 条`);
+  ck(fd.freeRemoved.length === 0, '无消失时不误报');
+  const fdNull = diffFreeModels(null, fm);
+  ck(fdNull.freeAdded.length === 0, '首轮无基线时不把全量误报为新增');
+  const fdSame = diffFreeModels(fm, extractFreeModels(orFixture));
+  ck(fdSame.freeAdded.length + fdSame.freeRemoved.length + fdSame.ctxChanged.length === 0, '负对照：同一份数据自比零告警');
+
   console.log(`SELFTEST ${fails === 0 ? 'ALL PASS' : fails + ' FAILED'}`);
   return fails;
 }
@@ -205,6 +275,12 @@ if (isDirectRun) {
 
 async function main(argv) {
   mkdirSync(SNAPDIR, { recursive: true });
+
+  // 新鲜数据源（OpenRouter 实时目录）：先抓，用于交叉验证陈旧的 yangmao 数据
+  const or = await fetchJson(OPENROUTER_URL);
+  const freeModels = or.err ? [] : extractFreeModels(or.json);
+  const orOk = !or.err && freeModels.length > 0;
+
   const { err, json } = await fetchJson(SRC_URL);
 
 // 源不可达：沿用 last-good，绝不把空数据写成"全部厂商下架"
@@ -224,7 +300,22 @@ const f = funnel(all);
 const st = staleness(json.generated_at, Date.now());
 const d = prev ? diffTiers(prev, records) : diffTiers(null, records);
 
-const cur = { ts: new Date().toISOString(), sourceGeneratedAt: json.generated_at, schema: json.schema_version, funnel: f, records };
+// 新鲜数据源兜底：OpenRouter 抓取失败时沿用上轮 last-good，不写空
+const prevFree = (prev && Array.isArray(prev.freeModels) && prev.freeModels.length) ? prev.freeModels : null;
+const effFree = (orOk || !prevFree) ? freeModels : prevFree;
+const orStale = !orOk && !!prevFree;
+const fd = diffFreeModels(prevFree, effFree);
+
+const cur = {
+  ts: new Date().toISOString(),
+  sourceGeneratedAt: json.generated_at,
+  schema: json.schema_version,
+  funnel: f,
+  records,
+  freeModels: effFree,
+  freeModelsSource: orOk ? 'openrouter-live' : (orStale ? 'last-good(openrouter 抓取失败)' : 'unavailable'),
+  sourceErrors: { yangmao: err || null, openrouter: or.err || null },
+};
 const stamp = cur.ts.replace(/[:\-]/g, '').slice(0, 13);
 writeFileSync(SNAPDIR + 'snapshot-' + stamp + '.json', JSON.stringify(cur, null, 1));
 if (prev) renameSync(latestPath, SNAPDIR + 'snapshot-prev.json');
@@ -232,26 +323,47 @@ writeFileSync(latestPath, JSON.stringify(cur, null, 1));
 
 /* ---------------- 报告 ---------------- */
 const alerts = [];
-if (st.stale) alerts.push(`⏳ **源数据陈旧**：${st.reason}（generated_at=${json.generated_at}）→ 额度结论可能已过期，需去官方控制台复核`);
+if (st.stale) alerts.push(`⏳ **源数据陈旧**：${st.reason}（generated_at=${json.generated_at}）→ 厂商额度结论可能已过期，需去官方控制台复核`);
 if (!prev) alerts.push('ℹ️ 首轮基线已建立，下一轮起可 diff');
+if (orOk) {
+  alerts.push(`🟢 **新鲜源在线**：OpenRouter 实时目录抓到 ${effFree.length} 个零价模型（可随时复核，不受 yangmao 陈旧拖累）`);
+} else if (orStale) {
+  alerts.push('🛡 OpenRouter 本轮抓取失败 → 沿用 last-good 免费模型清单（不报"免费模型消失"）');
+} else {
+  alerts.push('🔴 OpenRouter 实时源不可用且无 last-good → 本轮缺失新鲜侧证据，只看 yangmao 陈旧数据需谨慎');
+}
+if (st.stale && orOk) {
+  alerts.push(`🔍 **交叉判读**：yangmao 描述陈旧（${st.ageDays} 天）但 OpenRouter 价格字段是实时的 → 前者当"厂商入口索引"用，后者当"当下是否真免费"的权威判据`);
+}
 d.added.forEach((x) => alerts.push(`🆕 新增免费档厂商 ${x}`));
 d.removed.forEach((x) => alerts.push(`⚫ 免费档消失 ${x}`));
 d.creditChanged.forEach((x) => alerts.push(`💰 额度变化 ${x}`));
 d.rateChanged.forEach((x) => alerts.push(`⏱ 限速变化 ${x}`));
 d.modelChanged.forEach((x) => alerts.push(`🧩 模型变化 ${x}`));
 d.accessChanged.forEach((x) => alerts.push(`🌐 直连变化 ${x}`));
+fd.freeAdded.forEach((x) => alerts.push(`🎉 新增零价模型 ${x}`));
+fd.freeRemoved.forEach((x) => alerts.push(`💸 零价模型消失/转收费 ${x}`));
+fd.ctxChanged.forEach((x) => alerts.push(`🧮 ${x}`));
 
 const byId = (a, b) => (a.name < b.name ? -1 : 1);
 const cnList = records.filter((r) => r.chinaDirect).sort(byId);
 
 const md = [
-  '# 官方免费档追踪（yangmao 数据集）',
-  `> 生成 ${cur.ts} · 源 generated_at=${json.generated_at} · schema ${json.schema_version}`,
+  '# 官方免费档追踪（yangmao 数据集 + OpenRouter 实时目录）',
+  `> 生成 ${cur.ts} · yangmao generated_at=${json.generated_at} · schema ${json.schema_version}`,
+  `> 双源口径：**yangmao**=厂商入口索引（含额度/限速描述，但可能滞后）；**OpenRouter**=当下是否真免费的实时价格判据（源：${cur.freeModelsSource}）。`,
   `> 漏斗：全库 ${f.total} → 有免费API ${f.freeApi} → 大陆直连 ${f.chinaDirect} → 大陆+OpenAI兼容 **${f.cnCompat}**`,
   `> 追踪口径：有免费 API 且非本地自托管（共 ${records.length} 家）。**不含任何 key 明文**。`,
   '',
   prev ? '## 与上轮 diff' : '## 首轮基线（无上轮可比）',
   ...(alerts.length ? alerts : ['（无变化）']),
+  '',
+  `## OpenRouter 实时零价模型（${effFree.length} 个）`,
+  '> 判据：`pricing.prompt == 0 && pricing.completion == 0`（实时可复核，非二手描述）',
+  '',
+  '| 模型 ID | 上下文 | 模态 |',
+  '|---|---|---|',
+  ...effFree.map((m) => `| ${m.id} | ${m.ctx || '-'} | ${m.modality || '-'} |`),
   '',
   `## 大陆直连免费档（${cnList.length} 家）`,
   '| 厂商 | 免费额度 | 限速 | 模型 | 入口 | 核验 |',
@@ -262,7 +374,7 @@ const md = [
 writeFileSync(SINKS.report, md.join('\n') + '\n');
 
 if (!argv.includes('--quiet')) {
-  console.log(`official-tier records=${records.length} cnDirect=${f.chinaDirect} cnCompat=${f.cnCompat} stale=${st.stale} changes=${alerts.length - (prev ? 0 : 1)}`);
+  console.log(`official-tier records=${records.length} cnDirect=${f.chinaDirect} cnCompat=${f.cnCompat} stale=${st.stale} freeModels=${effFree.length}(${cur.freeModelsSource})`);
   alerts.slice(0, 30).forEach((a) => console.log(a));
   console.log(`snapshot -> ${latestPath} | report -> ${SINKS.report}`);
 }

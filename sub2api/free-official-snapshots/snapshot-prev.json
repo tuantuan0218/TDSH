@@ -1,5 +1,5 @@
 {
- "ts": "2026-09-13T18:40:24.850Z",
+ "ts": "2026-09-13T18:46:44.318Z",
  "sourceGeneratedAt": "2026-06-24T23:24:29.534Z",
  "schema": "2026-05-07",
  "funnel": {
@@ -1243,5 +1243,166 @@
    "url": "https://chatglm.cn",
    "verified": "2026-06-24"
   }
- ]
+ ],
+ "freeModels": [
+  {
+   "id": "cohere/north-mini-code:free",
+   "name": "Cohere: North Mini Code (free)",
+   "ctx": 256000,
+   "modality": "text->text",
+   "created": 1781723748
+  },
+  {
+   "id": "dots-studio/dots-3-note-preview:free",
+   "name": "Dots Studio: Dots3-Note Preview (free)",
+   "ctx": 512000,
+   "modality": "text+image->text",
+   "created": 1786680361
+  },
+  {
+   "id": "google/gemma-4-26b-a4b-it:free",
+   "name": "Google: Gemma 4 26B A4B  (free)",
+   "ctx": 262144,
+   "modality": "text+image+video->text",
+   "created": 1775227989
+  },
+  {
+   "id": "google/gemma-4-31b-it:free",
+   "name": "Google: Gemma 4 31B (free)",
+   "ctx": 262144,
+   "modality": "text+image+video->text",
+   "created": 1775148486
+  },
+  {
+   "id": "google/lyria-3-clip-preview",
+   "name": "Google: Lyria 3 Clip Preview",
+   "ctx": 1048576,
+   "modality": "text+image->text+audio",
+   "created": 1774907255
+  },
+  {
+   "id": "google/lyria-3-pro-preview",
+   "name": "Google: Lyria 3 Pro Preview",
+   "ctx": 1048576,
+   "modality": "text+image->text+audio",
+   "created": 1774907286
+  },
+  {
+   "id": "inclusionai/ling-3.0-flash-fin:free",
+   "name": "inclusionAI: Ling 3.0 Flash Fin (free)",
+   "ctx": 262144,
+   "modality": "text->text",
+   "created": 1787846290
+  },
+  {
+   "id": "inclusionai/ling-3.0-flash-sante:free",
+   "name": "inclusionAI: Ling 3.0 Flash Sante (free)",
+   "ctx": 262144,
+   "modality": "text->text",
+   "created": 1788545946
+  },
+  {
+   "id": "inclusionai/ling-3.0-flash-vl:free",
+   "name": "inclusionAI: Ling 3.0 Flash VL (free)",
+   "ctx": 262144,
+   "modality": "text+image+video->text",
+   "created": 1789056114
+  },
+  {
+   "id": "liquid/lfm-2.5-2.6b:free",
+   "name": "LiquidAI: LFM2.5-2.6B (free)",
+   "ctx": 65536,
+   "modality": "text->text",
+   "created": 1786470519
+  },
+  {
+   "id": "nex-agi/nex-n2.5-mini:free",
+   "name": "Nex AGI: Nex-N2.5-Mini (free)",
+   "ctx": 262144,
+   "modality": "text+image->text",
+   "created": 1788890061
+  },
+  {
+   "id": "nex-agi/nex-n2.5-pro:free",
+   "name": "Nex AGI: Nex-N2.5-Pro (free)",
+   "ctx": 262144,
+   "modality": "text+image->text",
+   "created": 1788890050
+  },
+  {
+   "id": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+   "name": "NVIDIA: Nemotron 3 Nano Omni (free)",
+   "ctx": 256000,
+   "modality": "text+image+audio+video->text",
+   "created": 1777393095
+  },
+  {
+   "id": "nvidia/nemotron-3-super-120b-a12b:free",
+   "name": "NVIDIA: Nemotron 3 Super (free)",
+   "ctx": 262144,
+   "modality": "text->text",
+   "created": 1773245239
+  },
+  {
+   "id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "name": "NVIDIA: Nemotron 3 Ultra (free)",
+   "ctx": 1000000,
+   "modality": "text->text",
+   "created": 1780551208
+  },
+  {
+   "id": "nvidia/nemotron-3.5-content-safety:free",
+   "name": "NVIDIA: Nemotron 3.5 Content Safety (free)",
+   "ctx": 128000,
+   "modality": "text+image->text",
+   "created": 1780581864
+  },
+  {
+   "id": "nvidia/nemotron-3.5-lightning:free",
+   "name": "NVIDIA: Nemotron 3.5 Lightning (free)",
+   "ctx": 1000000,
+   "modality": "text->text",
+   "created": 1786452751
+  },
+  {
+   "id": "openrouter/free",
+   "name": "Free Models Router",
+   "ctx": 200000,
+   "modality": "text+image->text",
+   "created": 1769917427
+  },
+  {
+   "id": "poolside/laguna-s-2.1:free",
+   "name": "Poolside: Laguna S 2.1 (free)",
+   "ctx": 262144,
+   "modality": "text->text",
+   "created": 1784652683
+  },
+  {
+   "id": "poolside/laguna-xs-2.1:free",
+   "name": "Poolside: Laguna XS 2.1 (free)",
+   "ctx": 262144,
+   "modality": "text->text",
+   "created": 1783002429
+  },
+  {
+   "id": "thinkingmachines/inkling-small:free",
+   "name": "Thinking Machines: Inkling Small (free)",
+   "ctx": 1048576,
+   "modality": "text+image+audio->text",
+   "created": 1785443117
+  },
+  {
+   "id": "thinkingmachines/inkling:free",
+   "name": "Thinking Machines: Inkling (free)",
+   "ctx": 1048576,
+   "modality": "text+image+audio->text",
+   "created": 1784325956
+  }
+ ],
+ "freeModelsSource": "openrouter-live",
+ "sourceErrors": {
+  "yangmao": null,
+  "openrouter": null
+ }
 }
