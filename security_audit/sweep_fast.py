@@ -48,7 +48,7 @@ def load_repos(path):
     return out
 
 def positive_control():
-    samples = ['SENDER_AUTH = "Abc123_xyz789QWERTYUIO"', 'API_KEY: "aB3dEfGhIjKlMnOpQrStUvWx"',
+    samples = ['SENDER_AUTH = "Abc123_xyz789QWERTYUIO"', 'API_KEY: "aB3dEfGhIjKlMnOpQrStUvWx"',  # 合成对照样本，非真凭据
                'fetch(u, {credentials: "include"})', 'KEY = os.environ.get("SOME_KEY")',
                'PASSWORD = "YourPasswordHere123"']
     hits = []

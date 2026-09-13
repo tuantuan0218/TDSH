@@ -71,8 +71,8 @@ def judge(repo, line, field, val):
 def positive_control():
     # (行, 期望) —— 必须抓到真形态、放过常见假阳形态
     cases = [
-      ('SENDER_AUTH = "Abc123_xyz789QWERTYUIO"', True),
-      ('const QQ_SMTP_PASS = "Qz7Km2pLx9Rt4Wne"', True),
+      ('SENDER_AUTH = "Abc123_xyz789QWERTYUIO"', True),   # 合成对照样本，非真凭据
+      ('const QQ_SMTP_PASS = "Qz7Km2pLx9Rt4Wne"', True),  # 合成对照样本，非真凭据
       ("api_key: \"aB3dEfGhIjKlMnOpQrStUvWx\"", True),
       ('<div key="item-list-01" />', False),
       ('const policyKey = "branch-tails-x"', False),
