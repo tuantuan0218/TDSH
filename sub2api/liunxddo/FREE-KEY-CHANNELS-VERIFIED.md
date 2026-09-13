@@ -53,6 +53,19 @@ api 子域 403 Unauthorized、/openai/v1 405、/api/v1 401）——chat 需 key�
   后才发放**（邮箱/手机验证）。用户注册后可能未完成验证，导致余额 0。
 - **行动路径（受限项，用户侧）**：登录 freemodel.dev → 完成邮箱/手机验证 →
   免费 credits 到账（或找兑换码走 /api/redeem）→ 复测 200 → 入池。
+  **🔑 真相补录（80aj 实测文 2026-07-25，2026-09-13 采）**：
+  - **免费额度 = 走邀请链接注册才送 Pro 账号（每 5 小时 $5 额度）**——直接官网裸注册
+    很可能无免费额度（与用户 key 余额 0 现象吻合）；邀请入口：freemodel.dev 注册页带
+    `/invite/` 参数（JS 已见 `https://freemodel.dev/invite/` 路径）
+  - **真正干活的 API 出口 = `cc.freemodel.dev`**（Anthropic 原生协议）：
+    `ANTHROPIC_BASE_URL=https://cc.freemodel.dev` + `ANTHROPIC_AUTH_TOKEN=<token>`
+    （Claude Code/Cline 直接认，OpenAI 面 api./work. 为副出口）
+  - 面板主推模型 FRE-5.4/FRE-5.5（对应 claude-sonnet-5 档）
+  - 限流 = Claude 官方双窗口（5h 滚动 + 7d），按美元 API 消耗计
+  - 验真：Veridrop 94/100 优秀（思维签名通过=真 Claude，行为签名未过=中间链路有改写痕迹）
+  - 风险：Anthropic 风控收紧 → 封号风险；中转站结构性抖动，适合测试不适合生产
+  - **行动修正（对用户 key）**：若当前账号是裸注册，需①走邀请链接注册新号拿免费 Pro
+    （推荐）或②在面板找试用领取；拿到 token 后测 `cc.freemodel.dev/v1/messages` 200 即入池
 
 ## 二、免费模型与限流（linux.do 帖 1349579 整理）
 
