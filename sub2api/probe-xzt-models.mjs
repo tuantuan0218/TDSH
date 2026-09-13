@@ -39,6 +39,7 @@ async function getModels() {
  */
 const RETRY = Number(process.env.XZT_RETRY || 2);
 const GAP_MS = Number(process.env.XZT_GAP_MS || 6500);   // 保守：≈9 req/min < 10/min 上限
+const MAX_TOKENS = Number(process.env.XZT_MAX_TOKENS || 1024); // 推理模型需留足预算，见下方注释
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const isDeterministicReject = (status) => status === 401 || status === 403 || status === 404;
@@ -51,7 +52,12 @@ async function tryModelOnce(model) {
       headers: { 'content-type': 'application/json', 'user-agent': UA },
       body: JSON.stringify({
         model,
-        max_tokens: 256,   // 推理模型需更多预算才能输出完（finish_reason=length 会截断）
+        // ★ 探测推理模型必须留足预算：
+        //   2026-09-13 实测教训 —— max_tokens 太小（如 32）时，推理模型还在输出思考过程就被截断
+        //   （finish_reason=length），`message.content` 仍为 null，于是被误判为"不可用"。
+        //   实测确认：简单指令用 512 足够；真正任务（如问"法国首都"）需 ≥1024 才能见到 content。
+        //   此处用 MAX_TOKENS（默认 1024，可经 XZT_MAX_TOKENS 调整）。
+        max_tokens: MAX_TOKENS,
         messages: [{ role: 'user', content: 'Reply with exactly: PONG' }],
       }),
       signal: AbortSignal.timeout(60000),
