@@ -104,3 +104,20 @@ try {
     console.log('  EndTurnGate.kt mtime=' + etg.mtime.toISOString().slice(0, 19) + (etg.mtimeMs > new Date('2026-09-13T04:00:00Z').getTime() ? ' → 已动笔' : ' → 未动笔'));
   }
 } catch (e) { console.log('t-151 探测 err:', e.message); }
+
+// 5) 磁盘增长探针（gate-frames 抓帧存证；.4 轮转上板前无上限）
+try {
+  const GF = 'D:/tdsh/hs_bridge_build/staging/gate-frames';
+  if (fs.existsSync(GF)) {
+    const fl = fs.readdirSync(GF).map(f => { const s = fs.statSync(path.join(GF, f)); return { f, size: s.size, m: s.mtimeMs }; });
+    const total = fl.reduce((a, x) => a + x.size, 0);
+    const now = Date.now();
+    const recent = fl.filter(x => now - x.m < 10 * 60 * 1000).length;
+    const growMBh = recent * (total / Math.max(fl.length, 1)) / 1024 / 1024 * 6;
+    console.log('=== 磁盘探针 ===');
+    const tail = recent ? '（外推 ' + growMBh.toFixed(0) + 'MB/h ⚠️）' : '（未增长 ✅ 轮转已生效或门未产帧）';
+    console.log('  gate-frames: ' + (total / 1048576).toFixed(1) + 'MB / ' + fl.length + ' 文件 | 近10min新增 ' + recent + ' ' + tail);
+    const cfg = 'D:/tdsh/hs_bridge_build/staging/gate-config.ini';
+    if (fs.existsSync(cfg)) console.log('  gate-config.ini mtime=' + fs.statSync(cfg).mtime.toISOString().slice(11, 19) + 'Z（改此文件热重载，可零重启停抓帧）');
+  } else console.log('=== 磁盘探针 === gate-frames 不存在（门未产帧）');
+} catch (e) { console.log('磁盘探针 err:', e.message); }
