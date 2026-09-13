@@ -2,9 +2,7 @@
 
 > 目的：补全 FREE-API-CHANNELS.md 的候选实证。本轮实测 = **匿名 /models 可达性**；
 > 免费模型/限流数据来自 linux.do 帖 1349579（2025-12 最详实厂商整理）。
-> **结论先行**：5 个平台全部需 key（受限项），无一匿名可用；扩池必须用户注册。
-
-## 一、本轮匿名实测（2026-09-13）
+> **结论先行**：5 个平台全部需 key（受限项），无一匿名可用；扩池必须用户注册。## 一、本轮匿名实测（2026-09-13）
 
 | 平台 | /models 匿名结果 | 判定 |
 |------|-----------------|------|
@@ -50,3 +48,45 @@ api 子域 403 Unauthorized、/openai/v1 405、/api/v1 401）——chat 需 key�
 
 **结论**：免费 key 渠道第二张清单完成——全部受限（需用户注册），推荐序明确；
 NIM 仍是最高性价比（唯一可匿名验证模型列表）。详见 DEPLOY-RUNBOOK.md 一键入池命令。
+
+## 四、FreeModel.dev 深度调研（官网文档 + JS 源码 + 全端点实测，2026-09-13）
+
+**定位**：多模型网关，"One API for every frontier model"——智能路由 + 自动故障转移，
+同时兼容 **OpenAI 格式**（`POST /v1/responses`、`POST /v1/chat/completions`）和
+**Anthropic 格式**（`POST /v1/messages`）。一个 key，一个 base URL。
+
+**注册流程**（3 步，无信用卡）：① 注册并验证账号 → 首批 API credits 即时到账；
+② Dashboard 生成 key；③ 把 base URL 换成 FreeModel。
+
+**本轮新增实测发现**（此前只测 freemodel.dev / api. 子域）：
+- `work.freemodel.dev`：JS bundle 里写死的工作端点 `https://work.freemodel.dev/v1/chat/completions`
+- `work.freemodel.dev/v1/models` 匿名 200 → 仅列 gpt-5.6-sol/terra/luna（3 模型，工作子集）
+- `work.freemodel.dev/v1/chat/completions` 匿名 → **403 "Unauthorized: No valid credentials provided"**
+- `cc.freemodel.dev/v1/models` 匿名 200 → **8 个 Claude 系模型（Anthropic 端点）**：
+  claude-opus-5、claude-opus-4-8、claude-opus-4-7、claude-fable-5-1、claude-sonnet-5、
+  claude-sonnet-4-6、claude-opus-4-6、claude-haiku-4-5-20251001
+- 结合此前探测：三个可达域名 = freemodel.dev（OpenAI 面 7 模型）/ api.freemodel.dev（3 模型）/
+  work.freemodel.dev（3 模型）/ cc.freemodel.dev（Anthropic 面 8 模型）
+- **结论不变**：所有 chat 端点一律需 key（受限项）；但"模型清单免费可见"的价值扩大到
+  OpenAI + Anthropic 双面（GPT-5.x 系 7 个 + Claude 系 8 个）。
+
+## 五、hub.linux.do 深度调研（官网 + AxonHub 开源路由表，2026-09-13）
+
+**定位**：闲置 API 额度置换 marketplace（HUB · Marketplace for Idle AI Quota），
+不是普通公益站：把闲置的订阅/试用 key/团队 credits 挂成公开渠道赚 credits，再消费
+别人挂的模型。底层是 AxonHub 生产级统一网关（OpenAI + Anthropic 双兼容）。
+
+**三步流程**：① 挂闲置额度（OpenAI/Anthropic/豆包 key，选模型+用量上限，自动折成 credits）；
+② 别人调用你的渠道 → 按 token 结算进钱包（全账本可审计）；③ 用 credits 消费别人的渠道。
+Raw provider key 永不离开挂出者的部署，消费者只见模型和价格。
+
+**钱包/计费**：按请求自动结算、可手动调账、有完整账本历史；内置浏览器 playground（流式输出，无需写代码）。
+**支持挂出的供应商**：Subconscious、TokenGo、Modelis、Bothub、GreenPT、Qiniu、Ambient、
+AgentRouter、Xiaomi Token Plan（中国）、NanoGPT、watsonx.ai、DigitalOcean 等。
+
+**注册流程**（受限项）：Sign up 免费 → 用 linux.do Connect OAuth 登录 → 控制台 API Keys
+创建 key → `Authorization: Bearer <key>` 调 `/v1/*`。
+
+**本轮实测重申**：`hub.linux.do/v1/models` 与 `hub.oaifree.com/v1/models` 均 401
+（需 key 正常）；AxonHub 开源路由表核实全部 `/v1` 端点走认证中间件——**无匿名通道**，
+必须注册领 key。AxonHub 源码已克隆到本地 `reference/axonhub`（第三方仓，只拉不推）供查。

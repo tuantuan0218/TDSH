@@ -20,10 +20,15 @@
 
 ## 1. hub.linux.do（Linux DO 官方闲置 API 置换公益站）⭐最优先
 
+- **定位**：闲置 API 额度置换 marketplace，不是普通公益站：把闲置订阅/试用 key/团队
+  credits 挂成公开渠道赚 credits，再消费别人挂的模型；底层 AxonHub 生产级统一网关
+  （OpenAI + Anthropic 双兼容）。可挂供应商：Subconscious/TokenGo/Modelis/Bothub/
+  GreenPT/七牛/AgentRouter/小米 Token Plan（中国）/NanoGPT/watsonx.ai/DigitalOcean 等
 - **流程**：
   1. 打开 https://hub.linux.do ，点 Sign up / Log in → linux.do Connect 授权登录
   2. 控制台 → API Keys → 创建 key（AxonHub 网关，key 用于 `Authorization: Bearer <key>`）
-  3. 可把自己的 OpenAI/Anthropic 等闲置 key 作为 channel 挂出赚 credits，或用 credits 消费他人渠道
+  3. 把自己的 OpenAI/Anthropic/豆包等闲置 key 作为 channel 挂出赚 credits，或用 starter
+     credits 直接消费他人渠道（浏览器 playground 可无代码试用，流式输出）
 - **端点**：`https://hub.linux.do/v1`（备用 `https://hub.oaifree.com/v1`）
 - **验证**：`curl https://hub.linux.do/v1/models -H "Authorization: Bearer <key>"` 应 200
 - **入池**：
@@ -33,7 +38,8 @@
   $env:SF_MODELS='{"Tuan":"<hub 上实际可用的模型 id>"}'
   node add-free-api-pool.mjs
   ```
-- ⚠️ 模型 id 以 `/v1/models` 返回为准；hub 是 marketplace，渠道/模型会随他人挂载变动。
+- ⚠️ 模型 id 以 `/v1/models` 返回为准；hub 是 marketplace，渠道/模型会随他人挂载变动；
+  AxonHub 无匿名通道（源码路由表 2026-09-13 核实，已克隆 `reference/axonhub`）。
 
 ## 2. NVIDIA NIM（模型最全的免费档）⭐次优先
 
@@ -57,18 +63,26 @@
 - **流程**：
   1. https://freemodel.dev 注册（可走公开邀请链，无信用卡）→ 送 $100-300 额度
   2. Dashboard → 生成 API key（注册返利机制存在，非纯公益但免费额度大）
-- **端点**：`https://api.freemodel.dev/v1`（也可用 `https://freemodel.dev/v1`）
-- **实测（2026-09-13）**：`/v1/models` **匿名 200** 可列 7 个模型：
-  `gpt-5.6-sol` / `gpt-5.6-terra` / `gpt-5.6-luna` / `gpt-5.5` / `gpt-5.4` /
-  `gpt-5.4-mini` / `gpt-5.3-codex`（全前沿 GPT-5.x）；chat 匿名 401/403/404
-  （18 变体路径探测无 keyless）→ **需 key**
+- **端点（四域名，实测 2026-09-13 全部 200/可达）**：
+  - `https://freemodel.dev/v1` — OpenAI 面，匿名列 7 模型（GPT-5.x 系）
+  - `https://api.freemodel.dev/v1` — 匿名列 gpt-5.6 系 3 模型
+  - `https://work.freemodel.dev/v1` — JS bundle 写死的工作端点，匿名列 gpt-5.6 系 3 模型
+  - `https://cc.freemodel.dev/v1` — **Anthropic 面**，匿名列 **8 个 Claude 系**（claude-opus-5 /
+    claude-opus-4-8 / claude-opus-4-7 / claude-fable-5-1 / claude-sonnet-5 /
+    claude-sonnet-4-6 / claude-opus-4-6 / claude-haiku-4-5-20251001）
+- **官方 API 格式**：OpenAI（`POST /v1/responses`、`POST /v1/chat/completions`）+
+  Anthropic（`POST /v1/messages`）；一个 key 走全部端点
+- **实测**：`/v1/models` **匿名 200**（见四域名清单）；chat 全路径匿名 403/404/405
+  （18+ 变体探测无 keyless；api 子域明确 "Unauthorized - Invalid token"）→ **需 key**
 - **验证**：`curl https://api.freemodel.dev/v1/models -H "Authorization: Bearer <key>"` 应 200
-- **入池**：
+- **入池（OpenAI 面）**：
   ```powershell
   $env:SF_NAME="freemodel"; $env:SF_BASE="https://api.freemodel.dev/v1"
   $env:SF_KEY="<key>"; $env:SF_MODELS='{"Tuan":"gpt-5.4-mini"}'
   node add-free-api-pool.mjs
   ```
+- **入池（Anthropic 面，Claude 系）**：`SF_BASE="https://cc.freemodel.dev/v1"`，
+  模型如 `claude-opus-4-8`，走 add-free-api-pool.mjs 同模板（anthropic 兼容端点见 AxonHub 经验）
 - ⚠️ 注册送额度是一次性；有邀请返利，注意平台条款；免费档同样 prio 90/concurrency 1。
 
 ## 4. DeepLX 免费翻译（linux.do Connect）
