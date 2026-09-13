@@ -160,12 +160,78 @@ log('='.repeat(72));
   }
 }
 
-/* ---------- 5. 结论 ---------- */
+/* ---------- 5. 400 错误根因分析（客户端 vs 上游）----------
+ * 动机：2026-09-13 发现全池 400 量很大，深挖后确认**压倒性主因是客户端请求不当**
+ *   （超上下文 70 万 token / 非法 tool_call），但池的 error_owner 全标成 provider。
+ *   此处把归类固化，避免每次重新手工分析，并暴露"归属可能误标"这一风险。
+ */
+{
+  const sql = `WITH e AS (
+      SELECT error_owner, error_message, api_key_id,
+        CASE
+          WHEN error_message ILIKE '%tool_call function, function/name cannot be empty%' THEN 'A. 工具调用 name 为空'
+          WHEN error_message ILIKE '%is a required property%' THEN 'A2. 工具调用缺 name'
+          WHEN error_message ILIKE '%ContextWindowExceeded%' OR error_message ILIKE '%token count exceeds%'
+               OR error_message ILIKE '%maximum prompt length%' THEN 'B. 超上下文窗口'
+          WHEN error_message ILIKE '%missing required%' THEN 'C. 请求体缺字段'
+          ELSE 'D. 其它'
+        END AS cat
+      FROM ops_error_logs
+      WHERE created_at > now() - interval '${HOURS} hours' AND upstream_status_code = 400
+    )
+    SELECT cat, count(*) AS n, count(DISTINCT api_key_id) AS keys FROM e
+    GROUP BY cat ORDER BY n DESC;`;
+  assertReadOnly(sql, '400 分类');
+  const r = psql(sql);
+  if (r.error) log(`⚠️ 400 分类查询失败：${r.error}`);
+  else if (!r.length) log(`\n## 5. 400 错误根因：${HOURS}h 内无 400`);
+  else {
+    const total = r.reduce((s, row) => s + Number(row[1]), 0);
+    log(`\n## 5. 400 错误根因（共 ${total} 条 · 客户端请求问题，非池故障）`);
+    for (const [cat, n, keys] of r) {
+      log(`  ${cat.padEnd(24)} ${String(n).padStart(4)} 条 (${(100 * n / total).toFixed(1)}%) · 涉及 ${keys} 个 key`);
+    }
+    log('  ⚠️ 注意：D 类（其它）常含未归类的同因错误 —— 分类后**务必抽查 D 桶**，否则易把主因误判为杂项');
+    // 归属字段风险提示
+    const ownerSql = `SELECT coalesce(error_owner,'-'), count(*) FROM ops_error_logs
+      WHERE created_at > now() - interval '${HOURS} hours' AND upstream_status_code = 400
+      GROUP BY 1 ORDER BY 2 DESC;`;
+    assertReadOnly(ownerSql, '400 归属');
+    const ro = psql(ownerSql);
+    if (!ro.error && ro.length) {
+      log(`  error_owner 归属：${ro.map((x) => `${x[0]}=${x[1]}`).join(' · ')}`);
+      if (ro.every((x) => x[0] === 'provider')) {
+        log('  🔴 风险：上述 400 的成因多为**客户端**（超上下文/非法 tool_call），却全归为 provider ——');
+        log('     若据 error_owner 做账号降权，会错误惩罚无辜上游账号。建议改为识别 400 语义后归 client。');
+      }
+    }
+  }
+}
+
+/* ---------- 6. 总体成功率 ---------- */
+{
+  const sql = `SELECT
+      (SELECT count(*) FROM usage_logs WHERE created_at > now() - interval '${HOURS} hours') AS ok,
+      (SELECT count(*) FROM ops_error_logs WHERE created_at > now() - interval '${HOURS} hours'
+         AND upstream_status_code = 400) AS err400;`;
+  assertReadOnly(sql, '成功率');
+  const r = psql(sql);
+  if (!r.error && r.length) {
+    const [ok, err] = r[0].map(Number);
+    const tot = ok + err;
+    log(`\n## 6. 请求质量（${HOURS}h）`);
+    log(`  成功 ${ok} · 400 ${err} · **成功率 ${tot ? (100 * ok / tot).toFixed(2) : 'n/a'}%**`);
+  }
+}
+
+/* ---------- 7. 结论 ---------- */
 log('\n' + '='.repeat(72));
 log('【如何读这份报告】');
 log('  · rate_limited_at 非空 = 该账号曾撞上游限流（池会自动临时停用，属可自愈）');
 log('  · reqs=0 且 status=active = 兜底位正常待命（前排健康时不会接单，非故障）');
 log('  · status=error 且 24h 有错误 = 真故障，需人工介入');
+log('  · status=error 但 24h 无错误 = 多为额度耗尽后的静止态（非持续报错）');
+log('  · 400 错误多为客户端请求问题，不等于池故障；注意 error_owner 可能存在误标');
 log('');
 
 writeFileSync('D:/tdsh/sub2api/POOL-HEALTH-REPORT.md', sections.join('\n') + '\n');
