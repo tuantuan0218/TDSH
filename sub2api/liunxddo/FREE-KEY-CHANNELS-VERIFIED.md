@@ -27,6 +27,32 @@ api 子域 403 Unauthorized、/openai/v1 405、/api/v1 401）——chat 需 key�
   **keyless chat 路径探测（2026-09-13 15:4x）**：18 个变体路径（/proxy/v1、/api/v1、
   /openai/chat、/chat/completions、/api/chat 等 + anonymous Bearer）全部 401/404/405；
   api 子域明确 "Unauthorized - Invalid token"——**不存在 keyless chat 路径**，chat 必须 key。
+  **Anthropic 面盲区补测（2026-09-13 16:5x）**：cc./api./freemodel.dev/work. 四子域的
+  `/v1/messages` 匿名 → cc 面 403 Unauthorized（仅该子域有 messages 路由，其余 404），
+  `x-api-key: anonymous` 与假 key 均 401 Invalid token——**Anthropic 面同样无 keyless，
+  必须 key（受限项）。两个面的 keyless 路径均已穷尽。**
+
+## 六、FreeModel 真实 key 验证记录（2026-09-13 17:0x，用户提供 key）
+
+**实测（key 已由用户提供并授权测试，不落盘明文）**：
+- `api.freemodel.dev/v1/chat/completions` + key → **401 `Insufficient balance`**
+- `work.freemodel.dev/v1/chat/completions` + key → **401 `Insufficient balance`**
+- `cc.freemodel.dev/v1/messages` + key → **401 `Insufficient balance`**
+- freemodel.dev 主域 chat → 404（该域无 chat 路由，仅 models）
+
+**关键判读**：报错是 `Insufficient balance` 而非 `Invalid token` —— **key 有效、鉴权已通过**，
+只是**账户余额为 0**。这是质变：key 本身已可用，缺的只是额度。
+
+**额度获取路径（前端 JS 挖出的 API 面，全部需网页登录态 session，非 API key 可调）**：
+- `/api/redeem`（兑换码 CDK 充值）/ `/api/referral`（邀请返利）/
+  `/api/billing/topup`+`/topup/confirm`（充值）/ `/api/phone/verify`（手机验证）/
+  `/api/partner/*`（合作）/ `/api/support/*`（工单）/
+  `/api/billing/subscribe`+`setup-intent`+`payment-method`（订阅）
+- **官网 FAQ 原文**："Do I need a credit card to start? No. Verify your account and
+  you get free API credits to start building immediately." → **首批免费 credits 需"验证账号"
+  后才发放**（邮箱/手机验证）。用户注册后可能未完成验证，导致余额 0。
+- **行动路径（受限项，用户侧）**：登录 freemodel.dev → 完成邮箱/手机验证 →
+  免费 credits 到账（或找兑换码走 /api/redeem）→ 复测 200 → 入池。
 
 ## 二、免费模型与限流（linux.do 帖 1349579 整理）
 
