@@ -110,6 +110,18 @@ const SOURCES = {
   zenquotes: {
     url: () => 'https://zenquotes.io/api/random',
     desc: '名言金句（ZenQuotes）'
+  },
+  currency2: {
+    url: (p) => `https://api.frankfurter.app/latest?from=${encodeURIComponent((p.from || 'USD').toUpperCase())}&to=${encodeURIComponent((p.to || 'CNY').toUpperCase())}`,
+    desc: '汇率（Frankfurter 欧洲央行，?from=&to=）'
+  },
+  weather2: {
+    url: (p) => `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(p.lat || '39.9')}&longitude=${encodeURIComponent(p.lon || '116.4')}&current_weather=true`,
+    desc: '天气（Open-Meteo，?lat=&lon=）'
+  },
+  memes: {
+    url: () => 'https://meme-api.com/gimme/1',
+    desc: '随机梗图（Meme API）'
   }
 };
 
@@ -122,10 +134,18 @@ function upstream(name, path) {
   return { src, url: src.url(p), raw: p.raw === '1' };
 }
 
-function fetchUrl(url) {
+function fetchUrl(url, redirects = 0) {
   return new Promise((resolve, reject) => {
     const mod = url.startsWith('https') ? https : http;
     const req = mod.get(url, { headers: { 'User-Agent': 'keyless-gateway/1.0' } }, (res) => {
+      // 301/302/307/308 跟随（最多 3 跳），Location 可能相对路径
+      if ([301, 302, 307, 308].includes(res.statusCode) && res.headers.location && redirects < 3) {
+        res.resume();
+        const loc = res.headers.location;
+        const next = loc.startsWith('http') ? loc : new URL(loc, url).href;
+        fetchUrl(next, redirects + 1).then(resolve, reject);
+        return;
+      }
       let data = '';
       res.on('data', (c) => (data += c));
       res.on('end', () => resolve({ status: res.statusCode, data, headers: res.headers }));

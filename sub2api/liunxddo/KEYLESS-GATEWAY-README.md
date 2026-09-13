@@ -1,8 +1,7 @@
 # 本地 keyless 公益 API 网关
 
 > 聚合实测可用的免费公共 API 为本地单入口，零依赖（node 内置模块）、无任何账号/key。
-> 2026-09-13 实测 **23 源**（四轮扩展：+lyrics/iss/dog/bible/qrcode/coffee/gender/agify/openlib/
-> cat/postcodes/rickmorty/swapi/jokeapi/zenquotes）。
+> 2026-09-13 实测 **26 源**（五轮扩展，含汇率双源/天气双源；支持 301/302 重定向跟随）。
 > ⚠️ openlib/lyrics 在代理环境间歇 TLS 抖动（直连/家庭宽带预计稳定），其余源稳定。
 
 ## 启动
@@ -55,6 +54,9 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 | `/api/swapi` | 星球大战人物（SWAPI） | `?id=1` |
 | `/api/jokeapi` | 随机笑话（JokeAPI） | |
 | `/api/zenquotes` | 名言金句（ZenQuotes） | |
+| `/api/currency2` | 汇率（Frankfurter 欧洲央行） | `?from=USD&to=CNY`（支持重定向） |
+| `/api/weather2` | 天气（Open-Meteo） | `?lat=39.9&lon=116.4` |
+| `/api/memes` | 随机梗图（Meme API） | |
 | 任意端点加 `?raw=1` | 原样透传上游 JSON | |
 
 ## 实测记录（2026-09-13）
@@ -74,6 +76,7 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 - ✅ 性别（genderize.io）200 / 年龄（agify.io）200 / 书目（openlibrary.org）200（直测）
 - ✅ 猫图（thecatapi）200 / 英国邮编（postcodes.io）200 / 瑞克莫蒂（rickandmortyapi）200
 - ✅ 星战（swapi.dev）200 / 笑话（jokeapi.dev）200 / 名言（zenquotes.io）200
+- ✅ 汇率2（frankfurter.app）200（301 跟随）/ 天气2（open-meteo.com）200 / 梗图（meme-api.com）200
 - ❌ ipapi.co TLS 失败（已剔除，勿加回）
 - ❌ api.btstu.cn（壁纸/唐诗/毒鸡汤）TLS 失败（已剔除）
 - ❌ boredapi.com 连接失败（已剔除）
