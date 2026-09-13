@@ -30,6 +30,52 @@ const ACCT_FILTER = acctIdx >= 0 ? args[acctIdx + 1] : null;
 const SSH_HOST = 'zhaozicheng@192.168.1.3';
 const PG_PATH = '/usr/local/opt/postgresql@16/bin';
 const DB = 'sub2api';
+const REDIS_CLI = '/usr/local/bin/redis-cli';   // 不在非登录 PATH，需绝对路径
+
+/**
+ * 跑一段**只读** shell（通过 SSH），返回 stdout 文本。
+ * 用途：读 Redis 调度 zset（PostgreSQL 查不到调度器的真实序列）。
+ */
+function shell(script) {
+  try {
+    return execFileSync('bash', ['-c', `ssh -o BatchMode=yes -o ConnectTimeout=10 -i "$HOME/.ssh/id_ed25519" ${SSH_HOST} 'bash -s'`], {
+      input: script, encoding: 'utf8', timeout: 120000, maxBuffer: 20 * 1024 * 1024,
+    });
+  } catch (e) {
+    return { error: String(e.message || e).slice(0, 300) };
+  }
+}
+
+/** 读 Redis 调度序列：返回 [{ key, members: [{id, score}] }]（只读 ZRANGE） */
+export function readSchedulerZsets() {
+  const script = [
+    `RC=${REDIS_CLI}`,
+    // 找出所有 sched:*:v* 形态的 zset 键
+    `for k in $($RC -h 127.0.0.1 -p 6379 --scan --pattern 'sched:*:v*' 2>/dev/null); do`,
+    `  t=$($RC -h 127.0.0.1 -p 6379 type "$k" 2>/dev/null)`,
+    `  [ "$t" = "zset" ] || continue`,
+    `  n=$($RC -h 127.0.0.1 -p 6379 zcard "$k" 2>/dev/null)`,
+    `  [ "$n" -gt 0 ] 2>/dev/null || continue`,
+    `  echo "KEY|$k|$n"`,
+    `  $RC -h 127.0.0.1 -p 6379 zrange "$k" 0 -1 WITHSCORES 2>/dev/null | paste - - | sed 's/^/M|/'`,
+    `done`,
+  ].join('\n');
+  const out = shell(script);
+  if (typeof out !== 'string') return { error: out.error };
+  const sets = [];
+  let cur = null;
+  for (const line of out.split('\n')) {
+    if (line.startsWith('KEY|')) {
+      const [, key, n] = line.split('|');
+      cur = { key, size: Number(n), members: [] };
+      sets.push(cur);
+    } else if (line.startsWith('M|') && cur) {
+      const parts = line.slice(2).split('\t');
+      if (parts.length >= 2) cur.members.push({ id: parts[0].trim(), score: Number(parts[1]) });
+    }
+  }
+  return { sets };
+}
 
 /** 跑一段 SQL（只读），返回行的数组（每行是字段数组） */
 function psql(sql) {
@@ -263,6 +309,42 @@ log('='.repeat(72));
     if (!r3.error && r3.length) {
       log(`  🛡 其中被系统自动屏蔽（temp_unschedulable/overload）的：${r3[0][0]} 个` +
           (r3[0][0] === '0' ? ' → **系统未自动屏蔽，需人工处置**' : ''));
+    }
+  }
+}
+
+/* ---------- 5c. 调度序列实况（直读 Redis zset）----------
+ * 这是 PostgreSQL 看不到的一层：调度器真正的选序在 Redis zset 里（score = 位次）。
+ * 5b 只能看到"DB 里谁是僵尸"，5c 才能回答"僵尸是否真的占着调度位"。
+ */
+{
+  const zr = readSchedulerZsets();
+  if (zr.error) log(`\n## 5c. 调度序列：读取失败（${zr.error}）`);
+  else if (!zr.sets.length) log('\n## 5c. 调度序列：未找到非空 zset');
+  else {
+    // 取最大的那个桶（通常是主分组）
+    const main = zr.sets.slice().sort((a, b) => b.size - a.size)[0];
+    log(`\n## 5c. 调度序列实况（key=${main.key}，${main.size} 个成员）`);
+    log('  > score 即位次（0..N-1）；名字取自 DB');
+    // 拉账号名映射
+    const nm = {};
+    const names = psql(`SELECT id, name, CASE WHEN coalesce(credentials->>'base_url','')='' THEN 'zombie' ELSE 'ok' END FROM accounts WHERE deleted_at IS NULL;`);
+    if (Array.isArray(names)) for (const [id, name, kind] of names) nm[id] = { name, kind };
+    let firstZombieRank = null;
+    const afterZombie = [];
+    main.members.forEach((m, i) => {
+      const info = nm[m.id] || { name: '?', kind: '?' };
+      const isZ = info.kind === 'zombie';
+      if (isZ && firstZombieRank === null) firstZombieRank = i + 1;
+      if (!isZ && firstZombieRank !== null) afterZombie.push(m.id);
+      if (isZ) log(`  位次 ${String(i + 1).padStart(2)} | #${String(m.id).padStart(3)} ${String(info.name).padEnd(20)} ⚠️ **僵尸（无 base_url）**`);
+    });
+    if (firstZombieRank === null) log('  ✅ 序列中无僵尸账号');
+    else {
+      log(`  📊 首个僵尸出现在第 **${firstZombieRank}** 位；其之后仍有 ${afterZombie.length} 个可用账号被挡（${afterZombie.slice(0, 8).join(',')}${afterZombie.length > 8 ? '…' : ''}）`);
+      log('  🔴 结论：僵尸**确实被纳入调度序列**且名次靠前 —— 选中后必然失败（无上游地址），');
+      log('     代价是无效尝试与重试消耗（会 failover 到下一名次，故不降低最终成功率）。');
+      log('     ▶ 处置需人工决定：补全 base_url（变可用产能）或置 schedulable=false（移除）。');
     }
   }
 }

@@ -1,4 +1,4 @@
-池只读巡检 · 时间窗 12h · 2026-09-13T21:09:30.597Z
+池只读巡检 · 时间窗 12h · 2026-09-13T21:21:35.080Z
 ========================================================================
 
 ## 1. 总览
@@ -7,16 +7,16 @@
 ## 2. 账号健康（按 12h 调用量降序）
  id | name                 | status | sched | prio | conc | reqs | rate_limited
 ----+----------------------+--------+-------+------+------+------+-------------
-  1 | yunshu-relay         | active | t     |    2 |    5 | 3057 | 2026-09-13 23:34:59
- 15 | yunshu-tdsh          | active | t     |    1 |    3 | 2432 | 2026-09-14 01:33:08
- 10 | bai1-glm             | active | t     |    4 |    3 | 1716 | -
- 11 | baiqwen              | active | t     |    5 |    3 | 1623 | -
+  1 | yunshu-relay         | active | t     |    2 |    5 | 3072 | 2026-09-13 23:34:59
+ 15 | yunshu-tdsh          | active | t     |    1 |    3 | 2408 | 2026-09-14 01:33:08
+ 10 | bai1-glm             | active | t     |    4 |    3 | 1729 | -
+ 11 | baiqwen              | active | t     |    5 |    3 | 1626 | -
   3 | agenes               | active | t     |    3 |    3 | 1135 | 2026-09-14 03:12:18
  13 | tele-muse            | active | t     |    6 |    3 | 1132 | 2026-09-14 02:35:00
  19 | hub-linuxdo          | active | t     |    7 |    1 |  200 | -
- 12 | tokenrouter          | active | t     |    8 |    3 |  163 | 2026-09-14 01:29:31
- 16 | tele-qwen            | active | t     |    9 |    3 |  153 | -
- 18 | pollinations-free    | error  | f     |   33 |    1 |   80 | -
+ 12 | tokenrouter          | active | t     |    9 |    3 |  134 | 2026-09-14 01:29:31
+ 16 | tele-qwen            | active | t     |    8 |    3 |  134 | -
+ 18 | pollinations-free    | error  | f     |   33 |    1 |   52 | -
  23 | columbina-free-1     | active | t     |   10 |    1 |   32 | -
  20 | columbina-free       | active | t     |   11 |    1 |   10 | 2026-09-14 04:24:05
  28 | columbina-free-6     | active | t     |   14 |    1 |    8 | -
@@ -47,14 +47,14 @@
 
 ## 3. 上游错误分布（12h）
   #  3 agenes               HTTP 400  × 399 
-  #  1 yunshu-relay         HTTP 502  × 281 🔴5xx
+  #  1 yunshu-relay         HTTP 502  × 280 🔴5xx
   # 15 yunshu-tdsh          HTTP 502  × 165 🔴5xx
   #  1 yunshu-relay         HTTP 400  ×  39 
-  # 15 yunshu-tdsh          HTTP 400  ×  39 
   # 13 tele-muse            HTTP 400  ×  34 
-  # 12 tokenrouter          HTTP 503  ×  20 🔴5xx
+  # 15 yunshu-tdsh          HTTP 400  ×  28 
+  # 12 tokenrouter          HTTP 503  ×  19 🔴5xx
   # 12 tokenrouter          HTTP 429  ×  17 ⛔限流
-  # 16 tele-qwen            HTTP 524  ×  17 🔴5xx
+  # 16 tele-qwen            HTTP 524  ×  16 🔴5xx
   # 11 baiqwen              HTTP 400  ×  13 
   # 19 hub-linuxdo          HTTP 524  ×   9 🔴5xx
   #  9 aio-freeshare        HTTP 400  ×   8 
@@ -79,14 +79,14 @@
       错误信息: pollinations free budget exhausted (785 requests today, returns 200+budget-error-text)
       24h 错误数: 5 · 最近上游码: 502 · 限流时刻: -
 
-## 5. 400 错误根因（共 539 条 · 客户端请求问题，非池故障）
-  B. 超上下文窗口                 403 条 (74.8%) · 涉及 1 个 key
-  A. 工具调用 name 为空            86 条 (16.0%) · 涉及 1 个 key
-  C. 请求体缺字段                  34 条 (6.3%) · 涉及 1 个 key
+## 5. 400 错误根因（共 528 条 · 客户端请求问题，非池故障）
+  B. 超上下文窗口                 403 条 (76.3%) · 涉及 1 个 key
+  A. 工具调用 name 为空            75 条 (14.2%) · 涉及 1 个 key
+  C. 请求体缺字段                  34 条 (6.4%) · 涉及 1 个 key
   D. 其它                      15 条 (2.8%) · 涉及 1 个 key
   A2. 工具调用缺 name              1 条 (0.2%) · 涉及 1 个 key
   ⚠️ 注意：D 类（其它）常含未归类的同因错误 —— 分类后**务必抽查 D 桶**，否则易把主因误判为杂项
-  error_owner 归属：provider=539
+  error_owner 归属：provider=528
   🔴 风险：上述 400 的成因多为**客户端**（超上下文/非法 tool_call），却全归为 provider ——
      若据 error_owner 做账号降权，会错误惩罚无辜上游账号。建议改为识别 400 语义后归 client。
 
@@ -103,8 +103,19 @@
   📊 排序影响：首个僵尸 priority=19，其名次之后仍有 **10 个可用账号**
   🛡 其中被系统自动屏蔽（temp_unschedulable/overload）的：0 个 → **系统未自动屏蔽，需人工处置**
 
+## 5c. 调度序列实况（key=sched:5:openai:forced:v1757，32 个成员）
+  > score 即位次（0..N-1）；名字取自 DB
+  位次 19 | #  7 glm-zhipu            ⚠️ **僵尸（无 base_url）**
+  位次 20 | #  5 infer                ⚠️ **僵尸（无 base_url）**
+  位次 22 | #  2 kimi2-hello4am       ⚠️ **僵尸（无 base_url）**
+  位次 28 | #  8 amd-radeon           ⚠️ **僵尸（无 base_url）**
+  📊 首个僵尸出现在第 **19** 位；其之后仍有 10 个可用账号被挡（34,30,33,37,36,35,21,22…）
+  🔴 结论：僵尸**确实被纳入调度序列**且名次靠前 —— 选中后必然失败（无上游地址），
+     代价是无效尝试与重试消耗（会 failover 到下一名次，故不降低最终成功率）。
+     ▶ 处置需人工决定：补全 base_url（变可用产能）或置 schedulable=false（移除）。
+
 ## 6. 请求质量（12h）
-  成功 11776 · 400 539 · **成功率 95.62%**
+  成功 11709 · 400 528 · **成功率 95.69%**
 
 ========================================================================
 【如何读这份报告】
