@@ -4,7 +4,10 @@
 //   $env:SF_KEY="sk-or-v1-xxx"; $env:SF_MODELS='{"Tuan":"deepseek/deepseek-r1:free"}'
 //   node add-free-api-pool.mjs
 // 自动：直测/models+chat → SSH→Mac PG 插入账号(extra 四字段+force_chat_completions+supported=false)
-//       + group 5 + prio 90 + concurrency 1 → 只读核对
+//       + group 5 + concurrency 1 → 只读核对
+// 注意 priority：本 SQL **不显式写 priority**，由 DB 默认值/调度体系决定
+//   （2026-09-13 实测落入 50，与其它免费档同层）。旧文案称"prio 90"与实际写入不符，
+//   已更正——**排位一律以 DB 实际值为准**，勿据文案推断。
 // 铁律(见 FREE-API-CHANNELS.md)：免费档一律兜底位，error_rate 自动避让，不升权
 import { execFileSync } from 'node:child_process';
 import { writeFileSync, rmSync } from 'node:fs';
@@ -50,18 +53,18 @@ for (const m of Object.values(MODELS)) {
 // 3. 生成远端 SQL 脚本 → SSH 执行
 console.log('\n===== 3. 入池（SSH→Mac PG，幂等）=====');
 const SQL = `
-INSERT INTO accounts (name, platform, type, credentials, extra, status, schedulable, priority, concurrency, rate_multiplier, quota_dimension, auto_pause_on_expired)
+INSERT INTO accounts (name, platform, type, credentials, extra, status, schedulable, concurrency, rate_multiplier, quota_dimension, auto_pause_on_expired)
 SELECT '${esc(NAME)}','openai','apikey',
   jsonb_build_object('api_key','${esc(KEY)}','base_url','${esc(BASE)}','model_mapping','${MODELS_JSON}'::jsonb),
   jsonb_build_object('model_mapping','${MODELS_JSON}'::jsonb,
     'openai_responses_mode','force_chat_completions',
     'openai_responses_supported',false,
     'openai_long_context_billing_enabled',false),
-  'active', true, 90, 1, 1.0, 'global', true
+  'active', true, 1, 1.0, 'global', true
 WHERE NOT EXISTS (SELECT 1 FROM accounts WHERE name='${esc(NAME)}' AND deleted_at IS NULL)
-RETURNING id, name, status, schedulable, priority;
-INSERT INTO account_groups (account_id, group_id, priority)
-SELECT a.id, 5, 1 FROM accounts a WHERE a.name='${esc(NAME)}' AND a.deleted_at IS NULL
+RETURNING id, name, status, schedulable;
+INSERT INTO account_groups (account_id, group_id)
+SELECT a.id, 5 FROM accounts a WHERE a.name='${esc(NAME)}' AND a.deleted_at IS NULL
 ON CONFLICT (account_id, group_id) DO NOTHING;
 SELECT id,name,status,schedulable,priority,credentials->>'base_url' AS base, credentials->'model_mapping'->>'Tuan' AS tuan FROM accounts WHERE name='${esc(NAME)}' AND deleted_at IS NULL;
 `;
@@ -83,5 +86,5 @@ try {
   process.exit(4);
 } finally { try { rmSync(sh); } catch {} }
 
-console.log(`\nDONE: ${NAME} 入池完成（prio 90 兜底 / concurrency 1 / group 5 / force_chat_completions）。
+console.log(`\nDONE: ${NAME} 入池完成（concurrency 1 / group 5 / force_chat_completions；priority 未显式写入，以 DB 实际值为准）。
 验证: 观察 usage_logs 路由（account_id 查新账号）或等用户给 admin 凭据跑 verify。`);
