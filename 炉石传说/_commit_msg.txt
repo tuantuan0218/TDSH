@@ -1,0 +1,27 @@
+hive 运维会诊断与工具集（2026-09-13 会话）
+
+蜂群"每小时运维会不触发"定案 + 可复用取证/验证工具。
+诊断正文不在本仓，在 D:/MunderDifflin/hive/docs/：
+  OPS-STANDUP-NOT-FIRING-20260913.md   三环定案（发出/唤醒/回执）+ 三批待批补丁索引
+  FLEET-INSTRUMENT-DEAD-20260913.md    fleet 仪表四道闸（含 pi 键名规则实测标定）
+
+结论要点（都有时间戳级证据）：
+- 定时器正常：ops-standup 每小时 :26 准点发，6/6 命中；坏的是唤醒环与回执环。
+- 两道独立闸：SYSTEM_SENDERS 把 scheduler 信判为"自家噪音"不主动唤神；
+  且 busy-aware 让长回合中任何邮件都读不到（13:26 那班延迟 1594s 即此因）。
+- 对照实验：同内容换发件人身份，scheduler 28 分钟零回执 vs 真实席位 85 秒闭环。
+- 免重启已修：建 scheduler/heartbeat synthetic 席位（只 inbox、无 outbox，router 即 skip），
+  回执黑洞从 drop 变台账；13:26 班真实回执已落该台账，全量 drop 计数未增。
+
+本仓新增工具（19 个，全部只读蜂群，不改 src、不改 config、不动进程）：
+  _standup_watch.cjs        三环看门狗 + 三席分档 drain（--drain；requires_reply 永不自动归档）
+  _hive_probe.cjs / _why_no_ack.cjs / _wait_beat.cjs   取证与事件驱动等待（不靠挂钟估计）
+  _hive_send_generic.cjs / _send_hive_msg_standup.cjs  Node 写无 BOM 投递器（中文安全）
+  _make_*_patch.cjs         在临时副本上做锚点替换产出 .patch（src 零改动）
+  _verify_patch_typecheck.cjs / _verify_patch_tests.cjs  pristine-vs-patched 双副本对照
+  _verify_pi_usage_replay.cjs  真实盘上回放：newestOnly 与独立复算精确相等，目录级虚高 16.7x-296.5x
+  _probe_pi_*、_classify_hit.py、_doc_lint.cjs、_hive_track_scan_audit.py、_precommit_gate.py
+
+提交门禁：_precommit_gate.py 先跑对照台（阳性必须非 0）再扫本批 18 文件 → 真值形态 0 命中。
+教训沉淀在 hive/docs 两份文档与 skill munderdifflin-hive-ops（三环分诊、假可编辑字段、
+共享席位归属审计、校验工具自身也要有阳性/阴性双对照）。
