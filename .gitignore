@@ -55,3 +55,18 @@ sub2api/tuan-pool-snapshot.json
 sub2api/tuan-pool-snapshot.public.json
 sub2api/s2a-creds-full.txt
 sub2api/*pool*.mjs
+# 2026-09-13 安全加固（完整 api_key 严禁入库）：探针/入池/快照/凭据全量兜底
+sub2api/probe-*.mjs
+sub2api/probe-*.py
+sub2api/decrypt_*.py
+sub2api/dump_realms.py
+sub2api/check_login_data.py
+sub2api/schema_check.py
+sub2api/cdp-*.mjs
+sub2api/*snapshot*.json
+sub2api/*.bak-*
+sub2api/verify-*.js
+sub2api/verify-*.mjs
+sub2api/hunt-credit-source.js
+sub2api/credit-*.js
+sub2api/ROUND-2026-09-13-siliconflow.md
