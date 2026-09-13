@@ -79,11 +79,20 @@ echo "GATE_HTTP:"\`curl -s -o /dev/null -w %{http_code} http://127.0.0.1:8090/he
 REMOTE`;
 writeFileSync(sh, body, 'utf8');
 try {
-  const out = execFileSync('wsl.exe', ['-e', 'bash', '/mnt/d/tdsh/sub2api/_tmp_add_free.sh'], { encoding: 'utf8', timeout: 120000 });
+  // 优先用 bash 直跑（Git Bash / MSYS），**避免 wsl.exe 拉起整个 WSL 实例**。
+  //   wsl.exe 会常驻数百 MB~1GB 内存，而本机 SSH 直连已验证可用，无需借道 WSL。
+  //   （2026-09-13 实测：bash _tmp.sh 与 bash -c "bash _tmp.sh" 两种方式 SSH 均直通。）
+  const out = execFileSync('bash', ['-c', `bash "${sh}"`], { encoding: 'utf8', timeout: 120000 });
   console.log(String(out).slice(0, 1200));
 } catch (e) {
-  console.error('SSH 执行失败:', e.message.slice(0, 400));
-  process.exit(4);
+  // 回退：本机无 bash 时再试 wsl.exe（保持可用性，但优先走无 WSL 路径）
+  try {
+    const out = execFileSync('wsl.exe', ['-e', 'bash', '/mnt/d/tdsh/sub2api/_tmp_add_free.sh'], { encoding: 'utf8', timeout: 120000 });
+    console.log(String(out).slice(0, 1200));
+  } catch (e2) {
+    console.error('SSH 执行失败:', String(e.message || e).slice(0, 300));
+    process.exit(4);
+  }
 } finally { try { rmSync(sh); } catch {} }
 
 console.log(`\nDONE: ${NAME} 入池完成（concurrency 1 / group 5 / force_chat_completions；priority 未显式写入，以 DB 实际值为准）。
