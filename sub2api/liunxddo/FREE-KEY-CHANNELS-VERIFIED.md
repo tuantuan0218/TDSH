@@ -16,6 +16,9 @@
 
 **对比**：NVIDIA NIM `/models` 匿名 200（82 模型）是唯一可匿名列模型的平台——
 这正是 NIM 排首位的实证基础。
+**复查（2026-09-13 14:5x）**：/models 仍匿名 200、模型总数 82 不变、8 个核心免费模型
+（glm-5.3-flash / deepseek-v4-flash/pro / kimi-k3 / gpt-oss-20b / nemotron-3.5-lightning /
+nemotron-3-ultra / laguna-xs-2.1）全部在列、无新增无下架——候选项状态未漂移，入池即用。
 
 ## 二、免费模型与限流（linux.do 帖 1349579 整理）
 
