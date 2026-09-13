@@ -74,9 +74,9 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 
 - 🔬 **稳定性验证（10 轮探测：短间隔 6 轮 + 长间隔 30s 4 轮）**：14 源全绿、**0 失败**，
   成功轮 10/10。此前一次 ok=False 为瞬时抖动（免费上游常态），非持续故障。
-- 🔬 **33 源稳定性（4 轮探测）**：32/32 探测源全绿（openlib 已 skip_health 跳过，代理下
-  TLS 抖动频繁不参与判定）；health 判定为**可用率 ≥90% 即 ok**（公益源抖动是常态，单源失败
-  不判整体挂），`/health` 返回 `ok_count/total` 明细。
+- 🔬 **33 源稳定性（多轮探测）**：健康判定=可用率 ≥90%（ok_count/total 明细）。
+  skip_health 源（不参与判定、路由保留）：**openlib**（代理 TLS 抖动）、**gender/agify**
+  （2026-09-13 匿名额度被探测耗尽 → 429 Request limit reached，额度重置后自动恢复）。
 - ✅ 一言 hitokoto（v1.hitokoto.cn）200
 - ✅ 60s（60s.viki.moe/v2/60s）200
 - ✅ 天气（wttr.in/?format=j1）200

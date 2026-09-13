@@ -93,11 +93,13 @@ const SOURCES = {
   },
   gender: {
     url: (p) => `https://api.genderize.io/?name=${encodeURIComponent(p.name || 'luc')}`,
-    desc: '姓名性别预测（genderize.io，?name=）'
+    desc: '姓名性别预测（genderize.io，?name=）',
+    skip_health: true // 2026-09-13 匿名额度被探测耗尽(429 Request limit reached)，health 跳过，额度重置后可恢复
   },
   agify: {
     url: (p) => `https://api.agify.io/?name=${encodeURIComponent(p.name || 'luc')}`,
-    desc: '姓名年龄预测（agify.io，?name=）'
+    desc: '姓名年龄预测（agify.io，?name=）',
+    skip_health: true // 同上，429 限流中
   },
   openlib: {
     url: (p) => `https://openlibrary.org/books/${encodeURIComponent(p.id || 'OL7353617M')}.json`,
