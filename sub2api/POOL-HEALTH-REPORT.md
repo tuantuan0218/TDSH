@@ -1,4 +1,4 @@
-池只读巡检 · 时间窗 12h · 2026-09-13T21:21:35.080Z
+池只读巡检 · 时间窗 12h · 2026-09-13T21:30:33.403Z
 ========================================================================
 
 ## 1. 总览
@@ -7,17 +7,17 @@
 ## 2. 账号健康（按 12h 调用量降序）
  id | name                 | status | sched | prio | conc | reqs | rate_limited
 ----+----------------------+--------+-------+------+------+------+-------------
-  1 | yunshu-relay         | active | t     |    2 |    5 | 3072 | 2026-09-13 23:34:59
- 15 | yunshu-tdsh          | active | t     |    1 |    3 | 2408 | 2026-09-14 01:33:08
- 10 | bai1-glm             | active | t     |    4 |    3 | 1729 | -
- 11 | baiqwen              | active | t     |    5 |    3 | 1626 | -
+  1 | yunshu-relay         | active | t     |    1 |    5 | 3069 | 2026-09-13 23:34:59
+ 15 | yunshu-tdsh          | active | t     |    2 |    3 | 2415 | 2026-09-14 01:33:08
+ 10 | bai1-glm             | active | t     |    4 |    3 | 1739 | -
+ 11 | baiqwen              | active | t     |    5 |    3 | 1639 | -
   3 | agenes               | active | t     |    3 |    3 | 1135 | 2026-09-14 03:12:18
  13 | tele-muse            | active | t     |    6 |    3 | 1132 | 2026-09-14 02:35:00
  19 | hub-linuxdo          | active | t     |    7 |    1 |  200 | -
  12 | tokenrouter          | active | t     |    9 |    3 |  134 | 2026-09-14 01:29:31
- 16 | tele-qwen            | active | t     |    8 |    3 |  134 | -
- 18 | pollinations-free    | error  | f     |   33 |    1 |   52 | -
+ 16 | tele-qwen            | active | t     |    8 |    3 |  116 | -
  23 | columbina-free-1     | active | t     |   10 |    1 |   32 | -
+ 18 | pollinations-free    | error  | f     |   33 |    1 |   30 | -
  20 | columbina-free       | active | t     |   11 |    1 |   10 | 2026-09-14 04:24:05
  28 | columbina-free-6     | active | t     |   14 |    1 |    8 | -
  24 | columbina-free-3     | active | t     |   16 |    1 |    7 | 2026-09-14 04:59:15
@@ -47,8 +47,8 @@
 
 ## 3. 上游错误分布（12h）
   #  3 agenes               HTTP 400  × 399 
-  #  1 yunshu-relay         HTTP 502  × 280 🔴5xx
-  # 15 yunshu-tdsh          HTTP 502  × 165 🔴5xx
+  #  1 yunshu-relay         HTTP 502  × 276 🔴5xx
+  # 15 yunshu-tdsh          HTTP 502  × 163 🔴5xx
   #  1 yunshu-relay         HTTP 400  ×  39 
   # 13 tele-muse            HTTP 400  ×  34 
   # 15 yunshu-tdsh          HTTP 400  ×  28 
@@ -74,7 +74,7 @@
       24h 错误数: 2 · 最近上游码: 403 · 限流时刻: -
   #17 siliconflow-free  status=error schedulable=t
       错误信息: Payment required (402): Sorry, your account balance is insufficient
-      24h 错误数: 23 · 最近上游码: 429 · 限流时刻: 2026-09-13 05:30:29.25201+08
+      24h 错误数: 1 · 最近上游码: 429 · 限流时刻: 2026-09-13 05:30:29.25201+08
   #18 pollinations-free  status=error schedulable=f
       错误信息: pollinations free budget exhausted (785 requests today, returns 200+budget-error-text)
       24h 错误数: 5 · 最近上游码: 502 · 限流时刻: -
@@ -103,7 +103,7 @@
   📊 排序影响：首个僵尸 priority=19，其名次之后仍有 **10 个可用账号**
   🛡 其中被系统自动屏蔽（temp_unschedulable/overload）的：0 个 → **系统未自动屏蔽，需人工处置**
 
-## 5c. 调度序列实况（key=sched:5:openai:forced:v1757，32 个成员）
+## 5c. 调度序列实况（key=sched:5:openai:forced:v1759，32 个成员）
   > score 即位次（0..N-1）；名字取自 DB
   位次 19 | #  7 glm-zhipu            ⚠️ **僵尸（无 base_url）**
   位次 20 | #  5 infer                ⚠️ **僵尸（无 base_url）**
@@ -114,8 +114,14 @@
      代价是无效尝试与重试消耗（会 failover 到下一名次，故不降低最终成功率）。
      ▶ 处置需人工决定：补全 base_url（变可用产能）或置 schedulable=false（移除）。
 
+## 5d. 上下文能力画像（7 天 · 按成功请求的 token 天花板排序）
+  能吃 >500K 的号：**8 个** —— #10(max 816097) · #11(max 815748) · #13(max 795376) · #19(max 773357) · #1(max 734100) · #15(max 688439)
+  ⚠️ 从未成功接过 >500K、但有显著流量的号：#3 agenes(max 490137) · #16 tele-qwen(max 393713) · #18 pollinations-free(max 0)
+  🔴 这些号若被派到超长请求 → 必然 400。建议按上下文上限路由（不改账号本身）。
+  > 判据说明：用**成功请求**的 max(input_tokens) 作能力天花板（usage_logs 只记成功请求）
+
 ## 6. 请求质量（12h）
-  成功 11709 · 400 528 · **成功率 95.69%**
+  成功 11694 · 400 528 · **成功率 95.68%**
 
 ========================================================================
 【如何读这份报告】

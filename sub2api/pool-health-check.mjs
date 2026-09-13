@@ -349,8 +349,41 @@ log('='.repeat(72));
   }
 }
 
-/* ---------- 6. 总体成功率 ---------- */
+/* ---------- 5d. 上下文超限：谁接得住长请求、谁接不住 ----------
+ * 2026-09-13 取证：agenes(3) 上游上限约 500K，但持续收到 551K~1M 的请求 →
+ *   7 天 460 条必然 400。修法应"按上下文上限路由"，而非修账号本身。
+ * 此处用**成功请求的 token 天花板**判断各号能力：成功率高的号若 max(input_tokens)
+ *   明显低于失败请求的规模，即为"能力边界"而非偶发。
+ */
 {
+  const sql = `SELECT a.id, a.name,
+      coalesce(count(u.id),0) AS ok_n,
+      coalesce(max(u.input_tokens),0) AS max_ok_tokens,
+      coalesce(count(*) FILTER (WHERE u.input_tokens > 500000),0) AS ok_over_500k
+    FROM accounts a
+    LEFT JOIN usage_logs u ON u.account_id = a.id
+      AND u.created_at > now() - interval '7 days'
+    WHERE a.deleted_at IS NULL
+    GROUP BY a.id, a.name
+    HAVING coalesce(count(u.id),0) > 0
+    ORDER BY max_ok_tokens DESC;`;
+  assertReadOnly(sql, '上下文能力');
+  const r = psql(sql);
+  if (r.error) log(`⚠️ 上下文能力查询失败：${r.error}`);
+  else if (r.length) {
+    const over = r.filter((x) => Number(x[4]) > 0);
+    const under = r.filter((x) => Number(x[4]) === 0 && Number(x[2]) > 100);
+    log(`\n## 5d. 上下文能力画像（7 天 · 按成功请求的 token 天花板排序）`);
+    log(`  能吃 >500K 的号：**${over.length} 个** —— ${over.slice(0, 6).map((x) => `#${x[0]}(max ${x[3]})`).join(' · ')}`);
+    if (under.length) {
+      log(`  ⚠️ 从未成功接过 >500K、但有显著流量的号：${under.map((x) => `#${x[0]} ${x[1]}(max ${x[3]})`).join(' · ')}`);
+      log('  🔴 这些号若被派到超长请求 → 必然 400。建议按上下文上限路由（不改账号本身）。');
+    }
+    log('  > 判据说明：用**成功请求**的 max(input_tokens) 作能力天花板（usage_logs 只记成功请求）');
+  }
+}
+
+/* ---------- 6. 总体成功率 ---------- */{
   const sql = `SELECT
       (SELECT count(*) FROM usage_logs WHERE created_at > now() - interval '${HOURS} hours') AS ok,
       (SELECT count(*) FROM ops_error_logs WHERE created_at > now() - interval '${HOURS} hours'
