@@ -208,6 +208,37 @@ log('='.repeat(72));
   }
 }
 
+/* ---------- 5b. 僵尸账号：active+schedulable 但缺 base_url ----------
+ * 2026-09-13 发现：4 个账号（2/5/7/8）status=active 且 schedulable=true，
+ *   但 credentials.base_url 为 NULL → 永远无法服务，却可能占用调度名次。
+ *   其 priority 数值比部分可用账号更小（19/20 < 23/24/26/27），存在"排在可用账号之前被选中"的风险。
+ * ⚠️ 仅报告，不自动改配置（用户要求不擅自改池；且这些可能是并行会话的半成品）。
+ */
+{
+  const sql = `SELECT id, name, priority, concurrency,
+      coalesce(extra->>'model_mapping','(none)') AS mapping,
+      coalesce((SELECT count(*) FROM usage_logs u WHERE u.account_id=a.id),0) AS ever_used
+    FROM accounts a
+    WHERE deleted_at IS NULL AND status='active' AND schedulable
+      AND coalesce(credentials->>'base_url','')=''
+    ORDER BY priority;`;
+  assertReadOnly(sql, '僵尸账号');
+  const r = psql(sql);
+  if (r.error) log(`⚠️ 僵尸账号查询失败：${r.error}`);
+  else if (!r.length) log('\n## 5b. 僵尸账号（active 但无 base_url）：无 ✅');
+  else {
+    log(`\n## 5b. ⚠️ 僵尸账号：active + schedulable 但 **无 base_url**（${r.length} 个）`);
+    log('  id | name                 | prio | conc | 历史调用 | model_mapping');
+    for (const [id, name, prio, conc, mapping, used] of r) {
+      log(`  ${String(id).padStart(2)} | ${String(name).padEnd(20).slice(0, 20)} | ${String(prio).padStart(4)} | ${String(conc).padStart(4)} | ${String(used).padStart(8)} | ${mapping.slice(0, 30)}`);
+    }
+    log('  🔴 这些账号**永远无法服务**（无上游地址），却 schedulable=true ——');
+    log('     若其 priority 数值小于可用账号，可能在调度中抢先被选中 → 必然失败并消耗重试。');
+    log('     有 model_mapping 说明"配置到一半"，可能是并行会话的半成品。');
+    log('     ▶ 建议（需人工确认）：置 schedulable=false，或补全 base_url。**本脚本不自动改**。');
+  }
+}
+
 /* ---------- 6. 总体成功率 ---------- */
 {
   const sql = `SELECT

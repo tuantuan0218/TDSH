@@ -1,62 +1,66 @@
-池只读巡检 · 时间窗 12h · 2026-09-13T20:33:42.556Z
+池只读巡检 · 时间窗 12h · 2026-09-13T21:05:46.804Z
 ========================================================================
 
 ## 1. 总览
-账号总数 33 · active+schedulable 28 · error 状态 5 · 曾限流 9
+账号总数 37 · active+schedulable 32 · error 状态 5 · 曾限流 10
 
 ## 2. 账号健康（按 12h 调用量降序）
  id | name                 | status | sched | prio | conc | reqs | rate_limited
 ----+----------------------+--------+-------+------+------+------+-------------
-  1 | yunshu-relay         | active | t     |    2 |    5 | 2930 | 2026-09-13 23:34:59
- 15 | yunshu-tdsh          | active | t     |    1 |    3 | 2380 | 2026-09-14 01:33:08
- 11 | baiqwen              | active | t     |    5 |    3 | 1747 | -
- 10 | bai1-glm             | active | t     |    4 |    3 | 1732 | -
- 13 | tele-muse            | active | t     |    6 |    3 | 1180 | 2026-09-14 02:35:00
-  3 | agenes               | active | t     |    3 |    3 | 1140 | 2026-09-14 03:12:18
- 16 | tele-qwen            | active | t     |    9 |    3 |  201 | -
+  1 | yunshu-relay         | active | t     |    2 |    5 | 3050 | 2026-09-13 23:34:59
+ 15 | yunshu-tdsh          | active | t     |    1 |    3 | 2441 | 2026-09-14 01:33:08
+ 10 | bai1-glm             | active | t     |    4 |    3 | 1716 | -
+ 11 | baiqwen              | active | t     |    5 |    3 | 1627 | -
+  3 | agenes               | active | t     |    3 |    3 | 1135 | 2026-09-14 03:12:18
+ 13 | tele-muse            | active | t     |    6 |    3 | 1132 | 2026-09-14 02:35:00
  19 | hub-linuxdo          | active | t     |    7 |    1 |  200 | -
  12 | tokenrouter          | active | t     |    8 |    3 |  168 | 2026-09-14 01:29:31
- 18 | pollinations-free    | error  | f     |   29 |    1 |  100 | -
- 23 | columbina-free-1     | active | t     |   10 |    1 |   31 | -
- 20 | columbina-free       | active | t     |   12 |    1 |    9 | 2026-09-14 04:24:05
- 28 | columbina-free-6     | active | t     |   14 |    1 |    7 | -
- 24 | columbina-free-3     | active | t     |   16 |    1 |    6 | -
- 25 | columbina-free-4     | active | t     |   15 |    1 |    5 | -
- 26 | columbina-free-5     | active | t     |   13 |    1 |    5 | -
-  9 | aio-freeshare        | active | t     |   11 |    1 |    4 | 2026-09-13 19:57:24
- 29 | columbina-free-7     | active | t     |   17 |    1 |    2 | -
+ 16 | tele-qwen            | active | t     |    9 |    3 |  163 | -
+ 18 | pollinations-free    | error  | f     |   33 |    1 |   88 | -
+ 23 | columbina-free-1     | active | t     |   10 |    1 |   32 | -
+ 20 | columbina-free       | active | t     |   11 |    1 |   10 | 2026-09-14 04:24:05
+ 28 | columbina-free-6     | active | t     |   14 |    1 |    8 | -
+ 24 | columbina-free-3     | active | t     |   16 |    1 |    7 | 2026-09-14 04:59:15
+ 25 | columbina-free-4     | active | t     |   15 |    1 |    6 | -
+ 26 | columbina-free-5     | active | t     |   13 |    1 |    6 | -
+  9 | aio-freeshare        | active | t     |   12 |    1 |    4 | 2026-09-13 19:57:24
+ 29 | columbina-free-7     | active | t     |   17 |    1 |    4 | -
+ 34 | columbina-free-10    | active | t     |   21 |    1 |    3 | -
+ 30 | columbina-free-8     | active | t     |   23 |    1 |    2 | 2026-09-14 04:24:05
  27 | wb2api               | active | t     |   18 |    5 |    1 | -
- 30 | columbina-free-8     | active | t     |   22 |    1 |    1 | 2026-09-14 04:24:05
-  2 | kimi2-hello4am       | active | t     |   21 |    3 |    0 | -
-  4 | geeky-hello4am       | error  | f     |   25 |    3 |    0 | -
+ 33 | columbina-free-9     | active | t     |   24 |    1 |    1 | -
+ 35 | columbina-free-11    | active | t     |   27 |    1 |    1 | -
+ 36 | columbina-free-12    | active | t     |   26 |    1 |    1 | -
+ 37 | columbina-free-13    | active | t     |   25 |    1 |    1 | -
+  2 | kimi2-hello4am       | active | t     |   22 |    3 |    0 | -
+  4 | geeky-hello4am       | error  | f     |   29 |    3 |    0 | -
   5 | infer                | active | t     |   20 |    3 |    0 | -
-  6 | stepfun-jieyue       | error  | t     |   26 |    3 |    0 | -
+  6 | stepfun-jieyue       | error  | t     |   30 |    3 |    0 | -
   7 | glm-zhipu            | active | t     |   19 |    3 |    0 | -
-  8 | amd-radeon           | active | t     |   24 |    3 |    0 | -
- 14 | xiaoen               | error  | f     |   27 |    3 |    0 | -
- 17 | siliconflow-free     | error  | t     |   28 |    1 |    0 | 2026-09-13 05:30:29
- 21 | pollinations-text-fr | active | t     |   30 |    1 |    0 | -
- 22 | pollinations-fast-fr | active | t     |   31 |    1 |    0 | -
- 31 | xzt-ai-proxy-free    | active | t     |   32 |    1 |    0 | -
- 32 | xzt-free             | active | t     |   33 |    1 |    0 | -
- 33 | columbina-free-9     | active | t     |   23 |    1 |    0 | -
+  8 | amd-radeon           | active | t     |   28 |    3 |    0 | -
+ 14 | xiaoen               | error  | f     |   31 |    3 |    0 | -
+ 17 | siliconflow-free     | error  | t     |   32 |    1 |    0 | 2026-09-13 05:30:29
+ 21 | pollinations-text-fr | active | t     |   34 |    1 |    0 | -
+ 22 | pollinations-fast-fr | active | t     |   35 |    1 |    0 | -
+ 31 | xzt-ai-proxy-free    | active | t     |   36 |    1 |    0 | -
+ 32 | xzt-free             | active | t     |   37 |    1 |    0 | -
 
 ## 3. 上游错误分布（12h）
-  #  3 agenes               HTTP 400  × 400 
+  #  3 agenes               HTTP 400  × 399 
   #  1 yunshu-relay         HTTP 502  × 281 🔴5xx
   # 15 yunshu-tdsh          HTTP 502  × 165 🔴5xx
-  #  1 yunshu-relay         HTTP 400  ×  78 
+  #  1 yunshu-relay         HTTP 400  ×  39 
   # 15 yunshu-tdsh          HTTP 400  ×  39 
-  # 13 tele-muse            HTTP 400  ×  37 
-  # 12 tokenrouter          HTTP 503  ×  21 🔴5xx
-  # 12 tokenrouter          HTTP 429  ×  18 ⛔限流
-  # 16 tele-qwen            HTTP 524  ×  18 🔴5xx
+  # 13 tele-muse            HTTP 400  ×  34 
+  # 12 tokenrouter          HTTP 503  ×  20 🔴5xx
+  # 12 tokenrouter          HTTP 429  ×  17 ⛔限流
+  # 16 tele-qwen            HTTP 524  ×  17 🔴5xx
   # 11 baiqwen              HTTP 400  ×  13 
-  # 16 tele-qwen            HTTP 503  ×   9 🔴5xx
   # 19 hub-linuxdo          HTTP 524  ×   9 🔴5xx
   #  9 aio-freeshare        HTTP 400  ×   8 
   # 27 wb2api               HTTP 503  ×   8 🔴5xx
   #  9 aio-freeshare        HTTP 503  ×   5 🔴5xx
+  # 10 bai1-glm             HTTP 502  ×   5 🔴5xx
 
 ## 4. 死因核查（error 或不可调度）
   #4 geeky-hello4am  status=error schedulable=f
@@ -75,19 +79,30 @@
       错误信息: pollinations free budget exhausted (785 requests today, returns 200+budget-error-text)
       24h 错误数: 5 · 最近上游码: 502 · 限流时刻: -
 
-## 5. 400 错误根因（共 582 条 · 客户端请求问题，非池故障）
-  B. 超上下文窗口                 404 条 (69.4%) · 涉及 1 个 key
-  A. 工具调用 name 为空           125 条 (21.5%) · 涉及 1 个 key
-  C. 请求体缺字段                  37 条 (6.4%) · 涉及 1 个 key
-  D. 其它                      15 条 (2.6%) · 涉及 1 个 key
+## 5. 400 错误根因（共 539 条 · 客户端请求问题，非池故障）
+  B. 超上下文窗口                 403 条 (74.8%) · 涉及 1 个 key
+  A. 工具调用 name 为空            86 条 (16.0%) · 涉及 1 个 key
+  C. 请求体缺字段                  34 条 (6.3%) · 涉及 1 个 key
+  D. 其它                      15 条 (2.8%) · 涉及 1 个 key
   A2. 工具调用缺 name              1 条 (0.2%) · 涉及 1 个 key
   ⚠️ 注意：D 类（其它）常含未归类的同因错误 —— 分类后**务必抽查 D 桶**，否则易把主因误判为杂项
-  error_owner 归属：provider=582
+  error_owner 归属：provider=539
   🔴 风险：上述 400 的成因多为**客户端**（超上下文/非法 tool_call），却全归为 provider ——
      若据 error_owner 做账号降权，会错误惩罚无辜上游账号。建议改为识别 400 语义后归 client。
 
+## 5b. ⚠️ 僵尸账号：active + schedulable 但 **无 base_url**（4 个）
+  id | name                 | prio | conc | 历史调用 | model_mapping
+   7 | glm-zhipu            |   19 |    3 |        0 | {"glm-4.6": "glm-4.6"}
+   5 | infer                |   20 |    3 |        0 | (none)
+   2 | kimi2-hello4am       |   22 |    3 |        0 | (none)
+   8 | amd-radeon           |   28 |    3 |        0 | {"DeepSeek-V4-Flash": "DeepSee
+  🔴 这些账号**永远无法服务**（无上游地址），却 schedulable=true ——
+     若其 priority 数值小于可用账号，可能在调度中抢先被选中 → 必然失败并消耗重试。
+     有 model_mapping 说明"配置到一半"，可能是并行会话的半成品。
+     ▶ 建议（需人工确认）：置 schedulable=false，或补全 base_url。**本脚本不自动改**。
+
 ## 6. 请求质量（12h）
-  成功 11849 · 400 582 · **成功率 95.32%**
+  成功 11808 · 400 539 · **成功率 95.63%**
 
 ========================================================================
 【如何读这份报告】
