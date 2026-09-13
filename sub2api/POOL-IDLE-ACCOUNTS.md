@@ -45,26 +45,42 @@
 
 前两轮我只能从 DB 侧推断，**本轮连上了 Redis，直接读到了调度器的真实序列**，问题彻底定性。
 
+### 3.0 与并行会话结论的对账（两方都对，说的是不同对象）
+
+并行会话在 `FREE-POOL-INVENTORY-20260914.md` 中判断"6/17 号虽 `schedulable=t` 但实测未接单"。
+我也独立核对了一遍**当前生效序列**：
+
+| 账号 | 是否在调度序列中 | 谁的判断 |
+|---|---|---|
+| **6 stepfun-jieyue / 17 siliconflow-free** | ❌ **不在序列** | ✅ 并行会话正确 |
+| **7 / 5 / 2 / 8（僵尸）** | ✅ **在序列第 19/20/22/28 位** | ✅ 本会话发现 |
+
+**两者不矛盾**：6/17 是"error 状态但未真正排入"，僵尸是"active 且已排入序列"。
+**并行会话查的是前者，我查的是后者** —— 互补而非冲突。
+
+> ⚠️ **版本轮转说明**：我先后读到 `v1757` 与 `v1758` 两个版本（`sched:active:5:openai:forced` 从 1757→1758），
+> **两次的成员与名次完全一致** —— 说明序列稳定，不是瞬时快照。
+
 ### 3.1 找到真正的调度序列
 
 ```
 Redis 键结构：
   sched:active:<groupId>:<platform>:<mode>   ← 指向当前生效版本的版本号（string）
-  sched:<gid>:<platform>:<mode>:v<版本号>     ← **真正的调度 zset**（按名次排）
+  sched:<gid>:<platform>:<mode>:v<版本号>     ← **真正的调度 zset**（score = 名次 0..N-1）
   sched:acc:<id> / sched:meta:<id>            ← 账号快照（含 credentials）
 
-实例：
-  sched:active:5:openai:forced = 1757
-  → 生效序列 = sched:5:openai:forced:v1757  （zset，32 个成员）
+实例（两次读取，版本不同、内容一致）：
+  sched:active:5:openai:forced = 1757 → sched:5:openai:forced:v1757
+  sched:active:5:openai:forced = 1758 → sched:5:openai:forced:v1758
 ```
 
-**这说明**：选序确实读 **zset 名次**（score 是 0..N-1 的连续位次），
+**这说明**：选序读 **zset 名次**（score 是 0..N-1 的连续位次），
 与本仓历史记录一致 —— 而 `accounts.priority` 字段**不直接决定**当前桶的顺序
-（但 zset 的位次是由 cron 依 priority/picks 重算生成的，二者间接相关）。
+（但 zset 位次由 cron 依 priority/picks 重算生成，二者间接相关）。
 
 ### 3.2 ★ 决定性证据：僵尸账号**确实在生效序列中，且名次靠前**
 
-`sched:5:openai:forced:v1757` 完整成员（score 即位次）：
+`sched:5:openai:forced:v1758` 完整成员（score 即位次）：
 
 | 名次 | 账号 | 状态 |
 |---|---|---|
@@ -77,6 +93,15 @@ Redis 键结构：
 | 24–27 | 33,37,36,35 | ✅ 可用 |
 | **28** | **8 (amd-radeon)** | ⚠️ **僵尸（无 base_url）** |
 | 29–32 | 21,22,31,32 | ✅ 可用（免 key 兜底） |
+
+用 `ZRANK` 单点复核（更硬的证据）：
+
+```
+  #7 在序列第 19 位
+  #5 在序列第 20 位
+  #2 在序列第 22 位
+  #8 在序列第 28 位
+```
 
 **结论**：
 1. ✅ 4 个僵尸账号**确实被纳入调度序列**（不是"被系统过滤掉了"）
@@ -140,14 +165,44 @@ Redis 键结构：
 **优先级梯度合理**：columbina（有额度）在前、pollinations/xzt（免 key 兜底）在后。
 说明**调度体系的分层是有效的**，不是混乱状态。
 
-## 六、复现
+## 七、⚠️ 重要修正：僵尸账号**不是**当前最该处理的问题
 
-```bash
-ssh -o BatchMode=yes -i ~/.ssh/id_ed25519 zhaozicheng@192.168.1.3 'bash -s' <<'EOF'
-export PATH=/usr/local/opt/postgresql@16/bin:$PATH
-psql -h 127.0.0.1 -U postgres -d sub2api -At -F'|' -c \
-"SELECT id,name,status,schedulable,priority,coalesce(credentials->>'base_url','(NULL)')
- FROM accounts WHERE deleted_at IS NULL AND status='active' AND schedulable
-   AND coalesce(credentials->>'base_url','')='' ORDER BY priority;"
-EOF
-```
+并行会话在 `FREE-POOL-INVENTORY-20260914.md` 中指出真正的错误大户是**主力账号**，
+我独立复算了 24h 错误分布，**结论一致**：
+
+| 账号 | 24h 错误数 | 主因 |
+|---|---|---|
+| **1 yunshu-relay** | **474** | `Upstream rate limit exceeded` |
+| **3 agenes** | **436** | `ContextWindowExceededError`（上游硬上限 524,288 tokens） |
+| **15 yunshu-tdsh** | 230 | `Upstream response stream ended before completion` |
+| 11 baiqwen | 126 | `'name' is a required property`（tool_call 缺名） |
+| 13 tele-muse | 122 | `Upstream request failed [invalid_request_error]` |
+| 10 bai1-glm | 107 | `Invalid request body` |
+| **2/5/7/8（僵尸）** | **0** | 从未被选中，**零错误** |
+
+### 结论修正（诚实记账）
+
+**僵尸账号的问题性质需要降级表述**：
+
+- ❌ 我此前倾向的"僵尸占位影响调度" → **真实但影响小**
+- ✅ 事实是：它们**从未被选中过**（`last_used_at` 全为 NULL，`usage_logs` 0 条），
+  说明**即使排在第 19/20/22/28 位，实际流量也从未走到那个名次**
+  （前排 18 个号在持续接单，请求很少深到第 19 位）
+- ✅ 真正影响用户体验的是 **1/3/15/11/13/10 这些主力号的 1500+ 条错误**
+
+**故优先级应重排**：
+
+| 优先级 | 事项 | 理由 |
+|---|---|---|
+| **1** | agenes(3) 的 436 条上下文超限 | 上游硬上限 524,288，超长请求必然 400 |
+| **2** | yunshu(1,15) 的 704 条（限流+流中断） | 量大，且 100% 集中在特定模型 |
+| **3** | baiqwen(11)/tele-muse(13) 的 tool_call 缺名 | 稳定复现，属可修项 |
+| **4** | 僵尸账号 2/5/7/8 | **卫生问题，非故障**（零实际影响） |
+
+> 📌 **这是我本轮的自我纠正**：我花了三轮论证"僵尸占位"，证据确实成立；
+> 但**并行会话的数据表明这不是用户能感知的问题**。
+> **有证据的问题 ≠ 重要的问题** —— 我把注意力放错了地方，现予更正。
+
+## 八、复现
+
+（见上文各节；`node pool-health-check.mjs` 可一键复现 5b/5c 段）
