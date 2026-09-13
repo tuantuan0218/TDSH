@@ -1,0 +1,1247 @@
+{
+ "ts": "2026-09-13T18:41:27.148Z",
+ "sourceGeneratedAt": "2026-06-24T23:24:29.534Z",
+ "schema": "2026-05-07",
+ "funnel": {
+  "total": 168,
+  "freeApi": 82,
+  "chinaDirect": 39,
+  "cnCompat": 24
+ },
+ "records": [
+  {
+   "id": "ai21-labs",
+   "name": "AI21 Labs",
+   "nameEn": "AI21 Labs",
+   "credits": "Trial API access or promotional credits may be available by account; confirm current AI21 Studio balance",
+   "rate": "Account, model, and plan dependent",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "jamba-large",
+    "jamba-mini"
+   ],
+   "url": "https://www.ai21.com/studio",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "aimlapi",
+   "name": "AI/ML API",
+   "nameEn": "AI/ML API",
+   "credits": "Trial credits / promotional free balance may be available for new accounts; confirm live dashboard state",
+   "rate": "Account, model, plan, and upstream-provider dependent",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "claude-3-5-haiku",
+    "flux/schnell",
+    "gpt-4o-mini"
+   ],
+   "url": "https://aimlapi.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "anyscale",
+   "name": "Anyscale",
+   "nameEn": "Anyscale",
+   "credits": "$10 free credits",
+   "rate": "30 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Llama 3.3 70B",
+    "Mixtral 8x22B"
+   ],
+   "url": "https://anyscale.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "awanllm",
+   "name": "AwanLLM",
+   "nameEn": "AwanLLM",
+   "credits": "Free API tier advertised; quota and supported models must be verified in dashboard",
+   "rate": "Model and account dependent; free tier may throttle quickly",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Meta Llama 3.1 8B Instruct",
+    "Mistral / Mixtral routes",
+    "Qwen2.5 Coder"
+   ],
+   "url": "https://awanllm.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "baichuan",
+   "name": "百川智能",
+   "nameEn": "Baichuan AI",
+   "credits": "500万 tokens",
+   "rate": "5 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "Baichuan 4"
+   ],
+   "url": "https://www.baichuan-ai.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "baseten",
+   "name": "Baseten",
+   "nameEn": "Baseten",
+   "credits": "Trial credits / startup credits may be available after signup or sales contact",
+   "rate": "Deployment, hardware, and plan dependent",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "Custom Truss model",
+    "Llama 3.1 / 3.3 deployments",
+    "Stable Diffusion / Flux deployments"
+   ],
+   "url": "https://www.baseten.co",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "brave-search-api",
+   "name": "Brave Search API",
+   "nameEn": "Brave Search API",
+   "credits": "2000 free search queries per month",
+   "rate": "Free Data for AI plan; check Brave dashboard for current RPM and paid overage",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "news/search",
+    "web/search"
+   ],
+   "url": "https://brave.com/search/api/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "cerebras",
+   "name": "Cerebras",
+   "nameEn": "Cerebras",
+   "credits": "1M tokens/day",
+   "rate": "30 RPM / 60K TPM / 1M TPD",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Llama 3.1 8B",
+    "Llama 3.3 70B"
+   ],
+   "url": "https://cloud.cerebras.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "cerebras-cloud",
+   "name": "Cerebras Cloud",
+   "nameEn": "Cerebras Cloud",
+   "credits": "Free developer tier / 30 RPM signal",
+   "rate": "30 RPM developer tier signal; model-level TPM and concurrency may vary",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Llama 3.3 70B",
+    "Qwen open models"
+   ],
+   "url": "https://cloud.cerebras.ai/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "civitai",
+   "name": "Civitai",
+   "nameEn": "Civitai",
+   "credits": "$0",
+   "rate": "未公开",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "AI 模型社区与图片生成"
+   ],
+   "url": "https://civitai.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "claude-api",
+   "name": "Anthropic API",
+   "nameEn": "Anthropic API",
+   "credits": "$5",
+   "rate": "5 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "Claude Opus 4"
+   ],
+   "url": "https://console.anthropic.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "clawbrain",
+   "name": "ClawBrain",
+   "nameEn": "ClawBrain",
+   "credits": "30 free conversations/day",
+   "rate": "未公开",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "Agent 优化大模型 API"
+   ],
+   "url": "https://www.clawbrain.dev/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "cloudflare-workers-ai",
+   "name": "Cloudflare Workers AI",
+   "nameEn": "Cloudflare Workers AI",
+   "credits": "每天 10000 神经元（永久有效）",
+   "rate": "10000 requests/day",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "@cf/baai/bge-base-en-v1.5",
+    "@cf/google/gemma-7b-it-lora",
+    "@cf/meta/llama-3.1-8b-instruct",
+    "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "@cf/microsoft/phi-2",
+    "@cf/mistral/mistral-7b-instruct-v0.2-lora",
+    "@cf/stabilityai/stable-diffusion-xl-base-1.0"
+   ],
+   "url": "https://ai.cloudflare.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "cohere",
+   "name": "Cohere",
+   "nameEn": "Cohere",
+   "credits": "1000 calls/month",
+   "rate": "Trial rate limits",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "Command R+",
+    "Embed",
+    "Rerank"
+   ],
+   "url": "https://cohere.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "coze",
+   "name": "扣子 (字节跳动)",
+   "nameEn": "Coze (ByteDance)",
+   "credits": "Free tier",
+   "rate": "Varies",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "多模型可选"
+   ],
+   "url": "https://www.coze.cn",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "databricks-mosaic",
+   "name": "Databricks Mosaic AI",
+   "nameEn": "Databricks Mosaic AI",
+   "credits": "New-account Databricks trial credits can be used to test Mosaic AI model serving where available",
+   "rate": "Endpoint, region, model, and workspace quota dependent; check Serving endpoints and billing dashboard",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "custom-serving-endpoint",
+    "databricks-meta-llama-3-1-70b-instruct"
+   ],
+   "url": "https://www.databricks.com/product/artificial-intelligence",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "deepinfra",
+   "name": "DeepInfra",
+   "nameEn": "DeepInfra",
+   "credits": "Free trial credits / promotional balance varies by account",
+   "rate": "Model and account dependent; verify dashboard before production",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "BAAI/bge-large-en-v1.5",
+    "Qwen/Qwen2.5-Coder-32B-Instruct",
+    "meta-llama/Meta-Llama-3.1-8B-Instruct"
+   ],
+   "url": "https://deepinfra.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "deepseek",
+   "name": "DeepSeek",
+   "nameEn": "DeepSeek",
+   "credits": "$5",
+   "rate": "2 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "DeepSeek-R1",
+    "DeepSeek-V3",
+    "DeepSeek-V4-Flash",
+    "DeepSeek-V4-Pro"
+   ],
+   "url": "https://platform.deepseek.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "demon",
+   "name": "DEMON",
+   "nameEn": "DEMON",
+   "credits": "Unlimited self-hosted",
+   "rate": "Local/self-hosted",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "Diffusion Engine for Musical Orchestrated Noise"
+   ],
+   "url": "https://github.com/daydreamlive/DEMON",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "dots-mocr",
+   "name": "dots.mocr",
+   "nameEn": "dots.mocr",
+   "credits": "Public Gradio endpoint",
+   "rate": "未公开",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "dots.mocr"
+   ],
+   "url": "https://dotsocr.xiaohongshu.com/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "doubao",
+   "name": "豆包 (字节跳动)",
+   "nameEn": "Doubao (ByteDance)",
+   "credits": "50万 tokens",
+   "rate": "5 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "Seed 2.0 Code",
+    "Seed 2.0 Lite",
+    "Seed 2.0 Mini",
+    "Seed 2.0 Pro"
+   ],
+   "url": "https://www.doubao.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "elevenlabs",
+   "name": "ElevenLabs",
+   "nameEn": "ElevenLabs",
+   "credits": "10K chars/month",
+   "rate": "Varies",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "ElevenLabs TTS"
+   ],
+   "url": "https://elevenlabs.io",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "ernie",
+   "name": "文心一言 (百度)",
+   "nameEn": "ERNIE Bot (Baidu)",
+   "credits": "Free tier",
+   "rate": "5 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "ERNIE 4.5"
+   ],
+   "url": "https://yiyan.baidu.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "fal",
+   "name": "fal.ai",
+   "nameEn": "fal.ai",
+   "credits": "Promotional credits",
+   "rate": "N/A",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "Flux Dev",
+    "Stable Diffusion"
+   ],
+   "url": "https://fal.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "firered-openstoryline",
+   "name": "FireRed-OpenStoryline",
+   "nameEn": "FireRed-OpenStoryline",
+   "credits": "Unlimited self-hosted",
+   "rate": "Local/self-hosted",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "OpenStoryline Video Editing Agent"
+   ],
+   "url": "https://github.com/FireRedTeam/FireRed-OpenStoryline",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "fireworks",
+   "name": "Fireworks AI",
+   "nameEn": "Fireworks AI",
+   "credits": "$1 free credits",
+   "rate": "600 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Llama 3.3 70B",
+    "Mixtral 8x22B"
+   ],
+   "url": "https://fireworks.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "fireworks-ai",
+   "name": "Fireworks AI",
+   "nameEn": "Fireworks AI",
+   "credits": "试用/赠送额度以官网与控制台为准",
+   "rate": "按账号、模型、serverless/专属部署层级变化",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Llama and open-weight chat models",
+    "Serverless fine-tuned models"
+   ],
+   "url": "https://fireworks.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "flux",
+   "name": "FLUX (Black Forest Labs)",
+   "nameEn": "FLUX (Black Forest Labs)",
+   "credits": "Free via platforms",
+   "rate": "Varies",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "FLUX.1 [dev]",
+    "FLUX.1 [schnell]"
+   ],
+   "url": "https://blackforestlabs.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "gemini",
+   "name": "Gemini (Google)",
+   "nameEn": "Gemini (Google)",
+   "credits": "Free tier",
+   "rate": "15 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "Gemini 3.1 Flash",
+    "Gemini 3.1 Flash Lite",
+    "Gemini 3.1 Pro"
+   ],
+   "url": "https://gemini.google.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "github-models",
+   "name": "GitHub Models",
+   "nameEn": "GitHub Models",
+   "credits": "Free GitHub Models quota for signed-in GitHub accounts; paid Azure AI / provider routes may be required for production",
+   "rate": "Model, account, and preview quota dependent; verify current GitHub Models limits before automation",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "meta/Llama-3.1-8B-Instruct",
+    "mistral-ai/Mistral-small",
+    "openai/gpt-4o-mini"
+   ],
+   "url": "https://github.com/marketplace/models",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "google",
+   "name": "Google AI (Gemini)",
+   "nameEn": "Google AI (Gemini)",
+   "credits": "免费 API 无需信用卡",
+   "rate": "15 RPM (Flash)",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "Gemini 3.1 Flash",
+    "Gemini 3.1 Flash Lite",
+    "Gemini 3.1 Pro"
+   ],
+   "url": "https://aistudio.google.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "grok",
+   "name": "Grok (xAI)",
+   "nameEn": "Grok (xAI)",
+   "credits": "$25/月",
+   "rate": "Varies",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Grok 4.20",
+    "Grok-3"
+   ],
+   "url": "https://grok.x.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "groq",
+   "name": "Groq",
+   "nameEn": "Groq",
+   "credits": "Free tier（永久免费）",
+   "rate": "30 RPM / 6000 TPM",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "DeepSeek R1 Distill Llama 70B",
+    "Gemma 2 9B",
+    "Llama 3.3 70B Versatile",
+    "Llama 4 Maverick 17B",
+    "Llama 4 Scout 17B",
+    "Mixtral 8x7B"
+   ],
+   "url": "https://groq.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "huggingface",
+   "name": "Hugging Face",
+   "nameEn": "Hugging Face",
+   "credits": "Free tier",
+   "rate": "Varies",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "Various Open Models"
+   ],
+   "url": "https://huggingface.co",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "hunyuan",
+   "name": "腾讯混元",
+   "nameEn": "Tencent Hunyuan",
+   "credits": "100万 tokens",
+   "rate": "5 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "Hunyuan-Large"
+   ],
+   "url": "https://hunyuan.tencent.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "hyperbolic",
+   "name": "Hyperbolic",
+   "nameEn": "Hyperbolic",
+   "credits": "试用/任务额度以官网与控制台为准",
+   "rate": "按账号、模型、GPU 区域和供给变化",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "GPU compute",
+    "Open-weight LLM inference"
+   ],
+   "url": "https://www.hyperbolic.xyz",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "invokeai",
+   "name": "InvokeAI",
+   "nameEn": "InvokeAI",
+   "credits": "Unlimited self-hosted",
+   "rate": "Local/self-hosted",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "Invoke creative engine"
+   ],
+   "url": "https://invoke.ai/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "jina-ai",
+   "name": "Jina AI",
+   "nameEn": "Jina AI",
+   "credits": "1M free tokens for new users.",
+   "rate": "Token-quota based; verify model-specific limits in the Jina dashboard.",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "jina-embeddings-v3",
+    "jina-reranker-v2-base-multilingual"
+   ],
+   "url": "https://jina.ai/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "kimi",
+   "name": "Kimi (月之暗面)",
+   "nameEn": "Kimi (Moonshot AI)",
+   "credits": "¥15 + 充 $5 送 $5",
+   "rate": "3 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "Kimi-K2",
+    "Kimi-K2.5"
+   ],
+   "url": "https://kimi.moonshot.cn",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "krea-ai",
+   "name": "Krea AI",
+   "nameEn": "Krea AI",
+   "credits": "$0",
+   "rate": "未公开",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "AI creative suite"
+   ],
+   "url": "https://www.krea.ai/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "lepton",
+   "name": "DGX Cloud Lepton (原 Lepton AI)",
+   "nameEn": "DGX Cloud Lepton (formerly Lepton AI)",
+   "credits": "$10 free credits",
+   "rate": "10 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "Llama 3.3 70B",
+    "Mixtral 8x7B"
+   ],
+   "url": "https://build.nvidia.com/explore/discover",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "metaso",
+   "name": "秘塔AI搜索",
+   "nameEn": "Metaso",
+   "credits": "$0",
+   "rate": "未公开",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "AI 搜索引擎"
+   ],
+   "url": "https://metaso.cn/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "minimax",
+   "name": "MiniMax (稀宇科技)",
+   "nameEn": "MiniMax",
+   "credits": "¥15",
+   "rate": "Varies",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "MiniMax-01",
+    "MiniMax-M2.7"
+   ],
+   "url": "https://www.minimaxi.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "mistral",
+   "name": "Mistral AI",
+   "nameEn": "Mistral AI",
+   "credits": "Free tier",
+   "rate": "1 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Mistral Large",
+    "Mistral Small"
+   ],
+   "url": "https://chat.mistral.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "monsterapi",
+   "name": "MonsterAPI",
+   "nameEn": "MonsterAPI",
+   "credits": "Free credits or promotional balance may be available for new accounts; confirm current dashboard state",
+   "rate": "Account, model, queue, and plan dependent",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "llama / mixtral routes",
+    "stable-diffusion / image routes"
+   ],
+   "url": "https://monsterapi.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "nebius-ai-studio",
+   "name": "Nebius AI Studio",
+   "nameEn": "Nebius AI Studio",
+   "credits": "Trial credits / promotional balance may be available; check AI Studio account",
+   "rate": "Account, model, and plan dependent",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Embedding / vision model routes",
+    "Meta Llama 3.1 / 3.3 Instruct",
+    "Qwen Coder routes"
+   ],
+   "url": "https://studio.nebius.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "novita",
+   "name": "Novita AI",
+   "nameEn": "Novita AI",
+   "credits": "$0.50 free credits",
+   "rate": "60 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Llama 3.3 70B",
+    "Stable Diffusion XL"
+   ],
+   "url": "https://novita.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "nvidia-build",
+   "name": "NVIDIA Build (NIM API)",
+   "nameEn": "NVIDIA Build (NIM API)",
+   "credits": "无限制（已取消额度限制）",
+   "rate": "40 RPM（可申请提升到 200 RPM）",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "DeepSeek R1",
+    "DeepSeek V3.2",
+    "GLM-5.1",
+    "Gemma 4 31B-IT",
+    "Kimi K2.5",
+    "Llama 4 Maverick",
+    "MiniMax M2.7",
+    "Nemotron-3-Super-120B",
+    "Qwen 3.5",
+    "Step 3.5 Flash"
+   ],
+   "url": "https://build.nvidia.com/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "octoai",
+   "name": "OctoAI",
+   "nameEn": "OctoAI",
+   "credits": "$10 free credits",
+   "rate": "60 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Llama 3.3 70B",
+    "SDXL"
+   ],
+   "url": "https://octo.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "openai",
+   "name": "OpenAI",
+   "nameEn": "OpenAI",
+   "credits": "$5",
+   "rate": "3 RPM (free tier)",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "GPT Image 2",
+    "GPT-5.2",
+    "GPT-5.4 mini"
+   ],
+   "url": "https://platform.openai.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "openpipe",
+   "name": "OpenPipe",
+   "nameEn": "OpenPipe",
+   "credits": "Free developer workspace / trial usage may be available; confirm current workspace quota and billing state",
+   "rate": "Workspace, model, dataset, and upstream-provider dependent",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "OpenAI-compatible logging proxy",
+    "OpenPipe fine-tuned small model routes"
+   ],
+   "url": "https://openpipe.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "openrouter",
+   "name": "OpenRouter",
+   "nameEn": "OpenRouter",
+   "credits": "Free models",
+   "rate": "20 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "Free Models (多个)"
+   ],
+   "url": "https://openrouter.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "parasail",
+   "name": "Parasail",
+   "nameEn": "Parasail",
+   "credits": "Free credits / trial serverless inference may be available; verify dashboard",
+   "rate": "Account, model, and plan dependent",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "DeepSeek R1 Distill",
+    "Llama 3.1 8B Instruct",
+    "Qwen2.5 Coder"
+   ],
+   "url": "https://www.parasail.io",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "pixverse-ai",
+   "name": "PixVerse AI",
+   "nameEn": "PixVerse AI",
+   "credits": "$0",
+   "rate": "未公开",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "AI 视频生成平台"
+   ],
+   "url": "https://pixverse.ai/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "pollo-ai",
+   "name": "Pollo AI",
+   "nameEn": "Pollo AI",
+   "credits": "$0",
+   "rate": "未公开",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "AI image & video creation platform"
+   ],
+   "url": "https://pollo.ai/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "portkey-ai",
+   "name": "Portkey AI",
+   "nameEn": "Portkey AI",
+   "credits": "Free gateway/developer tier recorded; model tokens still depend on your upstream provider keys or Portkey plan",
+   "rate": "Portkey plan plus upstream provider quota; verify logs, cache, retries, and spend controls before automation",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "anthropic/claude-3-5-haiku",
+    "google/gemini-1.5-flash",
+    "openai/gpt-4o-mini"
+   ],
+   "url": "https://portkey.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "qwen",
+   "name": "通义千问 (阿里)",
+   "nameEn": "Qwen (Alibaba)",
+   "credits": "7000 万 tokens（新用户一次性；DashScope/Bailian 控制台为准）",
+   "rate": "按模型和账号层级不同（RPM/TPM/并发以控制台为准）",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "Qwen-Max",
+    "Qwen-VL",
+    "Qwen3.6-27B",
+    "Qwen3.6-Plus"
+   ],
+   "url": "https://tongyi.aliyun.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "recraft-ai",
+   "name": "Recraft AI",
+   "nameEn": "Recraft AI",
+   "credits": "$0",
+   "rate": "未公开",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "AI design platform"
+   ],
+   "url": "https://www.recraft.ai/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "replicate",
+   "name": "Replicate",
+   "nameEn": "Replicate",
+   "credits": "Free tier",
+   "rate": "Varies",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "FLUX.1",
+    "Llama 3.3"
+   ],
+   "url": "https://replicate.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "replicate-api",
+   "name": "Replicate API",
+   "nameEn": "Replicate API",
+   "credits": "New-account trial or free usage may be available; confirm current balance and billing requirement in the dashboard",
+   "rate": "Account, model, queue, hardware, and plan dependent",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "black-forest-labs / stability image routes",
+    "meta/llama and open LLM routes"
+   ],
+   "url": "https://replicate.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "requesty",
+   "name": "Requesty",
+   "nameEn": "Requesty",
+   "credits": "Free trial / promotional usage may be available; confirm dashboard balance and expiration",
+   "rate": "Account, provider, model, and route dependent",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "anthropic/claude-3-5-haiku",
+    "google/gemini-flash",
+    "openai/gpt-4o-mini"
+   ],
+   "url": "https://requesty.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "runpod",
+   "name": "RunPod",
+   "nameEn": "RunPod",
+   "credits": "Promotional/community credits may be available; verify account balance before launching GPUs",
+   "rate": "GPU type, pod, serverless endpoint, and concurrency dependent",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "Jupyter / custom GPU pod",
+    "Serverless vLLM endpoint",
+    "Stable Diffusion / ComfyUI pod"
+   ],
+   "url": "https://www.runpod.io",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "sambanova",
+   "name": "SambaNova",
+   "nameEn": "SambaNova",
+   "credits": "Free tier（永久免费）",
+   "rate": "30 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "DeepSeek R1",
+    "DeepSeek V3",
+    "Llama 3.1 405B",
+    "Llama 3.3 70B",
+    "Qwen 2.5 72B"
+   ],
+   "url": "https://sambanova.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "sensenova",
+   "name": "商汤日日新 SenseNova",
+   "nameEn": "SenseNova",
+   "credits": "公测免费额度",
+   "rate": "待官方控制台确认",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "DeepSeek-V4-Flash"
+   ],
+   "url": "https://platform.sensenova.cn/?utm_source=yangmao.ai&utm_medium=referral&utm_campaign=sensenova_token_plan&utm_content=provider_profile",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "shanghai-telecom",
+   "name": "上海电信 Token 算力套餐",
+   "nameEn": "Shanghai Telecom Token Package",
+   "credits": "1 元约 25 万额度点（低价套餐，待实测）",
+   "rate": "待确认：并发、RPM/TPM、有效期、是否仅上海电信用户",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "多模型 API 套餐"
+   ],
+   "url": "https://www.chinatelecom.com.cn/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "siliconflow",
+   "name": "硅基流动 (SiliconFlow)",
+   "nameEn": "SiliconFlow",
+   "credits": "¥14",
+   "rate": "Varies by model/account (RPM, TPM, context, and queue limits)",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "DeepSeek-V3 (hosted)",
+    "Qwen2.5-72B (hosted)"
+   ],
+   "url": "https://siliconflow.cn",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "spark",
+   "name": "讯飞星火",
+   "nameEn": "iFlytek Spark",
+   "credits": "200万 tokens",
+   "rate": "5 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "Spark 4.0 Ultra"
+   ],
+   "url": "https://xinghuo.xfyun.cn",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "stability-ai",
+   "name": "Stability AI",
+   "nameEn": "Stability AI",
+   "credits": "25 free credits on signup",
+   "rate": "Credit-based image/video generation; check Stability platform dashboard",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "stable-image-core",
+    "stable-image-ultra",
+    "stable-video"
+   ],
+   "url": "https://platform.stability.ai/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "stepfun",
+   "name": "阶跃星辰",
+   "nameEn": "StepFun",
+   "credits": "¥10",
+   "rate": "5 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "Step-2"
+   ],
+   "url": "https://www.stepfun.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "tiangong",
+   "name": "天工 AI (昆仑万维)",
+   "nameEn": "Tiangong AI",
+   "credits": "Free tier",
+   "rate": "Varies",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "天工大模型"
+   ],
+   "url": "https://www.tiangong.cn",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "together",
+   "name": "Together AI",
+   "nameEn": "Together AI",
+   "credits": "$5（注册赠送）",
+   "rate": "Varies by model",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "DeepSeek V3",
+    "FLUX.1 Schnell",
+    "FLUX.1 Schnell (Free)",
+    "Llama 3.3 70B Turbo",
+    "Llama 4 Maverick",
+    "Mixtral 8x22B"
+   ],
+   "url": "https://www.together.ai",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "vercel-ai-gateway",
+   "name": "Vercel AI Gateway",
+   "nameEn": "Vercel AI Gateway",
+   "credits": "Free gateway experimentation through Vercel account limits; paid gateway/provider billing may apply after trial usage",
+   "rate": "Account, project, model, and provider dependent; verify Vercel dashboard before production traffic",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": true,
+   "models": [
+    "anthropic/claude-3-5-haiku",
+    "openai/gpt-4o-mini",
+    "xai/grok-3-mini"
+   ],
+   "url": "https://vercel.com/ai-gateway",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "vidu",
+   "name": "Vidu",
+   "nameEn": "Vidu",
+   "credits": "$1",
+   "rate": "N/A",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": false,
+   "models": [
+    "Vidu Q3"
+   ],
+   "url": "https://www.vidu.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "voyage-ai",
+   "name": "Voyage AI",
+   "nameEn": "Voyage AI",
+   "credits": "50M free tokens for new users",
+   "rate": "Check Voyage dashboard for token and RPM limits",
+   "hasFreeApi": true,
+   "chinaDirect": false,
+   "openaiCompat": false,
+   "models": [
+    "voyage-3-large"
+   ],
+   "url": "https://www.voyageai.com/",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "yi",
+   "name": "零一万物",
+   "nameEn": "01.AI (Yi)",
+   "credits": "¥10",
+   "rate": "5 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "Yi-Lightning"
+   ],
+   "url": "https://www.lingyiwanwu.com",
+   "verified": "2026-06-24"
+  },
+  {
+   "id": "zhipu",
+   "name": "智谱清言 (智谱AI)",
+   "nameEn": "ChatGLM (Zhipu AI)",
+   "credits": "500万 tokens",
+   "rate": "5 RPM",
+   "hasFreeApi": true,
+   "chinaDirect": true,
+   "openaiCompat": true,
+   "models": [
+    "GLM-4"
+   ],
+   "url": "https://chatglm.cn",
+   "verified": "2026-06-24"
+  }
+ ]
+}
