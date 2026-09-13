@@ -127,6 +127,35 @@ const SOURCES = {
   memes: {
     url: () => 'https://meme-api.com/gimme/1',
     desc: '随机梗图（Meme API）'
+  },
+  ipify: {
+    url: () => 'https://api.ipify.org?format=json',
+    desc: '公网 IP（ipify）'
+  },
+  randomuser: {
+    url: () => 'https://randomuser.me/api/',
+    desc: '随机用户资料（randomuser.me）'
+  },
+  drug: {
+    url: () => 'https://api.fda.gov/drug/event.json?limit=1',
+    desc: 'FDA 药品不良事件（api.fda.gov）'
+  },
+  football: {
+    url: (p) => `https://api.football-data.org/v4/competitions/${p.id ? '?ids=' + encodeURIComponent(p.id) : ''}`.replace('/v4/competitions?', '/v4/competitions?'),
+    desc: '足球赛事数据（football-data.org，?id=PL 可查）'
+  },
+  chuck: {
+    url: () => 'https://api.chucknorris.io/jokes/random',
+    desc: 'Chuck Norris 笑话'
+  },
+  eq: {
+    url: () => 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson',
+    desc: '全球 24h 地震（USGS）'
+  },
+  dadjoke: {
+    url: () => 'https://icanhazdadjoke.com/',
+    desc: '爸爸笑话（icanhazdadjoke）',
+    headers: { Accept: 'application/json' }
   }
 };
 
@@ -136,19 +165,19 @@ function upstream(name, path) {
   const q = new URLSearchParams((path.split('?')[1] || ''));
   const p = {};
   for (const [k, v] of q) p[k] = v;
-  return { src, url: src.url(p), raw: p.raw === '1' };
+  return { src, url: src.url(p), raw: p.raw === '1', headers: src.headers || {} };
 }
 
-function fetchUrl(url, redirects = 0) {
+function fetchUrl(url, redirects = 0, extraHeaders = {}) {
   return new Promise((resolve, reject) => {
     const mod = url.startsWith('https') ? https : http;
-    const req = mod.get(url, { headers: { 'User-Agent': 'keyless-gateway/1.0' } }, (res) => {
+    const req = mod.get(url, { headers: { 'User-Agent': 'keyless-gateway/1.0', ...extraHeaders } }, (res) => {
       // 301/302/307/308 跟随（最多 3 跳），Location 可能相对路径
       if ([301, 302, 307, 308].includes(res.statusCode) && res.headers.location && redirects < 3) {
         res.resume();
         const loc = res.headers.location;
         const next = loc.startsWith('http') ? loc : new URL(loc, url).href;
-        fetchUrl(next, redirects + 1).then(resolve, reject);
+        fetchUrl(next, redirects + 1, extraHeaders).then(resolve, reject);
         return;
       }
       let data = '';
@@ -182,7 +211,7 @@ const server = http.createServer(async (req, res) => {
     if (path === '/health') {
       const results = await Promise.all(Object.entries(SOURCES).map(async ([name, src]) => {
         try {
-          const r = await fetchUrl(src.url({}));
+          const r = await fetchUrl(src.url({}), 0, src.headers || {});
           return { name, desc: src.desc, status: r.status, ok: r.status >= 200 && r.status < 400 };
         } catch (e) { return { name, desc: src.desc, status: 'ERR', ok: false, error: e.message }; }
       }));
@@ -209,7 +238,7 @@ const server = http.createServer(async (req, res) => {
         return;
       }
       try {
-        const r = await fetchUrl(hit.url);
+        const r = await fetchUrl(hit.url, 0, hit.headers);
         if (hit.raw) { res.writeHead(r.status, { 'Content-Type': r.headers['content-type'] || 'application/json' }); res.end(r.data); return; }
         CACHE.set(cacheKey, { body: r.data, ct: r.headers['content-type'] || 'application/json; charset=utf-8', ts: Date.now() });
         res.writeHead(r.status, { ...cors, 'X-Cache': 'MISS' });

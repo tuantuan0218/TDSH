@@ -1,7 +1,8 @@
 # 本地 keyless 公益 API 网关
 
 > 聚合实测可用的免费公共 API 为本地单入口，零依赖（node 内置模块）、无任何账号/key。
-> 2026-09-13 实测 **26 源**（五轮扩展，含汇率双源/天气双源；支持 301/302 重定向跟随）。
+> 2026-09-13 实测 **33 源**（六轮扩展，含汇率/天气/笑话/猫图双源；支持 301/302 跟随与
+> per-source headers）。
 > **v2 功能**：内存缓存（TTL 60s，X-Cache: MISS/HIT 可查）、简单限流（每 IP 每 10s 30 次）、
 > 优雅错误 JSON（含 source 名+降级提示）。
 > ⚠️ openlib/lyrics 在代理环境间歇 TLS 抖动（直连/家庭宽带预计稳定），其余源稳定。
@@ -59,6 +60,13 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 | `/api/currency2` | 汇率（Frankfurter 欧洲央行） | `?from=USD&to=CNY`（支持重定向） |
 | `/api/weather2` | 天气（Open-Meteo） | `?lat=39.9&lon=116.4` |
 | `/api/memes` | 随机梗图（Meme API） | |
+| `/api/ipify` | 公网 IP（ipify） | |
+| `/api/randomuser` | 随机用户资料（randomuser.me） | |
+| `/api/drug` | FDA 药品不良事件（openFDA） | |
+| `/api/football` | 足球赛事（football-data.org） | `?id=PL` |
+| `/api/chuck` | Chuck Norris 笑话 | |
+| `/api/eq` | 全球 24h 地震（USGS） | |
+| `/api/dadjoke` | 爸爸笑话（icanhazdadjoke） | |
 | 任意端点加 `?raw=1` | 原样透传上游 JSON | |
 
 ## 实测记录（2026-09-13）
@@ -81,6 +89,9 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 - ✅ 猫图（thecatapi）200 / 英国邮编（postcodes.io）200 / 瑞克莫蒂（rickandmortyapi）200
 - ✅ 星战（swapi.dev）200 / 笑话（jokeapi.dev）200 / 名言（zenquotes.io）200
 - ✅ 汇率2（frankfurter.app）200（301 跟随）/ 天气2（open-meteo.com）200 / 梗图（meme-api.com）200
+- ✅ 公网IP（ipify）200 / 随机用户（randomuser.me）200 / FDADrug（api.fda.gov）200
+- ✅ 足球（football-data.org）200 / Chuck笑话（chucknorris.io）200 / 地震（USGS）200 /
+  老爸笑话（icanhazdadjoke，Accept头）200
 - ❌ ipapi.co TLS 失败（已剔除，勿加回）
 - ❌ api.btstu.cn（壁纸/唐诗/毒鸡汤）TLS 失败（已剔除）
 - ❌ boredapi.com 连接失败（已剔除）
