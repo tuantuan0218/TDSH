@@ -58,7 +58,13 @@ concurrency : 1       ← 兜底位铁律
 - ✅ **幂等**：INSERT 前先按 name 查重，重复执行不会产生脏数据
 - ✅ **只读核对**：入池后经 SSH 只读 SQL 独立验证字段真实值（不轻信工具自述）
 
-## 五、待办
+## 七、2026-09-14 xuanwu-free 占位入池（账号 45）
+
+- 来源：V2EX `t/1215596` 玄武公益站 `gpt.bjqdtd.com`，**用户名+密码直注无邮箱验证**，秒进控制台。
+- 验证：`/v1/models` 200（gpt-5.5/5.6-sol/5.6-terra）；chat 全 403「剩余额度 $0」——**key 有效、号没钱**。
+  帖子"注册送 50 刀"未到账；Wallet 只收兑换码；Linux.DO Credit 未启用。三样全要找站主。
+- 入池：`xuanwu-free`，3 映射（Tuan→gpt-5.5 / Tuan-sol / Tuan-terra），prio50/conc1/group5。
+  额度到账自动复活（error_rate 避让会放行）。key 只入 PG，**不落文档**。
 
 ## 六、2026-09-14 aitools-free 入池（账号 44，新 goal 首单）
 
