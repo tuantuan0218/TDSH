@@ -209,7 +209,14 @@ const server = http.createServer(async (req, res) => {
 
   try {
     // 健康检查：并发探所有源（skip_health 标记的跳过，避免代理抖动源误报整体状态）
+    // 10s 结果缓存：避免频繁 /health 并发探测 32 上游加重上游负担/自撞限流
     if (path === '/health') {
+      const cachedH = CACHE.get('__health__');
+      if (cachedH && Date.now() - cachedH.ts < 10_000) {
+        res.writeHead(200, { ...cors, 'X-Cache': 'HIT' });
+        res.end(cachedH.body);
+        return;
+      }
       const results = await Promise.all(Object.entries(SOURCES).map(async ([name, src]) => {
         try {
           if (src.skip_health) return { name, desc: src.desc, status: 'skipped', ok: true };
@@ -221,8 +228,10 @@ const server = http.createServer(async (req, res) => {
       const okCount = probed.filter((r) => r.ok).length;
       // 可用率 ≥90%（且至少 1 个失败时也降级提示）→ 公益 API 源抖动是常态，单源失败不判整体挂
       const healthy = probed.length === 0 || okCount / probed.length >= 0.9;
-      res.writeHead(200, cors);
-      res.end(JSON.stringify({ ok: healthy, ok_count: okCount, total: probed.length, sources: results }, null, 2));
+      const body = JSON.stringify({ ok: healthy, ok_count: okCount, total: probed.length, sources: results }, null, 2);
+      CACHE.set('__health__', { body, ts: Date.now() });
+      res.writeHead(200, { ...cors, 'X-Cache': 'MISS' });
+      res.end(body);
       return;
     }
 
