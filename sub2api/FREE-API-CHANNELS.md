@@ -25,6 +25,7 @@
 | 9 aio-freeshare | sn/deepseek-v4-flash 等 9 个 | ⚠️ 间歇限流 | active-session=1 硬限制 |
 | 17 siliconflow-free | DeepSeek-V3/Qwen2.5-7B/Qwen3.5-4B | ❌ error(402) | 免费额度耗尽，需充值/重置 |
 | **18 pollinations-free** | `openai` 等（见下） | ✅ **已真实接单** | **keyless 匿名，无需任何 key** |
+| **19 hub-linuxdo** | `qwen3.8-flash`（Tuan 映射） | ✅ **2026-09-13 入池** | hub.linux.do AxonHub 网关，key 有效，2688 模型可列；qwen3.8-flash chat 200 "pong" 铁证；prio 90/concurrency 1/group 5 |
 
 ### 18 pollinations-free（keyless，2026-09-13 自主接入）
 - 平台：`https://text.pollinations.ai/openai`（openai 兼容，**匿名免费无需 key**，

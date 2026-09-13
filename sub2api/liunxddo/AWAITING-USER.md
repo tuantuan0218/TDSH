@@ -7,9 +7,9 @@
 
 | # | 渠道 | 用户动作 | 入池命令（key 到手后） |
 |---|------|---------|----------------------|
-| 1 | hub.linux.do | linux.do 账号 → Connect 登录 hub.linux.do → 创建 API key | `$env:SF_NAME=...; node add-free-api-pool.mjs` |
+| 1 | ~~hub.linux.do~~ | ✅ **已入池（账号 19）** 2026-09-13 | qwen3.8-flash 200 铁证 |
 | 2 | NVIDIA NIM | build.nvidia.com 免费注册 → Get API Key (nvapi-) | `node liunxddo\add-nvidia-nim-pool.mjs` |
-| 3 | **FreeModel.dev** | ✅ key 已给且**有效**（`Insufficient balance`=鉴权过但余额 0）→ **登录 freemodel.dev 完成邮箱/手机验证**（FAQ：验证后发免费 credits）或找兑换码（/api/redeem）→ 余额 >0 后复测 | `node add-free-api-pool.mjs`（见 RUNBOOK §3，OpenAI 面 `api.` / Anthropic 面 `cc.`） |
+| 3 | **FreeModel.dev** | ✅ key 已给且**有效**（`Insufficient balance`=鉴权过但余额 0）→ **需走邀请链接注册新号送 Pro（每5h $5）** 或账号验证领 credits；真正出口 `cc.freemodel.dev`（Anthropic 面） | `node add-free-api-pool.mjs`（见 RUNBOOK §3） |
 | 4 | ModelScope | modelscope.cn 注册 → 创建 token | `node add-free-api-pool.mjs` |
 | 5 | 火山方舟 / 七牛 | volcengine / qiniu 注册领取免费额度 | 同上模板 |
 | 6 | DeepLX 翻译 | connect.linux.do 领取 DeepLX Api Key | 翻译类另行评估 |
