@@ -32,7 +32,7 @@ vk_swiftshader.dll
 # ---- separate user subprojects ----
 uumit/
 hs_bridge_build/
-suno杩风瑳/
+suno�?�风瑳/
 suno迷笛/
 手机/
 
@@ -49,13 +49,13 @@ resources/portable-node/
 resources/app/repo/data/
 _autoinstall_hub.sh
 
-# sub2api 敏感文件（含完整 api_key，严禁入库）
+# sub2api �?感文件（�?�完整 api_key，严�?入库）
 sub2api/TUAN-POOL-HANDOVER.md
 sub2api/tuan-pool-snapshot.json
 sub2api/tuan-pool-snapshot.public.json
 sub2api/s2a-creds-full.txt
 sub2api/*pool*.mjs
-# 2026-09-13 安全加固（完整 api_key 严禁入库）：探针/入池/快照/凭据全量兜底
+# 2026-09-13 安全加固（完整 api_key 严�?入库）：探针/入池/快照/凭�?�全�?兜底
 sub2api/probe-*.mjs
 sub2api/probe-*.py
 sub2api/decrypt_*.py
@@ -71,7 +71,7 @@ sub2api/hunt-credit-source.js
 sub2api/credit-*.js
 sub2api/ROUND-2026-09-13-siliconflow.md
 
-# 运行数据与日志（纯本地）
+# �?行数�?�与日志（纯本地）
 sub2api/health-log.jsonl
 sub2api/probe-runs/
 sub2api/pi-host-dump/
@@ -81,3 +81,10 @@ sub2api/analysis-output.txt
 sub2api/liunxddo/bin/
 sub2api/liunxddo/gateway.log
 
+
+# AGENTS.md ???????????????
+security_audit/AGENTS.md.bak-*
+# leak-audit ledger moved to local-only path; public repo must not carry pointers
+security_audit/LEAK_REVERIFY_20260913.md
+security_audit/EXPOSURE_MAP_20260913.md
+security_audit/hits_v3.json
