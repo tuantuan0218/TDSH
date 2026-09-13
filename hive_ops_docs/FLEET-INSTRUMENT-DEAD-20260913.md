@@ -136,6 +136,8 @@ god 在 13:26:35 开了新会话 → 两个定义指向不同文件 → 报出 `
 断言精确相等；历史数字只作量级参照。教训：**口径不一致的对照比没有对照更坏**——它会让人去"修"一个不存在的问题。
 
 
+## 4. 验证计划（沿用运维会补丁那套；实际结果记在 §3bis）
+
 1. `git apply --check` 干净 + `--reverse --check` 失败（阳性对照，证非空补丁）。
 2. `tsc --noEmit -p tsconfig.node.json` 在 pristine/patched 两份副本上对比，**新增错误必须为 0**
    （上一批实测两边各 0 error，基线本身干净）。
@@ -147,12 +149,49 @@ god 在 13:26:35 开了新会话 → 两个定义指向不同文件 → 报出 `
    `fleet`（遥测口径）**不再互相矛盾**——过去两次误诊（"roster 报 171× 同形调用而 fleet 报 0 token"）
    的根源就是这两个口径不同源。
 
-## 5. 边界（写给接手的会话）
+## 5. 上线结果（18:06 重启后实测，验收门全绿）
 
-- 本笔记**只诊断+设计**，未对 `src/` 落任何改动。dev 模式改 `src/main` 会自动重启并杀掉全部 worker PTY，
-  属受限动作，须人类批"god 一轮落地之后"的窗口。
-- 补丁上线前**不要**重新打开 `circuitBreaker.enabled`：三个输入里 tokenVelocity 与成本两路都缺数据，
-  打开就是拿空仪表做裁决（09-10 批量误伤健康席位的前置条件就是这么来的）。
+**前提补上的一课（重要）**：`package.json` 的 `main` 指向 **`out/main/index.js`（编译产物）**，不是 `src/main`。
+17:01 那次"重启"只重启了旧产物 → 三批补丁全程没进运行时，fleet 依旧全 0。**改 `src` 后必须 `npm run build` 再重启**
+（dev 模式才热编译；本机是直接 `electron.exe D:\MunderDifflin` 跑产物）。
+
+```powershell
+npm run build          # electron-vite build（~35s）
+# 产物复读：out/main/index.js 必须出现 markWakeBeat / piProjectKey / resolveAgentHome
+```
+
+18:02:57 新产物（695.26 kB）→ 18:04 重启（PID 11108）→ 18:06:49 fleet 首拍：
+
+```
+fleet.ts: 18:06:49
+god  tokens=7,591,687  lastActiveSecAgo=0  lastTool=null
+```
+
+`_verify_telemetry_live.cjs` 验收门 **PASS=3 FAIL=0**：
+
+| 断言 | 结果 |
+|---|---|
+| G5 反虚高：fleet.tokens / 单场独立复算 | **1.00x 精确相等**（7,591,687 = 7,591,687） |
+| G1 活跃席位 lastActiveSecAgo 是数字 | ✓（0 = 刚刚活动） |
+| G2 lastTool=null | 符合预期（spans 只来自 OTLP，pi 不产；另一批） |
+| G3 cost-ledger 不存在 | 符合预期（刻意不碰 #56 闸门） |
+| G4 roster/fleet 口径 | ✓ 不再互相打脸 |
+
+> G5 第一版报 10.43x 是我验收门自己的口径错：fleet.tokens 含 cache（input+output+cacheRead+cacheCreation），
+> 复算却只比 in+out。已改成同口径后精确一致 —— 口径不一致的对照比没有对照更坏（规则 14）。
+
+**副作用登记**：本次重启按应用设计把 6 个 worker（ryan/kevin/stanley/dwight/pam/creed）归档
+（`setArchived`：关终端=归档，hive.ts:1015）。恢复路径 = **UI 对每个 worker 重开终端**（respawn 时
+`archived:false`，hive.ts:770）。手改 registry 会被 hive 回写，勿做。worker 恢复后 fleet 每席也会
+因转录兜底立即有 tokens。
+
+
+## 6. 边界（写给接手的会话）
+
+- 三批补丁已于 **18:02 编译进产物并重启生效**（用户 17:0x 批准）。改 `src` 后必须 `npm run build` 再重启
+  （`main` 指向 `out/main/index.js`，直接重启不换代码——17:01 那次就白重启了）。
+- 断路器仍**不要**急于打开：fleet 仪表 18:06 才恢复首拍，先观察几小时确认 `tokens/lastActiveSecAgo`
+  稳定非 0 再考虑；tokenVelocity 与成本两路数据刚有，09-10 批量误伤的前置条件刚被拆掉。
 - 同期人类待办：t-151 因 Ryan 席模型 key 预算耗尽 blocked、god 已开 ASK ME（提预算 / UI 重启该席）。
   与本笔记无关，但会让"运维会是否有效"显得模糊，别混为一谈。
-- 取证脚本（可复跑）：`D:\tdsh\炉石传说\_probe_pi_session_keys.cjs`。
+- 取证脚本（可复跑）：`D:\tdsh\炉石传说\_probe_pi_session_keys.cjs`、`_verify_telemetry_live.cjs`。
