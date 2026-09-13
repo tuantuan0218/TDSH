@@ -27,18 +27,50 @@ base_url = https://open.bigmodel.cn/api/paas/v4
 > 这也解释了它为何 `last_used_at` 为 NULL：**没有 base_url → 从未被派出**，
 > 但即使补上 base_url，它也会因余额不足而失败（402/429）。
 
-## 二、另外 3 个：未能确定归属
+## 二、另外 3 个：未能确定归属（含一次被正负对照救回的误判）
 
-用同样方法（带 key vs 不带 key 对照）测试候选端点：
+### 2.1 #8 amd-radeon —— ⚠️ 一个差点写错结论的案例（值得记录）
 
-| 账号 | key 前缀 | 测试端点 | 结果 | 判定 |
-|---|---|---|---|---|
-| **#2 kimi2-hello4am** | `sk-dd23…`（67位） | `api.moonshot.cn/v1` | 带 key **401 Invalid Authentication** | ❌ 非 Moonshot |
-| **#5 infer** | `sk-900e…`（67位） | `api.deepseek.com/v1` | 带 key **401 api key is invalid** | ❌ 非 DeepSeek |
-| **#8 amd-radeon** | `rc-…`（51位） | 多个 AMD 域名 | 均 `000`/`404`（域名不存在或不可达） | ❓ 未定位 |
+**第一轮试探**：`api.novita.ai/v3/openai/models` 返回 **200**，而其它候选全 401。
+→ 差点得出"**#8 是 Novita 的号**"。
 
-**诚实标注**：这 3 个的归属**我无法确定**。
-`sk-` 前缀是通用格式，指向不明；AMD 的推理服务域名我没有找到有效候选。
+**但做了正负对照后，这个结论被推翻**：
+
+| 测试 | 结果 |
+|---|---|
+| with-key `/models` | **200** |
+| **no-key** `/models` | **200**（一模一样） |
+| **bogus-key** `/models` | **200**（一模一样） |
+
+**三者完全相同** → **Novita 的 `/models` 对所有人开放**，
+那个 200 **与 key 无关**，完全不能作为证据。
+
+**改测 chat 端点（真正需要鉴权的接口）**：
+
+| 测试 | 结果 | 判定 |
+|---|---|---|
+| with-key chat | **401 FAILED_TO_AUTH** | — |
+| no-key chat | 403 INVALID_API_KEY | — |
+| **bogus** chat | **401 FAILED_TO_AUTH**（与真 key **完全相同**） | ❌ **#8 的 key 不是 Novita 的** |
+
+**结论**：#8 归属**仍未确定**。
+
+> 📌 **方法论**：`/models` 端点常对匿名开放（本会话已知 pollinations/xzt/novita 等皆如此）。
+> **用开放端点验 key = 无效证据。** 必须测 **chat**（真正鉴权的那一层），
+> 且必须带 **bogus-key 对照** —— 若真 key 与乱码 key 行为相同，说明 key 没被"识别"。
+
+### 2.2 其余候选（全部被拒或无信号）
+
+| 账号 | key 前缀 | 测试端点 | 结果 |
+|---|---|---|---|
+| **#2 kimi2-hello4am** | `sk-dd23…` | Moonshot(\.cn/\.ai)、SiliconFlow、百川、阶跃、DashScope | 全 **401**（零一万物 410） |
+| **#5 infer** | `sk-900e…` | Moonshot、智谱、MiniMax、火山方舟 | 全 **401** |
+| **#8 amd-radeon** | `rc-…` | Fireworks、Together、DeepInfra、Novita 等 10+ | 全 401/404 |
+
+**诚实结论**：这 3 个的归属**我无法确定**。
+- `sk-` 前缀是通用格式，厂商不可辨
+- `rc-` 前缀我未找到对应厂商
+- 也可能这些 key **已失效**（无论指向哪里都认证不过）
 
 ## 三、由此得出的处置建议（分两类）
 
