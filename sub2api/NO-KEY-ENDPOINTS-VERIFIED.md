@@ -5,14 +5,20 @@
 
 ## 一、结论（一句话）
 
-**能真正"零门槛免 key 出词"的，实测只有 1 个：Pollinations。**
+**能真正"零门槛免 key 出词"的，实测有 2 个：Pollinations 与 ai-api.xzt.plus。**
 其余知名端点（OpenRouter / Groq / Cerebras / Together / Mistral / NVIDIA / HF）**全部需要 key**。
+
+> ⚠️ **2026-09-13 深夜更新（第二轮复扫）**：新增发现 **`https://ai-api.xzt.plus/v1`** —— 免 key
+> 提供 24 个模型，其中 **6 个实测真出词**（含 DeepSeek-V3.2、nemotron-3-ultra、gemma-4-31b-it），
+> 且同一模型连测 3 次稳定通过。详见第三节。
 
 ## 二、实测矩阵（2026-09-13，本机 curl.exe）
 
 | 端点 | 实测结果 | 判定 |
 |---|---|---|
 | **`https://text.pollinations.ai/openai`** | **HTTP 200，真出词 `PONG`** | ✅ **免 key 可用** |
+| **`https://ai-api.xzt.plus/v1/chat/completions`** | **HTTP 200，真出词 `PONG`（6/10 模型可用、单模型 3/3 稳定）** | ✅ **免 key 可用** |
+| `https://bazaarlink.ai/api/v1/chat/completions` | HTTP 401 `Missing API key. Use: Bearer sk-bl-...` | ❌ 需 key（models 免 key 可列） |
 | `https://openrouter.ai/api/v1/chat/completions` | HTTP 401 `No cookie auth credentials found` | ❌ 需 key |
 | `https://api.groq.com/openai/v1/chat/completions` | HTTP 403 `Forbidden` | ❌ 需 key |
 | `https://api.cerebras.ai/v1/chat/completions` | HTML 拦截页（非 JSON） | ❌ 需 key |
@@ -22,10 +28,13 @@
 | `https://router.huggingface.co/v1/chat/completions` | 返回 HTML（登录页） | ❌ 需 key |
 | `https://duckduckgo.com/duckchat/v1/chat` | HTTP 418 `ERR_CHALLENGE` | ❌ 有人机挑战 |
 | `https://playground.ai.cloudflare.com/api/inference` | HTTP 404 | ❌ 端点不存在 |
+| `https://free.empero.org/v1` | HTTP 503 `maintenance`（站点根 200，服务活着） | ⏳ 维护中，**可能复活** |
 
-**阳性对照**：Pollinations 出词 `PONG` → 证明探测链路正常，"其余全需 key"是真结论而非假阴性。
+**阳性对照**：Pollinations 与 xzt 均出词 `PONG` → 证明探测链路正常，"其余全需 key"是真结论而非假阴性。
 
-## 三、唯一可用项详解：Pollinations
+## 三、免 key 可用项详解
+
+### 3.1 Pollinations（GPT-OSS 20B）
 
 ```
 Base URL : https://text.pollinations.ai/openai
@@ -36,14 +45,55 @@ Key      : 不需要（任意值即可）
 层级     : 官方 catalog 标注 tier="anonymous"
 ```
 
-### 实测细节
+### 3.2 ai-api.xzt.plus ★ 新发现（24 模型 / 6 个实测可用）
+
+```
+Base URL : https://ai-api.xzt.plus/v1
+Key      : 不需要（实测空 Authorization 直接 200）
+身份     : "AI Proxy — OpenAI 兼容的 AI 代理服务：多 Provider 路由"
+模型目录 : GET /v1/models 免 key 返回 24 个模型
+```
+
+**免 key 出词实测结果（2026-09-13）**：
+
+| 模型 | 结果 |
+|---|---|
+| `deepseek-ai/DeepSeek-V3.2` | ✅ 出词（**连测 3/3 稳定**） |
+| `nemotron-3-ultra` | ✅ 出词 |
+| `nemotron-3-super` | ✅ 出词 |
+| `gemma-4-31b-it` | ✅ 出词 |
+| `Qwen/Qwen3-8B` | ✅ 出词 |
+| `kilo-auto/free` | ✅ 出词 |
+| `gpt-oss-20b` | ❌ HTTP 200 但无正文 |
+| `openrouter/free` | ❌ HTTP 200 但无正文 |
+| `step-3.7-flash` | ❌ HTTP 403 |
+| `deepseek-ai/DeepSeek-R1-0528-Qwen3-8B` | ❌ HTTP 403 |
+
+**其余 14 个模型未逐一实测**（`agnes-2.5-flash`、`muse-glimmer-30b`、`nemotron-3.5-lightning-30b-a3b`、
+`Qwen/Qwen3.5-4B/9B`、`THUDM/GLM-Z1-9B-0414`、`tencent/Hunyuan-MT-7B`、`PaddlePaddle/PaddleOCR-VL-1.5`、
+`deepseek-ai/DeepSeek-OCR`、`diffusiongemma-26b-a4b-it`、`ising-calibration-1.5-31b`、
+`nemotron-3-nano-omni-30b-a3b-reasoning`、`step-3.5-flash` 等）。
+
+直接调用：
+
+```bash
+curl -s https://ai-api.xzt.plus/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{"model":"deepseek-ai/DeepSeek-V3.2","messages":[{"role":"user","content":"hi"}],"max_tokens":64}'
+```
+
+> ⚠️ **性质提醒**：这是第三方聚合代理（非官方厂商直连）。虽实测免 key 可用，
+> 但**不保证长期稳定、不保证无日志留存**。建议只用于原型/测试，勿传敏感数据；
+> 已纳入本机监控，失效会告警。
+
+### 3.3 实测细节（Pollinations）
 
 - `GET https://text.pollinations.ai/models` 返回该端点**当前可用模型目录**（带 `tier` 字段）。
 - **当前只开放 1 个模型**：`openai-fast`（即 gpt-oss-20b 推理模型）。
 - 实测以下模型名均 **HTTP 404**（已下线/仅注册用户）：`mistral`、`qwen-coder`、`llama-fast-roblox`、`deepseek-reasoning`。
 - 出词带 `reasoning` 字段 → 该模型会先输出推理过程，`max_tokens` 给小了可能拿不到正文。
 
-### 直接调用
+### 3.4 Pollinations 直接调用
 
 ```bash
 curl -s https://text.pollinations.ai/openai \
