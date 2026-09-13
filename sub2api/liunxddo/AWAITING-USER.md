@@ -9,9 +9,10 @@
 |---|------|---------|----------------------|
 | 1 | hub.linux.do | linux.do 账号 → Connect 登录 hub.linux.do → 创建 API key | `$env:SF_NAME=...; node add-free-api-pool.mjs` |
 | 2 | NVIDIA NIM | build.nvidia.com 免费注册 → Get API Key (nvapi-) | `node liunxddo\add-nvidia-nim-pool.mjs` |
-| 3 | ModelScope | modelscope.cn 注册 → 创建 token | `node add-free-api-pool.mjs` |
-| 4 | 火山方舟 / 七牛 | volcengine / qiniu 注册领取免费额度 | 同上模板 |
-| 5 | DeepLX 翻译 | connect.linux.do 领取 DeepLX Api Key | 翻译类另行评估 |
+| 3 | **FreeModel.dev** | freemodel.dev 注册（送 $100-300）→ Dashboard 生成 key | `node add-free-api-pool.mjs`（见 RUNBOOK §3） |
+| 4 | ModelScope | modelscope.cn 注册 → 创建 token | `node add-free-api-pool.mjs` |
+| 5 | 火山方舟 / 七牛 | volcengine / qiniu 注册领取免费额度 | 同上模板 |
+| 6 | DeepLX 翻译 | connect.linux.do 领取 DeepLX Api Key | 翻译类另行评估 |
 
 ## 2. CF Worker 免费绘图部署（代码+文档已就绪）
 

@@ -11,11 +11,12 @@
 |---|------|-------------|--------|---------|
 | 1 | hub.linux.do | 有 linux.do 账号即可 | 闲置置换 credits | ✅ /models 401（需 key 正常） |
 | 2 | NVIDIA NIM | build.nvidia.com 免费注册 | 模型多 rpm 40 | ✅ /models 匿名 200 列出 82 模型 |
-| 3 | DeepLX 翻译 | linux.do Connect 领取 | 免费翻译 | ✅ 端点活（错误 key 401） |
-| 4 | ModelScope | modelscope.cn 注册 | 2000 次/天 | 待测（无 token） |
-| 5 | 火山方舟 | volcengine.com 注册 | 每模型 250w token/天 | 待测 |
-| 6 | 七牛 AI | qiniu.com 领取资源包 | 300w token/年 | 待测 |
-| 7 | oaipro / WONG | 站点注册送额度 | 不定 | ✅ 端点活（401 需 key） |
+| 3 | **FreeModel.dev** | 官网注册（送 $100-300） | GPT-5.x 前沿模型 | ✅ /models 匿名 200 列 7 模型（chat 需 key） |
+| 4 | DeepLX 翻译 | linux.do Connect 领取 | 免费翻译 | ✅ 端点活（错误 key 401） |
+| 5 | ModelScope | modelscope.cn 注册 | 2000 次/天 | 待测（无 token） |
+| 6 | 火山方舟 | volcengine.com 注册 | 每模型 250w token/天 | 待测 |
+| 7 | 七牛 AI | qiniu.com 领取资源包 | 300w token/年 | 待测 |
+| 8 | oaipro / WONG | 站点注册送额度 | 不定 | ✅ 端点活（401 需 key） |
 
 ## 1. hub.linux.do（Linux DO 官方闲置 API 置换公益站）⭐最优先
 
@@ -51,7 +52,26 @@
   ```
 - ⚠️ 免费档 rpm 40 硬限：concurrency 1 必须，绝不升权（脚本已内置）。
 
-## 3. DeepLX 免费翻译（linux.do Connect）
+## 3. FreeModel.dev（GPT-5.x 前沿模型，第二候选）⭐
+
+- **流程**：
+  1. https://freemodel.dev 注册（可走公开邀请链，无信用卡）→ 送 $100-300 额度
+  2. Dashboard → 生成 API key（注册返利机制存在，非纯公益但免费额度大）
+- **端点**：`https://api.freemodel.dev/v1`（也可用 `https://freemodel.dev/v1`）
+- **实测（2026-09-13）**：`/v1/models` **匿名 200** 可列 7 个模型：
+  `gpt-5.6-sol` / `gpt-5.6-terra` / `gpt-5.6-luna` / `gpt-5.5` / `gpt-5.4` /
+  `gpt-5.4-mini` / `gpt-5.3-codex`（全前沿 GPT-5.x）；chat 匿名 401/403/404
+  （18 变体路径探测无 keyless）→ **需 key**
+- **验证**：`curl https://api.freemodel.dev/v1/models -H "Authorization: Bearer <key>"` 应 200
+- **入池**：
+  ```powershell
+  $env:SF_NAME="freemodel"; $env:SF_BASE="https://api.freemodel.dev/v1"
+  $env:SF_KEY="<key>"; $env:SF_MODELS='{"Tuan":"gpt-5.4-mini"}'
+  node add-free-api-pool.mjs
+  ```
+- ⚠️ 注册送额度是一次性；有邀请返利，注意平台条款；免费档同样 prio 90/concurrency 1。
+
+## 4. DeepLX 免费翻译（linux.do Connect）
 
 - **流程**：
   1. 需 linux.do 账号 → https://connect.linux.do 登录
