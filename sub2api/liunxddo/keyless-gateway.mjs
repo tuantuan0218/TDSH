@@ -16,6 +16,11 @@ import https from 'node:https';
 
 const PORT = Number(process.argv[2] || process.env.PORT || 8787);
 const TIMEOUT = 12000;
+const CACHE_TTL = 60_000; // 缓存 60s
+const CACHE = new Map();
+const RATE = { limit: 30, count: {} }; // 每 IP 每 10s 窗口 30 次
+setInterval(() => { RATE.count = {}; }, 10_000); // 定期清限流窗口
+if (CACHE.size > 500) CACHE.clear(); // 防缓存无限增长
 
 // 上游源定义（name -> 请求配置；headers 可选，transform 可选）
 const SOURCES = {
@@ -160,6 +165,18 @@ const server = http.createServer(async (req, res) => {
   const path = url.pathname;
   const cors = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8' };
 
+  // 简单限流：每 IP 每 10s 窗口最多 30 次请求（防误刷，非精确）
+  const ip = req.socket.remoteAddress || 'unknown';
+  const now = Date.now();
+  const win = Math.floor(now / 10000);
+  const rlKey = `${ip}:${win}`;
+  RATE.count[rlKey] = (RATE.count[rlKey] || 0) + 1;
+  if (RATE.count[rlKey] > RATE.limit) {
+    res.writeHead(429, cors);
+    res.end(JSON.stringify({ error: 'rate limited', retry_after_seconds: 10 }));
+    return;
+  }
+
   try {
     // 健康检查：并发探所有源
     if (path === '/health') {
@@ -183,14 +200,24 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ error: 'unknown source', available: Object.keys(SOURCES) }));
         return;
       }
+      // 缓存：TTL 60s，命中直接返回（对不稳定源降抖；qrcode 图片不缓存避免陈旧）
+      const cacheKey = `${m[1]}:${url.search}`;
+      const cached = CACHE.get(cacheKey);
+      if (cached && Date.now() - cached.ts < CACHE_TTL && m[1] !== 'qrcode') {
+        res.writeHead(200, { 'Content-Type': cached.ct || 'application/json; charset=utf-8', 'X-Cache': 'HIT' });
+        res.end(cached.body);
+        return;
+      }
       try {
         const r = await fetchUrl(hit.url);
         if (hit.raw) { res.writeHead(r.status, { 'Content-Type': r.headers['content-type'] || 'application/json' }); res.end(r.data); return; }
-        res.writeHead(r.status, cors);
+        CACHE.set(cacheKey, { body: r.data, ct: r.headers['content-type'] || 'application/json; charset=utf-8', ts: Date.now() });
+        res.writeHead(r.status, { ...cors, 'X-Cache': 'MISS' });
         res.end(r.data);
       } catch (e) {
+        // 优雅错误：含 source 名 + 降级提示
         res.writeHead(502, cors);
-        res.end(JSON.stringify({ error: 'upstream error', message: e.message }));
+        res.end(JSON.stringify({ error: 'upstream error', source: m[1], message: e.message, hint: '可稍后重试或换其它源（/health 看状态）' }));
       }
       return;
     }
