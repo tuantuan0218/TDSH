@@ -58,6 +58,37 @@ console.log('  ④故障锚(逐张点币未落地) 本窗: ' + cnt(/逐张点币
 console.log('  ④落地确认 ' + cnt(/逐张点币落地确认/) + ' | 链式跳费达成 ' + cnt(/链式跳费达成/));
 console.log('  rotator 最后 row applied: ' + lastRot + ' | 最后局终: ' + (lastEnd ? lastEnd.slice(11, 19) : '无'));
 
+// 3b) m2v198.3 停滞复发探针（19:07 新增，12:17/18:41 旧案同族）：rotator 静默=停滞
+// 判据=最后一个 rotator 动作（row applied/armed/重进/顺延/进局确认/拆销）距今 >15min → 🚨 停滞
+const rotActs = seg.filter(l => /【GOV5】/.test(l));
+const lastRotAct = rotActs.length ? rotActs[rotActs.length - 1].slice(11, 19) : '无';
+const lastRotTs = rotActs.length ? new Date(rotActs[rotActs.length - 1].slice(0, 19).replace(' ', 'T')).getTime() : 0;
+const now = Date.now();
+const rotIdleMin = lastRotTs ? Math.round((now - lastRotTs) / 60000) : -1;
+console.log('  🚨停滞探针: 最后 GOV5 动作 ' + lastRotAct + ' 距今 ' + (rotIdleMin >= 0 ? rotIdleMin + 'min' : 'N/A') + (rotIdleMin > 15 ? ' → ⚠️ 停滞（>15min 无 rotator 活动，HS 可能卡非冒险界面）' : ' → 正常'));
+// 双活探针（powershell 简查，引号已规避嵌套）
+const hsAlive = (() => { try { const c = require('child_process'); return c.execSync("powershell -NoProfile -Command \"Get-Process Hearthstone -ErrorAction SilentlyContinue | Measure-Object | Select-Object -ExpandProperty Count\"", {encoding:'utf8'}).trim() === '1' ? '活' : '死'; } catch(e) { return '查失败'; } })();
+const jaAlive = (() => { try { const c = require('child_process'); return c.execSync("powershell -NoProfile -Command \"@(Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'java|javaw' }).Count\"", {encoding:'utf8'}).trim() === '1' ? '活' : '死'; } catch(e) { return '查失败'; } })();
+console.log('  双活: HS=' + hsAlive + ' | java=' + jaAlive + (hsAlive==='死'||jaAlive==='死' ? ' → ⚠️ 缺活' : ' → 正常'));
+
+// 3c) 绿态门探针（m2v198+ 在役）：判定量/绿占比 + 熔断同型率（非绿+穷尽自门→空转）
+const gateLines = seg.filter(l => /按钮绿态判定/.test(l));
+if (gateLines.length) {
+  const gv = gateLines.filter(l => /绿\(穷尽/.test(l)).length;
+  const nv = gateLines.filter(l => /非绿/.test(l)).length;
+  console.log('  绿态门: 判定 ' + gateLines.length + '（绿=' + gv + ' 非绿=' + nv + ' 绿占比 ' + (gv + nv ? (gv / (gv + nv) * 100).toFixed(1) : 0) + '%）| FrameReader=' + (seg.some(l => /FrameReader initialized/.test(l)) ? '✅在线' : '未见'));
+  const melts = seg.filter(l => /超时熔断/.test(l));
+  let sameType = 0;
+  for (const m of melts) {
+    const i = seg.indexOf(m);
+    const pre = seg.slice(Math.max(0, i - 8), i).join('\n');
+    if (/非绿\(尚有动作\)/.test(pre) && /穷尽自门/.test(pre)) sameType++;
+  }
+  if (melts.length) console.log('  熔断同型（非绿+穷尽自门→空转）: ' + sameType + '/' + melts.length + (sameType === melts.length && melts.length >= 2 ? ' → ⚠️ 半落地剔除集待裁（已报 god）' : ''));
+} else {
+  console.log('  绿态门: 本窗无判定行（门未启用或版本 < m2v198）');
+}
+
 // 4) t-151 解锁探测（Ryan 会话是否产出非 budget 内容）
 try {
   const RS = 'D:/MunderDifflin/hive/agents/ryan-mtvy0jjp/.pi-agent/sessions';
