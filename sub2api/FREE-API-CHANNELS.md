@@ -3,6 +3,12 @@
 **职责**：往 Tuan 池里丢免费 API（只新增账号/映射，不碰已有账号调度）。
 **教训铁律**：免费≠无限——所有免费档都有额度/速率上限，用尽即 402/429（SiliconFlow 先例），
 入池一律 prio 90 兜底位 + concurrency 1 + error_rate 自动避让，绝不升为主力。
+**⚠️ 2026-09-13 配置语义两条实证修正**：
+1. **网关按精确模型名匹配 model_mapping**：外部（DSH）只发 `model=Tuan`；往映射里加
+   `Tuan-xxx` 别名键**无效**——网关路由表不认未注册名，直接 502 且不进 usage_logs。
+   正确做法：一账号一 `Tuan→上游模型`；要换免费模型就改该账号 Tuan 键的目标值（动前问用户）。
+2. **priority 现状=1-19 连续自动位**（新账号递增，非 90 兜底制；本会话曾把 19 号设 90 又被
+   并发体系重排回 14）。以当先调度约定为准，不擅动 priority（"一切按照配置来"）。
 **2026-09-13 补充：linux.do（liunxddo）公益 API 收集完成**，详见 `liunxddo/LINUXDO-PUBLIC-API-COLLECTION.md`。
 结论：官方公益中转 hub.linux.do 需 linux.do Connect 登录领 key；NVIDIA NIM 免费模型最多
 （82 模型 /models 匿名 200，chat 需 key）；候选均需用户注册 key 后走 add-free-api-pool.mjs 入池。
