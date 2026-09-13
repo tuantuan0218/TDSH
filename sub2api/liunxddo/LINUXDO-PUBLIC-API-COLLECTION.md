@@ -56,6 +56,14 @@
   80aj 报道在案：OpenAI 兼容支持 GPT/Grok，邀请码+签到，招募捐赠 Key；
   **受限项：需邀请码/linux.do 账号**
 - **GG_API**（2026-07）：非商业个人项目，每日 5000 刀共享额度；接入 LINUX DO；详见 80aj 报道
+- **picpi 皮皮工艺站**（2026-04 起，linux.do 福利羊毛板块）：主力模型 OpenAI Codex，
+  小规模开放+邀请码/CDK 制（4/14 定时抢、520 狂欢放码）；曾"共享 sub2api 自给自足"；
+  原帖已失效（私密），报道源 tcti.cn 被 CF 挡——仅记录存在性与形态
+- **FreeModel.dev**（2026-05/06 热）：OpenAI 兼容聚合，注册送 $100（部分渠道 $300）
+  额度，支持 Claude Code / Codex / Cline / Cursor；模型含 Claude Opus 4.8/gpt-5.5 等前沿
+  模型路由；**非纯公益（有邀请返利机制），但免费额度大，可作候选**（实测待补，80aj 有实测帖）
+- **Zero Bug 公益站**（福利羊毛板块提及）：免费 API + 沉浸式翻译/嵌入/重排序，开放注册
+  （搜索见 80aj/linux.do 提及，细节待补）
 - 共性判断：2026 新站全部走 **LINUX DO Connect 鉴权 + 签到/积分兑换** 模式（防滥用），
   全部需 linux.do 账号才能领额度 → **受限项**（同 hub.linux.do 处理，有账号即领）
 - 与 hub.linux.do（闲置置换 marketplace）相比：V-API/魔方/汐洛是"聚合公共号池"型，
