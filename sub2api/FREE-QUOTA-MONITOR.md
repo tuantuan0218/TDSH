@@ -1,12 +1,8 @@
 # 免费额度监控告警
-> 生成 2026-09-13T20:23:17.518Z（fixtures 模式） · 公益站 6 · 码批次 10 · 阳性对照 OK
+> 生成 2026-09-13T20:59:36.983Z（fixtures 模式） · 公益站 6 · 码批次 10 · 阳性对照 OK
 
 ## 与上轮 diff
-💬 linux.do 新帖: 要跟L站说再见了 准备告别l站三个月了， 研究生考试只剩不到100天。 其实加入时间不久，但是很快就对l站有了归属感，可能是因为来了之后真的被佬友帮到很多，一开始是因为any站知道
-💬 linux.do 新帖: 最新话题 - 2026年9月13日21:01摘要 (近3小时) 本期RSS内容聚焦AI模型“降智”现象、订阅服务稳定性、开源工具发展及海外技术从业者动态。 AI模型性能与“降智”问
-💬 linux.do 新帖: 【松贝公益站】：松贝生图 （主贴） **本帖使用社区公益推广，符合推广要求。我申明并遵循社区要求的以下内容：** * **我的项目是免费使用的，无收费（变相收费、赞助）部分：** 
-💬 linux.do 新帖: 某些事情从未改变 在另一个话题中 但是在他们眼里，中国（当然还有一些国家）似乎不在这个“世界”的范围之内。他们阻止中国的IP访问、阻止中国的手机号注册、阻止中国的银行卡支付，甚至阻
-💬 linux.do 新帖: 这是一个花了 100+ 亿 token 做的量化选股和行情分析系统，又进化了 本帖使用社区公益推广，符合推广要求。我申明并遵循社区要求的以下内容： ● 我的项目是免费使用的，无收费
+（无变化）
 
 ## 当前公益中转站快照
 - Agent Router `agentrouter.org` 模型3 可用率100% 评分96 check-in/daily:随机
@@ -28,9 +24,9 @@
 - LV Ping · LV Ping 兑换码 → **$20 体验额度** 余 8（17天 14:52:27）
 ## 匿名实测（两级门：models 可见 / chat 真出词）
 - [阳性对照] `https://text.pollinations.ai/openai` models:200(1) chat:200 → **POOLABLE 出词="PONG"**
-- [阳性对照] `https://ai-api.xzt.plus/v1` models:0 chat:0 → **不可用** models:TypeError: fetch failed
-- [负对照] `https://free.suyu.io/v1` models:0 chat:0 → **不可用** models:TypeError: fetch failed
-- Agent Router `https://agentrouter.org/v1` models:0 chat:0 → **不可用** models:TypeError: fetch failed
+- [阳性对照] `https://ai-api.xzt.plus/v1` models:200(24) chat:200 → **POOLABLE 出词="PONG"**
+- [负对照] `https://free.suyu.io/v1` models:200(9) chat:401 → **仅清单开放**
+- Agent Router `https://agentrouter.org/v1` models:401 chat:401 → **不可用**
 - Any Router `https://anyrouter.top/v1` models:0 chat:0 → **不可用** models:TypeError: fetch failed
 - GoRouter `https://gorouter.app/v1` models:0 chat:0 → **不可用** models:TypeError: fetch failed
 - JustDoWork `https://api.justwoker.icu/v1` models:0 chat:0 → **不可用** models:TypeError: fetch failed
