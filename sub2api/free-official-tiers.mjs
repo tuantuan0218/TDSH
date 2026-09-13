@@ -146,16 +146,39 @@ export function buildAlerts({ stale, generatedAt, hasPrev, orOk, orStale, freeMo
 
 /* ---------------- 抓取 ---------------- */
 
+/**
+ * 带重试的 JSON 抓取。
+ *
+ * ★ 2026-09-13 加固（本会话多次踩到瞬时网络故障）：
+ *   本会话观察到至少 3 次瞬时网络抖动：
+ *     · 监控轮四个源同时 `fetch failed`（几分钟后复测全部 200）
+ *     · git push 出现 `schannel: SSL/TLS handshake failed`，重试即成功
+ *   而原实现是**单次抓取** → 一次抖动就会让整轮判定为"源不可达"。
+ *   ⇒ 改为最多 RETRY 次尝试（默认 3），间隔递增；全部失败才报错。
+ */
+const FETCH_RETRY = Number(process.env.FOT_FETCH_RETRY || 3);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 async function fetchJson(url) {
-  const ctrl = new AbortController();
-  const tm = setTimeout(() => ctrl.abort(), 30000);
-  try {
-    const res = await fetch(url, { headers: { 'user-agent': UA, accept: 'application/json' }, redirect: 'follow', signal: ctrl.signal });
-    if (!res.ok) return { err: `HTTP ${res.status}`, json: null };
-    return { err: null, json: await res.json() };
-  } catch (e) {
-    return { err: String(e).slice(0, 140), json: null };
-  } finally { clearTimeout(tm); }
+  let lastErr = '';
+  for (let attempt = 1; attempt <= FETCH_RETRY; attempt++) {
+    const ctrl = new AbortController();
+    const tm = setTimeout(() => ctrl.abort(), 30000);
+    try {
+      const res = await fetch(url, { headers: { 'user-agent': UA, accept: 'application/json' }, redirect: 'follow', signal: ctrl.signal });
+      if (!res.ok) {
+        lastErr = `HTTP ${res.status}`;
+        // 4xx 属确定性拒绝，重试无意义
+        if (res.status >= 400 && res.status < 500) return { err: lastErr, json: null, attempts: attempt };
+      } else {
+        return { err: null, json: await res.json(), attempts: attempt };
+      }
+    } catch (e) {
+      lastErr = String(e).slice(0, 140);
+    } finally { clearTimeout(tm); }
+    if (attempt < FETCH_RETRY) await sleep(800 * attempt);   // 递增退避
+  }
+  return { err: `${lastErr}（重试 ${FETCH_RETRY} 次后仍失败）`, json: null, attempts: FETCH_RETRY };
 }
 
 /* ---------------- 新鲜数据源：OpenRouter 实时模型目录 ----------------
@@ -321,6 +344,10 @@ async function main(argv) {
 // 源不可达：沿用 last-good，绝不把空数据写成"全部厂商下架"
 const latestPath = SNAPDIR + 'snapshot-latest.json';
 const prev = existsSync(latestPath) ? JSON.parse(readFileSync(latestPath, 'utf8')) : null;
+
+// 抓取抖动提示：重试后才成功 → 说明源不稳定（但不影响本轮结论）
+const flakySources = [];
+if (!or.err && or.attempts > 1) flakySources.push(`OpenRouter(第${or.attempts}次成功)`);
 
 if (err || !json || !Array.isArray(json.providers) || !json.providers.length) {
   console.log(`⚠️ 源不可达或结构异常：${err || 'providers 为空'} → 沿用 last-good，不覆写快照`);
