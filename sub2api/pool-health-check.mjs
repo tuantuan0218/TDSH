@@ -115,6 +115,28 @@ const log = (s) => { console.log(s); sections.push(s); };
 log(`池只读巡检 · 时间窗 ${HOURS}h · ${new Date().toISOString()}`);
 log('='.repeat(72));
 
+/* ---------- 0. 环境连通性（网关 + 管理 API + Redis）----------
+ * 2026-09-13 发现网关暴露官方管理 API（/api/v1/admin/*，401=存在需鉴权）。
+ * 这里做**只读探测**：确认端点存在性，便于日后用官方接口替代裸 SQL 改池。
+ * ⚠️ 不尝试登录、不提交任何凭据。
+ */
+{
+  const probe = (url) => {
+    try {
+      const out = execFileSync('bash', ['-c',
+        `ssh -o BatchMode=yes -o ConnectTimeout=8 -i "$HOME/.ssh/id_ed25519" ${SSH_HOST} "curl -s -o /dev/null -w '%{http_code}' -m 6 ${url}"`],
+        { encoding: 'utf8', timeout: 30000 });
+      return out.trim();
+    } catch { return 'ERR'; }
+  };
+  const gw = probe('http://127.0.0.1:8090/healthz');
+  const adminAcc = probe('http://127.0.0.1:8090/api/v1/admin/accounts');
+  log(`\n## 0. 环境连通性`);
+  log(`  网关 /healthz           : ${gw === '200' ? '✅ 200' : '⚠️ ' + gw}`);
+  log(`  管理 API /admin/accounts: ${adminAcc === '401' ? '✅ 401（存在，需鉴权）' : adminAcc === '404' ? '❌ 404（不存在）' : '⚠️ ' + adminAcc}`);
+  if (adminAcc === '401') log('  > 官方管理 API 可用（需凭据）→ 改池应优先走它（自动纳管调度、可审计），而非裸 SQL');
+}
+
 /* ---------- 1. 总览 ---------- */
 {
   const sql = `SELECT

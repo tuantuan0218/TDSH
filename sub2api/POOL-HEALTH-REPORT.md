@@ -1,5 +1,10 @@
-池只读巡检 · 时间窗 12h · 2026-09-13T21:33:31.098Z
+池只读巡检 · 时间窗 12h · 2026-09-13T21:42:42.991Z
 ========================================================================
+
+## 0. 环境连通性
+  网关 /healthz           : ✅ 200
+  管理 API /admin/accounts: ✅ 401（存在，需鉴权）
+  > 官方管理 API 可用（需凭据）→ 改池应优先走它（自动纳管调度、可审计），而非裸 SQL
 
 ## 1. 总览
 账号总数 37 · active+schedulable 32 · error 状态 5 · 曾限流 10
@@ -7,22 +12,22 @@
 ## 2. 账号健康（按 12h 调用量降序）
  id | name                 | status | sched | prio | conc | reqs | rate_limited
 ----+----------------------+--------+-------+------+------+------+-------------
-  1 | yunshu-relay         | active | t     |    1 |    5 | 3067 | 2026-09-13 23:34:59
- 15 | yunshu-tdsh          | active | t     |    2 |    3 | 2415 | 2026-09-14 01:33:08
- 10 | bai1-glm             | active | t     |    4 |    3 | 1740 | -
- 11 | baiqwen              | active | t     |    5 |    3 | 1643 | -
+  1 | yunshu-relay         | active | t     |    1 |    5 | 3038 | 2026-09-13 23:34:59
+ 15 | yunshu-tdsh          | active | t     |    2 |    3 | 2382 | 2026-09-14 01:33:08
+ 10 | bai1-glm             | active | t     |    4 |    3 | 1764 | -
+ 11 | baiqwen              | active | t     |    5 |    3 | 1644 | -
   3 | agenes               | active | t     |    3 |    3 | 1135 | 2026-09-14 03:12:18
  13 | tele-muse            | active | t     |    6 |    3 | 1132 | 2026-09-14 02:35:00
  19 | hub-linuxdo          | active | t     |    7 |    1 |  200 | -
  12 | tokenrouter          | active | t     |    9 |    3 |  134 | 2026-09-14 01:29:31
- 16 | tele-qwen            | active | t     |    8 |    3 |  116 | -
+ 16 | tele-qwen            | active | t     |    8 |    3 |  108 | -
  23 | columbina-free-1     | active | t     |   10 |    1 |   32 | -
- 18 | pollinations-free    | error  | f     |   33 |    1 |   24 | -
  20 | columbina-free       | active | t     |   11 |    1 |   10 | 2026-09-14 04:24:05
  28 | columbina-free-6     | active | t     |   14 |    1 |    8 | -
  24 | columbina-free-3     | active | t     |   16 |    1 |    7 | 2026-09-14 04:59:15
  25 | columbina-free-4     | active | t     |   15 |    1 |    6 | -
  26 | columbina-free-5     | active | t     |   13 |    1 |    6 | -
+ 18 | pollinations-free    | error  | f     |   33 |    1 |    5 | -
   9 | aio-freeshare        | active | t     |   12 |    1 |    4 | 2026-09-13 19:57:24
  29 | columbina-free-7     | active | t     |   17 |    1 |    4 | -
  34 | columbina-free-10    | active | t     |   21 |    1 |    3 | -
@@ -47,10 +52,10 @@
 
 ## 3. 上游错误分布（12h）
   #  3 agenes               HTTP 400  × 399 
-  #  1 yunshu-relay         HTTP 502  × 272 🔴5xx
-  # 15 yunshu-tdsh          HTTP 502  × 163 🔴5xx
+  #  1 yunshu-relay         HTTP 502  × 269 🔴5xx
+  # 15 yunshu-tdsh          HTTP 502  × 162 🔴5xx
   #  1 yunshu-relay         HTTP 400  ×  39 
-  # 13 tele-muse            HTTP 400  ×  34 
+  # 13 tele-muse            HTTP 400  ×  30 
   # 15 yunshu-tdsh          HTTP 400  ×  28 
   # 12 tokenrouter          HTTP 503  ×  19 🔴5xx
   # 12 tokenrouter          HTTP 429  ×  17 ⛔限流
@@ -71,7 +76,7 @@
       24h 错误数: 0 · 最近上游码: - · 限流时刻: -
   #14 xiaoen  status=error schedulable=f
       错误信息: Access forbidden (403): token quota is not enough, token remain quota: ＄0.043250, need quo
-      24h 错误数: 2 · 最近上游码: 403 · 限流时刻: -
+      24h 错误数: 1 · 最近上游码: 403 · 限流时刻: -
   #17 siliconflow-free  status=error schedulable=t
       错误信息: Payment required (402): Sorry, your account balance is insufficient
       24h 错误数: 0 · 最近上游码: - · 限流时刻: 2026-09-13 05:30:29.25201+08
@@ -79,14 +84,14 @@
       错误信息: pollinations free budget exhausted (785 requests today, returns 200+budget-error-text)
       24h 错误数: 5 · 最近上游码: 502 · 限流时刻: -
 
-## 5. 400 错误根因（共 528 条 · 客户端请求问题，非池故障）
-  B. 超上下文窗口                 403 条 (76.3%) · 涉及 1 个 key
-  A. 工具调用 name 为空            75 条 (14.2%) · 涉及 1 个 key
-  C. 请求体缺字段                  34 条 (6.4%) · 涉及 1 个 key
-  D. 其它                      15 条 (2.8%) · 涉及 1 个 key
+## 5. 400 错误根因（共 524 条 · 客户端请求问题，非池故障）
+  B. 超上下文窗口                 403 条 (76.9%) · 涉及 1 个 key
+  A. 工具调用 name 为空            75 条 (14.3%) · 涉及 1 个 key
+  C. 请求体缺字段                  30 条 (5.7%) · 涉及 1 个 key
+  D. 其它                      15 条 (2.9%) · 涉及 1 个 key
   A2. 工具调用缺 name              1 条 (0.2%) · 涉及 1 个 key
   ⚠️ 注意：D 类（其它）常含未归类的同因错误 —— 分类后**务必抽查 D 桶**，否则易把主因误判为杂项
-  error_owner 归属：provider=528
+  error_owner 归属：provider=524
   🔴 风险：上述 400 的成因多为**客户端**（超上下文/非法 tool_call），却全归为 provider ——
      若据 error_owner 做账号降权，会错误惩罚无辜上游账号。建议改为识别 400 语义后归 client。
 
@@ -103,7 +108,7 @@
   📊 排序影响：首个僵尸 priority=19，其名次之后仍有 **10 个可用账号**
   🛡 其中被系统自动屏蔽（temp_unschedulable/overload）的：0 个 → **系统未自动屏蔽，需人工处置**
 
-## 5c. 调度序列实况（key=sched:5:openai:forced:v1760，32 个成员）
+## 5c. 调度序列实况（key=sched:5:openai:forced:v1761，32 个成员）
   > score 即位次（0..N-1）；名字取自 DB
   位次 19 | #  7 glm-zhipu            ⚠️ **僵尸（无 base_url）**
   位次 20 | #  5 infer                ⚠️ **僵尸（无 base_url）**
@@ -125,7 +130,7 @@
     ⇒ 关键变量是**名次位置 × 上下文能力**的组合，不是单一账号属性。
 
 ## 6. 请求质量（12h）
-  成功 11693 · 400 528 · **成功率 95.68%**
+  成功 11630 · 400 524 · **成功率 95.69%**
 
 ========================================================================
 【如何读这份报告】
