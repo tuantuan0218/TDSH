@@ -144,3 +144,15 @@
   与 §8"hCaptcha 挡内容"一致。`api.lolimi.cn` fetch failed（DNS/连通）。
 - **角色声明**：本会话 role=资料整理（AGENTS §6），**不做注册/领码/入池等账号操作**；
   上述 key 领取入口（dash.llm7.io / GoAIHop / CUN.AI / 奶昔 SSO）全部列入 §9 受限项待用户点头。
+
+## 12. 第二轮补测（22:4x，只读）
+
+- **dash.llm7.io 任何路径**（`/`、`/api/keys`）→ 200 但 669 字节 SPA 空壳（前端渲染，需浏览器/登录态）。
+  → 领 key 入口确认存在但属账号操作，不碰。
+- **tokenra.io**：`tokenra.io/v1/models` → 401 new_api_error（New API 系，服务活，需 key）；
+  `api.` 子域 DNS 不通。Ox Alpha 系 TokenRa 聚合国产模（豆包/DS/Kimi/GLM），网页版可免费用，
+  API 需控制台建 key（受限项）。
+- **chutes.ai**：官网 200（去中心化 GPU 网关，注册即钱包）；`api.chutes.ai/v1/models` → nginx 404
+  （端点路径不同，需读其 auth 文档：API key 或 OAuth）。免费：每天 200 次试用（腾讯云文）。
+  → 注册领 key 后按其文档端点入池（受限项）。
+- **净结论不变**：仍无匿名可用新增；三家（llm7/tokenra/chutes）全部"注册领 key"制，已补入 §9 候选。
