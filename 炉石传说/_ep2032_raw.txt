@@ -1,0 +1,611 @@
+=== 20:32 episode 原始日志（DSH 提取给 Ryan reconcile 用）===
+窗口 20:30-20:34 全 945 行；下方为 20:31:30-20:33:10 关键窗 420 行
+
+2026-09-13 20:31:34.415 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【墓地】添加卡牌，entityId:94，entityName:，cardId:REV_505，size:2
+2026-09-13 20:31:35.725 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家1【团神血洗国服#5126】的【墓地】添加卡牌，entityId:33，entityName:女巫的学徒，cardId:CORE_GIL_531，size:7
+2026-09-13 20:31:35.731 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤结束
+2026-09-13 20:31:35.731 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-清除
+2026-09-13 20:31:35.731 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-下一步骤
+2026-09-13 20:31:35.731 [ListenLogPool Thread-3] [War.kt:41] INFO  团神血洗国服#5126 的回合
+2026-09-13 20:31:35.731 [ListenLogPool Thread-3] [Player.kt:42] INFO  playerId:1,gameId:团神血洗国服#5126
+2026-09-13 20:31:35.731 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-准备
+2026-09-13 20:31:35.732 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-触发
+2026-09-13 20:31:35.732 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤开始
+2026-09-13 20:31:35.732 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家1【团神血洗国服#5126】的【手牌区】添加卡牌，entityId:19，entityName:，cardId:CATA_190h，size:8
+2026-09-13 20:31:35.736 [ListenLogPool Thread-3] [ParsedCardActionFactory.kt:54] WARN  行为类-解析卡牌【灭世者死亡之翼:CATA_190h】失败
+2026-09-13 20:31:36.341 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-动作
+2026-09-13 20:31:36.342 [ListenLogPool Thread-3] [GameTurnPhaseStrategy.kt:34] INFO  我方回合
+2026-09-13 20:31:38.761 [fusion-governor] [GovernorThread.kt:123] INFO  【GOV】heartbeat (STUCK logic L1/L2)
+2026-09-13 20:31:41.345 [OutCard Thread] [DeckStrategyActuator.kt:154] INFO  执行出牌策略
+2026-09-13 20:31:41.345 [OutCard Thread] [DeckStrategyActuator.kt:158] INFO  回合开始可用水晶数：5
+2026-09-13 20:31:41.361 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=53）exec=[ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp, CORE_GIL_531] 拒=6 stale=false
+2026-09-13 20:31:41.364 [OutCard Thread] [DrawFixStrategy.kt:275] INFO  [DrawFix] 出牌排序（m2v194③大费优先·降序生效）: ETC_362(5)/2,CATA_563(3)/2,CATA_565(2)/2,GDB_451(2)/2
+2026-09-13 20:31:41.364 [OutCard Thread] [DrawFixStrategy.kt:293] INFO  [DrawFix] UNKNOWN 泛化归桶: ETC_362 → DIRECT（SDK actions=[无指向]+[] effect=UNKNOWN）
+2026-09-13 20:31:41.364 [OutCard Thread] [DrawFixStrategy.kt:416] INFO  [DrawFix] 出牌 eid:83 cardId:ETC_362 跳吧，虫子！ cost:5 parseFail=false dir=DIRECT
+2026-09-13 20:31:41.365 [OutCard Thread] [DrawFixStrategy.kt:1098] INFO  [DrawFix] 兜底点击手牌 ETC_362（跳吧，虫子！）index=1 rect=[-0.1746,0.4125,-0.1394,0.5]
+2026-09-13 20:31:42.917 [OutCard Thread] [DrawFixStrategy.kt:478] INFO  [DrawFix] eid:83 ETC_362 点击已发出→半落地（本回合不再重试，卡保留待销账；诊断=无费/满场判据，点击后未确认落地（动画/UI 阻塞？））
+2026-09-13 20:31:42.924 [OutCard Thread] [DrawFixStrategy.kt:507] INFO  [DrawFix] eid:83 ETC_362 半落地待销账（不拉黑，卡保留）
+2026-09-13 20:31:42.927 [OutCard Thread] [CardAction.kt:86] INFO  【12 | CORE_GIL_531 | 女巫的学徒】攻击【66 | HERO_08 | 吉安娜·普罗德摩尔】
+2026-09-13 20:31:45.497 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:47.758 [OutCard Thread] [DrawFixStrategy.kt:1305] INFO  [DrawFix] 半落地恢复 裸power: ETC_362 eid=83 issued=true
+2026-09-13 20:31:48.161 [OutCard Thread] [DrawFixStrategy.kt:1291] INFO  [DrawFix] 半落地恢复 裸power 未落地: eid=83 ETC_362 step=0 → 下轮再试（累计 1 次，m2v189 上限2）
+2026-09-13 20:31:48.178 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:48.178 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_568 eid:32 预算脱同步放行复核=同块 NONE（seq 286 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:31:48.189 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:48.195 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_563 eid:9 预算脱同步放行复核=同块 NONE（seq 286 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:31:48.205 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:48.205 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_565 eid:26 预算脱同步放行复核=同块 NONE（seq 286 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:31:48.217 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:48.235 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] GDB_451 eid:92 预算脱同步放行复核=同块 NONE（seq 286 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:31:48.383 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(180,159,58) region=959,277,96x32 click=1007,293 frame=1278x644
+2026-09-13 20:31:48.385 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:31:48.385 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:48.385 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:31:48.896 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:51.028 [OutCard Thread] [DrawFixStrategy.kt:1305] INFO  [DrawFix] 半落地恢复 裸power: ETC_362 eid=83 issued=true
+2026-09-13 20:31:51.431 [OutCard Thread] [DrawFixStrategy.kt:1291] INFO  [DrawFix] 半落地恢复 裸power 未落地: eid=83 ETC_362 step=1 → 下轮再试（累计 2 次，m2v189 上限2）
+2026-09-13 20:31:51.947 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:51.965 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:51.975 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:51.983 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.119 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(163,145,62) region=964,284,96x32 click=1012,300 frame=1278x644
+2026-09-13 20:31:52.120 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:31:52.121 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:52.121 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:31:52.630 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.640 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:31:52.649 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.662 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.680 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.690 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.704 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(158,143,65) region=973,275,96x32 click=1021,291 frame=1278x644
+2026-09-13 20:31:52.704 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:31:52.704 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:52.705 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:31:53.214 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.225 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:31:53.236 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.246 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.268 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.279 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.291 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(183,158,58) region=927,276,96x32 click=975,292 frame=1278x644
+2026-09-13 20:31:53.291 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:31:53.292 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:53.292 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:31:53.764 [fusion-governor] [GovernorThread.kt:123] INFO  【GOV】heartbeat (STUCK logic L1/L2)
+2026-09-13 20:31:53.804 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.815 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:31:53.824 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.850 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.863 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.876 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.882 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(184,163,64) region=958,275,96x32 click=1006,291 frame=1278x644
+2026-09-13 20:31:53.883 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:31:53.884 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:53.884 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:31:54.399 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:54.412 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:31:54.427 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:54.445 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:54.456 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:54.482 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:54.489 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(183,160,71) region=931,270,96x32 click=979,286 frame=1278x644
+2026-09-13 20:31:54.502 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:31:54.503 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:54.504 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:31:55.013 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:55.024 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:31:55.032 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:55.042 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:55.063 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:55.074 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:55.213 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(174,150,59) region=928,283,96x32 click=976,299 frame=1278x644
+2026-09-13 20:31:55.215 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:31:55.215 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:55.215 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:31:55.724 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=true
+2026-09-13 20:31:55.734 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:31:55.736 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(177,152,61) region=920,281,96x32 click=968,297 frame=1278x644
+2026-09-13 20:31:55.736 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:31:55.736 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:55.737 [OutCard Thread] [DrawFixStrategy.kt:707] WARN  [DrawFix] options 块陈旧（10s 无新块，客户端冻结/停滞？）→ 直接收回合（m2v187：不扫不熔断不空转）
+2026-09-13 20:31:55.737 [OutCard Thread] [DrawFixStrategy.kt:770] WARN  [DrawFix] 回合结束仍有半落地未销账 eids=83（m2v187 t-134 ④：跨回合保留→下回合首动作=旧账优先销账，禁拉黑无限重试）
+2026-09-13 20:31:55.737 [OutCard Thread] [DrawFixStrategy.kt:792] WARN  [DrawFix] 因分类账: 费拒绝=3 / 放行拒绝·复核未见新块=4 / 半落地可执行未打出=1 / 穷尽自门=8 / 半落地未销账=1 / 已点选(在手)=1（同回合禁重选）（复盘口径：费=官方 REQ_ENOUGH_MANA 拒绝数 / 场=满场诊断 / UI=半落地未销账 / 目标=留手集合）
+2026-09-13 20:31:55.737 [OutCard Thread] [DeckStrategyActuator.kt:161] INFO  执行出牌策略完毕
+2026-09-13 20:31:57.414 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤结束
+2026-09-13 20:31:57.418 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-清除
+2026-09-13 20:31:57.418 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-下一步骤
+2026-09-13 20:31:57.419 [ListenLogPool Thread-3] [TagEnum.kt:94] INFO  人机游戏id：旅店老板
+2026-09-13 20:31:57.419 [ListenLogPool Thread-3] [War.kt:41] INFO  旅店老板 的回合
+2026-09-13 20:31:57.419 [ListenLogPool Thread-3] [Player.kt:42] INFO  playerId:2,gameId:旅店老板
+2026-09-13 20:31:57.419 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-准备
+2026-09-13 20:31:57.419 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-触发
+2026-09-13 20:31:57.419 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤开始
+2026-09-13 20:31:57.420 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【手牌区】添加卡牌，entityId:56，entityName:，cardId:，size:7
+2026-09-13 20:31:59.030 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-动作
+2026-09-13 20:31:59.030 [ListenLogPool Thread-3] [GameTurnPhaseStrategy.kt:56] INFO  对方回合
+2026-09-13 20:31:59.031 [ListenLogPool Thread-3] [Player.kt:85] INFO  玩家2【旅店老板】已使用6法力水晶
+2026-09-13 20:31:59.031 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【战场】添加卡牌，entityId:54，entityName:，cardId:CORE_AT_008，size:4
+2026-09-13 20:32:03.365 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家1【团神血洗国服#5126】的【墓地】添加卡牌，entityId:87，entityName:石爪图腾，cardId:CS2_051，size:8
+2026-09-13 20:32:04.681 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家1【团神血洗国服#5126】的【墓地】添加卡牌，entityId:12，entityName:女巫的学徒，cardId:CORE_GIL_531，size:9
+2026-09-13 20:32:04.688 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家1【团神血洗国服#5126】的【移除区】添加卡牌，entityId:89，entityName:，cardId:TLC_222e，size:1
+2026-09-13 20:32:04.688 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【墓地】添加卡牌，entityId:59，entityName:呓语魔典，cardId:CORE_KAR_009，size:3
+2026-09-13 20:32:06.099 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤结束
+2026-09-13 20:32:06.103 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-清除
+2026-09-13 20:32:06.104 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-下一步骤
+2026-09-13 20:32:06.104 [ListenLogPool Thread-3] [War.kt:41] INFO  团神血洗国服#5126 的回合
+2026-09-13 20:32:06.104 [ListenLogPool Thread-3] [Player.kt:42] INFO  playerId:1,gameId:团神血洗国服#5126
+2026-09-13 20:32:06.104 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-准备
+2026-09-13 20:32:06.104 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-触发
+2026-09-13 20:32:06.105 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤开始
+2026-09-13 20:32:06.105 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家1【团神血洗国服#5126】的【手牌区】添加卡牌，entityId:6，entityName:，cardId:CATA_561，size:9
+2026-09-13 20:32:06.108 [ListenLogPool Thread-3] [ParsedCardActionFactory.kt:54] WARN  行为类-解析卡牌【能量仪式:CATA_561】失败
+2026-09-13 20:32:06.612 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-动作
+2026-09-13 20:32:06.612 [ListenLogPool Thread-3] [GameTurnPhaseStrategy.kt:34] INFO  我方回合
+2026-09-13 20:32:08.768 [fusion-governor] [GovernorThread.kt:123] INFO  【GOV】heartbeat (STUCK logic L1/L2)
+2026-09-13 20:32:11.614 [OutCard Thread] [DeckStrategyActuator.kt:154] INFO  执行出牌策略
+2026-09-13 20:32:11.614 [OutCard Thread] [DeckStrategyActuator.kt:158] INFO  回合开始可用水晶数：6
+2026-09-13 20:32:11.640 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:13.777 [OutCard Thread] [DrawFixStrategy.kt:1305] INFO  [DrawFix] 半落地恢复 裸power: ETC_362 eid=83 issued=true
+2026-09-13 20:32:14.181 [OutCard Thread] [DrawFixStrategy.kt:1291] INFO  [DrawFix] 半落地恢复 裸power 未落地: eid=83 ETC_362 step=0 → 下轮再试（累计 1 次，m2v189 上限2）
+2026-09-13 20:32:14.184 [OutCard Thread] [DrawFixStrategy.kt:275] INFO  [DrawFix] 出牌排序（m2v194③大费优先·降序生效）: CATA_568(5)/0,CATA_497(6)/2,CATA_563(3)/2,CATA_565(2)/2,GDB_451(2)/2,CATA_561(2)/2
+2026-09-13 20:32:14.191 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.191 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_568 eid:32 预算脱同步放行复核=同块 NONE（seq 287 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:32:14.215 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.215 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_497 eid:31 预算脱同步放行复核=同块 NONE（seq 287 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:32:14.223 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.223 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_563 eid:9 预算脱同步放行复核=同块 NONE（seq 287 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:32:14.233 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.253 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_565 eid:26 预算脱同步放行复核=同块 NONE（seq 287 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:32:14.264 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.265 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] GDB_451 eid:92 预算脱同步放行复核=同块 NONE（seq 287 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:32:14.265 [OutCard Thread] [DrawFixStrategy.kt:375] INFO  [DrawFix] CATA_561 eid:6 预算不足(cost=2,余=1，官方未列 exec) → 留手（m2v189：登记穷尽门剔除集，每轮重判静默去重；下回合重置再试，禁拉黑不变）
+2026-09-13 20:32:14.388 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(138,126,70) region=975,287,96x32 click=1023,303 frame=1278x644
+2026-09-13 20:32:14.389 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:14.389 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:14.389 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:14.899 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.911 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:14.923 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.932 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.950 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.958 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.973 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.985 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(163,141,59) region=934,287,96x32 click=982,303 frame=1278x644
+2026-09-13 20:32:14.985 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:14.986 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:14.986 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:15.498 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.509 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:15.518 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.531 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.547 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.558 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.576 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.579 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(148,135,63) region=976,281,96x32 click=1024,297 frame=1278x644
+2026-09-13 20:32:15.580 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:15.580 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:15.580 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:16.089 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.100 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:16.111 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.127 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.138 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.147 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.168 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.173 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(162,143,64) region=946,287,96x32 click=994,303 frame=1278x644
+2026-09-13 20:32:16.183 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:16.184 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:16.184 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:16.692 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.702 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:16.711 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.723 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.736 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.748 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.774 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.782 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(168,149,63) region=948,285,96x32 click=996,301 frame=1278x644
+2026-09-13 20:32:16.782 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:16.782 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:16.783 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:17.292 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.302 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:17.311 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.321 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.339 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.350 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.371 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.372 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:17.373 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:17.373 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=null opt=true(效=false) stale=false hasAction=false
+2026-09-13 20:32:17.373 [OutCard Thread] [DrawFixStrategy.kt:746] INFO  [DrawFix] 穷局门线(剔集): 官方可执行全被本回合剔除集占住（留手豁免/穷尽自门/币族刨除）且攻击已清零 → 立即收回合（m2v192 a+m2v193 ①④：0 额外轮/0 空扫，不误伤攻击剩）
+2026-09-13 20:32:17.374 [OutCard Thread] [DrawFixStrategy.kt:770] WARN  [DrawFix] 回合结束仍有半落地未销账 eids=83（m2v187 t-134 ④：跨回合保留→下回合首动作=旧账优先销账，禁拉黑无限重试）
+2026-09-13 20:32:17.403 [OutCard Thread] [DrawFixStrategy.kt:792] WARN  [DrawFix] 因分类账: 费拒绝=2 / 放行拒绝·复核未见新块=5 / 预算留手=1 / 半落地可执行未打出=1 / 穷尽自门=6 / 半落地未销账=1 / 已点选(在手)=1（同回合禁重选）（复盘口径：费=官方 REQ_ENOUGH_MANA 拒绝数 / 场=满场诊断 / UI=半落地未销账 / 目标=留手集合）
+2026-09-13 20:32:17.404 [OutCard Thread] [DeckStrategyActuator.kt:161] INFO  执行出牌策略完毕
+2026-09-13 20:32:18.909 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤结束
+2026-09-13 20:32:18.913 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-清除
+2026-09-13 20:32:18.913 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-下一步骤
+2026-09-13 20:32:18.913 [ListenLogPool Thread-3] [TagEnum.kt:94] INFO  人机游戏id：旅店老板
+2026-09-13 20:32:18.914 [ListenLogPool Thread-3] [War.kt:41] INFO  旅店老板 的回合
+2026-09-13 20:32:18.914 [ListenLogPool Thread-3] [Player.kt:42] INFO  playerId:2,gameId:旅店老板
+2026-09-13 20:32:18.914 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-准备
+2026-09-13 20:32:18.914 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-触发
+2026-09-13 20:32:18.915 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤开始
+2026-09-13 20:32:18.915 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【手牌区】添加卡牌，entityId:38，entityName:，cardId:，size:7
+2026-09-13 20:32:20.526 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-动作
+2026-09-13 20:32:20.527 [ListenLogPool Thread-3] [GameTurnPhaseStrategy.kt:56] INFO  对方回合
+2026-09-13 20:32:23.771 [fusion-governor] [GovernorThread.kt:123] INFO  【GOV】heartbeat (STUCK logic L1/L2)
+2026-09-13 20:32:24.351 [ListenLogPool Thread-3] [Player.kt:85] INFO  玩家2【旅店老板】已使用2法力水晶
+2026-09-13 20:32:24.351 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【战场】添加卡牌，entityId:51，entityName:，cardId:CORE_EX1_096，size:4
+2026-09-13 20:32:27.377 [ListenLogPool Thread-3] [Player.kt:85] INFO  玩家2【旅店老板】已使用5法力水晶
+2026-09-13 20:32:27.377 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【奥秘区】添加卡牌，entityId:47，entityName:，cardId:，size:2
+2026-09-13 20:32:30.413 [ListenLogPool Thread-3] [Player.kt:85] INFO  玩家2【旅店老板】已使用7法力水晶
+2026-09-13 20:32:34.451 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤结束
+2026-09-13 20:32:34.456 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-清除
+2026-09-13 20:32:34.456 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-下一步骤
+2026-09-13 20:32:34.456 [ListenLogPool Thread-3] [War.kt:41] INFO  团神血洗国服#5126 的回合
+2026-09-13 20:32:34.457 [ListenLogPool Thread-3] [Player.kt:42] INFO  playerId:1,gameId:团神血洗国服#5126
+2026-09-13 20:32:34.457 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-准备
+2026-09-13 20:32:34.457 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-触发
+2026-09-13 20:32:34.457 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤开始
+2026-09-13 20:32:34.457 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家1【团神血洗国服#5126】的【手牌区】添加卡牌，entityId:22，entityName:，cardId:CATA_568，size:10
+2026-09-13 20:32:35.062 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-动作
+2026-09-13 20:32:35.062 [ListenLogPool Thread-3] [GameTurnPhaseStrategy.kt:34] INFO  我方回合
+2026-09-13 20:32:38.773 [fusion-governor] [GovernorThread.kt:123] INFO  【GOV】heartbeat (STUCK logic L1/L2)
+2026-09-13 20:32:40.065 [OutCard Thread] [DeckStrategyActuator.kt:154] INFO  执行出牌策略
+2026-09-13 20:32:40.066 [OutCard Thread] [DeckStrategyActuator.kt:158] INFO  回合开始可用水晶数：7
+2026-09-13 20:32:40.080 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:42.164 [OutCard Thread] [DrawFixStrategy.kt:1305] INFO  [DrawFix] 半落地恢复 裸power: ETC_362 eid=83 issued=true
+2026-09-13 20:32:42.566 [OutCard Thread] [DrawFixStrategy.kt:1291] INFO  [DrawFix] 半落地恢复 裸power 未落地: eid=83 ETC_362 step=0 → 下轮再试（累计 1 次，m2v189 上限2）
+2026-09-13 20:32:42.570 [OutCard Thread] [DrawFixStrategy.kt:275] INFO  [DrawFix] 出牌排序（m2v194③大费优先·降序生效）: CATA_568(5)/0,CATA_568(5)/0,CATA_497(6)/2,CATA_563(3)/2,CATA_565(2)/2,GDB_451(2)/2,CATA_561(2)/2
+2026-09-13 20:32:42.578 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:42.579 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_568 eid:32 预算脱同步放行复核=同块 NONE（seq 288 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:32:42.588 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:42.588 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_568 eid:22 预算脱同步放行复核=同块 NONE（seq 288 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:32:42.598 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:42.617 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_497 eid:31 预算脱同步放行复核=同块 NONE（seq 288 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:32:42.630 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:42.631 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_563 eid:9 预算脱同步放行复核=同块 NONE（seq 288 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:32:42.631 [OutCard Thread] [DrawFixStrategy.kt:416] INFO  [DrawFix] 出牌 eid:26 cardId:CATA_565 天空之墙哨兵 cost:2 parseFail=false dir=ENEMY
+2026-09-13 20:32:42.631 [OutCard Thread] [DrawFixStrategy.kt:1098] INFO  [DrawFix] 兜底点击手牌 CATA_565（天空之墙哨兵）index=2 rect=[-0.1524,0.4097,-0.125,0.5]
+2026-09-13 20:32:44.278 [OutCard Thread] [DrawFixStrategy.kt:478] INFO  [DrawFix] eid:26 CATA_565 点击已发出→半落地（本回合不再重试，卡保留待销账；诊断=无费/满场判据，点击后未确认落地（动画/UI 阻塞？））
+2026-09-13 20:32:44.284 [OutCard Thread] [DrawFixStrategy.kt:507] INFO  [DrawFix] eid:26 CATA_565 半落地待销账（不拉黑，卡保留）
+2026-09-13 20:32:44.413 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(159,136,71) region=937,293,96x32 click=985,309 frame=1278x644
+2026-09-13 20:32:44.414 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [26, 83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:44.415 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=true) stale=false hasAction=true
+2026-09-13 20:32:44.922 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.931 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:44.938 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.947 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.966 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.976 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.998 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.998 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] GDB_451 eid:92 预算脱同步放行复核=同块 NONE（seq 288 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:32:45.008 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.026 [OutCard Thread] [DrawFixStrategy.kt:361] INFO  [DrawFix] CATA_561 eid:6 预算脱同步放行复核=同块 NONE（seq 288 未刷新，前卡点击未入块）→ 留手不放行（m2v198.2：旧块 NONE 无证据力）
+2026-09-13 20:32:45.029 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(185,160,75) region=917,272,96x32 click=965,288 frame=1278x644
+2026-09-13 20:32:45.029 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [26, 83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:45.029 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:45.029 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:45.542 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.555 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:45.567 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.582 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.594 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.609 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.618 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.638 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.643 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(174,154,61) region=948,283,96x32 click=996,299 frame=1278x644
+2026-09-13 20:32:45.658 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [26, 83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:45.658 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:45.658 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:46.167 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.177 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:46.188 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.203 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.216 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.227 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.243 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.253 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.268 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(167,147,62) region=946,285,96x32 click=994,301 frame=1278x644
+2026-09-13 20:32:46.268 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [26, 83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:46.268 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:46.268 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:46.776 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.786 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:46.792 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.808 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.824 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.834 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.847 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.856 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.872 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(151,138,67) region=977,275,96x32 click=1025,291 frame=1278x644
+2026-09-13 20:32:46.873 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [26, 83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:46.873 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:46.873 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:47.381 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.395 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:47.403 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.414 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.424 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.438 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.449 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.471 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.605 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(159,138,77) region=945,294,96x32 click=993,310 frame=1278x644
+2026-09-13 20:32:47.608 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [26, 83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:47.608 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:47.609 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:48.119 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.129 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:48.138 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.147 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.164 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.172 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.185 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.208 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.213 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(148,131,80) region=966,294,96x32 click=1014,310 frame=1278x644
+2026-09-13 20:32:48.213 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [26, 83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:48.214 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:48.214 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:48.726 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.737 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:48.749 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.764 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.777 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.797 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.809 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.832 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.836 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(162,139,63) region=928,288,96x32 click=976,304 frame=1278x644
+2026-09-13 20:32:48.853 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [26, 83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:48.853 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:48.853 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:49.367 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.381 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:49.392 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.402 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.421 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.434 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.451 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.463 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.479 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(158,139,79) region=959,293,96x32 click=1007,309 frame=1278x644
+2026-09-13 20:32:49.479 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [26, 83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:49.479 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:49.479 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:49.991 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.002 [OutCard Thread] [DrawFixStrategy.kt:1128] INFO  [DrawFix] 双凭据不足（Power.log 无新块）→ 仅扫一轮快扫（纯 landedState 零等待）即出循环（m2v194 D1）
+2026-09-13 20:32:50.011 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.028 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.039 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.048 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.067 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.076 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.086 [OutCard Thread] [EndTurnGate.kt:107] INFO  [EndTurnGate] 按钮绿态判定: 非绿(尚有动作) fraction=0.0 meanRGB=(163,139,68) region=922,289,96x32 click=970,305 frame=1278x644
+2026-09-13 20:32:50.086 [OutCard Thread] [DrawFixStrategy.kt:637] INFO  [DrawFix] 半落地∩官方可执行 [26, 83]：恢复轮转已接手（换坐标→换目标→裸power，禁拉黑）；本轮仍未落地→下回合继续
+2026-09-13 20:32:50.087 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:50.087 [OutCard Thread] [DrawFixStrategy.kt:723] INFO  [DrawFix] 穷尽双轨: img=false opt=true(效=false) stale=false hasAction=true
+2026-09-13 20:32:50.087 [OutCard Thread] [DrawFixStrategy.kt:736] WARN  [DrawFix] 超时熔断：10s 无落地且仍有动作/无信号 → 收回合（防烧绳）
+2026-09-13 20:32:50.087 [OutCard Thread] [DrawFixStrategy.kt:770] WARN  [DrawFix] 回合结束仍有半落地未销账 eids=26,83（m2v187 t-134 ④：跨回合保留→下回合首动作=旧账优先销账，禁拉黑无限重试）
+2026-09-13 20:32:50.087 [OutCard Thread] [DrawFixStrategy.kt:792] WARN  [DrawFix] 因分类账: 费拒绝=2 / 放行拒绝·复核未见新块=6 / 半落地可执行未打出=2 / 穷尽自门=9 / 半落地未销账=2 / 已点选(在手)=2（同回合禁重选）（复盘口径：费=官方 REQ_ENOUGH_MANA 拒绝数 / 场=满场诊断 / UI=半落地未销账 / 目标=留手集合）
+2026-09-13 20:32:50.087 [OutCard Thread] [DeckStrategyActuator.kt:161] INFO  执行出牌策略完毕
+2026-09-13 20:32:51.786 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤结束
+2026-09-13 20:32:51.791 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-清除
+2026-09-13 20:32:51.791 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-下一步骤
+2026-09-13 20:32:51.792 [ListenLogPool Thread-3] [TagEnum.kt:94] INFO  人机游戏id：旅店老板
+2026-09-13 20:32:51.792 [ListenLogPool Thread-3] [War.kt:41] INFO  旅店老板 的回合
+2026-09-13 20:32:51.792 [ListenLogPool Thread-3] [Player.kt:42] INFO  playerId:2,gameId:旅店老板
+2026-09-13 20:32:51.792 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-准备
+2026-09-13 20:32:51.792 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-触发
+2026-09-13 20:32:51.792 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤开始
+2026-09-13 20:32:51.793 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【手牌区】添加卡牌，entityId:57，entityName:，cardId:，size:6
+2026-09-13 20:32:53.405 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-动作
+2026-09-13 20:32:53.406 [ListenLogPool Thread-3] [GameTurnPhaseStrategy.kt:56] INFO  对方回合
+2026-09-13 20:32:53.776 [fusion-governor] [GovernorThread.kt:123] INFO  【GOV】heartbeat (STUCK logic L1/L2)
+2026-09-13 20:32:58.445 [ListenLogPool Thread-3] [Player.kt:85] INFO  玩家2【旅店老板】已使用3法力水晶
+2026-09-13 20:33:00.057 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【手牌区】添加卡牌，entityId:39，entityName:，cardId:，size:6
+2026-09-13 20:33:00.059 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【手牌区】添加卡牌，entityId:42，entityName:，cardId:，size:7
+2026-09-13 20:33:01.674 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【墓地】添加卡牌，entityId:38，entityName:，cardId:CORE_CS2_023，size:4
+2026-09-13 20:33:02.489 [ListenLogPool Thread-3] [Player.kt:85] INFO  玩家2【旅店老板】已使用6法力水晶
+2026-09-13 20:33:03.597 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【手牌区】添加卡牌，entityId:60，entityName:，cardId:，size:7
+2026-09-13 20:33:03.597 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【手牌区】添加卡牌，entityId:43，entityName:，cardId:，size:8
+2026-09-13 20:33:04.104 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家2【旅店老板】的【墓地】添加卡牌，entityId:39，entityName:，cardId:CORE_CS2_023，size:5
+2026-09-13 20:33:06.631 [ListenLogPool Thread-3] [Player.kt:85] INFO  玩家2【旅店老板】已使用8法力水晶
+2026-09-13 20:33:08.779 [fusion-governor] [GovernorThread.kt:123] INFO  【GOV】heartbeat (STUCK logic L1/L2)
+2026-09-13 20:33:10.666 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤结束
+2026-09-13 20:33:10.671 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-清除
+2026-09-13 20:33:10.671 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-下一步骤
+2026-09-13 20:33:10.671 [ListenLogPool Thread-3] [War.kt:41] INFO  团神血洗国服#5126 的回合
+2026-09-13 20:33:10.671 [ListenLogPool Thread-3] [Player.kt:42] INFO  playerId:1,gameId:团神血洗国服#5126
+2026-09-13 20:33:10.671 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-准备
+2026-09-13 20:33:10.672 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-触发
+2026-09-13 20:33:10.672 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-步骤开始
+2026-09-13 20:33:10.672 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家1【团神血洗国服#5126】的【墓地】添加卡牌，entityId:27，entityName:，cardId:CORE_EX1_259，size:10
+2026-09-13 20:33:10.672 [ListenLogPool Thread-3] [War.kt:64] INFO  主游戏-动作
+2026-09-13 20:33:10.672 [ListenLogPool Thread-3] [GameTurnPhaseStrategy.kt:34] INFO  我方回合
+
+=== ETC_362 / eid=83 全部行 ===
+2026-09-13 20:30:16.870 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家1【团神血洗国服#5126】的【手牌区】添加卡牌，entityId:83，entityName:跳吧，虫子！，cardId:ETC_362，size:4
+2026-09-13 20:30:16.872 [ListenLogPool Thread-3] [CardInfoData.kt:59] INFO  行为-解析卡牌【跳吧，虫子！:ETC_362】
+2026-09-13 20:30:16.875 [ListenLogPool Thread-3] [ParsedCardActionFactory.kt:54] WARN  行为类-解析卡牌【跳吧，虫子！:ETC_362】失败
+2026-09-13 20:31:41.361 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=53）exec=[ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp, CORE_GIL_531] 拒=6 stale=false
+2026-09-13 20:31:41.364 [OutCard Thread] [DrawFixStrategy.kt:275] INFO  [DrawFix] 出牌排序（m2v194③大费优先·降序生效）: ETC_362(5)/2,CATA_563(3)/2,CATA_565(2)/2,GDB_451(2)/2
+2026-09-13 20:31:41.364 [OutCard Thread] [DrawFixStrategy.kt:293] INFO  [DrawFix] UNKNOWN 泛化归桶: ETC_362 → DIRECT（SDK actions=[无指向]+[] effect=UNKNOWN）
+2026-09-13 20:31:41.364 [OutCard Thread] [DrawFixStrategy.kt:416] INFO  [DrawFix] 出牌 eid:83 cardId:ETC_362 跳吧，虫子！ cost:5 parseFail=false dir=DIRECT
+2026-09-13 20:31:41.365 [OutCard Thread] [DrawFixStrategy.kt:1098] INFO  [DrawFix] 兜底点击手牌 ETC_362（跳吧，虫子！）index=1 rect=[-0.1746,0.4125,-0.1394,0.5]
+2026-09-13 20:31:42.917 [OutCard Thread] [DrawFixStrategy.kt:478] INFO  [DrawFix] eid:83 ETC_362 点击已发出→半落地（本回合不再重试，卡保留待销账；诊断=无费/满场判据，点击后未确认落地（动画/UI 阻塞？））
+2026-09-13 20:31:42.924 [OutCard Thread] [DrawFixStrategy.kt:507] INFO  [DrawFix] eid:83 ETC_362 半落地待销账（不拉黑，卡保留）
+2026-09-13 20:31:45.497 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:47.758 [OutCard Thread] [DrawFixStrategy.kt:1305] INFO  [DrawFix] 半落地恢复 裸power: ETC_362 eid=83 issued=true
+2026-09-13 20:31:48.161 [OutCard Thread] [DrawFixStrategy.kt:1291] INFO  [DrawFix] 半落地恢复 裸power 未落地: eid=83 ETC_362 step=0 → 下轮再试（累计 1 次，m2v189 上限2）
+2026-09-13 20:31:48.178 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:48.189 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:48.205 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:48.217 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:48.385 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:48.896 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:51.028 [OutCard Thread] [DrawFixStrategy.kt:1305] INFO  [DrawFix] 半落地恢复 裸power: ETC_362 eid=83 issued=true
+2026-09-13 20:31:51.431 [OutCard Thread] [DrawFixStrategy.kt:1291] INFO  [DrawFix] 半落地恢复 裸power 未落地: eid=83 ETC_362 step=1 → 下轮再试（累计 2 次，m2v189 上限2）
+2026-09-13 20:31:51.947 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:51.965 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:51.975 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:51.983 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.121 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:52.630 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.649 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.662 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.680 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.690 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:52.704 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:53.214 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.236 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.246 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.268 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.279 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.292 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:53.804 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.824 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.850 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.863 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.876 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:53.884 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:54.399 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:54.427 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:54.445 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:54.456 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:54.482 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:54.503 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:55.013 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:55.032 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:55.042 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:55.063 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:55.074 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=false
+2026-09-13 20:31:55.215 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:31:55.724 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=6（块行=46）exec=[CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 拒=6 stale=true
+2026-09-13 20:31:55.736 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:11.640 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:13.777 [OutCard Thread] [DrawFixStrategy.kt:1305] INFO  [DrawFix] 半落地恢复 裸power: ETC_362 eid=83 issued=true
+2026-09-13 20:32:14.181 [OutCard Thread] [DrawFixStrategy.kt:1291] INFO  [DrawFix] 半落地恢复 裸power 未落地: eid=83 ETC_362 step=0 → 下轮再试（累计 1 次，m2v189 上限2）
+2026-09-13 20:32:14.191 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.215 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.223 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.233 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.264 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.389 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:14.899 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.923 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.932 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.950 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.958 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.973 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:14.986 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:15.498 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.518 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.531 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.547 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.558 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.576 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:15.580 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:16.089 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.111 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.127 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.138 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.147 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.168 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.184 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:16.692 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.711 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.723 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.736 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.748 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.774 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:16.782 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:17.292 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.311 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.321 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.339 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.350 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.371 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=8（块行=42）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:17.373 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:40.080 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:42.164 [OutCard Thread] [DrawFixStrategy.kt:1305] INFO  [DrawFix] 半落地恢复 裸power: ETC_362 eid=83 issued=true
+2026-09-13 20:32:42.566 [OutCard Thread] [DrawFixStrategy.kt:1291] INFO  [DrawFix] 半落地恢复 裸power 未落地: eid=83 ETC_362 step=0 → 下轮再试（累计 1 次，m2v189 上限2）
+2026-09-13 20:32:42.578 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:42.588 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:42.598 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:42.630 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.922 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.938 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.947 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.966 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.976 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:44.998 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.008 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.029 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:45.542 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.567 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.582 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.594 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.609 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.618 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.638 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:45.658 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:46.167 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.188 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.203 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.216 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.227 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.243 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.253 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.268 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:46.776 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.792 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.808 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.824 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.834 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.847 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.856 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:46.873 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:47.381 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.403 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.414 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.424 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.438 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.449 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.471 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:47.608 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:48.119 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.138 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.147 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.164 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.172 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.185 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.208 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.214 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:48.726 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.749 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.764 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.777 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.797 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.809 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.832 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:48.853 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:49.367 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.392 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.402 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.421 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.434 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.451 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.463 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:49.479 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:32:49.991 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.011 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.028 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.039 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.048 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.067 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.076 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=9（块行=46）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 拒=3 stale=false
+2026-09-13 20:32:50.087 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_561, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:33:15.688 [OutCard Thread] [OptionsGate.kt:113] INFO  [OptionsGate] options 末块: 可执行 POWER=10（块行=49）exec=[CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_153, CATA_561, CATA_568, HERO_02bp] 拒=2 stale=false
+2026-09-13 20:33:20.072 [OutCard Thread] [DrawFixStrategy.kt:1305] INFO  [DrawFix] 半落地恢复 裸power: ETC_362 eid=83 issued=true
+2026-09-13 20:33:20.474 [OutCard Thread] [DrawFixStrategy.kt:1291] INFO  [DrawFix] 半落地恢复 裸power 未落地: eid=83 ETC_362 step=0 → 下轮再试（累计 1 次，m2v189 上限2）
+2026-09-13 20:33:20.762 [OutCard Thread] [DrawFixStrategy.kt:688] INFO  [DrawFix] 穷尽自门: 官方可执行 [CATA_568, ETC_362, CATA_565, CATA_497, GDB_451, CATA_563, CATA_153, CATA_561, CATA_568, HERO_02bp] 出手牌卡均被已点选/半落地/留手/预算不足/无目标占住（本轮已发过点击或等 GOV4/到限）→ 视为穷尽快速收工（m2v188①+m2v189；卡保留跨回合销账，不再空转到熔断）
+2026-09-13 20:33:32.467 [ListenLogPool Thread-3] [Area.kt:94] INFO  向玩家1【团神血洗国服#5126】的【除外区】添加卡牌，entityId:83，entityName:跳吧，虫子！，cardId:ETC_362，size:5
