@@ -68,8 +68,8 @@ def selftest():
         ("credentials", "include", 'fetch(u,{credentials: "include"})', "dictword"),
         ("API_KEY", "Abc123_xyz789QWERTYUIO", 'API_KEY = "Abc123_xyz789QWERTYUIO"  # 合成对照', "control"),
         ("SENDER_AUTH", "REDACTED-QQ-SMTP-OLD", 'SENDER_AUTH = "REDACTED-QQ-SMTP-OLD"', "placeholder"),
-        ("SENDER_AUTH", "abcdefghijklmnop", 'SENDER_AUTH = "abcdefghijklmnop"', "real"),
-        ("SENDER_AUTH", "aB3dEfGhIjKlMn123456", 'SENDER_AUTH = "aB3dEfGhIjKlMn123456"', "real"),
+        ("SENDER_AUTH", "abcdefghijklmnop", 'SENDER_AUTH = "abcdefghijklmnop"', "real"),            # 合成对照样本，非真凭据
+        ("SENDER_AUTH", "aB3dEfGhIjKlMn123456", 'SENDER_AUTH = "aB3dEfGhIjKlMn123456"', "real"),   # 合成对照样本，非真凭据
         ("QQ_SMTP_PASS", "YourPasswordHere", 'QQ_SMTP_PASS = "YourPasswordHere"', "placeholder"),
         ("TOKEN_PREFIX", "branch-tails-x", 'TOKEN_PREFIX = "branch-tails-x"', "dictword"),
         ("DEEPSEEK_API_KEY", "DEEPSEEK_API_KEY", 'apiKeyEnv = "DEEPSEEK_API_KEY"', "nameref"),
