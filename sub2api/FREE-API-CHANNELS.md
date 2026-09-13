@@ -6,6 +6,13 @@
 **2026-09-13 补充：linux.do（liunxddo）公益 API 收集完成**，详见 `liunxddo/LINUXDO-PUBLIC-API-COLLECTION.md`。
 结论：官方公益中转 hub.linux.do 需 linux.do Connect 登录领 key；NVIDIA NIM 免费模型最多
 （82 模型 /models 匿名 200，chat 需 key）；候选均需用户注册 key 后走 add-free-api-pool.mjs 入池。
+**网关与第二张清单（同日）**：
+- **本地 keyless 公益 API 网关已部署**（`liunxddo/keyless-gateway.mjs`，127.0.0.1:8787，
+  17 源全实测：一言/60s/天气/汇率/笑话/猫/邮编/建议/歌词/ISS/狗狗/圣经/二维码/咖啡/性别/年龄/书目；
+  10 轮稳定性探测 0 失败；openlib/lyrics 代理下偶发 TLS 抖动；启动 `start-keyless-gateway.cmd`）
+- **免费 key 渠道第二张实测清单**（`liunxddo/FREE-KEY-CHANNELS-VERIFIED.md`）：Cerebras/Groq/
+  Mistral/ZenMux/Poe 匿名 /models 全部需 key（403/401/404），NIM 是唯一可匿名验证模型列表的平台；
+  扩池推荐序 NIM > hub.linux.do > Cerebras > Mistral > 国内三家
 
 ## ✅ 已入池免费来源（只读核对 2026-09-13 06:1x）
 
