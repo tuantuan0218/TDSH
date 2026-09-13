@@ -50,6 +50,30 @@ const SOURCES = {
   advice: {
     url: () => 'https://api.adviceslip.com/advice',
     desc: '随机人生建议（Advice Slip）'
+  },
+  lyrics: {
+    url: (p) => `https://api.lyrics.ovh/v1/${encodeURIComponent(p.artist || 'Queen')}/${encodeURIComponent(p.song || 'Bohemian Rhapsody')}`,
+    desc: '歌词查询（lyrics.ovh，?artist=&song=）'
+  },
+  iss: {
+    url: () => 'https://api.wheretheiss.at/v1/satellites/25544',
+    desc: '国际空间站实时位置（wheretheiss.at）'
+  },
+  dog: {
+    url: () => 'https://dog.ceo/api/breeds/image/random',
+    desc: '随机狗狗图片（Dog CEO）'
+  },
+  bible: {
+    url: (p) => `https://bible-api.com/${encodeURIComponent(p.ref || 'john+3:16')}`,
+    desc: '圣经经文（bible-api.com，?ref=）'
+  },
+  qrcode: {
+    url: (p) => `https://api.qrserver.com/v1/create-qr-code/?size=${encodeURIComponent(p.size || '200x200')}&data=${encodeURIComponent(p.data || 'hello')}`,
+    desc: '二维码生成（qrserver，?data=&size=，返回 PNG）'
+  },
+  coffee: {
+    url: () => 'https://coffee.alexflipnote.dev/random.json',
+    desc: '随机咖啡图片'
   }
 };
 

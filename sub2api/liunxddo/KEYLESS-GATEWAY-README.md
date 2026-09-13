@@ -1,7 +1,7 @@
 # 本地 keyless 公益 API 网关
 
 > 聚合实测可用的免费公共 API 为本地单入口，零依赖（node 内置模块）、无任何账号/key。
-> 2026-09-13 实测 6/6 源均 200。
+> 2026-09-13 实测 **14/14 源全绿**（二轮扩展：+lyrics/iss/dog/bible/qrcode/coffee）。
 
 ## 启动
 
@@ -37,6 +37,12 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 | `/api/catfact` | 随机猫事实 | |
 | `/api/zip` | 邮编地理查询 | `?country=us&code=90210`（zippopotam.us 仅部分国家） |
 | `/api/advice` | 随机人生建议（英文） | |
+| `/api/lyrics` | 歌词查询（lyrics.ovh） | `?artist=Queen&song=...` |
+| `/api/iss` | 国际空间站实时位置 | |
+| `/api/dog` | 随机狗狗图片 URL | |
+| `/api/bible` | 圣经经文 | `?ref=john+3:16` |
+| `/api/qrcode` | 二维码生成（返回 PNG） | `?data=hello&size=200x200` |
+| `/api/coffee` | 随机咖啡图片 URL | |
 | 任意端点加 `?raw=1` | 原样透传上游 JSON | |
 
 ## 实测记录（2026-09-13）
@@ -49,9 +55,12 @@ curl http://127.0.0.1:8787/health   # 8 源健康状态（全 ok:true 即正常�
 - ✅ 猫事实（catfact.ninja）200
 - ✅ 邮编地理（api.zippopotam.us）200
 - ✅ 人生建议（api.adviceslip.com）200
+- ✅ 歌词（api.lyrics.ovh）200 / ISS 位置（wheretheiss.at）200 / 狗狗图（dog.ceo）200
+- ✅ 圣经（bible-api.com）200 / 二维码（qrserver）200 / 咖啡图（alexflipnote.dev）200
 - ❌ ipapi.co TLS 失败（已剔除，勿加回）
 - ❌ api.btstu.cn（壁纸/唐诗/毒鸡汤）TLS 失败（已剔除）
 - ❌ boredapi.com 连接失败（已剔除）
+- ❌ zhihu-daily 404 / douban-book 400 / bigdatacloud geo 400 / quotable TLS 拒（未采用）
 
 ## 安全与运维
 
