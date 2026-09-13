@@ -11,7 +11,7 @@ const row = {
   "type": "apikey",
   "status": "active",
   "schedulable": true,
-  "priority": 90,
+  "priority": 0,
   "concurrency": 1,
   "proxy_id": null,
   "credentials": {
@@ -35,6 +35,15 @@ snap.generated = new Date().toISOString();
 writeFileSync(SNAP, JSON.stringify(snap, null, 2) + '\n');
 console.log('snapshot accounts now =', snap.accounts.length);
 
+// ⚠️ 2026-09-13 安全修复：此前该函数直接复制全量快照（含完整 api_key）到 public 文件，
+// 导致 TDSH public 仓库历史泄露全部池账号 key。现在强制脱敏（前4后4打码）后才写入。
 const pub = JSON.parse(JSON.stringify(snap));
+for (const a of pub.accounts) {
+  for (const k of Object.keys(a.credentials || {})) {
+    if (typeof a.credentials[k] === 'string' && /^(sk-|qwen-|nrs-|phantom-|rc-|1912)/.test(a.credentials[k]) && a.credentials[k].length > 12) {
+      a.credentials[k] = a.credentials[k].slice(0, 4) + '…' + a.credentials[k].slice(-4);
+    }
+  }
+}
 writeFileSync(PUB, JSON.stringify(pub, null, 2) + '\n');
-console.log('public snapshot updated (masked) — accounts =', pub.accounts.length);
+console.log('public snapshot updated (MASKED) — accounts =', pub.accounts.length);
