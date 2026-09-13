@@ -168,3 +168,12 @@
 
 **④ 净增量**：本轮可入池匿名端仍为 **0 新增**（与上轮一致，互为独立复核）；
 真正增量是 **AIHubMix 200 可用面** + **alistaitsacle 整仓已死的定论** + **TokenHarbor 大陆不可用定论**。
+
+## 十二、导航站 18 新站批量探测（2026-09-14，新 goal 首轮，只读匿名 /v1/models）
+
+来源 `gongyizhan.com`（每日存活探测聚合）。结果：**16 个 401 需 key（服务活）**、
+`muyuan.do`/`hybgzs.com` CF 墙、`yuyuyu.world` 404。**零匿名可用**。
+名单：free.v36.cm / vsllm.com / newapi.makelove.cloud / docode.cc / api.aisz.mom /
+ai.chuyel.top / api456.me / api.iamhc.cn / helpcoder.cc / api.juziai.cc /
+free.supxh.xin / moyuu.cc / new.sharedchat.cc / api.fuka.win / api520.pro（+CF墙2+404×1）。
+→ 都要注册领 key（受限项），域名清单留此备查。
