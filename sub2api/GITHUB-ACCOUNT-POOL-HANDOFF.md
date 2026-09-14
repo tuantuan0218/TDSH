@@ -57,6 +57,17 @@ copilot 反代 + U8（NIM）+ U9（OpenRouter），全部只差你一个动作�
 - 当日复核：`api-inference.modelscope.cn/v1/models` 200，48 模型
 - 入池模板同 add-free-api-pool.mjs（SF_BASE=api-inference.modelscope.cn/v1）
 
+### 5. 🆕 BazaarLink（2026-09-14 新发现，注册门槛最低）
+
+- 端点：`https://api.bazaarlink.ai/v1`（OpenAI 兼容）；/v1/models 匿名 200，173 模型
+- 免费模型（3 个零价）：`auto:free`（自动路由）/ `qwen/qwen3.7-flash:free` /
+  `deepseek/deepseek-v4-flash-0731v:free`
+- 注册：60 秒拿 key（`sk-bl-*`）、无信用卡、无审核、仅 Turnstile（真人点一下级）
+- 限流：10 RPM / 50 req/day；入池 prio 90/concurrency 1/group 5
+- 入池：`$env:SF_NAME="bazaarlink-free"; $env:SF_BASE="https://api.bazaarlink.ai/v1";
+  $env:SF_KEY="sk-bl-..."; $env:SF_MODELS='{"Tuan":"auto:free"}'; node add-free-api-pool.mjs`
+- 详见 `FREE-TIER-ROUND3-20260914.md` 附2
+
 ## 四、官方免费层当日复核（2026-09-14 直测）
 
 | 渠道 | 结果 | 状态 |
@@ -96,6 +107,7 @@ copilot 反代 + U8（NIM）+ U9（OpenRouter），全部只差你一个动作�
 | **copilot 授权** | 打开 github.com/login/device 输 **`37FA-7F20`**（最新；旧码 0989-1311/D3CA-973D 已过期） | ⏳ 等待（Mac auth 进程存活） |
 | U8 NIM | build.nvidia.com 过 hCaptcha 拿 key 发我 | ⏳ 待做 |
 | U9 OpenRouter | 注册给邮箱拿 key 发我 | ⏳ 待做 |
+| 🆕 BazaarLink | bazaarlink.ai 注册（Turnstile 点一下）拿 `sk-bl-*` key 发我（门槛最低） | ⏳ 待做 |
 
 ## 八、下一会话快速上手
 
