@@ -126,6 +126,33 @@
 3. 若 BazaarLink key 到手 → `bash bazaarlink-pool.sh <sk-bl-key>`
 4. 若 copilot 授权 → `ssh Mac 'bash ~/copilot-api-run/copilot-pool.sh'`
 5. 若用户批"同意A" → 跑僵尸 SQL（`ZOMBIE-ACCOUNTS-PLAN.md`）+ error_owner 改口径
+   （⚠️ 任何 SQL 入池/改池后：跑 `free-pool-add.mjs --repair <名>` 或 `pool-health-check.mjs`
+   核 Redis zset 快照——**入池 ≠ 接单，必须核快照**）
+
+## 五·五、关键坑 TOP 避坑清单（本会话 + 并行会话踩过的，集中一处免翻多文档）
+
+1. **裸 SQL 入池不写 `scheduler_outbox`** → 号永不进调度快照、永不接单。最高频致命坑。
+2. **选路读 Redis zset score，不是 `accounts.priority`** → 改 DB priority 对已在 zset 的
+   位次无效（`*/10` cron 按真实 picks 重写，别跟它抢）。
+3. **判"号有用"只看 `usage_logs` picks**，不是 status/文档快照。
+4. **免 key 端点全市场仅 2 个**（pollinations+xzt）——OVH/LLM7/KeylessAI/BazaarLink 实测
+   均需 key 或 429；别再找"第三个"，主战场是"需 key 但门槛低"通道。
+5. **GitHub signup 前置 DataDome**，变量是 **CDP/审查工具检测**（非 IP，14 出口实测）；
+   但 **`/login` 不受保护**→注册后全流程可自动化。批量注册=死路+号全灭。
+6. **Mac 直连 github.com 超时**，必须走 mihomo 代理 7897；且 `copilot-api auth --proxy-env`
+   **对 auth 命令无效**（undici 全局 fetch 不走代理）→ 用 `copilot-auth.sh`（curl 手动 device
+   flow）；token 刷新同理，反代启动也必须 `--proxy-env` 否则跑一会失效。
+7. **模型名不可写死**：copilot-api 的模型启动时动态拉取、chat 按 model 字段精确匹配
+   （大小写敏感）→ 入池映射用 `/v1/models` 实测 id。
+8. **402/429 分「模型级 vs 账号级」**：智谱某模型 429 但另一免费模型 200；siliconflow
+   是账号级救不回。**400 多为客户端问题（超上下文/tool_call/坏 body）却误标 provider**，
+   据此降权会冤枉上游。
+9. **`max_tokens` 给太小→推理模型吃光预算出空正文**，会造假故障；判据应是"结构完整"，
+   `finish_reason=length` 不算坏。
+10. **论坛明文 key 寿命≈3 天**，产能来自"注册/签到"不是"捡 key"；columbina 19 号
+    **100% 同上游 xai**——抗风险按厂商算不按号数，单厂商抖动=全灭风险。
+11. **凭据纪律**：TDSH 是公开仓；13 个探测脚本含硬编码 key 已入 .gitignore；
+    探针只允许自建可读域（`uberip.com`），禁打第三方邮箱。
 
 ## 七、边界（维持不变）
 
