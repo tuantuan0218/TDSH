@@ -89,3 +89,12 @@ https://voyager.olomc.top/gw/v1/chat/completions        → HTTP 401（✅ 路�
 
 ---
 **池内实证（2026-09-15 00:0x 查 usage_logs）**：48 号 7d picks=37 全在 24h 内、最近一单 00:01、24h 用户可见错误 0、Recovered 3 → 真实接单中。\n\n*快照时刻 2026-09-14 19:25Z；`/gw/catalog` fetched=1789413868231（目录 19:19Z 更新）。*
+
+## 2026-09-14 20:1x cb 渠道故障窗口实测（quality-check）
+
+- 48 号 cb/deepseek-v4.1-flash 最小 chat 请求 88s 无响应（fetch failed，第二次复现）。
+- stats.json 佐证（20:16Z）：**streak=74 连败**、24h 走势末两格失败 165/115（近 4h 飙升）、
+  ms_p95=73983、错误 HTTP 429×212 / 503×67 / 502×10（**上游限流/不可用**）。
+- 判读：cb 上游（workbuddy）当前故障窗口，48 号 37 picks 为窗口前累计；
+  **非 48 号配置问题，无需处置**；网关 Recovered 机制会兜底（用户可见失败仍可为 0）。
+- 与 DECISION-CARD「48 是 v4.1 备胎」定位一致：主力抖时备胎也可能接不住。
