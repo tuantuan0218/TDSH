@@ -8,12 +8,18 @@ const maxH = parseFloat(process.argv[3]) || 4;
 const deadline = Date.now() + maxH * 3600e3;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-console.log(`[watch] ${new Date().toISOString()} 守望 ${user}（404=未注册）每60s一次，上限 ${maxH}h`);
+console.log(`[watch] ${new Date().toISOString()} 守望 ${user}（404=未注册）每60s一次，上限 ${maxH}h（直连+代理7897双路）`);
+const curlProbe = (proxy) => {
+  const args = ['-s', '-o', 'NUL', '-w', '%{http_code}', '--max-time', '20', '-A', 'Mozilla/5.0'];
+  if (proxy) args.push('-x', 'http://127.0.0.1:7897');
+  args.push(`https://github.com/${user}`);
+  try { return parseInt(execFileSync('curl.exe', args, { encoding: 'utf8' }), 10) || 0; }
+  catch (e) { const p = parseInt(String(e.stdout || '').trim(), 10); return Number.isFinite(p) && p > 0 ? p : 0; }
+};
 while (Date.now() < deadline) {
-  let code = 0;
-  try {
-    code = parseInt(execFileSync('curl.exe', ['-s', '-o', 'NUL', '-w', '%{http_code}', '--max-time', '25', '-A', 'Mozilla/5.0', `https://github.com/${user}`], { encoding: 'utf8' }), 10) || 0;
-  } catch (e) { console.log('[watch] probe err', String(e.message).slice(0, 80)); }
+  let code = curlProbe(false);
+  if (!code || code === 0) code = curlProbe(true); // 直连挂/超时 → 走 mihomo 兜底
+  else if (code === 404) { const pc = curlProbe(true); if (pc && pc !== 404) code = pc; } // 防直连污染假404：代理意见不同才采信
   if (code === 200) {
     console.log(`[watch] ${new Date().toISOString()} FOUND 200 -> 注册完成，自动接力 gh-login-pat.mjs`);
     try {
