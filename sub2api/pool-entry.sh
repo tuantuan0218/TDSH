@@ -32,6 +32,7 @@ EOF
   echo "  NIM         (NIM_KEY=nvapi-...)"
   echo "  OPENROUTER  (OR_KEY=sk-or-v1-...)"
   echo "  COPILOT     (Mac 已授权)"
+  echo "  FIXOUTBOX <账号名>  (补 scheduler_outbox 事件, NIM/OPENROUTER 入池后必跑)"
 }
 
 case "${1:-}" in
