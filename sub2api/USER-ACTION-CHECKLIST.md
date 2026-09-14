@@ -11,6 +11,12 @@
 > 共 14 条出口，首屏全被 DataDome block view 拦死，表单根本不渲染（见
 > `SIGNUP-WALL-DATADOME-EVIDENCE.md` §二）。所以这步**必须由人在正常浏览器里点**，
 > 机器侧资料我已全部备好，人机验证不做任何绕过（ToS + 本仓 §7 红线）。
+>
+> **09:1x 追加（范围收窄，好消息）**：拦截页厂商自述原因是
+> *"Use of developer or inspection tools"*，且 **只有 `/signup` 受保护**——
+> `github.com/login` 在自动化通道（Kimi WebBridge 真实 Chrome）下正常渲染。
+> ⇒ **只有"注册"这一下要你动手**；注册完成后登录、建 PAT、速语/TrueSOTA 的 GitHub OAuth、
+> 入池全部我接手（脚本已备好：`gh-login-pat.mjs`、`gh-suyu-oauth.mjs`）。
 
 **做什么**：开一个 **InPrivate 窗口**（清 cookies，成功率最高）→ https://github.com/signup
 → 按下面资料填 → 过人机验证（优先切 **Audio 声音验证**）→ 填邮箱收到的 8 位码。
@@ -40,44 +46,42 @@
 **预期输出**：页面显示 Copilot 已启用，能看到每月额度说明（几百次 chat 级）。
 **如果卡住**：看不到 Free 选项 → 确认用的是第 1 步的新号（老号/企业号才有差异）。
 
-## ☐ 第 3 步：Mac 端认证（约 2 分钟，需要浏览器）
+## ☑ 第 3 步：Mac 端认证 —— **我已自动化，只剩你输一次 code**
 
-**做什么**：在 Mac 上跑认证，把设备码输入 GitHub。让我执行（我 SSH 到 Mac 跑以下命令并贴出 code），或你自己在 Mac 终端跑：
-```bash
-export PATH="/usr/local/bin:$PATH"
-npx -y copilot-api@latest auth
+**当前有效 code：`3993-AE3A`**（device code 15 分钟过期，我起了 **auth-keeper 后台保持器**：
+`gh-copilot-authkeeper.sh` —— 过期自动重发新 code，你随时问我要"现在的 code"即可）。
+
+**你要做的**：任何已登录 GitHub 的设备，打开 **https://github.com/login/device** → 输入 code。
+
+**你输完之后全自动（无需你再动）**：`gh-copilot-authkeeper.sh` 检测到
+`~/.local/share/copilot-api/github_token` 落盘 → 交棒 `gh-copilot-autopipe.sh`：
+1. 起反代 4141（`start-copilot.sh` 优先，否则 npx 直起，`--rate-limit 5 --wait` 防滥用检测）
+2. `GET /v1/models` → **模型 id 一律取实测**（源码确认动态拉取、请求体 model 原样直传）
+3. **三步门**：models 200 → chat 200 有内容 → 知识门 `17×23=391`
+   **任一门不过就拒绝入池**（fail-closed，防假服务）
+4. 全过才插入 `copilot-free`：**prio 90 / concurrency 1 / group 5 兜底位**（幂等，不升权）
+5. 打印 account id + group 绑定核对
+
+> 与 `MAC-COPILOT-RUNBOOK.md` §5 示例 SQL 里的 `priority 46 / concurrency 3` 不一致 ——
+> 以 §0 的边界（兜底位 90/1）为准，管线已按 90/1 写死。
+
+## ☑ 第 4 步：启动反代 —— 已并入第 3 步的自动管线
+
+## ☑ 第 5 步：验证 —— 已并入第 3 步的三步门（不过门不入池）
+
+## ☑ 第 6 步：入池 —— 已并入第 3 步（幂等 SQL + group 5 绑定 + 只读核对）
+
+## ☐ 第 7 步：路由铁证核对（我执行，入池后 T+10min）
+
+**做什么**：入池只证明"插进去了"，不证明"真接单"。核对 `usage_logs`：
+```sql
+SELECT account_id, count(*), max(created_at) FROM usage_logs
+WHERE account_id=(SELECT id FROM accounts WHERE name='copilot-free' AND deleted_at IS NULL)
+  AND created_at > now() - interval '30 minutes' GROUP BY 1;
 ```
-**预期输出**：终端显示
-`Please enter the code "XXXX-XXXX" in https://github.com/login/device`
-→ **告诉我在终端看到的 code**（或自己打开 github.com/login/device 输入）→ 授权后终端显示 `Logged in as <你的用户名>`。
-**如果卡住**：npx 拉包慢（registry 直连已验证 OK，首次 30-60s 正常）；Mac 无 node？不可能，实测 node v24 在位。
-
-## ☐ 第 4 步：启动反代（我执行，或你自己跑）
-
-**做什么**：启动 copilot-api 反代（端口 4141，限流 5s/请求防滥用检测）。
-```bash
-~/copilot-api-run/start-copilot.sh start     # 启动（脚本已预置在 Mac）
-~/copilot-api-run/start-copilot.sh status    # 查看状态
-```
-**预期输出**：`RUNNING pid=... port=4141` + `/usage` 返回用量 JSON。
-**如果卡住**：启动失败先 `tail ~/copilot-api-run/copilot-api.log` 看原因。
-
-## ☐ 第 5 步：验证（我执行）
-
-**做什么**：三步门验证反代真实可用。
-1. `curl http://127.0.0.1:4141/v1/models` → 200，**记录真实模型 id**
-2. 用实测 id 直连 chat 单发 → 200 有内容
-3. 知识门：问 17×23 → 答 391
-
-**预期输出**：给我 3 个断言（models 200 / chat 200 / 知识答对）即可。
-**如果卡住**：chat 404 → 模型 id 没用实测值（大小写敏感）；429 → 限流正常，稍等重试。
-
-## ☐ 第 6 步：入池（我执行，幂等 SQL）
-
-**做什么**：经 Mac PG 插入 copilot-free 账号（prio 90/concurrency 1/group 5 兜底位），
-绑定 group 5，只读核对 usage_logs 路由铁证（同 siliconflow 模板）。
-**预期输出**：账号 id 返回 + usage_logs 出现 Tuan→copilot 请求 200。
-**如果卡住**：插入成功但路由 502 → 检查 model_mapping 的模型 id 是否等于第 5 步实测值。
+**通过标准**：出现 ≥1 条真实请求且 upstream 200（同 siliconflow/pollinations 先例口径）。
+**如果卡住**：0 接单 → 检查 model_mapping 的 `Tuan` 是否等于三步门实测 id（大小写敏感）；
+502 → 反代挂了，看 `~/copilot-api-run/copilot-api.log`。
 
 ---
 
