@@ -35,6 +35,17 @@
 3. 其余 18 家要常规邮箱（gmail/qq/163），**钥匙只有一把**：用户给邮箱或注册完 GitHub，
    路由表直接决定先开哪家，不用再逐家试错。
 
+## 二·补（11:5x 对齐并行会话 `FREE-LANE-HANDOVER.md`，两视角互补）
+
+- **`@qq.com` 实测放行**：`api.aiaiai001.com` / `straitapi.com` / `beizhi.sylu.cc`（HANDOVER 实测），
+  `crowllm.com` 未知待测。⇒ 用户若给 QQ 邮箱别名，可开清单按厂商收益排序：
+  `beizhi ≈ crowllm [+8 厂商] > openrealm [+5] > baosiapi [+4] > sudobug [+3]`（HANDOVER §4）。
+- **baosiapi 双维度标注（防误读）**：产能维度=签到 $0.0307/次、注册赠送 $0 → **不值得养号**（本文件 §四实测）；
+  厂商多样性维度=解锁 **+4 厂商**（HANDOVER 清单）。两维度不冲突：它作为"产能自持"不值，
+  作为"厂商多样性增量"仍有意义——若哪天用 QQ 邮箱批量开户，别按产能算它。
+- **公共可读一次性域名（uberip/yopmail/…）对 11 家「邮件码+签到」站全部实测被拒**（HANDOVER §5），
+  与本文件 §一 的 20 家白名单结论互相印证；例外仅 baosiapi / tian-shu / poolrouter / tu-zi（uberip 放行但赠送 $0）。
+
 ## 四、baosiapi.com 实测结论（2026-09-14 新号一次性闭环，纯 REST）
 
 - 注册配置：`register_enabled=true` / `password_register_enabled=true` /
