@@ -74,7 +74,8 @@
 - **入池路径**：用户注册拿 `sk-bl-*` key → `add-free-api-pool.mjs`（base=
   api.bazaarlink.ai/v1，模型 `auto:free`，prio 90/concurrency 1/group 5）
 - **注册形态（CDP 实测）**：`bazaarlink.ai/keys` → 跳 `login?callbackUrl=...`；
-  表单 email + password + **Cloudflare Turnstile**（`cf-turnstile-response` hidden 确认）；
-  另有 "Sign up free" 入口 + Google OAuth。**Turnstile 是真人点一下级**（比 GitHub
-  DataDome 简单），注册无信用卡无审核
+  点 "Sign up" 出注册表单：**Name + Email + Password(≥8 字符) + Confirm password +
+  Turnstile（`cf-turnstile-response` hidden 确认）+ "Create account" 按钮**；
+  另有 "Continue with Google" OAuth。Turnstile 是真人点一下级（比 GitHub DataDome 简单），
+  注册无信用卡无审核
 - **待办**：用户注册拿 key（若 Turnstile 可真人过，是三条合法主线之外的第四条）
