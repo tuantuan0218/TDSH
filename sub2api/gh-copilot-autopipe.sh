@@ -68,14 +68,20 @@ SELECT
   'active', true, 90, 1, 1.0, 'global', true
 WHERE NOT EXISTS (SELECT 1 FROM accounts WHERE name='copilot-free' AND deleted_at IS NULL)
 RETURNING id, name, status, schedulable, priority;
+-- ⚠️ 硬知识（FREE-LANE-HANDOVER #1）：裸 SQL 不写 scheduler_outbox → 号永不进调度快照、永不接单
+INSERT INTO scheduler_outbox (event_type, account_id, group_id, payload)
+SELECT 'account_changed', a.id, NULL, NULL FROM accounts a
+WHERE a.name='copilot-free' AND a.deleted_at IS NULL
+AND NOT EXISTS (SELECT 1 FROM scheduler_outbox o WHERE o.account_id=a.id);
 SQL
 psql -h 127.0.0.1 -U postgres -d sub2api <<SQL
 INSERT INTO account_groups (account_id, group_id, priority)
 SELECT a.id, 5, 1 FROM accounts a WHERE a.name='copilot-free' AND a.deleted_at IS NULL
 ON CONFLICT (account_id, group_id) DO NOTHING;
 SQL
-echo "--- 核对 ---"
+echo "--- 核对（含 outbox 事件）---"
 psql -h 127.0.0.1 -U postgres -d sub2api -tAc "SELECT id,name,status,schedulable,priority,credentials->>'base_url' AS base, credentials->'model_mapping'->>'Tuan' AS maps_to, extra->>'openai_responses_mode' AS resp_mode FROM accounts WHERE name='copilot-free' AND deleted_at IS NULL"
 psql -h 127.0.0.1 -U postgres -d sub2api -tAc "SELECT account_id,group_id FROM account_groups WHERE account_id=(SELECT id FROM accounts WHERE name='copilot-free' AND deleted_at IS NULL)"
-echo "  ✅ 管线完成：copilot-free 已入池（MODEL=$MODEL）"
+psql -h 127.0.0.1 -U postgres -d sub2api -tAc "SELECT 'outbox_events='||count(*) FROM scheduler_outbox WHERE account_id=(SELECT id FROM accounts WHERE name='copilot-free' AND deleted_at IS NULL)"
+echo "  ✅ 管线完成：copilot-free 已入池（MODEL=$MODEL，含 scheduler_outbox 事件）"
 REMOTE

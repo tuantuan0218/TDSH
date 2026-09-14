@@ -196,12 +196,15 @@ baosiapi 小额、其余为假凭据/需人机。columbina 母号 = 唯一"有�
 19 个 columbina 号今日均已在 6:34 签到轮领取，合计余额 **$2545.60**，本次幂等空跑、
 store 完整（快照 diff 为字段级更新）。下次领取窗口=明日。
 
-### 5. copilot device-auth 已重新就绪（保持器运行中）
+### 5. copilot 授权链（以 §三 为权威；本节纠偏自 12:1x 前的两处陈旧描述）
 
-- 新鲜 code：**`2062-122B`**（15 分钟窗口，`gh-copilot-authkeeper.sh` 自动续发，
-  随时问保持器 job 要"现在的 code"）
-- Mac→github.com 出网复验 200（0.83s）
-- 用户授权后 `gh-copilot-autopipe.sh` 自动完成：起 4141 → 三步门 → 兜底位入池
+- ~~`gh-copilot-authkeeper.sh` 保持器~~ **已废弃**（npx 直连撞 undici 不走代理的 bug），
+  不要再启动；授权/入池正解 = `bash copilot-auth.sh code → poll → pool`
+  （Mac 侧），或授权后一键 `bash ~/copilot-api-run/copilot-pool.sh`
+- ~~code `2062-122B`~~ 已过期；需要时**随时重新 `copilot-auth.sh code` 取新码**
+- ~~`gh-copilot-autopipe.sh`~~ 为 Windows 侧等价实现（12:3x 已补 scheduler_outbox 事件，
+  与 `copilot-pool.sh` 同修正），二者择一使用，**以 Mac 侧 `copilot-pool.sh` 为推荐**
+- 用户授权后自动完成：起 4141（代理版）→ 三步门 → 兜底位入池（含 outbox 事件）
 
 ### 6. 待用户动作（受限项，未越权）
 
