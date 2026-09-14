@@ -46,6 +46,10 @@
 - 影响：调度器打分（error_rate 权重 0.8）、账号健康分、Ops 面板上游错误率
 - 验证：改后重跑 `node pool-health-check.mjs`，核对 400 段不再全归 provider；
   抽查 D 桶 13 条确认无漏网
+- **✅ D 桶已抽查（2026-09-14 实测）**：`ops_error_logs` 近12h status=400 非超上下文/
+  非 tool_call 样本真实成因 = **请求体解析失败**（`Invalid request body` /
+  `Failed to read request body`），与超上下文/非法 tool_call 同属**客户端问题**——
+  无被误归进 D 的上游主因，"400 绝大多数是客户端问题"分类结论成立
 - 回滚：改一处判断即可，无数据迁移
 
 ## 处置
