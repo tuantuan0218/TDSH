@@ -34,8 +34,9 @@ cerebras-apikeys.png
 s2a-creds-full.txt
 gh-register-creds.json
 gh-mkcreds.mjs
-ghproxy/cred*.json
-ghproxy/ghproxy-mkcreds*.js
+ghproxy/
+gh-register-card*
+*.probe.json
 ghproxy/*-creds*.json
 
 # Edge 调试 profile（含 token/密码/钱包数据，绝不可入库）

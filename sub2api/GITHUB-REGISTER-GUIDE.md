@@ -80,3 +80,15 @@
 - 产出文件：本 md；无新增账号、无 key、无池改动
 - 待执行：用户按本指南用 Gmail 注册 1 个号 → 如需要可用于 linux.do Connect / 各站 GitHub OAuth
   （工作区已有速语 free.suyu.io 等 GitHub 登录渠道待接）
+
+## 九、2026-09-14 本机实测修正（重要：第一节不完整）
+
+"成败 90% 取决于邮箱+IP"只对**真人手动注册**成立。本机 09:0x 实测（见
+`SIGNUP-WALL-DATADOME-EVIDENCE.md` §二）补充决定性一条：
+
+- **只要是脚本/CDP 驱动的浏览器，换任何 IP 都进不去表单**——美国（Kansas City、Vultr LA）、
+  新加坡 AWS、台湾 HiNet、直连 HK 共 14 条出口，真浏览器首屏一律 `geo.captcha-delivery.com`
+  block view（`t=bv`，"访问暂时受限"），`inputs=0`。判别变量是**自动化被检测**，不是 IP。
+- 所以本指南的正确用法是：**人**用正常浏览器（最好 InPrivate）照 §二~§五 走；
+  机器只负责准备好资料、收验证码、后续 OAuth/入池。
+- 想用 UI 输入注入/无 Runtime.enable 的 CDP 等手段"躲过检测"= §7 反自动化绕过红线，不做。
