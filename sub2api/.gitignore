@@ -59,3 +59,18 @@ _*.out
 credit-hunt.json
 keyless-*.json
 _extended*.json
+
+# 硬编码 key 的探测/测试脚本（2026-09-14 终审补漏：均含明文 sk-/nvapi-，严禁入库）
+combo-probe.js
+concurrency-test.js
+credit-repro.js
+diag-latency.js
+final-accept.js
+health-check.js
+hunt-credit-source.js
+probe-upstreams.js
+verify-tuan-pool.js
+probe-aitools.mjs
+probe-gw-think.mjs
+probe-responses.mjs
+verify-siliconflow.mjs
