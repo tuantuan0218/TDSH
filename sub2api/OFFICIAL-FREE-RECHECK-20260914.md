@@ -40,7 +40,8 @@
 |---|---|---|
 | NVIDIA NIM `integrate.api.nvidia.com/v1/models` | 200，**82 模型** | ✅ 无损，U8 待用户过 hCaptcha |
 | OpenRouter `/api/v1/models` | 200，**445 模型 / 19 个 :free** | ✅ 无损，U9 待主流邮箱 |
-| ModelScope `api-inference.modelscope.cn/v1/models` | 200，**48 模型** | ✅ 可达，待阿里云 token |
+| ModelScope `api-inference.modelscope.cn/v1/models` | 200，**49 模型**（当日复测 48→49，+1 属漂移） | ✅ 可达，待阿里云 token |
+| BazaarLink `api.bazaarlink.ai/v1/models` | 200，**173 模型** | ✅ 可达，注册拿 `sk-bl-*`（🥇门槛最低） |
 | SiliconFlow `api.siliconflow.cn/v1/models` | **401 Token is invalid** | ⚠️ 与文档一致（额度耗尽） |
 | Pollinations `text.pollinations.ai/openai` | 200 "pong" | ✅ 无损（§1.2） |
 
