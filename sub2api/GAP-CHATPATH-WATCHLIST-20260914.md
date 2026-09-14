@@ -1,4 +1,4 @@
-# 带前缀缺口站 chatPath 预警清单 — 2026-09-14 19:5x 实测
+﻿# 带前缀缺口站 chatPath 预警清单 — 2026-09-14 19:5x 实测
 
 > 来源：`PATHMAP-AUDIT-20260914.md` §五（DB 权威比对）发现的 16 覆盖缺口中
 > **5 个带非 /v1 前缀站**，本轮用只读探测逐一实测确认。目的：将来这些号补进
@@ -34,7 +34,7 @@
 - `/openai/v1/models` 200 但提示 key 预算到顶 → 池内映射走 `/openai`（DB 现状正确），
   勿改 `/openai/v1`。
 
-## beizhi.sylu.cc 复查（2026-09-14 19:5x）
+## 2026-09-14 20:0x 收口：3 个 active 站已补入 store ✅（缺口 16→13，pathcheck 验证漂移 0）\n\n- aitools-free → \platform.aitools.cfd\（chatPath=/api/v1/chat/completions, verifiedModel=google/gemma-4-31b 实测）\n- tele-muse → \llm.teleapi.top#oe\（chatPath=/oe/v1/chat/completions, verifiedModel=opencode/muse-spark-1.3 实测）\n- tele-qwen → \llm.teleapi.top#qwen\（chatPath=/qwen/v1/chat/completions, verifiedModel=qwen3.7-plus 实测）\n- pollinations×3 为 error 不服务，未补（恢复后再补）\n- 🆕 关联发现：olomc 的 qwen family 上游 = tele-qwen、oe family 上游 = tele-muse（catalog 模型清单完全一致）→ 48 号 key 的 cb 模型是 olomc 的独有增量\n\n## beizhi.sylu.cc 复查（2026-09-14 19:5x）
 
 - 19:3x 首测：HTTP 522（CF 源站超时）；**19:5x 复查：仍 HTTP 522** → 源站持续故障，
   与配置无关（浏览器 UA 亦 522）。建议：列入"定期复查"，恢复前不列为可入池站。
