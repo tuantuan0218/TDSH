@@ -289,3 +289,13 @@ ode gh-wb.mjs close_session ''{}}''' +  ��� navigate ���½� tab �
   （现盯 `tuanpool-etm739, tuanapi-qsx232, pooltuan-iqk376, tuanbox7m2v`，8h，pwsh-24）；B 通道收码 6h（pwsh-19）
 - 给重试注册的建议（按 GITHUB-REGISTER-GUIDE）：换 InPrivate/清 cookies 重开表单、优先声音验证；
   同一邮箱短时间反复验证会被静默限流——换 ghreg526002@uberip.com（B 通道，我自动取码）或换新 Gmail
+
+### 6. 03:2x 预检轮：/login/device 行为实测 + 会话清理
+
+- **实测**：未登录访问 `/login/device` → 302 到 `/login?return_to=…device`（渲染的是 login_field/password 表单）
+  ⇒ win-pipeline 的 A 步登录门设计正确（未登录会 abort，不会瞎点）；device 码输入框
+  （`name="user_code"` / maxlength=9 / Continue→Authorize 两段）按 GitHub device-flow 已知结构 best-effort，
+  管线**始终打印 device code** 作人工兜底
+- 预检顺带确认 `freeapi-keys` WebBridge 会话当前 0 tab（并行会话的 tab 已自然消解），接力起跑无僵尸 tab 风险
+- 交叉发现：并行会话的 `ssh-then-pool.mjs` 用 `ssh mac`（WSL config Host mac → ~/.ssh/id_ed25519）——
+  该默认身份已被本会话换成恢复 key，**用户在 Mac 授权恢复公钥后两条看守链一起复活**（§十二.2 那一行 echo）

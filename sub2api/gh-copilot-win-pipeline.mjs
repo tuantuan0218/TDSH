@@ -30,6 +30,8 @@ if (/login/.test(who.href) && !who.login) { console.log('❌ 未登录（先跑 
 console.log('logged-in as', who.login || '(via cookie)');
 
 // B) copilot-api device 授权：后台起 auth 拿 code，再在同会话点 /login/device 授权
+//    预检(2026-09-15 03:1x)：/login/device 未登录会 302 到 /login?return_to=…（A 步登录门已兜住）；
+//    user_code 输入框选择器按 GitHub device-flow 已知结构 best-effort，拿不到码永远打印供人工输
 console.log('=== B. device 授权 ===');
 try { fs.unlinkSync(TOKEN); } catch {}
 const env = { ...process.env, USERPROFILE: HOME, APPDATA: HOME + '\\appdata', NO_COLOR: '1' };
