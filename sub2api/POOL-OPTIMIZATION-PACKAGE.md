@@ -2,19 +2,34 @@
 
 > 把僵尸账号处置 + error_owner 误标修复 + error 账号处置合并为一份批准包。
 > **批准方式**：回复"同意A"→ 我按本包全部执行；或逐项批准。
-> 依据：`ZOMBIE-ACCOUNTS-PLAN.md`、`ERROR-OWNER-MISLABEL-PLAN.md`、`POOL-HEALTH-REPORT.md`。
+> 依据：`ZOMBIE-ACCOUNTS-PLAN.md`、`ERROR-OWNER-MISLABEL-PLAN.md`、`POOL-HEALTH-REPORT.md`、
+> 并行会话 `FREE-LANE-HANDOVER.md`（关键坑：裸 SQL 不写 scheduler_outbox → 号永不接单）。
 
 ---
+
+## ⚠️ 0. 执行前提（并行会话 FREE-LANE-HANDOVER 硬知识，违反则改动无效）
+
+1. **裸 SQL 插 accounts 不会写 `scheduler_outbox`** → 新号/改动**永不进调度快照、永不接单**。
+   补法：`INSERT INTO scheduler_outbox(event_type, account_id, group_id, payload)
+   VALUES('account_changed', <id>, NULL, NULL);` —— **本包所有 SQL 改动必须附带 outbox 写入**，
+   否则执行了等于没执行（白改）。
+2. **选路顺序读 Redis zset（`sched:5:openai:single:v*`）的 score，不是 accounts.priority**——
+   `priority` 字段只是入池初始值，改它不影响已在 zset 中的位次（`pool-health-check.mjs`
+   是权威视图）。置 schedulable=false 会从 zset 摘除（这才是有效的）。
+3. **判断"有没有用"只看 `usage_logs`**（按号统计的 picks），不是 status/文档快照。
 
 ## A. 僵尸账号处置（3 个，零风险可逆）
 
 **问题**：#5 infer / #2 kimi2-hello4am / #8 amd-radeon active+schedulable 但无 base_url，
 排在位次 25/26/32，挡 14 个可用账号（failover 救回，不降成功率但耗重试）。
 
-**改动**（schedulable=false，保留数据可逆）：
+**改动**（schedulable=false + **outbox 事件**，保留数据可逆）：
 ```sql
 UPDATE accounts SET schedulable = false
 WHERE id IN (2, 5, 8) AND deleted_at IS NULL;
+-- ⚠️ 必须补 outbox 事件，否则改动不生效（见 §0）
+INSERT INTO scheduler_outbox (event_type, account_id, group_id, payload)
+SELECT 'account_changed', id, NULL, NULL FROM accounts WHERE id IN (2,5,8);
 -- 核对
 SELECT id, name, status, schedulable, priority FROM accounts WHERE id IN (2,5,8);
 ```
