@@ -57,6 +57,14 @@
 - **BazaarLink 4 特点**：/v1/models 匿名 200（173 模型）/ chat 需 key（401）/ 3 个零价模型
   （`auto:free`/`qwen3.7-flash:free`/`deepseek-v4-flash-0731v:free`）/ 有内容审查 403
   + 配额可编程查
+- **⚠️ DataDome 归因修正（09:1x 并行会话 14 出口实测，推翻早前"IP/指纹"含糊说法）**：
+  拦截变量 = **CDP/审查工具检测**（调试端口或扩展 `chrome.debugger` 一律拒，与 IP 无关）；
+  DataDome 拦截页原文明写 "Use of developer or inspection tools"。**但 `/login` 不受保护**
+  ——注册之后的登录/PAT/速语 OAuth/入池**全部可自动化**，人类只需人工过 signup 一关
+  （DataDome 对真人正常浏览器也不发验证控件，需 InPrivate 正常浏览器过表单）。
+  详见 `SIGNUP-WALL-DATADOME-EVIDENCE.md` §二/三（09:0x/09:1x 追加取证）。
+- **🆕 新候选渠道（等 GitHub 号后接入）**：`true-sota.com/register`（Continue with GitHub
+  / Linux.do，无 DataDome）——与速语并列。
 
 ## 五、池健康基线（2026-09-14）
 

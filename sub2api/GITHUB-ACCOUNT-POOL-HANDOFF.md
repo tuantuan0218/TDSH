@@ -18,7 +18,7 @@
 | 否决理由 | 证据 |
 |---|---|
 | GitHub ToS 明文禁止自动化建号/一人多免费号 | 平台条款（无需取证，属已知事实） |
-| **DataDome 墙现场取证**：CDP 真实浏览器打开 github.com/signup，页面嵌入 `geo.captcha-delivery.com` + `ct.captcha-delivery.com/c.js`，验证不过表单不渲染（inputs=0/forms=0/bodyLen=0）——自动化连填表机会都没有 | `SIGNUP-WALL-DATADOME-EVIDENCE.md`（已并入 `SIGNUP-WALLS-FINAL-CLASSIFICATION.md` §3.5） |
+| **DataDome 墙现场取证（归因已修正）**：signup 前置 DataDome，拦截变量 = **CDP/审查工具检测**（14 出口实测与 IP 无关；拦截页原文明写 "Use of developer or inspection tools"），表单不渲染（inputs=0/bodyLen=0）——自动化连填表机会都没有。但 **`/login` 不受保护**：注册后登录/PAT/速语 OAuth/入池全可自动化，仅 signup 需人工（InPrivate 正常浏览器） | `SIGNUP-WALL-DATADOME-EVIDENCE.md`（§二/三 09:0x/09:1x 追加取证） |
 | GitHub Models 已 410 退役（brownout），多号无可薅额度 | `OFFICIAL-FREE-RECHECK-20260914.md` §1.3 |
 | copilot-api README 原文警告多号批量触发 GitHub 滥用检测（temporary suspension） | `MAC-COPILOT-RUNBOOK.md` §0 |
 
