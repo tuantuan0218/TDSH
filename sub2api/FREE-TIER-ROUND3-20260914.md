@@ -12,13 +12,16 @@
   - `Qwen3.5-397B-A17B` / `Qwen3-32B` / `Qwen3.6-27B` 等，含定价元数据
   - 免费匿名档官方文档确认存在："no API key, no signup"（itsfree.ai / OVH docs）
 - **匿名 chat**：官方限流 `2 req/min per IP per model`；
-  本机实测连打 **429 API rate limit exceeded**（带 request_id，服务侧接受后限流，**非 401 拒绝**）
-- **定性**：✅ 端点与免费档真实存在（/models 铁证 + 官方文档双重确认）；
-  ⚠️ 匿名 chat 需 IP 冷却后验证 200（本机 IP 已打满，2 RPM 极严）
-- **价值**：若 chat 200 复现 → 这是**继 pollinations + xzt 之后第三个免 key 端点**，
-  打破 9-13 "全市场仅 2 个" 的结论（`NO-KEY-ENDPOINTS-VERIFIED.md` 需更新）
-- **验证计划**：换 IP（如 Mac 出口或手机热点）单发一次 chat；成功即走三步门入池
-  （prio 90 / concurrency 1 / group 5；注意 2 RPM 远低于 xzt 的 10 RPM，仅兜底）
+  **双出口实测均 429**（本机 IPv4 + Mac IPv6 2409:8a3c 前缀同网段）：
+  - 429 带 request_id（服务侧接受后限流，非 401 拒绝），且 /models 双出口均 200
+  - ⚠️ 但两出口同网段，无法排除"该网段匿名配额已打满"或"匿名 chat 实际需更长冷却/真实 key"
+- **定性（修正版）**：✅ 端点与 /models 匿名访问真实存在（双出口铁证 + 官方文档）；
+  ⚠️ **匿名 chat 未能复现 200**（双出口 429）——不能据此断定可用，也不能断定不可用
+- **价值**：/models 匿名可列仍是有用信息（模型清单验证），但 **chat 未过门 → 暂不能入池**；
+  9-13 "仅 2 个免 key 端点" 结论**暂不推翻**（待 chat 200 复现）
+- **验证计划**：换**独立网段**出口（手机热点/机场节点）单发一次 chat；
+  若 200 → 入池（prio 90 / concurrency 1 / group 5，2 RPM 仅兜底）并更新
+  `NO-KEY-ENDPOINTS-VERIFIED.md`（2 → 3）
 
 ## 其余候选（均为已知/需 key，无新增免 key）
 
