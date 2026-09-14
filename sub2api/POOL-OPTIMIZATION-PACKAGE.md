@@ -65,7 +65,13 @@ DELETE FROM accounts WHERE id = 18 AND deleted_at IS NULL;
 
 ## 执行清单（批准后我按此跑）
 
-1. 僵尸 SQL（A）→ 核对 schedulable=false
+> ✅ **SQL 已实机验证（2026-09-14 BEGIN...ROLLBACK 零改动）**：A 僵尸 UPDATE 3 + outbox
+> INSERT 0 3 通过；C 删除 #18（先删 group 再删 account，外键顺序正确）通过；
+> `scheduler_outbox` 列结构确认（id/event_type/account_id/group_id/payload/created_at/**dedup_key**）。
+> ⚠️ 待执行时关注 `dedup_key` 列——若有唯一约束，重复补事件可能需带 dedup_key 值（当前 NOT
+> EXISTS 已避重，实跑时以实际报错为准微调）。
+
+1. 僵尸 SQL（A）→ 核对 schedulable=false + 跑 `pool-health-check.mjs` 确认 zset 快照已摘除
 2. #18 pollinations-free 删除（C 可选）→ 核对
 3. error_owner 修复（B）→ 定位 Mac 网关源码赋值处，改后重跑 `node pool-health-check.mjs`
    核对 400 段不再全归 provider
