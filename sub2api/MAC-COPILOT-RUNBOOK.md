@@ -75,6 +75,13 @@ nohup npx -y copilot-api@latest start --port 4141 \
 
 ## 4. 验证（三步门，照搬 probe-keyless 纪律）
 
+> ✅ **网络稳定性核查（2026-09-14，走代理）**：GitHub 核心 3 端点（api.github.com、
+> login/device/code、copilot_internal/v2/token）经 mihomo 7897 代理**全部可达**
+> （匿名返回 403/404 属正常——端点活着但需认证，非网络中断；出口 IP 43.198.135.200）。
+> 含义：device flow 授权成功后，反代的 token 周期性刷新（refresh_in）同样走代理可达，
+> **链路长期稳定，无 token 刷新失效风险**——只要 Mac 的 mihomo 代理 7897 在运行。
+> 注意：若 Mac 代理挂了（mihomo 未运行），反代 token 刷新会再次 fetch failed（同症状）。
+
 > ⚠️ **模型名不可写死**（2026-09-14 源码确认）：反代的模型列表**启动时从
 > Copilot API 动态拉取**（`getModels()`，无硬编码），chat 按请求体 `model` 字段
 > **精确匹配**（大小写敏感，`/v1/models` 返回的 `id`）。入池映射必须用实测 id。
