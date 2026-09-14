@@ -96,5 +96,5 @@ console.log('base_url(网关在 Mac 可回连本机 LAN):', base);
 console.log('model_mapping Tuan =', MID);
 fs.writeFileSync('D:/tdsh/sub2api/gh-copilot-win-ready.json', JSON.stringify({ base, model: MID, at: new Date().toISOString(), srv_pid: srv.pid }, null, 2));
 console.log('✅ 已写 gh-copilot-win-ready.json；反代常驻 pid=', srv.pid);
-console.log('入池 SQL 与 outbox 事件由网关侧执行（Mac 恢复后跑 copilot-pool.sh，或用 admin API key 走 REST）');
+console.log('下一步入池: bash gh-copilot-pool-win.sh   （SSH 已恢复时）或 --print 手动在 Mac 跑 SQL');
 process.exit(0);
