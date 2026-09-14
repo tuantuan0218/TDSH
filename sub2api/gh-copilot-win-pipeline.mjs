@@ -8,6 +8,9 @@ import { spawn, execFileSync } from 'node:child_process';
 const WB = 'http://127.0.0.1:10086/command';
 const SESSION = 'freeapi-keys';
 const COP_BIN = 'D:\\tdsh\\sub2api\\.copilot-local\\node_modules\\.bin\\copilot-api.cmd';
+const COP_MAIN = 'D:\\tdsh\\sub2api\\.copilot-local\\node_modules\\copilot-api\\dist\\main.js';
+// 教训(03:3x)：shell:true 起 .cmd 时 child.kill() 只杀包装 cmd.exe，孙 node 会孤儿化持 device 码不放
+// ⇒ 一律 spawn(process.execPath,[COP_MAIN,...]) 直起 dist 入口，kill 精确生效
 const HOME = 'D:\\tdsh\\sub2api\\.copilot-local\\home';
 const TOKEN = HOME + '\\.local\\share\\copilot-api\\github_token';
 const PORT = 4141;
@@ -35,7 +38,7 @@ console.log('logged-in as', who.login || '(via cookie)');
 console.log('=== B. device 授权 ===');
 try { fs.unlinkSync(TOKEN); } catch {}
 const env = { ...process.env, USERPROFILE: HOME, APPDATA: HOME + '\\appdata', NO_COLOR: '1' };
-const auth = spawn(COP_BIN, ['auth', '--no-open'], { env, shell: true, stdio: ['ignore', 'pipe', 'pipe'] });
+const auth = spawn(process.execPath, [COP_MAIN, 'auth', '--no-open'], { env, stdio: ['ignore', 'pipe', 'pipe'] });
 let buf = ''; auth.stdout.on('data', d => buf += d); auth.stderr.on('data', d => buf += d);
 let code = null;
 for (let i = 0; i < 40 && !code; i++) { await sleep(500); const m = buf.match(/\b[0-9A-Z]{4}-[0-9A-Z]{4}\b/); if (m) code = m[0]; }
@@ -65,7 +68,7 @@ try { auth.kill(); } catch {}
 
 // C) 起反代 4141（兜底限速 5）
 console.log('=== C. 起反代 :4141 ===');
-const srv = spawn(COP_BIN, ['start', '--port', String(PORT), '--rate-limit', '5', '--wait'], { env, shell: true, stdio: 'ignore' });
+const srv = spawn(process.execPath, [COP_MAIN, 'start', '--port', String(PORT), '--rate-limit', '5', '--wait'], { env, stdio: 'ignore' });
 srv.unref();
 let up = 0, ok = false;
 while (up < 40000) { await sleep(2000); up += 2000; try { const r = await fetch(`http://127.0.0.1:${PORT}/v1/models`, { signal: AbortSignal.timeout(4000) }); if (r.status === 200) { ok = true; break; } } catch {} }
