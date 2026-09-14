@@ -267,3 +267,12 @@ ode gh-wb.mjs close_session ''{}}''' +  ��� navigate ���½� tab �
 - WebBridge(freeapi-keys) 真实 Chrome 渲染 github.com/login 完整（login_field/password/submit 齐，dd=false cf=false）=> 注册一完成 gh-login-pat.mjs 必可跑
 - 踩坑：session 残留 9 个僵尸 tab 导致 navigate 报 No tab with given id；先 gh-wb.mjs close_session 再 navigate 即自动新建 tab
 - 收码器换 6h 窗口（pwsh-19）；守望 8h 双路（pwsh-15）
+
+### 4. Windows 侧 copilot 管线就绪（2026-09-15 02:5x，绕开 Mac）
+
+- `gh-copilot-win-pipeline.mjs` 全链备好：校验 WebBridge 登录态 → copilot-api device 授权（同会话自动点 /login/device，白名单）
+  → 起反代 :4141 → 三步门（models/chat/知识门391，fail-closed）→ 写 gh-copilot-win-ready.json 交接入池
+- token 目录重定向 D 盘（USERPROFILE=.copilot-local/home 实测生效，禁写 C 盘合规）；copilot-api 预装 .copilot-local（npm cache 在 I 盘）
+- 反代出口：入池 base_url = http://192.168.1.8:4141/v1（Mac 网关可回连本机 LAN；网关 8090 LAN 可达已证）
+- device 授权自动化前提已实测：copilot-api auth 输出 "XXXX-XXXX" 码，正则捕获 → WebBridge 填表点授权
+- 守望接力升级为三跳：login-pat → copilot-enable → win-pipeline（pwsh-22，8h 双路探测）
