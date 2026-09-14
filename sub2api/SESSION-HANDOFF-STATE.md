@@ -62,6 +62,17 @@
 | 🥉 | NIM | 过 hCaptcha 拿 `nvapi-*` key | 脚本+映射已备（入池后跑 `FIXOUTBOX nvidia-nim`） |
 | 4 | OpenRouter | 给主流邮箱 | 配置+表单参数已备（入池后跑 `FIXOUTBOX openrouter-free`） |
 
+### 入池工具优先级（2026-09-14 决策，防下会话用错）
+
+| 场景 | 用哪个 | 原因 |
+|---|---|---|
+| **已注册在仓外 `site-accounts.json` 的站号**（columbina 等） | 🥇 `free-pool-add.mjs --tag <store键>`（并行会话权威工具） | 四合一：两级验真→入池(group5+兜底位+force_chat)→**补 outbox→核 Redis zset 快照**；key 从仓外读绝不打印 |
+| 号"进了表却不接单" | `free-pool-add.mjs --repair <poolName>` | 幂等补事件+核快照，不改凭据 |
+| **新通道**（BazaarLink/copilot，key 不在 store） | `bazaarlink-pool.sh` / `copilot-pool.sh` | 我的脚本补 outbox 但**不核 zset 快照**——入池后须另跑 `free-pool-add.mjs --repair <名>` 或 `pool-health-check.mjs` 确认号真进了调度 |
+| NIM/OpenRouter（走 add-free-api-pool.mjs，不写 outbox） | 入池后 `bash pool-entry.sh FIXOUTBOX <账号名>` | 补漏掉的 outbox 事件 |
+
+> ⚠️ 我的脚本 vs free-pool-add 的差距 = **zset 快照核验**。入池 ≠ 接单，必须核快照。
+
 ## 四、关键事实（避免下个会话重查）
 
 - **免 key 端点全市场仅 2 个**：pollinations + xzt（已入池）；OVH/LLM7/KeylessAI/BazaarLink
