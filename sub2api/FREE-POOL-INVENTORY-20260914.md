@@ -2180,3 +2180,10 @@ SSH 一断，`ops_error_logs / usage_logs / Redis 快照` 全查不到，我就�
 | `GATEWAY-PROFILE-TEMPLATE.md` | 通用网关建档方法模板（5 分钟流程+坑位） |
 | `GAP-CHATPATH-WATCHLIST-20260914.md` | 5 个带前缀缺口站的 chatPath 实测清单 |
 | `gateway-probe.mjs` | 正式只读探针工具（三站验证） |
+
+## 发现 49（20:0x 并行会话）：pollinations 3 号产能已恢复（跨天额度重置）
+
+- 实测：匿名 POST /openai/chat/completions → **HTTP 200 fin=stop 真出词**；/openai/models 200。
+- 18 号 error 原因 = "pollinations free budget exhausted (785 requests today)" = **当日额度耗尽**（与发现 3 判断一致），现已跨天恢复。
+- 21/22 号 sched=false 但 24h 内仍有流量（22 号 picks=82、21 号 1 次 Recovered 429）。
+- **判断：3 号产能已恢复**；重新启用（sched=true / priority 调整）属调度改动，**待用户点头**（发现 3 已指出 21/22 在 priority 30/31 永远轮不到 = keyless 道闲置）。
