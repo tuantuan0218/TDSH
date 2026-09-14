@@ -11,6 +11,23 @@
 | **E** | 决定要不要做**受控 failover 演练**（短时摘主力） | 只测「排到免费道 + xai 恰好无票」这条唯一未覆盖路径 | 覆盖后我才能说"免费道端到端安全"，否则只能说"无危害证据" |
 | **F** | （可选）给 **admin API key**（`x-api-key`，别会话已证实该机制存在、值不在可读范围） | 用官方接口做 A/C 及"改 agenes 上下文准入" | 免裸 SQL、可审计；**今天 436 条用户可见 400 全来自 agenes 超长上下文**，改道本身零成本 |
 
+## 全池免费号权威体检 = `free-pool-probe.sh`（2026-09-14 新工具，别再用 audit 的 12/25）
+
+`free-lane-audit.mjs` 是 **store-based**：仓外 `site-accounts.json` 只 26 条，且 base 会漂移 → 它报的"健康 12/25"**只代表 store 覆盖范围**。
+`bash sub2api/free-pool-probe.sh` 改成**以网关库为唯一事实源**（base_url / api_key / model_mapping 全取自 PG，key 只在 Mac 内用、不打印），实跑覆盖 **37 个免费/公益号**，判据复用本会话全部教训（SSE 流式、reasoning-only、token 级 vs 账号级余额、429=限流非坏）。
+
+**实跑结果（20:5x，37 号）——值得你知情的 4 件事**：
+| 号 | 判读 | 含义 |
+|---|---|---|
+| `9 aio-freeshare` / `45 xuanwu-free` / `17 siliconflow-free` / `46 freemodel-free` | 🔴 **账号级余额 ＄0**（403/402/401） | 不是号坏，是没钱；**只能充值**，重发 token 无效 |
+| `48 olomc-free` | `429 key concurrency limit reached`，但 **7d 30 picks、最近 20:16:43**，错误全带 `Recovered` 前缀 | **健康且真在接单**；429 是你配置里的 `maxConcurrent:5`，网关已重试救回、用户可见失败 0 |
+| `31 xzt-ai-proxy-free` | `429 因违规内容已被封禁或临时限流` + **7d picks=0** | 这条实际没在服务 |
+| `16 tele-qwen` | 回 **SSE 流式**（`data:{...}`），按 JSON 解析会判成"非 JSON 失败" | **假阴**，已修判据 |
+| `27 wb2api` | `/models` 404（本地 7863 无该路由）；7d 仅 2 picks、错误 `Recovered 503 all accounts unavailable` | v4.1 那条"双源"里 **27 才是较抖的一路**，48 是备胎 |
+
+**一句话**：`v4.1` 双源里备胎（48）反而比主力（27）稳；全池免费产能的真实短板是**四个 ＄0 账号级余额号**，不是任何"号坏了"。
+
+
 ## olomc-free(48)「假故障」根因 = audit 探活 URL 拼错（**不是站方抖动**）
 
 > 本节推翻我自己先前两次归因：①"站方瞬时抖动"（错）②"picks 停在 BAD 之前所以不能证伪"（错，picks 后续 19:27 仍在新增）。
