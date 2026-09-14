@@ -74,6 +74,17 @@ copilot 反代 + U8（NIM）+ U9（OpenRouter），全部只差你一个动作�
 `REVERSE-PROXIES-INVENTORY.md`：copilot-openai-api（同额度无增量）、cursor2api（README
 自述 2026-04 起仅 gemini-3-flash 受限）、claude-code-proxy（非免费渠道）。
 
+## 五·五、本会话其它产出（2026-09-14，按主题引用）
+
+| 主题 | 文档 |
+|---|---|
+| 免费层第三轮盘点：OVH 免 key 候选三出口 429 不入池，9-13 结论维持 | `FREE-TIER-ROUND3-20260914.md` |
+| 僵尸账号处置方案（#5/#2/#8，选项A：schedulable=false，待批准） | `ZOMBIE-ACCOUNTS-PLAN.md` |
+| 400 错误 error_owner 误标 provider 建议（方案A：语义识别归 client，待批准） | `ERROR-OWNER-MISLABEL-PLAN.md` |
+| U9 OpenRouter 注册填表参数（CDP 实测 5 字段） | `OPENROUTER-SIGNUP-FIELDS.md` |
+| U8 NIM 注册流程形态（4 步引导，点 Accept All 后再点 Generate API Key） | `NIM-SIGNUP-FLOW.md` |
+| 凭据/`.edge-dbg-profile` gitignore 安全加固 | `.gitignore`（2026-09-14 增量） |
+
 ## 六、注册方法指南（如果还要注册 1 个号）
 
 `GITHUB-REGISTER-GUIDE.md`：Gmail + 声音验证 + 纯净 IP；outlook/163/qq 实测易失败。
