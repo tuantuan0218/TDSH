@@ -32,7 +32,11 @@ copilot 反代 + U8（NIM）+ U9（OpenRouter），全部只差你一个动作�
 - ⚠️ **网络前提（2026-09-14 实测）**：Mac 直连 github.com 超时，**必须走本机 mihomo
   代理 127.0.0.1:7897**（auth 与 token 刷新都要）；`start-copilot.sh` 已是代理版
 - 授权后自动完成：启动反代 4141 → 三步门验证 → 入池（幂等 SQL）
-- 启动脚本已预置：`~/copilot-api-run/start-copilot.sh`（Mac 上，代理版）
+- **预置脚本（Mac 上，授权后一键）**：
+  - `~/copilot-api-run/start-copilot.sh` —— 启动反代（代理版，幂等 start/stop/status）
+  - `~/copilot-api-run/copilot-pool.sh` —— **一键入池**：检查授权→启动→三步门验证→
+    入池 SQL（自动取 /v1/models 首个模型做 Tuan 映射）→ 绑定 group 5 → 核对
+  - 授权后执行 `bash ~/copilot-api-run/copilot-pool.sh` 即全链路闭环
 - 完整操作：`MAC-COPILOT-RUNBOOK.md` + 用户侧清单 `USER-ACTION-CHECKLIST.md`
 - 模型名不可写死：以启动后 `/v1/models` 实测 id 为准（源码确认动态拉取+直传无归一化）
 
