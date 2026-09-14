@@ -132,6 +132,16 @@ node pool-health-check.mjs            # 池只读巡检
 
 ## 十、池健康基线（2026-09-14 巡检，扩池前快照）
 
+> ⚠️ **执行入池/改池前必读**（并行会话 `FREE-LANE-HANDOVER.md` 硬知识）：
+> 1. 裸 SQL 插 `accounts` 不会写 `scheduler_outbox` → 号**永不进调度、永不接单**。
+>    已修复：`copilot-pool.sh`(Mac)、`bazaarlink-pool.sh` 均补 outbox 事件；
+>    批准包（`POOL-OPTIMIZATION-PACKAGE.md`）所有 SQL 也必须附带 outbox 写入。
+> 2. 选路顺序读 **Redis zset `sched:5:openai:single:v*` 的 score**，不是 `accounts.priority`
+>    （DB priority 只是入池初始值，改它对已在 zset 的位次无效，别跟 `*/10` cron 抢）
+> 3. 判"号有没有用"只看 `usage_logs` 的 picks，不是 status/快照
+> 4. **抗风险按上游厂商算**：19 个 columbina 号余额 ≈$2545 健康 19/19，但 **100% 同上游 xai**
+>    ——单厂商抖动会全灭；加号只增配额不增多样性
+
 - **成功率 97.26%**（12h：成功 11162 / 400 315，error 5 静止（#4 Geeky 403余额不足、#6 Stepfun 402超配额、#14 Xiaoen 403余额$0.04、#17 硅基流动402余额不足、#18 Pollinations免费预算耗尽），池账号数变化时以实时 `pool-health-check.mjs` 为准）
 - 400 全为客户端问题（超上下文 92.1% + 非法 tool_call/缺字段），**error_owner 仍误标 provider 315 条**，
   未修复前若据 error_owner 做账号降权会错误惩罚无辜账号；**僵尸 3 个（#5/#2/#8）仍活跃**，
