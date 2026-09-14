@@ -88,3 +88,8 @@ security_audit/AGENTS.md.bak-*
 security_audit/LEAK_REVERIFY_20260913.md
 security_audit/EXPOSURE_MAP_20260913.md
 security_audit/hits_v3.json
+
+# 2026-09-14: 凭据目录显式忽略（26 把活 key 所在，之前只靠碰巧没被 add）
+forum_leads_20260913/
+*.bak-*
+_tmp_*

@@ -11,27 +11,37 @@
 | **E** | 决定要不要做**受控 failover 演练**（短时摘主力） | 只测「排到免费道 + xai 恰好无票」这条唯一未覆盖路径 | 覆盖后我才能说"免费道端到端安全"，否则只能说"无危害证据" |
 | **F** | （可选）给 **admin API key**（`x-api-key`，别会话已证实该机制存在、值不在可读范围） | 用官方接口做 A/C 及"改 agenes 上下文准入" | 免裸 SQL、可审计；**今天 436 条用户可见 400 全来自 agenes 超长上下文**，改道本身零成本 |
 
-## 单号站判据偏置（olomc-free 48 复核沉淀，防下会话重踩）
+## olomc-free(48)「假故障」根因 = audit 探活 URL 拼错（**不是站方抖动**）
 
-`free-lane-audit.mjs` 的"建议停池"判据有一条**结构性偏置**：
+> 本节推翻我自己先前两次归因：①"站方瞬时抖动"（错）②"picks 停在 BAD 之前所以不能证伪"（错，picks 后续 19:27 仍在新增）。
 
-- **成片故障保护只对「同站 ≥3 个号」生效**（`free-lane-audit.mjs:85-88`：失败率 ≥50% 且 ≥3 号 → 站方级相关故障，**不出**停池 SQL）；
-- **单号站**（olomc-free 48 号这类）天然走"账号级处置"分支：**任何一次 3 次重试全 BAD 都会被建议摘号**，没有抖动保护
-- 后果：单号站在一次站方瞬时抖动/按出口限流（发现 13 的前科：pollinations 按出口 IP 计额度，Mac 出口烧光 Windows 出口还活）期间就会被 audit 建议摘号——**单号站的"建议摘号"要打折读**，不能照单全收
+**真根因**（逐层实测定位）：`free-lane-audit.mjs` 用 **store 的 `base`** 拼 `'/v1/chat/completions'`，而 olomc 的 store `base` 是 keyreveal 时代存的**纯主机名** `https://voyager.olomc.top`（网关库 `base_url` 实际是 `https://voyager.olomc.top/gw/v1`）→ 探针打到 `/v1/chat/completions` → **HTTP 404 + HTML 页** → 3 次重试全 BAD → 🔴 建议停池。
 
-**olomc-free(48) 复核结论（2026-09-14 19:5x 二次复核 + 20:2x 三级验真）**：
-- picks 时间线：19:19:48 → 19:27:12（audit BAD 后仍有新增 picks，**证伪 19:3x 的"建议停池"**）
-- 20:2x 三级验真（key 经 Mac PG 取 `credentials->>'api_key'` 不打印）：
-  - `/models` 200 → 仅 1 个模型 `cb/deepseek-v4.1-flash` ✅
-  - `chat` 200 `finish_reason=length` `reasoning_content="The user just said 'hi'. I"` `credit=0` `prompt_tokens=37` ✅
-  - 结论：**48 号健康、零成本、可服务**，"建议停池"撤回
-- ⚠️ 探针字段坑：`accounts.credentials` 的 key 字段名是 `api_key` 不是 `key`（写探针先查字段名，`_tmp_c48keys.sh` 只打印字段名列表不打印值）
+**为什么只有 olomc 中招**：columbina 是**巧合正确**——它的 DB `base_url` 恰好就是 `.../v1`，与 audit 默认拼法一致。任何网关带路径前缀的站（`/gw/v1`、`/api/v1`、`/oe/v1`、`/openai`…）都会被这个默认拼法打成假 BAD。
 
-**通用判据**（发现 15/26 精神 + 本轮新经验）：
-1. 判"号坏"需 2 次即时重试 + 多号采样 + **查 BAD 时刻后是否有新增 picks**（audit 只给前者）
-2. **单号站的"建议摘号"要打折**——没有成片故障保护，任何一次 3/3 全 BAD 都会触发，需 picks 证据兜底
-3. 审计脚本判"chat 健康"时若只看 `c.status===200 && 有 choices`，会把**推理模型的 8 token 全吃在 reasoning_content、content 为空**误判 BAD（见发现 15 的 aio-freeshare 前科）；本轮我探针 `max_tokens=8` 就吃到这个坑，判 48 健康必须看 `reasoning_content` 非空，不是 `content` 非空
-4. key 字段名别硬编码：`_tmp_*` 探针第一次写 `credentials->>'key'` 直接 401，改 `api_key` 才通
+**已落地的修复**
+1. `site-accounts.json` 的 `archive-olomc.top` 补 `chatPath=/gw/v1/chat/completions` + `verifiedModel=cb/deepseek-v4.1-flash`（缺 model 会回退成 `grok-4.5`，在 olomc 上不存在 = 第二个假 BAD 来源）
+2. `free-lane-audit.mjs` 支持 per-account `chatPath` 覆盖（含坑位注释）
+3. 新工具 **`free-lane-pathcheck.mjs`**（只读）：逐条比对 store 拼出的 URL 与 DB `base_url + '/chat/completions'`，把"巧合"变成"检查"；另报覆盖缺口。`--selftest` 9/9 PASS，实跑：**路径漂移 0 / 覆盖缺口 16**
+
+**48 号最终判定：健康，无需任何处置**（修 URL 后 audit 直判 `OK 🟢`；Mac 侧独立 curl 亦 200 真出词、`credit=0`）
+
+**覆盖缺口的重要含义**：DB 44 号有 `base_url`，store 只 26 条 → **`free-lane-audit` 的健康率分母只代表 store 覆盖范围，不代表全池**。tele-muse / wb2api / xzt / pollinations 等（别人的号、key 只在 PG）它根本探不到。判全池健康必须回 `usage_logs`，别拿 audit 的 `12/25` 当"池子只有 12 个好"。
+
+## 判据通用教训（本轮实证）
+
+1. **`--selftest` 通过 ≠ 实跑可用**——pathcheck 的 selftest 9/9 绿，但实跑 DB 查询因引号被 shell 吞掉一直失败，是我拿"无输出"当"无漂移"才暴露的。**判"工具能用"必须看真实输出**（本轮又犯第 2 次，同发现 57 的 `rows` 坑）
+2. **SQL 含引号一律走 heredoc**（`<<'REMOTE'` 带单引号定界符，本地远端都不展开）；`-c "..."` 跨 node→wsl→ssh 三层必被吃引号
+3. 单号站没有"同站 ≥2 号成片故障"保护（`free-lane-audit.mjs` 的 outage 判据要求 `list.length>=2 && badN>=2`）→ **单号站的"建议摘号"要打折读**，先排 URL/模型名这类探针自身错误
+4. **推理模型判活别看 `content`**：`max_tokens` 给 8~24 时 token 全吃在 `reasoning_content`，`content` 恒空 + `finish_reason=length` → 仍算活（发现 15 aio-freeshare 前科重演）
+5. `accounts.credentials` 的 key 字段名是 **`api_key`** 不是 `key`（写死会 401，且 401 会被误读成"key 失效该摘号"）
+
+## 🔴 凭据仓风险（本轮新发现，比旧那条已作废的 health-check 警报严重）
+
+`forum_leads_20260913/`（**26 把活 key 的 store 所在目录**）实测：`git ls-files` = 0（未跟踪）**但 `git check-ignore` 也 = 空 → 没有 .gitignore 保护**，根 `.gitignore` 无 `forum_leads` 规则。
+→ 一次 `git add .` 就会把 26 把 key 带进远端。已补 `.gitignore` 规则（本轮修复项）。
+对照：`sub2api/health-check.js` 早已被忽略（发现 55 已纠正我反复误报的那条），但**真正的裸奔目录是 forum_leads**——我此前从未检查过它。
+
 
 ## 现在正在发生的事（实测 19:5x 逐条复核后）
 - **A 案三家确认可用**：`crowllm.com` / `api.openrealm.dev` / `mzlone.top` 门都是 `reg=true 邮件验=true 签到=true`、注册页 **200** → **你给邮箱就能开**
