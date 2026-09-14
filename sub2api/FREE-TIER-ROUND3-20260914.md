@@ -45,3 +45,11 @@
 
 - 本次为匿名只读探测：无 key、无账号、无池改动
 - 待办：IP 冷却后复测 OVH chat（受限项=换出口需你或我换通道）
+
+## 附：9-13 遗留待测项闭环（duck.ai / poli-text）
+
+- **duck.ai**：`GET/POST /api/chat`、`/api/v1/chat/completions`、`/v1/chat/completions`、
+  `/api/models` 全部返回同一 React SPA 壳（`data-version-tag: serp_20260913...`）——
+  是 DuckDuckGo 网页应用，**非开放 API**（前端 XHR 路径不在静态资源），**不构成候选**
+- **poli-text**：9-13 记录"匿名可列"，维持原结论（`text.pollinations.ai` 主端点当日复核 200）
+- 两个遗留项至此全部闭环
