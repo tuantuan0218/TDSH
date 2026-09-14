@@ -79,3 +79,6 @@ verify-siliconflow.mjs
 .copilot-local/
 
 gh-copilot-win-ready.json
+
+tmp_dash.png
+tmp_hist.db

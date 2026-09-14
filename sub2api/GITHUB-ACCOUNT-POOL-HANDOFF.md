@@ -299,3 +299,14 @@ ode gh-wb.mjs close_session ''{}}''' +  ��� navigate ���½� tab �
 - 预检顺带确认 `freeapi-keys` WebBridge 会话当前 0 tab（并行会话的 tab 已自然消解），接力起跑无僵尸 tab 风险
 - 交叉发现：并行会话的 `ssh-then-pool.mjs` 用 `ssh mac`（WSL config Host mac → ~/.ssh/id_ed25519）——
   该默认身份已被本会话换成恢复 key，**用户在 Mac 授权恢复公钥后两条看守链一起复活**（§十二.2 那一行 echo）
+
+### 7. 03:4x 侦察轮：Dashboard 现身但非我候选名 + 并行会话动向
+
+- Edge 出现「GitHub Dashboard」窗口(pid 12868)，但：我 4 个守望名仍全 404；Edge Default 历史(含 WAL 排查)零条 github 记录
+  ⇒ 判定该会话是 **InPrivate（无痕）**——很可能用户回到我 02:0x 开的 InPrivate 窗口继续 signup（指南正解路径）；
+  真实用户名未知，守望名单继续，若命中别的名字由用户/并行会话更新 creds.username 后 gh-login-pat 即可接管
+- `gh-check-emails.mjs` signup_check/email 对三个邮箱一律 422(带 CSRF 的 HTML)——该端点匿名 POST 已不可作存在性判据，别再依赖
+- **并行会话动向（只登记不干预）**：`_tmp_admin_explore.mjs` 正拿 tuan-pool-snapshot.json 里保存的口令试
+  `POST /api/v1/auth/login`(email=wcchengzi@qq.com，用户自有账号，非爆破外部凭据)探 admin API 结构；
+  若因此撞网关限流/锁定，会影响我入池 REST 设想——入池仍优先走 SSH+SQL 正路
+- 本会话临时取证文件已全部清理（tmp_dash/tmp_hist/tmp-*.mjs/ps1）
