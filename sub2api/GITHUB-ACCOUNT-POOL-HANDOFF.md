@@ -28,8 +28,9 @@
 
 ### ⭐1. 你已有 GitHub 号 → copilot 反代（就差你输 code）
 
-- 状态：Mac（192.168.1.3）上 copilot-api auth 进程**存活等待中**，
-  **device code：`5A78-0062`** → 浏览器打开 **https://github.com/login/device** 输入即授权
+- 状态：Mac（192.168.1.3）上次 auth 已超时退出（token 0 字节，auth.log `ERROR fetch failed`，
+  此前 code `5A78-0062` 已失效）。需重跑取新码：`bash copilot-auth.sh code`（Mac 侧）→
+  浏览器打开 **https://github.com/login/device** 输入新码即授权（以 auth.log 最新输出为准）
 - ⚠️ **网络前提（2026-09-14 实测）**：Mac 直连 github.com 超时，**必须走本机 mihomo
   代理 127.0.0.1:7897**（auth 与 token 刷新都要）；`start-copilot.sh` 已是代理版
 - 授权后自动完成：启动反代 4141 → 三步门验证 → 入池（幂等 SQL）
@@ -105,7 +106,7 @@
 
 | 项 | 动作 | 状态 |
 |---|---|---|
-| **copilot 授权** | 打开 github.com/login/device 输 **`5A78-0062`**（最新；旧码 0989-1311/D3CA-973D/37FA-7F20 已过期） | ⏳ 等待（Mac auth 进程存活） |
+| **copilot 授权** | 重跑 `bash copilot-auth.sh code` 取当前有效 user_code → 打开 github.com/login/device 输入（本次复查 code `5A78-0062` 已随进程超时失效；auth.log 尾部应有 fetch failed，见 §快速上手） | ⏳ 等待（Mac token 0 字节，需重新取码） |
 | 🥇 BazaarLink（门槛最低） | bazaarlink.ai 注册（Name+Email+密码+Turnstile 点一下）拿 `sk-bl-*` key 发我 | ⏳ 待做 |
 | U8 NIM | build.nvidia.com 过 hCaptcha 拿 key 发我 | ⏳ 待做 |
 | U9 OpenRouter | 注册给邮箱拿 key 发我 | ⏳ 待做 |
@@ -117,25 +118,24 @@
 cd D:\tdsh\sub2api
 node run-free-api-regression.mjs      # 工具链健康（7 项全过）
 node pool-health-check.mjs            # 池只读巡检
-# copilot：ssh Mac 看 ~/copilot-api-run/auth.log 确认 code；授权后
-#   ~/copilot-api-run/start-copilot.sh start && 三步门验证 && 入池 SQL
+# copilot：bash copilot-auth.sh code 取新 user_code → 授权后
+#   bash copilot-auth.sh poll && bash copilot-auth.sh pool   # 一键入池完整闭环
 ```
 
 ## 九、边界声明（维持不变）
 
-- ❌ 注册机/批量注册 GitHub：否决（三重封死，见第二节）
+- ❌ 注册机/批量注册 GitHub：否决（四重封死 + DataDome 现场取证，见第二节）
 - ❌ 打码平台/绕过人机验证：不提供
 - ❌ 批量薅 Copilot：滥用检测，号全灭
 - ✅ 单账号官方额度（copilot free / NIM / OpenRouter :free）：合规可做
+- ✅ BazaarLink 注册入池（免信用卡、Turnstile 人机、auto:free）：可自动执行到"注册页预填"为止，人机+验证码必须用户做
 
 ## 十、池健康基线（2026-09-14 巡检，扩池前快照）
 
-- **成功率 96.61%**（12h：成功 10141 / 400 356）
-- 400 全为客户端问题（超上下文 84.3% + 非法 tool_call），**error_owner 误标 provider**，
-  建议语义识别后归 client（勿据此降权无辜账号）
-- **僵尸账号 3 个**（active+schedulable 但无 base_url）：#5 infer、#2 kimi2-hello4am、
-  #8 amd-radeon —— 排在调度位次 23/24/28，其后 16 个可用账号被挡（failover 救回，
-  不降成功率但耗重试）。**处置需用户点头**：补 base_url 或 schedulable=false
+- **成功率 97.26%**（12h：成功 11162 / 400 315，error 5 静止（#4 Geeky 403余额不足、#6 Stepfun 402超配额、#14 Xiaoen 403余额$0.04、#17 硅基流动402余额不足、#18 Pollinations免费预算耗尽），池账号数变化时以实时 `pool-health-check.mjs` 为准）
+- 400 全为客户端问题（超上下文 92.1% + 非法 tool_call/缺字段），**error_owner 仍误标 provider 315 条**，
+  未修复前若据 error_owner 做账号降权会错误惩罚无辜账号；**僵尸 3 个（#5/#2/#8）仍活跃**，
+  排位次 25/26/27，其后 14 个可用账号被挡 → `ZOMBIE-ACCOUNTS-PLAN.md` 方案A待批
 - 上下文画像：8 个号能吃 >500K（#10/#11/#13/#19/#1/#15 等）；#3 agenes 排第 3 位但
   天花板 490K → 超长请求会先打它并必然 400（机制：按名次从前到后选号）
 - 完整报告：`POOL-HEALTH-REPORT.md`（可重跑 `node pool-health-check.mjs`）
