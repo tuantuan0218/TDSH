@@ -41,9 +41,17 @@ GitHub 登录 → https://github.com/settings/copilot → 选择 **Free 档**（
 
 ### 3.1 认证（一次性，需用户浏览器授权）
 
+> ⚠️ **网络前提（2026-09-14 实测修正）**：Mac **直连 github.com 超时**（Connect Timeout
+> 10s，curl 000），但本机 **mihomo 代理 127.0.0.1:7897 可达**（实测 github 200）。
+> auth **必须走代理**，且**授权成功后 token 刷新（refresh_in 周期）同样走 GitHub——
+> 启动反代也必须 `--proxy-env` + 代理环境变量**，否则反代跑一会 token 刷新超时即失效。
+> `~/copilot-api-run/start-copilot.sh` 已是代理版（内置 export + --proxy-env）。
+
 ```bash
 export PATH="/usr/local/bin:$PATH"
-npx -y copilot-api@latest auth
+export HTTP_PROXY="http://127.0.0.1:7897"
+export HTTPS_PROXY="http://127.0.0.1:7897"
+npx -y copilot-api@latest auth --proxy-env
 # 输出: Please enter the code "XXXX-XXXX" in https://github.com/login/device
 ```
 → 用户浏览器（已登录 GitHub 的任意设备）打开 https://github.com/login/device → 输入
@@ -56,8 +64,10 @@ user_code → 授权 → 终端显示 `Logged in as <用户名>` → token 持�
 export PATH="/usr/local/bin:$PATH"
 mkdir -p ~/copilot-api-run && cd ~/copilot-api-run
 nohup npx -y copilot-api@latest start --port 4141 \
-  --rate-limit 5 --wait > ~/copilot-api-run/copilot-api.log 2>&1 &
+  --rate-limit 5 --wait --proxy-env > ~/copilot-api-run/copilot-api.log 2>&1 &
 # --rate-limit 5 --wait: 请求间隔 5s、超限排队而非报错 —— 防止触发 GitHub 滥用检测
+# --proxy-env + HTTP(S)_PROXY: token 刷新需访问 GitHub，Mac 直连超时必须走 mihomo 7897
+# 便捷方式: ~/copilot-api-run/start-copilot.sh start（已内置代理参数，幂等）
 ```
 - 端点：`http://127.0.0.1:4141/v1`（OpenAI 兼容：/v1/models, /v1/chat/completions,
   /v1/embeddings；另有 /v1/messages Anthropic 兼容 + /usage 用量面板）

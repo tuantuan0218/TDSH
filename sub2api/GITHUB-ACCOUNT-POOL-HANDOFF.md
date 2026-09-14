@@ -28,9 +28,11 @@ copilot 反代 + U8（NIM）+ U9（OpenRouter），全部只差你一个动作�
 ### ⭐1. 你已有 GitHub 号 → copilot 反代（就差你输 code）
 
 - 状态：Mac（192.168.1.3）上 copilot-api auth 进程**存活等待中**，
-  **device code：`0989-1311`** → 浏览器打开 **https://github.com/login/device** 输入即授权
+  **device code：`535A-6E2C`** → 浏览器打开 **https://github.com/login/device** 输入即授权
+- ⚠️ **网络前提（2026-09-14 实测）**：Mac 直连 github.com 超时，**必须走本机 mihomo
+  代理 127.0.0.1:7897**（auth 与 token 刷新都要）；`start-copilot.sh` 已是代理版
 - 授权后自动完成：启动反代 4141 → 三步门验证 → 入池（幂等 SQL）
-- 启动脚本已预置：`~/copilot-api-run/start-copilot.sh`（Mac 上）
+- 启动脚本已预置：`~/copilot-api-run/start-copilot.sh`（Mac 上，代理版）
 - 完整操作：`MAC-COPILOT-RUNBOOK.md` + 用户侧清单 `USER-ACTION-CHECKLIST.md`
 - 模型名不可写死：以启动后 `/v1/models` 实测 id 为准（源码确认动态拉取+直传无归一化）
 
