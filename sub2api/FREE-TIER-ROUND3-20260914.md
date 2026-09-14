@@ -79,3 +79,11 @@
   另有 "Continue with Google" OAuth。Turnstile 是真人点一下级（比 GitHub DataDome 简单），
   注册无信用卡无审核
 - **待办**：用户注册拿 key（若 Turnstile 可真人过，是三条合法主线之外的第四条）
+- **API 文档要点（`bazaarlink.ai/docs/api` 实测提取）**：
+  - 配额可编程查询：key 信息含 `limit_remaining` / `requests_daily` / `rate_limit` /
+    `is_free_tier` 等字段 → **入池后可用 API 监控额度**（不用看网页），
+    适合接 `free-quota-monitor.mjs` 体系
+  - ⚠️ **自动化内容审查**：所有请求送模型前先审查，违规**403**（不进模型）——
+    入池后 403 是站方行为不是故障，调度降权时注意区分（别误伤无辜账号）
+  - 错误码体系完整：`upstream_rate_limited` 429 / `upstream_unavailable` 502/503 /
+    `spend_limit_exceeded`（余额）等，failover 语义友好
