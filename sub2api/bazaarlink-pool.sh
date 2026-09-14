@@ -39,6 +39,11 @@ SELECT 'bazaarlink-free','openai','apikey',
   'active', true, 1, 1.0, 'global', true
 WHERE NOT EXISTS (SELECT 1 FROM accounts WHERE name='bazaarlink-free' AND deleted_at IS NULL)
 RETURNING id, name, status, schedulable;
+-- ⚠️ 裸 SQL 不写 scheduler_outbox 会导致新号永不进调度快照（FREE-LANE-HANDOVER 硬知识）
+INSERT INTO scheduler_outbox (event_type, account_id, group_id, payload)
+SELECT 'account_changed', a.id, NULL, NULL FROM accounts a
+WHERE a.name='bazaarlink-free' AND a.deleted_at IS NULL
+AND NOT EXISTS (SELECT 1 FROM scheduler_outbox o WHERE o.account_id=a.id);
 INSERT INTO account_groups (account_id, group_id)
 SELECT a.id, 5 FROM accounts a WHERE a.name='bazaarlink-free' AND a.deleted_at IS NULL
 ON CONFLICT (account_id, group_id) DO NOTHING;
