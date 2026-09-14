@@ -48,3 +48,17 @@
 - 漂移 0；audit 覆盖 = 全部 active 外部免费渠道 100%。
 - ⚠️ 并发备忘：FREE-POOL-INVENTORY-20260914.md 被并行会话高频写入（发现编号已到 74），
   本结论未再追加该台账（避免读-改-写覆盖风险），以本文档为准。
+## 2026-09-14 20:3x 收口探活最终定性（12 条全部归因）
+
+| 站 | 探活结果 | 归因 |
+|---|---|---|
+| tele-muse / tele-qwen / tokenrouter / hub-linuxdo / xzt×2 | ✅ 200 出词 | 收口生效 |
+| olomc(48) | ⏳ 超时 | cb 上游故障窗口（已知） |
+| aitools | ⏳ 超时 | 待复核（/models 401 快速，chat 慢） |
+| aio-freeshare | 🔴 403 | ＄0 余额（DECISION-CARD 四个 ＄0 之一） |
+| xuanwu-free | 🔴 403 | ＄0 余额 |
+| freemodel-free | 🔴 401 Insufficient balance | **key 有效（/v1/models 200）但余额 ＄0**——站方用 401 表达余额不足 |
+| columbina-free 主号 | 🔴 503 | xai 上游故障（第 7 次，已知） |
+
+**结论**：11 条 store 配置全部正确（路径/模型/key 无错）；探活失败 100% 归因于
+**号本身既有状态**（＄0 余额 ×3、上游故障 ×2、待复核 ×1），无需任何配置处置。
