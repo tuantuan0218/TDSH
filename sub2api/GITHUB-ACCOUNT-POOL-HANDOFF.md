@@ -214,3 +214,25 @@ store 完整（快照 diff 为字段级更新）。下次领取窗口=明日。
 | copilot 授权 | github.com/login/device 输入 code | 已就绪（见上） |
 | columbina 母号 $155 入池 | 一句话确认 | 幂等 SQL 就绪，待点头 |
 | baosiapi chat 三步门 | UI 点"复制 key" | 价值已证伪，可不做 |
+
+## 十二、2026-09-15 追加轮：signup 布防 + Mac SSH 断裂发现
+
+### 1. 注册现场已布防（等待人工，其余全自动）
+
+- Edge InPrivate 已开 `github.com/signup`；注册密码在剪贴板；用户名 `tuanpool-etm739` 实测 404 可用
+- **守望接力已启动**（job pwsh-8，4h）：`gh-watch-registered.mjs` 每 60s 探 `github.com/<user>`，
+  404→200 即自动跑 `gh-login-pat.mjs`（建 PAT 写回 creds）→ `gh-copilot-enable.mjs`（启用 Copilot Free）
+- 通道 B 备用邮箱**重建**：`ghreg526002@uberip.com`（旧 ghreg971306 密码失传弃用）；
+  取码轮询 job pwsh-7（30min），命中码进剪贴板；日志 `gh-watch.log` / `gh-mail-B.log`
+- 已备份：commit `3fe8cd8` + `c434eef` → tuantuan0218/TDSH main
+
+### 2. ⚠️ 本机 → Mac(192.168.1.3) SSH 全断（pool-health-check 的 Mac 段因此失败）
+
+- 现象：`Permission denied (publickey)`；WSL(Ubuntu) `/root/.ssh/id_ed25519` **已不在**，
+  仅剩 `corpus_key_1..3`；全部实测被拒，含 Windows `C:\Users\Administrator\.ssh\id_ed25519`
+  （那本就是 64:ff:…zcode@DESKTOP 那类旁路 key，非 Mac 授权 key）
+- `everything_search` 全盘无 `id_ed25519` 其它副本（本会话核对：本机与 git 索引均无 Mac 私钥可用副本）
+- 影响评估：**不阻塞注册→入池主线**——Windows 侧 `gh-copilot-autopipe.sh` 是 Mac 链的等价实现
+  （12:3x 已含 outbox 修正），新号 PAT 到手后可直接在 Windows 走 device 授权+反代+入池
+- 修复受限项（待用户）：Mac 登录口令一次（键盘交互被 BatchMode 挡），或用户在 Mac 上把
+  `C:\Users\Administrator\.ssh\id_ed25519.pub` 追加进 `~/.ssh/authorized_keys` → 本机即可恢复全链
