@@ -26,13 +26,23 @@
 | 池运维方案 | `ZOMBIE-ACCOUNTS-PLAN.md` + `ERROR-OWNER-MISLABEL-PLAN.md` |
 | GitHub OAuth 渠道 | `GH-OAUTH-CHANNELS-READY.md` |
 | 凭据安全 | `.gitignore`（2026-09-14 增量，含 .edge-dbg-profile） |
+| copilot 认证自助工具 | `copilot-auth.sh`（code/poll/pool/status 一键，绕开 copilot-api auth 代理 bug） |
+| 统一入池入口 | `pool-entry.sh`（4 通道自动路由） |
+
+## 并行会话产出（自动合并，勿覆盖）
+
+| 主题 | 文档 |
+|---|---|
+| 邮箱域名路由表：24 家邮件码站 × 自建域，`uberip.com` 独有放行 4 家（baosiapi 签到仅 $0.03 不值得批量；GOLD_CK 仍只 columbina 一家） | `MAIL-DOMAIN-ROUTING-20260914.md`（并行会话 11:02 产出，勿覆盖） |
+| 池库存快照 / 配额监控更新 | `FREE-POOL-INVENTORY-20260914.md` / `FREE-QUOTA-MONITOR.md` / `free-quota-monitor.mjs`（并行会话维护，勿覆盖） |
+| 扩池源码参考 | `sub2api-src/`（独立 git 目录，勿动） |
 
 ## 三、4 条合法扩池通道（全就绪，各差 1 个用户动作）
 
 | 优先级 | 通道 | 待办 | 入池准备度 |
 |---|---|---|---|
 | 🥇 | **BazaarLink**（门槛最低） | 注册拿 `sk-bl-*` key | `bazaarlink-pool.sh` 一键 |
-| 🥈 | copilot 反代 | 输 device code `CC4C-D6D1` | Mac 脚本 + 代理已就绪 |
+| 🥈 | copilot 反代 | 输 device code `BC0A-27B2`（copilot-auth.sh 自助） | Mac 脚本 + 代理已就绪 |
 | 🥉 | NIM | 过 hCaptcha 拿 `nvapi-*` key | 脚本 + 映射已备 |
 | 4 | OpenRouter | 给主流邮箱 | 配置 + 表单参数已备 |
 
