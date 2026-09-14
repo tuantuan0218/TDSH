@@ -236,3 +236,9 @@ store 完整（快照 diff 为字段级更新）。下次领取窗口=明日。
   （12:3x 已含 outbox 修正），新号 PAT 到手后可直接在 Windows 走 device 授权+反代+入池
 - 修复受限项（待用户）：Mac 登录口令一次（键盘交互被 BatchMode 挡），或用户在 Mac 上把
   `C:\Users\Administrator\.ssh\id_ed25519.pub` 追加进 `~/.ssh/authorized_keys` → 本机即可恢复全链
+- ★ **绕开 SSH 的替代通道（本轮实测，2026-09-15）**：
+  - `http://192.168.1.3:8090`（sub2api 网关）**LAN 可达**（探测返回 401=路由存在需鉴权）
+    → 有 admin API key 时建号/查池可**纯 REST 完成，零 SSH**（机制见 `GATEWAY-ADMIN-API-FOUND.md` §四：`x-api-key` 头）
+  - copilot 反代不必依赖 Mac：可本机 Windows 起（`npx copilot-api start --port 4141`），
+    池内 base_url 写本机 LAN IP:4141 即可（网关在 Mac 可回连 LAN）；新号注册后 device 授权也在本机做
+  - 待批项不变：admin API key 值仍未知（文档 §4.2 已声明不挖进程 env，属敏感面），用户从网关配置侧提供即可
