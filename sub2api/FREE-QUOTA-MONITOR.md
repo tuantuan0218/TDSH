@@ -1,8 +1,8 @@
 # 免费额度监控告警
-> 生成 2026-09-14T04:12:16.470Z · 公益站 6 · 码批次 10 · 阳性对照 OK
+> 生成 2026-09-14T19:46:26.928Z · 公益站 6 · 码批次 9 · 阳性对照 OK
 
 ## 与上轮 diff
-💬 linux.do 新帖: 最新话题 - 2026年9月14日12:01摘要 (近3小时) 本期RSS内容聚焦AI大模型使用体验、工具链优化、订阅服务异常及开发者职业与技术实践等热点议题。 一、大模型性能与使
+💬 linux.do 新帖: 本地部署qwen3.8-27b做代码review 因为使用实际代码仓库测试了qwen3.8-27b能力，当时的测试结果是纯代码上比dsv4f差一点，但是整体代码能力比较接近，加上公
 
 ## 当前公益中转站快照
 - Agent Router `agentrouter.org` 模型3 可用率100% 评分96 check-in/daily:随机
@@ -12,18 +12,17 @@
 - TaBiAI `tabitoken.com` 模型2 可用率0% 评分45 check-in/daily:随机
 - columbina `newapi.columbina.eu.org` 模型2 可用率42.86% 评分78.33 check-in/daily:随机
 ## 当前福利码批次
-- FluxionAI · FluxionAI 兑换码 → **$3 体验额度** 余 116（46天 01:45:52）
-- Orbelis · 九月新用户福利 → **10U试用订阅周卡** 余 72（04:23:52）
-- RickToken · RickToken 兑换码 → **$3 体验额度** 余 67（15天 02:01:52）
-- I Code Easy · I Code Easy 兑换码第二期 → **¥3 体验额度** 余 58（4天 07:06:52）
-- 元流 Token · 元流兑换码 → **$5 体验额度** 余 41（15天 01:54:52）
-- Z-API · Z-API九月福利 → **3元体验额度** 余 39（16天 02:16:52）
-- AI 聚合平台 · AI 聚合平台 · 2026年9月体验福利 → **5算力（平台人民币5元充值对应额度，非美元）** 余 37（2天 03:49:52）
-- Top API · 九月新用户福利 → **$3 无门槛体验额度** 余 27（16天 00:45:52）
-- CodeGo · CodeGo 兑换码 → **$3 体验额度** 余 19（15天 20:15:52）
-- LV Ping · LV Ping 兑换码 → **$20 体验额度** 余 7（17天 00:28:52）
+- FluxionAI · FluxionAI 兑换码 → **$3 体验额度** 余 115（45天 10:11:46）
+- RickToken · RickToken 兑换码 → **$3 体验额度** 余 67（14天 10:27:46）
+- I Code Easy · I Code Easy 兑换码第二期 → **¥3 体验额度** 余 57（3天 15:32:46）
+- 元流 Token · 元流兑换码 → **$5 体验额度** 余 41（14天 10:20:46）
+- Z-API · Z-API九月福利 → **3元体验额度** 余 37（15天 10:42:46）
+- AI 聚合平台 · AI 聚合平台 · 2026年9月体验福利 → **5算力（平台人民币5元充值对应额度，非美元）** 余 36（1天 12:15:46）
+- Top API · 九月新用户福利 → **$3 无门槛体验额度** 余 25（15天 09:11:46）
+- CodeGo · CodeGo 兑换码 → **$3 体验额度** 余 17（15天 04:41:46）
+- LV Ping · LV Ping 兑换码 → **$20 体验额度** 余 5（16天 08:54:46）
 ## 匿名实测（两级门：models 可见 / chat 真出词）
-- [阳性对照] `https://text.pollinations.ai/openai` models:200(1) chat:200 → **POOLABLE 出词="PONG"**
+- [阳性对照] `https://text.pollinations.ai/openai` models:0 chat:0 → **不可用** models:TypeError: fetch failed
 - [阳性对照] `https://ai-api.xzt.plus/v1` models:200(24) chat:200 → **POOLABLE 出词="PONG"**
 - [负对照] `https://free.suyu.io/v1` models:200(9) chat:401 → **仅清单开放**
 - Agent Router `https://agentrouter.org/v1` models:401 chat:401 → **不可用**
