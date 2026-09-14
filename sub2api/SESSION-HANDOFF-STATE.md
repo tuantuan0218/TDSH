@@ -1,0 +1,74 @@
+# 本会话交接状态快照 — 2026-09-14
+
+> 单页读完：本会话（GitHub 账号→池扩容任务）的全部成果、未决项、续跑起点。
+
+## 一、任务本质与定论
+
+- **原始目标**：注册 GitHub 号 → 反代 → 扩池
+- **核心定论**：**"大量 GitHub 账号"路线不存在合法实现**（ToS 禁自动建号 + DataDome
+  墙现场取证 + GitHub Models 410 退役 + 多号批量触发滥用检测，四重封死）
+- **可行路径**：1 个真人号（用户已有）+ 官方免费额度 + 4 条合法通道
+
+## 二、交付物清单（16 份文档，全部备份私有仓 tuantuan0218/TDSH）
+
+| 主题 | 文档 |
+|---|---|
+| 主交接（一份读完） | `GITHUB-ACCOUNT-POOL-HANDOFF.md` |
+| GitHub 注册（单人合法） | `GITHUB-REGISTER-GUIDE.md` |
+| DataDome 取证 | `SIGNUP-WALL-DATADOME-EVIDENCE.md` + `SIGNUP-WALLS-FINAL-CLASSIFICATION.md` §3.5 |
+| Mac copilot 反代 | `MAC-COPILOT-RUNBOOK.md` + `USER-ACTION-CHECKLIST.md` |
+| 反代盘点 | `REVERSE-PROXIES-INVENTORY.md` |
+| NIM 映射/流程 | `NIM-RECOMMENDED-MAPPINGS.md` + `NIM-SIGNUP-FLOW.md` |
+| 官方免费层复核 | `OFFICIAL-FREE-RECHECK-20260914.md` |
+| 第三轮+keyless 盘点 | `FREE-TIER-ROUND3-20260914.md` + `FREE-TIER-ROUND5-KEYLESS-20260914.md` |
+| OpenRouter 注册参数 | `OPENROUTER-SIGNUP-FIELDS.md` |
+| BazaarLink（第4通道） | `FREE-TIER-ROUND3-20260914.md` 附2 + `BAZAARLINK-POOL-SCRIPT.md` + `bazaarlink-pool.sh` |
+| 池运维方案 | `ZOMBIE-ACCOUNTS-PLAN.md` + `ERROR-OWNER-MISLABEL-PLAN.md` |
+| GitHub OAuth 渠道 | `GH-OAUTH-CHANNELS-READY.md` |
+| 凭据安全 | `.gitignore`（2026-09-14 增量，含 .edge-dbg-profile） |
+
+## 三、4 条合法扩池通道（全就绪，各差 1 个用户动作）
+
+| 优先级 | 通道 | 待办 | 入池准备度 |
+|---|---|---|---|
+| 🥇 | **BazaarLink**（门槛最低） | 注册拿 `sk-bl-*` key | `bazaarlink-pool.sh` 一键 |
+| 🥈 | copilot 反代 | 输 device code `CC4C-D6D1` | Mac 脚本 + 代理已就绪 |
+| 🥉 | NIM | 过 hCaptcha 拿 `nvapi-*` key | 脚本 + 映射已备 |
+| 4 | OpenRouter | 给主流邮箱 | 配置 + 表单参数已备 |
+
+## 四、关键事实（避免下个会话重查）
+
+- **免 key 端点全市场仅 2 个**：pollinations + xzt（已入池）；OVH/LLM7/KeylessAI/BazaarLink
+  实测全部需 key 或 429（5 轮盘点闭环，`NO-KEY-ENDPOINTS-VERIFIED.md` 维持 2 个）
+- **GitHub Models 410 退役**（brownout）——多号无免费推理额度可薅
+- **Mac 直连 github.com 超时**，但本机 mihomo 代理 7897 可达——copilot-api auth 与 token
+  刷新**必须**走 `--proxy-env` + 代理
+- **pool 池 46/41/5 error**，僵尸账号 #2/#5/#8（无 base_url 却 schedulable）待处置
+- **BazaarLink 4 特点**：/v1/models 匿名 200（173 模型）/ chat 需 key（401）/ 3 个零价模型
+  （`auto:free`/`qwen3.7-flash:free`/`deepseek-v4-flash-0731v:free`）/ 有内容审查 403
+  + 配额可编程查
+
+## 五、池健康基线（2026-09-14）
+
+- 46 账号 / 41 sched / 5 error（无漂移）
+- 僵尸 #2 kimi2-hello4am / #5 infer / #8 amd-radeon 仍 schedulable=true，
+  排在位次 23/24/28 挡 16 个可用账号 → 方案 A（schedulable=false）待批准
+- 400 全 356 条被误标 provider（84% 超上下文 + 11% 非法 tool_call 是客户端问题），
+  error_owner 改 client 的方案 A 待批准
+
+## 六、续跑起点（下个会话直接看）
+
+1. 读本文 + `GITHUB-ACCOUNT-POOL-HANDOFF.md`
+2. 查用户是否已执行受限项：
+   - `node run-free-api-regression.mjs`（工具链 7/7）
+   - 查 4 通道是否已入池（`pool-health-check.mjs`）
+   - 查 Mac auth token 状态（`ssh zhaozicheng@192.168.1.3 'ls -la ~/.local/share/copilot-api/github_token'`）
+3. 若 BazaarLink key 到手 → `bash bazaarlink-pool.sh <sk-bl-key>`
+4. 若 copilot 授权 → `ssh Mac 'bash ~/copilot-api-run/copilot-pool.sh'`
+5. 若用户批"同意A" → 跑僵尸 SQL（`ZOMBIE-ACCOUNTS-PLAN.md`）+ error_owner 改口径
+
+## 七、边界（维持不变）
+
+- ❌ 注册机/批量注册/打码平台/绕过人机验证
+- ❌ 批量薅 Copilot（GitHub 滥用检测，号全灭）
+- ✅ 单真人号 + 官方额度（4 条合法通道）
