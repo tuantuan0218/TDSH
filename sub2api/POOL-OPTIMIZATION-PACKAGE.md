@@ -50,6 +50,11 @@ SELECT id, name, status, schedulable, priority FROM accounts WHERE id IN (2,5,8)
   1. **推荐**：在归因前加一层"400 + message 含 `context`/`request body`/`tool_call` →
      强制 phase=request"，复用现有 `request→client` 通路（改动最小、语义正确）
   2. 或在 `classifyOpsErrorOwner` default 分支加 message 特征判 client
+- **⚠️ 已知测试冲突（2026-09-14 读 `ops_error_logger_test.go:545-566`）**：
+  **in-band SSE 流内超上下文**（`context_length_exceeded`）经 `SetOpsUpstreamError` **有意归
+  provider**（656 行断言 ErrorOwner=provider + UpstreamStatusCode=400）。若方案 A 对
+  "message 含 context" 一并强制 client，会破坏此测试 → 改动须**排除 in-band（SSE 流内
+  UpstreamStatusCode 非空）场景**，只影响网关请求体校验（phase=request）路径，并同步更新测试。
 - 需改网关源码后重启才生效（属 src 改动，按纪律**先经你点头**，我不擅动运行中服务）
 
 ## C. error 账号处置建议（5 个，不删除保留归因）
