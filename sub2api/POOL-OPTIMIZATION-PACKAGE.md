@@ -40,12 +40,17 @@ SELECT id, name, status, schedulable, priority FROM accounts WHERE id IN (2,5,8)
 问题），若按 error_owner 做账号降权会错误惩罚无辜上游（#3 agenes 295 条全因此被拖累）。
 
 **改动**（错误记录语义识别后归 client）：
-- 网关错误记录处（error_owner 赋值逻辑）增加 400 语义分流：
-  - `max_input_tokens` 超上游上限 → client（超上下文）
-  - `tools[].function.name` 为空 / message 缺字段 → client（非法构造）
-  - 其余 400 保留 provider
-- 需在 Mac 网关源码定位赋值处后改；**若不便改源码**，备选：账号降权/健康分计算排除 400
-  （只按 5xx/429/超时计上游故障，改动面更小）
+- ✅ **精确定位根因（2026-09-14 读网关源码 `ops_error_logger.go:2358
+  classifyOpsErrorOwner`）**：归因完全按 **phase** 判定——
+  `request/auth→client`、`upstream/network/account_auth→provider`、`routing/internal→platform`。
+  **client 分类已存在且正确**（测试 `ops_error_logger_test.go` 断言 request→client 通过）。
+  超上下文/坏 body 的 400 被误标 provider，是因为它们的 **phase 被归成了 upstream**
+  （网关转发后上游返 400，phase 记为 upstream），而非缺 client 逻辑。
+- **精确改动点**（二选一）：
+  1. **推荐**：在归因前加一层"400 + message 含 `context`/`request body`/`tool_call` →
+     强制 phase=request"，复用现有 `request→client` 通路（改动最小、语义正确）
+  2. 或在 `classifyOpsErrorOwner` default 分支加 message 特征判 client
+- 需改网关源码后重启才生效（属 src 改动，按纪律**先经你点头**，我不擅动运行中服务）
 
 ## C. error 账号处置建议（5 个，不删除保留归因）
 
