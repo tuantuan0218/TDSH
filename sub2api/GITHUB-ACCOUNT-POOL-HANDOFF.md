@@ -140,3 +140,56 @@ node pool-health-check.mjs            # 池只读巡检
   天花板 490K → 超长请求会先打它并必然 400（机制：按名次从前到后选号）
 - 完整报告：`POOL-HEALTH-REPORT.md`（可重跑 `node pool-health-check.mjs`）
 - 数字会漂移：以实时查询为准，勿信文档快照
+
+---
+
+## 十一、追加批次（2026-09-14 11:5x 汇总，指向当日新产出）
+
+> 今日后半段新增结论，全为**只读取证/纯 REST 实测**，池写一项未做。
+
+### 1. 免费渠道"自建邮箱批量开户"路线普查完毕（结论：无第二条 GOLD_CK）
+
+| 站 | 注册赠送 | 签到 | 结论 | 证据 |
+|---|---|---|---|---|
+| baosiapi.com | $0 | $0.0307/次 | 不值得养号 | `PARKED-LANES-AUDIT-20260914.md` §四 |
+| poolrouter.com | $0 | 无 | 不入池 | 同文件 §五 |
+| tian-shu.org | $0 | 未启用 | 不入池 | 同文件 §五 |
+| api.tu-zi.com | 放行 | 无 | 注册要滑动验证 | 同文件 |
+
+- 4 家 uberip 放行站全实测闭环 → **GOLD_CK 仅 columbina 一家**维持
+- ⚠ 测量坑：poolrouter/tian-shu 验证码是**字母+数字混合**（如 `99afe1`），
+  正则须 `[a-z0-9]{6}` 而非纯数字，否则误判"收不到信"
+- 全部站点 × 域名接受度路由表：`MAIL-DOMAIN-ROUTING-20260914.md`
+  （探针纪律：只允许自建 `uberip.com`，硬护栏拒第三方地址，`--selftest` PASS）
+
+### 2. 停放号审计（15 家一次筛清，省掉后续所有会话重复试错）
+
+`PARKED-LANES-AUDIT-20260914.md`：columbina 母号 **$155.21 闲置未入池**（待用户点头）、
+baosiapi 小额、其余为假凭据/需人机。columbina 母号 = 唯一"有余额未入池"项。
+
+### 3. 生产体检器修补（已推送 aac026d）
+
+`free-lane-audit.mjs`：补 cookie + `New-Api-User` 会话回退，并修复 `uid` 恒空 bug
+（三元优先级错误导致头从未发出，cookie-only 老 fork 必被误杀）。回归 19/19 健康，
+母号 $155.21 与已知值一致。
+
+### 4. 今日签到齐活（负结论，已验证）
+
+19 个 columbina 号今日均已在 6:34 签到轮领取，合计余额 **$2545.60**，本次幂等空跑、
+store 完整（快照 diff 为字段级更新）。下次领取窗口=明日。
+
+### 5. copilot device-auth 已重新就绪（保持器运行中）
+
+- 新鲜 code：**`2062-122B`**（15 分钟窗口，`gh-copilot-authkeeper.sh` 自动续发，
+  随时问保持器 job 要"现在的 code"）
+- Mac→github.com 出网复验 200（0.83s）
+- 用户授权后 `gh-copilot-autopipe.sh` 自动完成：起 4141 → 三步门 → 兜底位入池
+
+### 6. 待用户动作（受限项，未越权）
+
+| 项 | 动作 | 可立即做的 |
+|---|---|---|
+| GitHub 新号注册 | 真人 InPrivate 过 signup（资料在 `gh-register-creds.json`，不进 git） | 注册后登录/PAT/OAuth/入池全接手 |
+| copilot 授权 | github.com/login/device 输入 code | 已就绪（见上） |
+| columbina 母号 $155 入池 | 一句话确认 | 幂等 SQL 就绪，待点头 |
+| baosiapi chat 三步门 | UI 点"复制 key" | 价值已证伪，可不做 |
