@@ -38,3 +38,13 @@
 
 - 19:3x 首测：HTTP 522（CF 源站超时）；**19:5x 复查：仍 HTTP 522** → 源站持续故障，
   与配置无关（浏览器 UA 亦 522）。建议：列入"定期复查"，恢复前不列为可入池站。
+
+## 2026-09-14 20:1x 最终收口：覆盖缺口 16 → 5（pathcheck 复验）
+
+- 8 个 active 无前缀站已补 store：aio-freeshare、freemodel-free、hub-linuxdo、tokenrouter、
+  xuanwu-free、xzt-ai-proxy-free、xzt-free、columbina-free 主号（键 newapi.columbina.eu.org#main）。
+- 剩余 5 个合理缺口：pollinations×3（error，产能已恢复待用户点头）、siliconflow-free（＄0）、
+  wb2api（本地 127.0.0.1:7863）。
+- 漂移 0；audit 覆盖 = 全部 active 外部免费渠道 100%。
+- ⚠️ 并发备忘：FREE-POOL-INVENTORY-20260914.md 被并行会话高频写入（发现编号已到 74），
+  本结论未再追加该台账（避免读-改-写覆盖风险），以本文档为准。
