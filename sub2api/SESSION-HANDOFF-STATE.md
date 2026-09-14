@@ -36,6 +36,7 @@
 | 邮箱域名路由表：24 家邮件码站 × 自建域，`uberip.com` 独有放行 4 家（baosiapi 签到仅 $0.03 不值得批量；GOLD_CK 仍只 columbina 一家） | `MAIL-DOMAIN-ROUTING-20260914.md`（并行会话 11:02 产出，勿覆盖） |
 | 池库存快照 / 配额监控更新 | `FREE-POOL-INVENTORY-20260914.md` / `FREE-QUOTA-MONITOR.md` / `free-quota-monitor.mjs`（并行会话维护，勿覆盖） |
 | 扩池源码参考 | `sub2api-src/`（独立 git 目录，勿动） |
+| **🆕 厂商多样性开户顺序（2026-09-14 --screen 精筛）** | 池内活厂商=zhipu/qwen、已灭=xai → 优先 `beizhi.sylu.cc[+8:anthropic~deepseek~google]` > `crowllm.com[+8]` > `api.openrealm.dev[+5]` > `baosiapi.com[+4]` > `sudobug.top[+3]`（均为邮件码+签到站，用户注册拿 key 后可用 `free-pool-add.mjs --tag` 入池）；新活站 `api.aaai.vip`（V-API，verdict=closed）待观察 | `free-quota-monitor.mjs --screen`（可重跑） |
 
 ## 三·五、copilot 链路脚本归属裁定（2026-09-14 并行会话确认，防重复维护）
 
