@@ -1,5 +1,5 @@
 {
- "ts": "2026-09-14T17:27:45.213Z",
+ "ts": "2026-09-14T12:32:15.162Z",
  "sourceErrors": {},
  "stations": [
   {
@@ -26,7 +26,7 @@
    "score": 96,
    "compat": 0,
    "availEffective": 100,
-   "ci95low": 97.68,
+   "ci95low": 97.66,
    "recentStatuses": [
     "degraded",
     "degraded",
@@ -309,7 +309,7 @@
    "batch": "FluxionAI 兑换码",
    "quota": "$3 体验额度",
    "stock": 115,
-   "endsIn": "45天 12:30:24",
+   "endsIn": "45天 17:25:58",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -317,7 +317,7 @@
    "batch": "RickToken 兑换码",
    "quota": "$3 体验额度",
    "stock": 67,
-   "endsIn": "14天 12:46:24",
+   "endsIn": "14天 17:41:58",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -325,7 +325,7 @@
    "batch": "I Code Easy 兑换码第二期",
    "quota": "¥3 体验额度",
    "stock": 57,
-   "endsIn": "3天 17:51:24",
+   "endsIn": "3天 22:46:58",
    "note": "¥3 新用户体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值，仅限新用户。 "
   },
   {
@@ -333,15 +333,15 @@
    "batch": "元流兑换码",
    "quota": "$5 体验额度",
    "stock": 41,
-   "endsIn": "14天 12:39:24",
+   "endsIn": "14天 17:34:58",
    "note": "$5 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
    "merchant": "Z-API",
    "batch": "Z-API九月福利",
    "quota": "3元体验额度",
-   "stock": 37,
-   "endsIn": "15天 13:01:24",
+   "stock": 38,
+   "endsIn": "15天 17:56:58",
    "note": "3元体验额度 每个账号仅限一次，30天有效 "
   },
   {
@@ -349,15 +349,15 @@
    "batch": "AI 聚合平台 · 2026年9月体验福利",
    "quota": "5算力（平台人民币5元充值对应额度，非美元）",
    "stock": 36,
-   "endsIn": "1天 14:34:24",
+   "endsIn": "1天 19:29:58",
    "note": "5算力 AI创作与API体验额度 共50份，每份5算力。兑换后到账AI聚合平台余额，可按平台实际报价用于AI对话、图片、视频、音频创作及API调用，无需先充值。平台1元人民币=1算"
   },
   {
    "merchant": "Top API",
    "batch": "九月新用户福利",
    "quota": "$3 无门槛体验额度",
-   "stock": 25,
-   "endsIn": "15天 11:30:24",
+   "stock": 26,
+   "endsIn": "15天 16:25:58",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -365,7 +365,7 @@
    "batch": "CodeGo 兑换码",
    "quota": "$3 体验额度",
    "stock": 17,
-   "endsIn": "15天 07:00:24",
+   "endsIn": "15天 11:55:58",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -373,25 +373,22 @@
    "batch": "LV Ping 兑换码",
    "quota": "$20 体验额度",
    "stock": 5,
-   "endsIn": "16天 11:13:24",
+   "endsIn": "16天 16:08:58",
    "note": "3 天 $20 体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   }
  ],
  "mirror": [
   {
-   "title": "现代LLM越狱指南, 从0手搓1份自己的One shot jAiLbReAk 人工智能 越狱 技术方案 #协力 #Aiden 原创 disCLAimer 请利用搁合法用途 俺不係专家嘞, 俺也无係omnipotent嘅 以下都係targeting USA LLM嘅, 中国嘅AI除了politics, 基本ez to one shot 0. On start: 目前市面上的所谓\"jAiLbReAK’"
+   "title": "最新话题 - 2026年9月14日15:01摘要 (近3小时) 本期RSS内容聚焦AI模型使用体验、订阅服务异常、替代方案探索及技术社区协作热点。 AI模型性能与“降智”问题 ● GPT-6/Astra等模型被指出现疑似降智或路由异常。 原文链接 ● GPT-6-Astra模型降智后疑似恢复，引发社区测试讨论。 原文链接 ● Pro 20X模型严重降质，用户请求推荐可用替代模型。 原文链接 ● 用"
   },
   {
-   "title": "福利羊毛 - 2026年9月15日00:01摘要 (近24小时) 本期RSS内容聚焦AI模型福利、免费资源分享及各类限时薅羊毛活动。 AI模型与Token福利 ● 知乎黑客松发放可共享的30美元Token。 原文链接 ● GLM Coding Plan提供7天体验卡供用户领取。 原文链接 ● GLM-5.3模型开放6亿token免费领取活动。 原文链接 ● 国产科研大模型“书生S2”正式开放公众体"
+   "title": "知乎合作方开盒L站学生用户（因分享掺水模型的KEY） 相关帖子： 「深夜福利」知乎黑客松活动发的token - 福利羊毛 - LINUX DO 知乎黑客松提供500刀AI额度参赛补贴（可用fable5.1） - 福利羊毛 / 福利羊毛, Lv1 - LINUX DO 如图，事先毫无通知不能分享，而后在群内近似于开盒的形式爆信息 真是贻笑大方。 补充： 愤怒至极 ，模型作假我且不说了，我问知乎人员模"
   },
   {
-   "title": "最新话题 - 2026年9月15日00:01摘要 (近3小时) 近期RSS内容聚焦AI模型更新、平台策略调整、技术故障及社区开源项目，凸显行业对模型性能、安全与替代方案的高度关注。 大模型更新与功能发布 ● GLM-5.3推出限时免费6亿token活动。 原文链接 ● Gemini API上线新预览模型“antigravity-preview-09-2026”。 原文链接 ● DeepSeek V"
+   "title": "最新话题 - 2026年9月14日18:01摘要 (近3小时) 社区聚焦AI模型使用体验、技术工具实践、教育资源配置及国庆出行等热点话题。 AI模型使用与性能评测 ● Anthropic呼吁放缓AI开发，引发纳指期货夜盘大跌。 原文链接 ● 用户反馈GPT生图可控性差，难以按要求精准微调图像内容。 原文链接 ● 用户反映Gemini在长上下文场景下表现不佳，任务执行前后不一致。 原文链接 ● 手机"
   },
   {
-   "title": "【luckyg公益站】 9-14 other分组模型限时回归 正题： other/限时回归，剩余额度不详，懒得看。3倍率 other/deepseek-ai/DeepSeek-V4.1-Flash other/DeepSeek-V4-Flash-0731 同时放开了 gpt-5.6-luna 模型(也是3倍率)，目前是自购的free号组的号池，号池不大先用着吧，后面看情况进行补号。 闲聊： 站点现"
-  },
-  {
-   "title": "分享一个美国（+1）手机号，无限接码到10.12 手机号：+1 2243864996 验证码接收网址： https://api.smsap.top/adminapi/jsscript/smsInfo/ABC_sms?key=222c82d4a923ea85244f3edc1661031c 13 个帖子 - 13 位参与者 阅读完整话题 via LINUX DO - 热门话题 (author: Re"
+   "title": "放弃OpenAI了，有没有逃难的佬，推荐一下别的套餐 rt A/和O/ 恶心到我了，想换别的套餐，佬们有没有用过别的，比如 cursor-ultra、glm、kimi、gemini之类的，比较关心智力和额度 80 个帖子 - 49 位参与者 阅读完整话题 via LINUX DO - 热门话题 (author: Rc_c)"
   }
  ],
  "v2ex": [
@@ -473,7 +470,7 @@
    "sample": "gpt-5.5,gpt-5.4-mini,gpt-5.4,gpt-4o,claude-sonnet-4-6,deepseek-v4-flash",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{ \"error\": { \"message\": \"未提供令牌 (request id: 20260915012741826391hGizYegG)\", \"typ",
+   "chatSnippet": "{ \"error\": { \"message\": \"未提供令牌 (request id: 20260914203207991676ecrbzR00)\", \"typ",
    "err": null,
    "budgetTextHit": false,
    "negControl": true,
@@ -500,7 +497,7 @@
    "sample": "",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"message\":\"未提供令牌 (request id: 20260915012743784081603nzSqnyXO)\",\"type\":\"new_api_",
+   "chatSnippet": "{\"error\":{\"message\":\"未提供令牌 (request id: 202609142032109242583727oqjqiZj)\",\"type\":\"new_api_",
    "err": null,
    "budgetTextHit": false,
    "name": "Any Router"
@@ -552,7 +549,7 @@
    "sample": "",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"code\":\"\",\"message\":\"Invalid token (request id: 202609141727465665540938268d9d69",
+   "chatSnippet": "{\"error\":{\"code\":\"\",\"message\":\"Invalid token (request id: 202609141232154309294108268d9d6Z",
    "err": null,
    "budgetTextHit": false,
    "name": "columbina"

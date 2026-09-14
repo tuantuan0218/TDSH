@@ -1,5 +1,5 @@
 {
- "ts": "2026-09-14T17:27:45.213Z",
+ "ts": "2026-09-14T17:02:31.320Z",
  "sourceErrors": {},
  "stations": [
   {
@@ -26,7 +26,7 @@
    "score": 96,
    "compat": 0,
    "availEffective": 100,
-   "ci95low": 97.68,
+   "ci95low": 97.67,
    "recentStatuses": [
     "degraded",
     "degraded",
@@ -263,7 +263,7 @@
     "OpenAI Responses",
     "OpenAI-compatible"
    ],
-   "siteStatus": "verified",
+   "siteStatus": "monitoring",
    "publicBenefit": true,
    "models": 2,
    "freeModels": 2,
@@ -309,7 +309,7 @@
    "batch": "FluxionAI 兑换码",
    "quota": "$3 体验额度",
    "stock": 115,
-   "endsIn": "45天 12:30:24",
+   "endsIn": "45天 12:55:39",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -317,7 +317,7 @@
    "batch": "RickToken 兑换码",
    "quota": "$3 体验额度",
    "stock": 67,
-   "endsIn": "14天 12:46:24",
+   "endsIn": "14天 13:11:39",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -325,7 +325,7 @@
    "batch": "I Code Easy 兑换码第二期",
    "quota": "¥3 体验额度",
    "stock": 57,
-   "endsIn": "3天 17:51:24",
+   "endsIn": "3天 18:16:39",
    "note": "¥3 新用户体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值，仅限新用户。 "
   },
   {
@@ -333,7 +333,7 @@
    "batch": "元流兑换码",
    "quota": "$5 体验额度",
    "stock": 41,
-   "endsIn": "14天 12:39:24",
+   "endsIn": "14天 13:04:39",
    "note": "$5 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -341,7 +341,7 @@
    "batch": "Z-API九月福利",
    "quota": "3元体验额度",
    "stock": 37,
-   "endsIn": "15天 13:01:24",
+   "endsIn": "15天 13:26:39",
    "note": "3元体验额度 每个账号仅限一次，30天有效 "
   },
   {
@@ -349,7 +349,7 @@
    "batch": "AI 聚合平台 · 2026年9月体验福利",
    "quota": "5算力（平台人民币5元充值对应额度，非美元）",
    "stock": 36,
-   "endsIn": "1天 14:34:24",
+   "endsIn": "1天 14:59:39",
    "note": "5算力 AI创作与API体验额度 共50份，每份5算力。兑换后到账AI聚合平台余额，可按平台实际报价用于AI对话、图片、视频、音频创作及API调用，无需先充值。平台1元人民币=1算"
   },
   {
@@ -357,7 +357,7 @@
    "batch": "九月新用户福利",
    "quota": "$3 无门槛体验额度",
    "stock": 25,
-   "endsIn": "15天 11:30:24",
+   "endsIn": "15天 11:55:39",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -365,7 +365,7 @@
    "batch": "CodeGo 兑换码",
    "quota": "$3 体验额度",
    "stock": 17,
-   "endsIn": "15天 07:00:24",
+   "endsIn": "15天 07:25:39",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -373,7 +373,7 @@
    "batch": "LV Ping 兑换码",
    "quota": "$20 体验额度",
    "stock": 5,
-   "endsIn": "16天 11:13:24",
+   "endsIn": "16天 11:38:39",
    "note": "3 天 $20 体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   }
  ],
@@ -473,7 +473,7 @@
    "sample": "gpt-5.5,gpt-5.4-mini,gpt-5.4,gpt-4o,claude-sonnet-4-6,deepseek-v4-flash",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{ \"error\": { \"message\": \"未提供令牌 (request id: 20260915012741826391hGizYegG)\", \"typ",
+   "chatSnippet": "{ \"error\": { \"message\": \"未提供令牌 (request id: 20260915010225881253tONauEEC)\", \"typ",
    "err": null,
    "budgetTextHit": false,
    "negControl": true,
@@ -481,13 +481,13 @@
   },
   {
    "base": "https://agentrouter.org/v1",
-   "modelsStatus": 401,
+   "modelsStatus": 200,
    "modelsOpen": false,
    "n": 0,
    "sample": "",
-   "chatStatus": 401,
+   "chatStatus": 200,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"message\":\"unauthorized client detected, contact support for assistance at https",
+   "chatSnippet": "<!doctype html> <meta charset=\"UTF-8\"> <meta name=\"aliyun_waf_aa\" content=\"ff926c7f07e45e2",
    "err": null,
    "budgetTextHit": false,
    "name": "Agent Router"
@@ -500,20 +500,20 @@
    "sample": "",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"message\":\"未提供令牌 (request id: 20260915012743784081603nzSqnyXO)\",\"type\":\"new_api_",
+   "chatSnippet": "{\"error\":{\"message\":\"未提供令牌 (request id: 20260915010228667885663zS4a9tPE)\",\"type\":\"new_api_",
    "err": null,
    "budgetTextHit": false,
    "name": "Any Router"
   },
   {
    "base": "https://gorouter.app/v1",
-   "modelsStatus": 401,
+   "modelsStatus": 403,
    "modelsOpen": false,
    "n": 0,
    "sample": "",
    "chatStatus": 403,
    "chatUsable": false,
-   "chatSnippet": "",
+   "chatSnippet": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"C",
    "err": null,
    "budgetTextHit": false,
    "name": "GoRouter"
@@ -533,13 +533,13 @@
   },
   {
    "base": "https://tabitoken.com/v1",
-   "modelsStatus": 401,
+   "modelsStatus": 403,
    "modelsOpen": false,
    "n": 0,
    "sample": "",
    "chatStatus": 403,
    "chatUsable": false,
-   "chatSnippet": "",
+   "chatSnippet": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"C",
    "err": null,
    "budgetTextHit": false,
    "name": "TaBiAI"
@@ -552,7 +552,7 @@
    "sample": "",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"code\":\"\",\"message\":\"Invalid token (request id: 202609141727465665540938268d9d69",
+   "chatSnippet": "{\"error\":{\"code\":\"\",\"message\":\"Invalid token (request id: 202609141702325968078558268d9d6a",
    "err": null,
    "budgetTextHit": false,
    "name": "columbina"

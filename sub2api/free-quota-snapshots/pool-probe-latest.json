@@ -1,0 +1,404 @@
+{
+ "ts": "2026-09-14T13:11:46.528Z",
+ "source": "free-pool-probe.sh (accounts.credentials.base_url = 单一事实源)",
+ "scope": "全池免费/公益号（name ~* free|columbina|pollinat|xzt|aitools|xuanwu|freemodel|olomc|tokenrouter|hub-linuxdo|wb2api|tele-）",
+ "n": 42,
+ "schedulable": 38,
+ "ok": 10,
+ "outage": 26,
+ "zerobal": 3,
+ "limited": 1,
+ "unknown": 2,
+ "hardfail": 0,
+ "usable_rate": 25,
+ "stations": [
+  "columbina-free:0/26",
+  "aio-freeshare:0/1",
+  "tokenrouter:1/1",
+  "tele-muse:1/1",
+  "tele-qwen:1/1",
+  "siliconflow-free:0/1",
+  "pollinations-free:1/1",
+  "hub-linuxdo:1/1"
+ ],
+ "rows": [
+  {
+   "id": 9,
+   "name": "aio-freeshare",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 403,
+   "bucket": "zerobal",
+   "verdict": "🔴 HTTP403 账号级余额(只能充值) 用户额度不足, 剩余额度: ＄0.000000 (r"
+  },
+  {
+   "id": 12,
+   "name": "tokenrouter",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 200,
+   "bucket": "ok",
+   "verdict": "✅可用 '(仅reasoning)' fin=length"
+  },
+  {
+   "id": 13,
+   "name": "tele-muse",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 200,
+   "bucket": "ok",
+   "verdict": "✅可用 'Hi there! 👋 ' fin=stop"
+  },
+  {
+   "id": 16,
+   "name": "tele-qwen",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 200,
+   "bucket": "ok",
+   "verdict": "✅可用 'Hello! How c' fin=-"
+  },
+  {
+   "id": 17,
+   "name": "siliconflow-free",
+   "status": "error/false",
+   "mod": 200,
+   "chat": 402,
+   "bucket": "zerobal",
+   "verdict": "🔴 HTTP402 账号级余额(只能充值) Sorry, your account balanc"
+  },
+  {
+   "id": 18,
+   "name": "pollinations-free",
+   "status": "error/false",
+   "mod": 200,
+   "chat": 200,
+   "bucket": "ok",
+   "verdict": "✅可用 'Hey there! H' fin=stop"
+  },
+  {
+   "id": 19,
+   "name": "hub-linuxdo",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 200,
+   "bucket": "ok",
+   "verdict": "✅可用 'Hi! How can ' fin=stop"
+  },
+  {
+   "id": 20,
+   "name": "columbina-free",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 21,
+   "name": "pollinations-text-free",
+   "status": "error/false",
+   "mod": 200,
+   "chat": 200,
+   "bucket": "ok",
+   "verdict": "✅可用 'Hey there! H' fin=stop"
+  },
+  {
+   "id": 22,
+   "name": "pollinations-fast-free",
+   "status": "error/false",
+   "mod": 200,
+   "chat": 200,
+   "bucket": "ok",
+   "verdict": "✅可用 'Hey there! H' fin=stop"
+  },
+  {
+   "id": 23,
+   "name": "columbina-free-1",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 24,
+   "name": "columbina-free-3",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 25,
+   "name": "columbina-free-4",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 26,
+   "name": "columbina-free-5",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 27,
+   "name": "wb2api",
+   "status": "active/true",
+   "mod": 404,
+   "chat": null,
+   "bucket": "unknown",
+   "verdict": "⚪ 拿不到模型名（映射空且 /models 非 404）"
+  },
+  {
+   "id": 28,
+   "name": "columbina-free-6",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 29,
+   "name": "columbina-free-7",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 30,
+   "name": "columbina-free-8",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 31,
+   "name": "xzt-ai-proxy-free",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 200,
+   "bucket": "ok",
+   "verdict": "✅可用 '你好！👋 很高兴见到你！' fin=stop"
+  },
+  {
+   "id": 32,
+   "name": "xzt-free",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 200,
+   "bucket": "ok",
+   "verdict": "✅可用 '你好！👋 很高兴见到你！' fin=stop"
+  },
+  {
+   "id": 33,
+   "name": "columbina-free-9",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 34,
+   "name": "columbina-free-10",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 35,
+   "name": "columbina-free-11",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 36,
+   "name": "columbina-free-12",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 37,
+   "name": "columbina-free-13",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 38,
+   "name": "columbina-free-14",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 39,
+   "name": "columbina-free-15",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 40,
+   "name": "columbina-free-16",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 41,
+   "name": "columbina-free-17",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 42,
+   "name": "columbina-free-18",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 43,
+   "name": "columbina-free-19",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 44,
+   "name": "aitools-free",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 200,
+   "bucket": "ok",
+   "verdict": "✅可用 \"Hi 👋! I'm Ch\" fin=stop"
+  },
+  {
+   "id": 45,
+   "name": "xuanwu-free",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 403,
+   "bucket": "zerobal",
+   "verdict": "🔴 HTTP403 账号级余额(只能充值) 用户额度不足, 剩余额度: ＄0.000000 (r"
+  },
+  {
+   "id": 46,
+   "name": "freemodel-free",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 401,
+   "bucket": "unknown",
+   "verdict": "判读异常(看 /tmp/ppc.json)"
+  },
+  {
+   "id": 48,
+   "name": "olomc-free",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 429,
+   "bucket": "limited",
+   "verdict": "🟡 限流/并发上限(非坏号) key concurrency limit reached"
+  },
+  {
+   "id": 49,
+   "name": "columbina-free-21",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 50,
+   "name": "columbina-free-22",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 51,
+   "name": "columbina-free-23",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 52,
+   "name": "columbina-free-24",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 53,
+   "name": "columbina-free-26",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 54,
+   "name": "columbina-free-20",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  },
+  {
+   "id": 55,
+   "name": "columbina-free-25",
+   "status": "active/true",
+   "mod": 200,
+   "chat": 503,
+   "bucket": "outage",
+   "verdict": "❌ HTTP503 auth_unavailable: no auth availa"
+  }
+ ]
+}
