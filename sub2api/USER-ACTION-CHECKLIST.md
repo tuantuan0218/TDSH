@@ -49,7 +49,7 @@
 
 ## ☑ 第 3 步：Mac 端认证 —— **我已自动化，只剩你输一次 code**
 
-**当前有效 code：`4D68-4DC6`**（device code 约 15 分钟过期；后台 `gh-copilot-authkeeper.sh` 会在失效时自动续发新 code，随时问我"现在的 code"即可。Mac→github.com 出网 09:50 已复核恢复：`github_https:200`、`api:200`）
+**当前有效 code：`F127-8205`**（device code 约 15 分钟过期；后台 `gh-copilot-authkeeper.sh` 会在失效时自动续发新 code，随时问我"现在的 code"即可。Mac→github.com 出网 09:50 已复核恢复：`github_https:200`、`api:200`）
 
 **你要做的**：任何已登录 GitHub 的设备，打开 **https://github.com/login/device** → 输入 code。
 
