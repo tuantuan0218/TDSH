@@ -54,7 +54,7 @@
 |---|---|---|
 | tele-muse / tele-qwen / tokenrouter / hub-linuxdo / xzt×2 | ✅ 200 出词 | 收口生效 |
 | olomc(48) | ⏳ 超时 | cb 上游故障窗口（已知） |
-| aitools | ⏳ 超时 | 待复核（/models 401 快速，chat 慢） |
+| aitools | ✅ 200（23s，慢可用） | 复核 20:3x：HTTP 200 fin=length 出词，仅延迟高非故障 |
 | aio-freeshare | 🔴 403 | ＄0 余额（DECISION-CARD 四个 ＄0 之一） |
 | xuanwu-free | 🔴 403 | ＄0 余额 |
 | freemodel-free | 🔴 401 Insufficient balance | **key 有效（/v1/models 200）但余额 ＄0**——站方用 401 表达余额不足 |
