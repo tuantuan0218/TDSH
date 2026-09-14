@@ -28,7 +28,7 @@ copilot 反代 + U8（NIM）+ U9（OpenRouter），全部只差你一个动作�
 ### ⭐1. 你已有 GitHub 号 → copilot 反代（就差你输 code）
 
 - 状态：Mac（192.168.1.3）上 copilot-api auth 进程**存活等待中**，
-  **device code：`EC53-14C6`** → 浏览器打开 **https://github.com/login/device** 输入即授权
+  **device code：`A96A-CA39`** → 浏览器打开 **https://github.com/login/device** 输入即授权
 - ⚠️ **网络前提（2026-09-14 实测）**：Mac 直连 github.com 超时，**必须走本机 mihomo
   代理 127.0.0.1:7897**（auth 与 token 刷新都要）；`start-copilot.sh` 已是代理版
 - 授权后自动完成：启动反代 4141 → 三步门验证 → 入池（幂等 SQL）
@@ -93,7 +93,7 @@ copilot 反代 + U8（NIM）+ U9（OpenRouter），全部只差你一个动作�
 
 | 项 | 动作 | 状态 |
 |---|---|---|
-| **copilot 授权** | 打开 github.com/login/device 输 **`EC53-14C6`**（最新；旧码 0989-1311/D3CA-973D 已过期） | ⏳ 等待（Mac auth 进程存活） |
+| **copilot 授权** | 打开 github.com/login/device 输 **`A96A-CA39`**（最新；旧码 0989-1311/D3CA-973D 已过期） | ⏳ 等待（Mac auth 进程存活） |
 | U8 NIM | build.nvidia.com 过 hCaptcha 拿 key 发我 | ⏳ 待做 |
 | U9 OpenRouter | 注册给邮箱拿 key 发我 | ⏳ 待做 |
 
