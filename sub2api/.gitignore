@@ -54,3 +54,8 @@ _qk*.sh
 _diag*.sh
 _getcode*.sh
 _*.out
+
+# 探测结果输出（2026-09-14 终审补漏）
+credit-hunt.json
+keyless-*.json
+_extended*.json
