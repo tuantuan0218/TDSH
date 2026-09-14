@@ -82,5 +82,20 @@ concurrency : 1       ← 兜底位铁律
 - 入池：`freemodel-free`，Tuan→gpt-5.6-sol / Tuan-luna / Tuan-terra，prio50/conc1/group5。
   额度到账自动复活。key 只入 PG，**不落文档**。
 
+## 九、2026-09-14 新 goal 轮战果与门槛地图（empero 蹲守+持续扫）
+
+**新入池 2 单**：44 `aitools-free`（免注册页内领 key，glm-4-flash/gemma 出词 200）+
+45 `xuanwu-free`（用户名直注无验证，models 200，chat 403 待额度）+
+46 `freemodel-free`（邮箱码直注，models 双面 200，chat 余额 0 待额度）。
+xzt 31 号映射扩到 5（DS-V3.2/Qwen2.5/nemo/hunyuan/OCR 全 200，限流时 429）。
+
+**18+12 新站批量探测零匿名**：导航站 30 个域名，models 可列但 chat 全要 key（freemodel 三域/orca/tokenforge 同理）。
+
+**死站**：empero 503 / QWQ 502 / unlimited 522 / 辉哥 DNS 挂 / cngpt 连接断。
+
+**门槛地图（要用户凭证）**：L站号（君の/快跑/GGBOOM签到/AgentRouter）/ 登好的 GitHub（速语/a6/claude360）/
+国内邮箱（TrueSOTA 白名单）/ 手机（商汤/硅基流动/火山/DeepSeek/LongCat）。
+**禁区**：camel-hub（明示禁 AI 注册，不碰）。
+
 - 观察 `usage_logs` 中新账号是否被路由（兜底位只在主力打满/失败时接管，served=0 属结构性正常）
 - ⚠️ 工具输出文案称"prio 90"，与实际写入的 **50** 不符 —— **以 DB 实际值为准**（工具文案小瑕疵，已在下方记录）
