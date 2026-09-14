@@ -1,5 +1,5 @@
 {
- "ts": "2026-09-14T03:35:50.648Z",
+ "ts": "2026-09-13T21:24:33.000Z",
  "sourceErrors": {},
  "stations": [
   {
@@ -26,7 +26,7 @@
    "score": 96,
    "compat": 0,
    "availEffective": 100,
-   "ci95low": 97.63,
+   "ci95low": 97.64,
    "recentStatuses": [
     "degraded",
     "degraded",
@@ -271,15 +271,17 @@
     "grok-4.5",
     "grok-composer-2.5-fast"
    ],
-   "avail7d": 42.86,
-   "success7d": 42.86,
-   "score": 78.33,
-   "compat": 66.67,
-   "availEffective": 66.67,
-   "ci95low": 15.82,
+   "avail7d": 50,
+   "success7d": 50,
+   "score": 70,
+   "compat": 50,
+   "availEffective": 50,
+   "ci95low": 20.44,
    "recentStatuses": [
     "outage",
     "outage",
+    "outage",
+    "outage",
     "operational",
     "operational",
     "outage",
@@ -287,12 +289,10 @@
     "operational",
     "outage",
     "operational",
-    "operational",
-    "outage",
     "operational"
    ],
    "degradedRecent": 12,
-   "latencyMs": 6536,
+   "latencyMs": 7161,
    "samples": 6,
    "probeKeyConfigured": true,
    "benefits": [
@@ -308,8 +308,8 @@
    "merchant": "FluxionAI",
    "batch": "FluxionAI 兑换码",
    "quota": "$3 体验额度",
-   "stock": 116,
-   "endsIn": "46天 02:22:15",
+   "stock": 120,
+   "endsIn": "46天 08:33:35",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -317,7 +317,7 @@
    "batch": "九月新用户福利",
    "quota": "10U试用订阅周卡",
    "stock": 72,
-   "endsIn": "05:00:15",
+   "endsIn": "11:11:35",
    "note": "10U试用订阅周卡 10U试用额度7天有效，试用订阅仅可使用试用订阅绑定分组 "
   },
   {
@@ -325,7 +325,7 @@
    "batch": "RickToken 兑换码",
    "quota": "$3 体验额度",
    "stock": 67,
-   "endsIn": "15天 02:38:15",
+   "endsIn": "15天 08:49:35",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -333,15 +333,15 @@
    "batch": "I Code Easy 兑换码第二期",
    "quota": "¥3 体验额度",
    "stock": 58,
-   "endsIn": "4天 07:43:15",
+   "endsIn": "4天 13:54:35",
    "note": "¥3 新用户体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值，仅限新用户。 "
   },
   {
    "merchant": "元流 Token",
    "batch": "元流兑换码",
    "quota": "$5 体验额度",
-   "stock": 41,
-   "endsIn": "15天 02:31:15",
+   "stock": 42,
+   "endsIn": "15天 08:42:35",
    "note": "$5 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -349,7 +349,7 @@
    "batch": "Z-API九月福利",
    "quota": "3元体验额度",
    "stock": 39,
-   "endsIn": "16天 02:53:15",
+   "endsIn": "16天 09:04:35",
    "note": "3元体验额度 每个账号仅限一次，30天有效 "
   },
   {
@@ -357,7 +357,7 @@
    "batch": "AI 聚合平台 · 2026年9月体验福利",
    "quota": "5算力（平台人民币5元充值对应额度，非美元）",
    "stock": 37,
-   "endsIn": "2天 04:26:15",
+   "endsIn": "2天 10:37:35",
    "note": "5算力 AI创作与API体验额度 共50份，每份5算力。兑换后到账AI聚合平台余额，可按平台实际报价用于AI对话、图片、视频、音频创作及API调用，无需先充值。平台1元人民币=1算"
   },
   {
@@ -365,7 +365,7 @@
    "batch": "九月新用户福利",
    "quota": "$3 无门槛体验额度",
    "stock": 27,
-   "endsIn": "16天 01:22:15",
+   "endsIn": "16天 07:33:35",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -373,21 +373,24 @@
    "batch": "CodeGo 兑换码",
    "quota": "$3 体验额度",
    "stock": 19,
-   "endsIn": "15天 20:52:15",
+   "endsIn": "16天 03:03:35",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
    "merchant": "LV Ping",
    "batch": "LV Ping 兑换码",
    "quota": "$20 体验额度",
-   "stock": 7,
-   "endsIn": "17天 01:05:15",
+   "stock": 8,
+   "endsIn": "17天 07:16:35",
    "note": "3 天 $20 体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   }
  ],
  "mirror": [
   {
-   "title": "话接上回，我们的小米6api服务器开服啦 用小米6开服的api站点。想的是免费提供，但是可能经营不了那么长时间，但是我还是会尽力去经营的。因为还没有接入模型，网址就先不公开了，过两天整好了再和大家说。 配置就是mi6 系统是lineageOS 22.2 KSU root 然后嵌套的aarch64的Ubuntu 24.04系统，使用cloudflare内网穿透和namesilo挂域名。我有点担心我这"
+   "title": "Codex Desktop → CLIProxyAPI → OpenAI 请求分析讨论可能的降智原因 最近饱受codex降智之苦，身边的朋友们也多多少少受到了波折。遍寻方法无果，看到站内时不时有佬友说改改请求头就可能可以解决降智的问题，但没有看到任何具体的方法。 今天看到一个帖子： 我解决Codex降智的全过程与分析 - 搞七捻三 - LINUX DO ，佬的IP很纯净，经过摸索，改了个时区，静置"
+  },
+  {
+   "title": "最新话题 - 2026年9月14日03:00摘要 (近3小时) 近期RSS内容聚焦AI工具使用风险与优化、网络安全漏洞、开发者社区动态及职业发展议题。 AI工具使用与风险管理 ● 用户误删操作致全部数据丢失，凸显AI自动化风险。 原文链接 ● 探讨多AI协作策略以提升额度利用效率。 原文链接 ● 本地部署开源大模型可绕过商业AI内容限制。 原文链接 ● AutoClaw推出每日登录送2万Credi"
   }
  ],
  "v2ex": [
@@ -469,7 +472,7 @@
    "sample": "gpt-5.5,gpt-5.4-mini,gpt-5.4,gpt-4o,claude-sonnet-4-6,deepseek-v4-flash",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{ \"error\": { \"message\": \"未提供令牌 (request id: 20260914113548063415BDZtPiB4)\", \"typ",
+   "chatSnippet": "{ \"error\": { \"message\": \"未提供令牌 (request id: 202609140524287864558FuzasH7)\", \"typ",
    "err": null,
    "budgetTextHit": false,
    "negControl": true,
@@ -496,7 +499,7 @@
    "sample": "",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"message\":\"未提供令牌 (request id: 20260914113549794242693INULeLhl)\",\"type\":\"new_api_",
+   "chatSnippet": "{\"error\":{\"message\":\"未提供令牌 (request id: 20260914052429731094310snQrpJyd)\",\"type\":\"new_api_",
    "err": null,
    "budgetTextHit": false,
    "name": "Any Router"
@@ -548,7 +551,7 @@
    "sample": "",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"code\":\"\",\"message\":\"Invalid token (request id: 202609140335519425749418268d9d6w",
+   "chatSnippet": "{\"error\":{\"code\":\"\",\"message\":\"Invalid token (request id: 202609132124329744777628268d9d6e",
    "err": null,
    "budgetTextHit": false,
    "name": "columbina"

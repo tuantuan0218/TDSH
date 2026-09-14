@@ -1,6 +1,56 @@
 {
- "ts": "2026-09-13T19:54:15.646Z",
+ "ts": "2026-09-14T03:35:50.648Z",
  "live": [
+  {
+   "h": "688.qzz.io",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "老蹬站",
+   "verdict": "email_code"
+  },
+  {
+   "h": "a6api.com",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "A6api-Token聚合站",
+   "verdict": "closed"
+  },
+  {
+   "h": "agentrouter.org",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "Agent Router",
+   "verdict": "closed"
+  },
+  {
+   "h": "ai.121628.xyz",
+   "reg": true,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "霸气公益平台",
+   "verdict": "oauth_only"
+  },
+  {
+   "h": "ai.chuyel.top",
+   "reg": true,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": true,
+   "sys": "初叶🍂Furry API",
+   "verdict": "oauth_only"
+  },
   {
    "h": "ai.dext.top",
    "reg": true,
@@ -12,6 +62,26 @@
    "verdict": "captcha"
   },
   {
+   "h": "ai.fujcloud.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": true,
+   "ck": false,
+   "sys": "AI System FujCloud",
+   "verdict": "captcha"
+  },
+  {
+   "h": "ai.huaibao.top",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": true,
+   "sys": "Huainova",
+   "verdict": "closed"
+  },
+  {
    "h": "ai.mrcwoods.com",
    "reg": true,
    "pwreg": true,
@@ -19,7 +89,135 @@
    "ts": false,
    "ck": true,
    "sys": "跑路中转站",
-   "verdict": "email_code"
+   "verdict": "email_code_ck",
+   "fams": [
+    "deepseek",
+    "openai"
+   ],
+   "newVendors": [
+    "deepseek",
+    "openai"
+   ]
+  },
+  {
+   "h": "ai.yearnstudio.cn",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "New API",
+   "verdict": "closed"
+  },
+  {
+   "h": "aixoras.com",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "AtlasAPI",
+   "verdict": "closed"
+  },
+  {
+   "h": "api.2020111.xyz",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": true,
+   "ck": true,
+   "sys": "老魔公益站",
+   "verdict": "closed"
+  },
+  {
+   "h": "api.6345ywz.cn",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "6345ywz API",
+   "verdict": "closed"
+  },
+  {
+   "h": "api.aaai.vip",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "V-API",
+   "verdict": "closed"
+  },
+  {
+   "h": "api.aiaiai001.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "AIAIAI 工具箱",
+   "verdict": "email_code_ck"
+  },
+  {
+   "h": "api.apimart.ai",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": true,
+   "ck": false,
+   "sys": "APIMart",
+   "verdict": "closed"
+  },
+  {
+   "h": "api.bybing.cc",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "北极星",
+   "verdict": "closed"
+  },
+  {
+   "h": "api.camel-hub.com",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "CaMeL AI",
+   "verdict": "closed"
+  },
+  {
+   "h": "api.cnwks.top",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": true,
+   "ck": true,
+   "sys": "坤鹏算力",
+   "verdict": "captcha"
+  },
+  {
+   "h": "api.code-relay.com",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "Code Router",
+   "verdict": "closed"
+  },
+  {
+   "h": "api.hcnsec.cn",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "新疆幻城网安科技公益大模型安全网关",
+   "verdict": "email_code_ck"
   },
   {
    "h": "api.justwoker.icu",
@@ -39,7 +237,24 @@
    "ts": false,
    "ck": true,
    "sys": "OpenApi",
-   "verdict": "email_code"
+   "verdict": "email_code_ck",
+   "fams": [
+    "anthropic",
+    "deepseek",
+    "minimax",
+    "moonshot",
+    "openai",
+    "qwen",
+    "xai",
+    "zhipu"
+   ],
+   "newVendors": [
+    "anthropic",
+    "deepseek",
+    "minimax",
+    "moonshot",
+    "openai"
+   ]
   },
   {
    "h": "api.qfgapi.com",
@@ -59,7 +274,17 @@
    "ts": false,
    "ck": false,
    "sys": "Z-API",
-   "verdict": "gold"
+   "verdict": "gold_nocheckin"
+  },
+  {
+   "h": "api.tniay.top",
+   "reg": true,
+   "pwreg": false,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "小老鼠奶酪工坊公益站",
+   "verdict": "oauth_only"
   },
   {
    "h": "api.tu-zi.com",
@@ -72,6 +297,16 @@
    "verdict": "email_code"
   },
   {
+   "h": "api.uu6.top",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "转转AI",
+   "verdict": "email_code"
+  },
+  {
    "h": "api.wuai.ai",
    "reg": true,
    "pwreg": true,
@@ -79,7 +314,7 @@
    "ts": false,
    "ck": true,
    "sys": "吾爱 AI",
-   "verdict": "email_code"
+   "verdict": "email_code_ck"
   },
   {
    "h": "api.ykh.ai",
@@ -89,6 +324,16 @@
    "ts": false,
    "ck": false,
    "sys": "YKH.AI",
+   "verdict": "email_code"
+  },
+  {
+   "h": "api.yunhe.one",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "云核Code",
    "verdict": "email_code"
   },
   {
@@ -102,6 +347,16 @@
    "verdict": "email_code"
   },
   {
+   "h": "apimart.ai",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": true,
+   "ck": false,
+   "sys": "APIMart",
+   "verdict": "closed"
+  },
+  {
    "h": "baosiapi.com",
    "reg": true,
    "pwreg": true,
@@ -109,7 +364,20 @@
    "ts": false,
    "ck": true,
    "sys": "BaosiAPI",
-   "verdict": "email_code"
+   "verdict": "email_code_ck",
+   "fams": [
+    "anthropic",
+    "minimax",
+    "moonshot",
+    "openai",
+    "xai"
+   ],
+   "newVendors": [
+    "anthropic",
+    "minimax",
+    "moonshot",
+    "openai"
+   ]
   },
   {
    "h": "beizhi.sylu.cc",
@@ -119,7 +387,40 @@
    "ts": false,
    "ck": true,
    "sys": "Liminality",
-   "verdict": "email_code"
+   "verdict": "email_code_ck",
+   "fams": [
+    "anthropic",
+    "deepseek",
+    "google",
+    "minimax",
+    "moonshot",
+    "openai",
+    "qwen",
+    "stepfun",
+    "tencent",
+    "xai",
+    "zhipu"
+   ],
+   "newVendors": [
+    "anthropic",
+    "deepseek",
+    "google",
+    "minimax",
+    "moonshot",
+    "openai",
+    "stepfun",
+    "tencent"
+   ]
+  },
+  {
+   "h": "buzzai.cc",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "Buzz · AI",
+   "verdict": "closed"
   },
   {
    "h": "byesu.com",
@@ -132,6 +433,16 @@
    "verdict": "email_code"
   },
   {
+   "h": "cli.999554.xyz",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "云舟API",
+   "verdict": "email_code"
+  },
+  {
    "h": "crowllm.com",
    "reg": true,
    "pwreg": true,
@@ -139,7 +450,50 @@
    "ts": false,
    "ck": true,
    "sys": "CrowLLM",
-   "verdict": "email_code"
+   "verdict": "email_code_ck",
+   "fams": [
+    "anthropic",
+    "deepseek",
+    "google",
+    "meta",
+    "minimax",
+    "mistral",
+    "moonshot",
+    "openai",
+    "qwen",
+    "xai",
+    "zhipu"
+   ],
+   "newVendors": [
+    "anthropic",
+    "deepseek",
+    "google",
+    "meta",
+    "minimax",
+    "mistral",
+    "moonshot",
+    "openai"
+   ]
+  },
+  {
+   "h": "dashboard.tokengo.com",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "ThorBase",
+   "verdict": "closed"
+  },
+  {
+   "h": "dawclaudecode.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": true,
+   "ck": true,
+   "sys": "DawCode",
+   "verdict": "captcha"
   },
   {
    "h": "easymax.ai",
@@ -149,7 +503,7 @@
    "ts": false,
    "ck": false,
    "sys": "Easy API - 多模型聚合网关 国际站",
-   "verdict": "gold"
+   "verdict": "gold_nocheckin"
   },
   {
    "h": "emtf.aipm9527.online",
@@ -162,6 +516,351 @@
    "verdict": "oauth_only"
   },
   {
+   "h": "freeapi.dgbmc.top",
+   "reg": false,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "DGB 公益站",
+   "verdict": "closed"
+  },
+  {
+   "h": "gorouter.app",
+   "reg": true,
+   "pwreg": false,
+   "ev": false,
+   "ts": true,
+   "ck": true,
+   "sys": "GoRouter",
+   "verdict": "oauth_only"
+  },
+  {
+   "h": "helpcoder.cc",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": true,
+   "sys": "帮帮程序员",
+   "verdict": "closed"
+  },
+  {
+   "h": "iceberg.tiktok.vip",
+   "reg": true,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "冰山公益站",
+   "verdict": "oauth_only"
+  },
+  {
+   "h": "jianzhile.vip",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": true,
+   "sys": "简直了",
+   "verdict": "closed"
+  },
+  {
+   "h": "jucodex.com",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": true,
+   "ck": false,
+   "sys": "JuCodex.com",
+   "verdict": "closed"
+  },
+  {
+   "h": "laisiai.tw.cpolar.io",
+   "reg": true,
+   "pwreg": false,
+   "ev": false,
+   "ts": true,
+   "ck": true,
+   "sys": "莱斯超级API",
+   "verdict": "oauth_only"
+  },
+  {
+   "h": "moyuu.cc",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": true,
+   "ck": false,
+   "sys": "Moyuu",
+   "verdict": "captcha"
+  },
+  {
+   "h": "myapi.creitingameplays.com",
+   "reg": true,
+   "pwreg": false,
+   "ev": false,
+   "ts": true,
+   "ck": false,
+   "sys": "DeadlySignal API",
+   "verdict": "oauth_only"
+  },
+  {
+   "h": "new-api-production-d552.up.railway.app",
+   "reg": false,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "zako",
+   "verdict": "closed"
+  },
+  {
+   "h": "new-api.xt-url.com",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "小天公益站",
+   "verdict": "closed"
+  },
+  {
+   "h": "newapi.columbina.eu.org",
+   "reg": true,
+   "pwreg": true,
+   "ev": false,
+   "ts": false,
+   "ck": true,
+   "sys": "New API",
+   "verdict": "GOLD_CK",
+   "fams": [
+    "xai"
+   ],
+   "newVendors": []
+  },
+  {
+   "h": "newapi.makelove.cloud",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": true,
+   "ck": true,
+   "sys": "年华 API 中转站",
+   "verdict": "captcha"
+  },
+  {
+   "h": "newapi.pollyai.net",
+   "reg": true,
+   "pwreg": true,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "New API",
+   "verdict": "gold_nocheckin"
+  },
+  {
+   "h": "poolrouter.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "PoolRouter",
+   "verdict": "email_code"
+  },
+  {
+   "h": "ps.air-outer.com",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "Agent Router",
+   "verdict": "closed"
+  },
+  {
+   "h": "qiuqiutoken.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "球球Token - AI中转服务站",
+   "verdict": "email_code"
+  },
+  {
+   "h": "router.kiosapi.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": true,
+   "ck": false,
+   "sys": "KiosAPI",
+   "verdict": "captcha"
+  },
+  {
+   "h": "runanytime.hxi.me",
+   "reg": true,
+   "pwreg": false,
+   "ev": false,
+   "ts": true,
+   "ck": true,
+   "sys": "随时跑路公益站",
+   "verdict": "oauth_only"
+  },
+  {
+   "h": "straitapi.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "StraitAPI",
+   "verdict": "email_code_ck"
+  },
+  {
+   "h": "sub2api.closeapi.top",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "CloseAPI",
+   "verdict": "email_code"
+  },
+  {
+   "h": "sudobug.top",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "SudoBug",
+   "verdict": "email_code_ck",
+   "fams": [
+    "anthropic",
+    "google",
+    "openai",
+    "xai"
+   ],
+   "newVendors": [
+    "anthropic",
+    "google",
+    "openai"
+   ]
+  },
+  {
+   "h": "sudoflow.top",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": true,
+   "ck": false,
+   "sys": "SudoFlow",
+   "verdict": "captcha"
+  },
+  {
+   "h": "suyu.io",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "速语API(Ent)",
+   "verdict": "closed"
+  },
+  {
+   "h": "tabitoken.com",
+   "reg": true,
+   "pwreg": false,
+   "ev": false,
+   "ts": true,
+   "ck": true,
+   "sys": "TaBiAI",
+   "verdict": "oauth_only"
+  },
+  {
+   "h": "tian-shu.org",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "天枢",
+   "verdict": "email_code"
+  },
+  {
+   "h": "tokavia.com",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": true,
+   "ck": false,
+   "sys": "拓维亚",
+   "verdict": "closed"
+  },
+  {
+   "h": "tokeness.ai",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": true,
+   "ck": true,
+   "sys": "Tokeness",
+   "verdict": "captcha"
+  },
+  {
+   "h": "tokenra.io",
+   "reg": true,
+   "pwreg": true,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "TokenRa",
+   "verdict": "gold_nocheckin"
+  },
+  {
+   "h": "vsllm.com",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": true,
+   "sys": "维云模型开放平台",
+   "verdict": "closed"
+  },
+  {
+   "h": "wuai.ai",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": false,
+   "ck": true,
+   "sys": "吾爱 AI",
+   "verdict": "email_code_ck"
+  },
+  {
+   "h": "www.78code.cc",
+   "reg": false,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "78 code",
+   "verdict": "closed"
+  },
+  {
+   "h": "www.duiapi.com",
+   "reg": true,
+   "pwreg": true,
+   "ev": true,
+   "ts": true,
+   "ck": false,
+   "sys": "DuiAPI",
+   "verdict": "captcha"
+  },
+  {
    "h": "www.getunikey.ai",
    "reg": true,
    "pwreg": true,
@@ -172,6 +871,16 @@
    "verdict": "captcha"
   },
   {
+   "h": "www.packyapi.com",
+   "reg": false,
+   "pwreg": false,
+   "ev": true,
+   "ts": false,
+   "ck": false,
+   "sys": "PackyAPI",
+   "verdict": "closed"
+  },
+  {
    "h": "www.sotamodel.net",
    "reg": true,
    "pwreg": true,
@@ -180,6 +889,16 @@
    "ck": false,
    "sys": "SOTA Model",
    "verdict": "email_code"
+  },
+  {
+   "h": "yomiapi.com",
+   "reg": true,
+   "pwreg": false,
+   "ev": false,
+   "ts": false,
+   "ck": false,
+   "sys": "Yomi API",
+   "verdict": "oauth_only"
   }
  ]
 }

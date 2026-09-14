@@ -1,5 +1,5 @@
 {
- "ts": "2026-09-14T03:35:50.648Z",
+ "ts": "2026-09-13T21:34:05.960Z",
  "sourceErrors": {},
  "stations": [
   {
@@ -271,15 +271,17 @@
     "grok-4.5",
     "grok-composer-2.5-fast"
    ],
-   "avail7d": 42.86,
-   "success7d": 42.86,
-   "score": 78.33,
-   "compat": 66.67,
-   "availEffective": 66.67,
-   "ci95low": 15.82,
+   "avail7d": 50,
+   "success7d": 50,
+   "score": 70,
+   "compat": 50,
+   "availEffective": 50,
+   "ci95low": 20.44,
    "recentStatuses": [
     "outage",
     "outage",
+    "outage",
+    "outage",
     "operational",
     "operational",
     "outage",
@@ -287,12 +289,10 @@
     "operational",
     "outage",
     "operational",
-    "operational",
-    "outage",
     "operational"
    ],
    "degradedRecent": 12,
-   "latencyMs": 6536,
+   "latencyMs": 7161,
    "samples": 6,
    "probeKeyConfigured": true,
    "benefits": [
@@ -308,8 +308,8 @@
    "merchant": "FluxionAI",
    "batch": "FluxionAI 兑换码",
    "quota": "$3 体验额度",
-   "stock": 116,
-   "endsIn": "46天 02:22:15",
+   "stock": 120,
+   "endsIn": "46天 16:09:27",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -317,7 +317,7 @@
    "batch": "九月新用户福利",
    "quota": "10U试用订阅周卡",
    "stock": 72,
-   "endsIn": "05:00:15",
+   "endsIn": "18:47:27",
    "note": "10U试用订阅周卡 10U试用额度7天有效，试用订阅仅可使用试用订阅绑定分组 "
   },
   {
@@ -325,7 +325,7 @@
    "batch": "RickToken 兑换码",
    "quota": "$3 体验额度",
    "stock": 67,
-   "endsIn": "15天 02:38:15",
+   "endsIn": "15天 16:25:27",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -333,15 +333,15 @@
    "batch": "I Code Easy 兑换码第二期",
    "quota": "¥3 体验额度",
    "stock": 58,
-   "endsIn": "4天 07:43:15",
+   "endsIn": "4天 21:30:27",
    "note": "¥3 新用户体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值，仅限新用户。 "
   },
   {
    "merchant": "元流 Token",
    "batch": "元流兑换码",
    "quota": "$5 体验额度",
-   "stock": 41,
-   "endsIn": "15天 02:31:15",
+   "stock": 42,
+   "endsIn": "15天 16:18:27",
    "note": "$5 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -349,7 +349,7 @@
    "batch": "Z-API九月福利",
    "quota": "3元体验额度",
    "stock": 39,
-   "endsIn": "16天 02:53:15",
+   "endsIn": "16天 16:40:27",
    "note": "3元体验额度 每个账号仅限一次，30天有效 "
   },
   {
@@ -357,7 +357,7 @@
    "batch": "AI 聚合平台 · 2026年9月体验福利",
    "quota": "5算力（平台人民币5元充值对应额度，非美元）",
    "stock": 37,
-   "endsIn": "2天 04:26:15",
+   "endsIn": "2天 18:13:27",
    "note": "5算力 AI创作与API体验额度 共50份，每份5算力。兑换后到账AI聚合平台余额，可按平台实际报价用于AI对话、图片、视频、音频创作及API调用，无需先充值。平台1元人民币=1算"
   },
   {
@@ -365,7 +365,7 @@
    "batch": "九月新用户福利",
    "quota": "$3 无门槛体验额度",
    "stock": 27,
-   "endsIn": "16天 01:22:15",
+   "endsIn": "16天 15:09:27",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
@@ -373,21 +373,33 @@
    "batch": "CodeGo 兑换码",
    "quota": "$3 体验额度",
    "stock": 19,
-   "endsIn": "15天 20:52:15",
+   "endsIn": "16天 10:39:27",
    "note": "$3 无门槛体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   },
   {
    "merchant": "LV Ping",
    "batch": "LV Ping 兑换码",
    "quota": "$20 体验额度",
-   "stock": 7,
-   "endsIn": "17天 01:05:15",
+   "stock": 8,
+   "endsIn": "17天 14:52:27",
    "note": "3 天 $20 体验额度 兑换后可用于体验该中转站支持的模型接口，无需先充值。 "
   }
  ],
  "mirror": [
   {
-   "title": "话接上回，我们的小米6api服务器开服啦 用小米6开服的api站点。想的是免费提供，但是可能经营不了那么长时间，但是我还是会尽力去经营的。因为还没有接入模型，网址就先不公开了，过两天整好了再和大家说。 配置就是mi6 系统是lineageOS 22.2 KSU root 然后嵌套的aarch64的Ubuntu 24.04系统，使用cloudflare内网穿透和namesilo挂域名。我有点担心我这"
+   "title": "要跟L站说再见了 准备告别l站三个月了， 研究生考试只剩不到100天。 其实加入时间不久，但是很快就对l站有了归属感，可能是因为来了之后真的被佬友帮到很多，一开始是因为any站知道的l站，然后来到站里后当时的bug team和k12，处于一种每天赛博领鸡蛋的状态，然后开始发觉这样每天蹲公益有些耗费精力开始了付费订阅，到现在去进行CPA的反代和官key，解决日常的学习问题。感觉每天学习放松的时间就是"
+  },
+  {
+   "title": "最新话题 - 2026年9月13日21:01摘要 (近3小时) 本期RSS内容聚焦AI模型“降智”现象、订阅服务稳定性、开源工具发展及海外技术从业者动态。 AI模型性能与“降智”问题 ● 用户普遍反映GPT等主流AI模型频繁出现生成质量下降现象。 原文链接 ● 多位用户确认ChatGPT近期输出不稳定，存在明显“降智”情况。 原文链接 ● GPT6-Astra部分账号出现异常“降智”，引发用户担忧"
+  },
+  {
+   "title": "【松贝公益站】：松贝生图 （主贴） **本帖使用社区公益推广，符合推广要求。我申明并遵循社区要求的以下内容：** * **我的项目是免费使用的，无收费（变相收费、赞助）部分：** 是 * **我的帖子已经打上** [公益推广]( https://linux.do/tag/1515-tag/1515 ) **标签：** 是 * **我的项目属于个人项目，与公司或商业机构无关：** 是 * **我的项"
+  },
+  {
+   "title": "某些事情从未改变 在另一个话题中 但是在他们眼里，中国（当然还有一些国家）似乎不在这个“世界”的范围之内。他们阻止中国的IP访问、阻止中国的手机号注册、阻止中国的银行卡支付，甚至阻止了无数的机房IP、VPN厂家，每天都在增加。 快三年过去了，他们风控依旧是根据IP，注册邮箱，支付方式，并发/rpm这些参考因素，通过降低模型思考强度或者路由低级模型的方式来进行风控并降低成本。 -----------"
+  },
+  {
+   "title": "这是一个花了 100+ 亿 token 做的量化选股和行情分析系统，又进化了 本帖使用社区公益推广，符合推广要求。我申明并遵循社区要求的以下内容： ● 我的项目是免费使用的，无收费（变相收费、赞助）部分： 是 ● 我的帖子已经打上 公益推广 标签： 是 ● 我的项目属于个人项目，与公司或商业机构无关： 是 ● 我的项目不存在QQ、TG等群组引流： 是 ● 我的项目不存在非运营必要的网站引流： 是 "
   }
  ],
  "v2ex": [
@@ -469,7 +481,7 @@
    "sample": "gpt-5.5,gpt-5.4-mini,gpt-5.4,gpt-4o,claude-sonnet-4-6,deepseek-v4-flash",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{ \"error\": { \"message\": \"未提供令牌 (request id: 20260914113548063415BDZtPiB4)\", \"typ",
+   "chatSnippet": "{ \"error\": { \"message\": \"未提供令牌 (request id: 20260914053402253233Ep54CalA)\", \"typ",
    "err": null,
    "budgetTextHit": false,
    "negControl": true,
@@ -477,13 +489,13 @@
   },
   {
    "base": "https://agentrouter.org/v1",
-   "modelsStatus": 401,
+   "modelsStatus": 200,
    "modelsOpen": false,
    "n": 0,
    "sample": "",
-   "chatStatus": 401,
+   "chatStatus": 200,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"message\":\"unauthorized client detected, contact support for assistance at https",
+   "chatSnippet": "<!doctype html> <meta charset=\"UTF-8\"> <meta name=\"aliyun_waf_aa\" content=\"ff926c7f07e45e2",
    "err": null,
    "budgetTextHit": false,
    "name": "Agent Router"
@@ -496,20 +508,20 @@
    "sample": "",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"message\":\"未提供令牌 (request id: 20260914113549794242693INULeLhl)\",\"type\":\"new_api_",
+   "chatSnippet": "{\"error\":{\"message\":\"未提供令牌 (request id: 20260914053403768194194qvtZCw6A)\",\"type\":\"new_api_",
    "err": null,
    "budgetTextHit": false,
    "name": "Any Router"
   },
   {
    "base": "https://gorouter.app/v1",
-   "modelsStatus": 401,
+   "modelsStatus": 403,
    "modelsOpen": false,
    "n": 0,
    "sample": "",
    "chatStatus": 403,
    "chatUsable": false,
-   "chatSnippet": "",
+   "chatSnippet": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"C",
    "err": null,
    "budgetTextHit": false,
    "name": "GoRouter"
@@ -529,13 +541,13 @@
   },
   {
    "base": "https://tabitoken.com/v1",
-   "modelsStatus": 401,
+   "modelsStatus": 403,
    "modelsOpen": false,
    "n": 0,
    "sample": "",
    "chatStatus": 403,
    "chatUsable": false,
-   "chatSnippet": "",
+   "chatSnippet": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"C",
    "err": null,
    "budgetTextHit": false,
    "name": "TaBiAI"
@@ -548,7 +560,7 @@
    "sample": "",
    "chatStatus": 401,
    "chatUsable": false,
-   "chatSnippet": "{\"error\":{\"code\":\"\",\"message\":\"Invalid token (request id: 202609140335519425749418268d9d6w",
+   "chatSnippet": "{\"error\":{\"code\":\"\",\"message\":\"Invalid token (request id: 202609132134059981782098268d9d6W",
    "err": null,
    "budgetTextHit": false,
    "name": "columbina"
