@@ -1,4 +1,4 @@
-# olomc 网关深度画像 — 2026-09-14（voyager.olomc.top）
+﻿# olomc 网关深度画像 — 2026-09-14（voyager.olomc.top）
 
 > 来源：浏览器实测 + `/stats.json` + `/gw/catalog` 双公开端点 + 错误响应指纹。
 > 与本池关联：olomc-free = 池账号 48（见 `POOL-ADMISSION-20260913.md` §十、
@@ -88,4 +88,4 @@ https://voyager.olomc.top/gw/v1/chat/completions        → HTTP 401（✅ 路�
 4. 探活一律走 `chatPath` 覆盖；模型探活名用 `verifiedModel`，防回退成 grok-4.5 假 BAD。
 
 ---
-*快照时刻 2026-09-14 19:25Z；`/gw/catalog` fetched=1789413868231（目录 19:19Z 更新）。*
+**池内实证（2026-09-15 00:0x 查 usage_logs）**：48 号 7d picks=37 全在 24h 内、最近一单 00:01、24h 用户可见错误 0、Recovered 3 → 真实接单中。\n\n*快照时刻 2026-09-14 19:25Z；`/gw/catalog` fetched=1789413868231（目录 19:19Z 更新）。*
