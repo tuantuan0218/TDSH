@@ -228,9 +228,10 @@ store 完整（快照 diff 为字段级更新）。下次领取窗口=明日。
 
 ### 2. ⚠️ 本机 → Mac(192.168.1.3) SSH 全断（pool-health-check 的 Mac 段因此失败）
 
-- 现象：`Permission denied (publickey)`；WSL(Ubuntu) `/root/.ssh/id_ed25519` **已不在**，
-  仅剩 `corpus_key_1..3`；全部实测被拒，含 Windows `C:\Users\Administrator\.ssh\id_ed25519`
-  （那本就是 64:ff:…zcode@DESKTOP 那类旁路 key，非 Mac 授权 key）
+- 现象：`Permission denied (publickey)`；WSL `/root/.ssh/id_ed25519` **其实健在（pub 前缀 AAAA…AJJM/TR3…，
+  前轮探测因输出截断误判为丢失，本会话已更正）但与 Windows key（zcode-windows@second-brain）、
+  corpus_key_1..3 一同被 Mac 拒绝** ⇒ 定性：**Mac 侧 authorized_keys 被重置**（macOS 更新/账号操作所致），
+  本机侧没有一把是被认的——根因不在本机
 - `everything_search` 全盘无 `id_ed25519` 其它副本（本会话核对：本机与 git 索引均无 Mac 私钥可用副本）
 - 影响评估：**不阻塞注册→入池主线**——Windows 侧 `gh-copilot-autopipe.sh` 是 Mac 链的等价实现
   （12:3x 已含 outbox 修正），新号 PAT 到手后可直接在 Windows 走 device 授权+反代+入池
@@ -242,3 +243,15 @@ store 完整（快照 diff 为字段级更新）。下次领取窗口=明日。
   - copilot 反代不必依赖 Mac：可本机 Windows 起（`npx copilot-api start --port 4141`），
     池内 base_url 写本机 LAN IP:4141 即可（网关在 Mac 可回连 LAN）；新号注册后 device 授权也在本机做
   - 待批项不变：admin API key 值仍未知（文档 §4.2 已声明不挖进程 env，属敏感面），用户从网关配置侧提供即可
+- ★ **Mac SSH 恢复钥匙已备好**（本轮生成，非 C 盘，`.ssh-mac/` 已 gitignore）：
+  私钥 `D:\tdsh\sub2api\.ssh-mac\mac_pool_key`（空口令，ACL 仅 Administrator/SYSTEM，git-bash ssh 握手实测正常呈现、
+  待授权被拒=预期）。**用户一次性动作**：在 Mac 终端执行——
+  ```
+  mkdir -p ~/.ssh && echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOhgf0JUIZMpeBIeQ8XCesy4Tpy9vFtd0j8FBwzO3C5g pool-recovery-20260915' >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
+  ```
+  之后 Windows 侧通道即恢复（git-bash ssh `-i D:/tdsh/sub2api/.ssh-mac/mac_pool_key`）。
+  注意：仓库里 `mac-*.sh`/`pool-health-check.mjs` 硬编码 `-i $HOME/.ssh/id_ed25519`（WSL bash 下 $HOME=/root）。
+  **已处理**：WSL vhdx 实测在 `D:\WSL\Ubuntu`（非 C 盘，落盘合规）——已把恢复私钥装为
+  WSL `/root/.ssh/id_ed25519`（600），旧被拒 key 备份为 `id_ed25519.pre-20260915.rejected.bak*`；
+  `~/.ssh/config` 的 `Host mac` 本就指向该默认路径 ⇒ **用户在 Mac 上执行上面那一行授权后，
+  旧脚本（pool-health-check / copilot-auth / mac-*.sh）零改动即恢复**。

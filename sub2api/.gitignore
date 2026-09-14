@@ -74,3 +74,5 @@ probe-aitools.mjs
 probe-gw-think.mjs
 probe-responses.mjs
 verify-siliconflow.mjs
+
+.ssh-mac/
