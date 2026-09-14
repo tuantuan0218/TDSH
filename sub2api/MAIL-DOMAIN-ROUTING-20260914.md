@@ -35,9 +35,19 @@
 3. 其余 18 家要常规邮箱（gmail/qq/163），**钥匙只有一把**：用户给邮箱或注册完 GitHub，
    路由表直接决定先开哪家，不用再逐家试错。
 
-## 三、下一步（已按选项丰富度选定）
+## 四、baosiapi.com 实测结论（2026-09-14 新号一次性闭环，纯 REST）
 
-1. 实测 `baosiapi.com` 的**注册赠送额度 + 单次签到奖励**（纯 REST + 自建邮箱，零人工）；
-2. 若签到奖励有意义 → 按其规则批量养号（复用 `farm-columbina.mjs` 打法），过三步门后以
-   **兜底位 prio90 / conc1 / group5** 入池；
-3. 把 baosiapi 纳入每日签到看护（`free-checkin.mjs` 现在只看护"已入池"号，入池即自动被带）。
+- 注册配置：`register_enabled=true` / `password_register_enabled=true` /
+  `email_verification=true` / `turnstile_check=false` / `checkin_enabled=true` /
+  `quota_per_unit=500000`
+- 自建 `uberip.com` 邮箱：`/api/verification` 200 `success:true`，6 位码 120s 内可达，
+  `POST /api/user/register {username,password,email,verification_code}` 200 成功
+  （登录为 cookie 会话形态，无 `access_token`，需 cookie + `New-Api-User` 头，
+  与 FREE-API-SITES 开户三件套第 3 条一致）
+- **注册赠送 = $0.0000；单次签到奖励 = $0.0307**（15346 units；签到前 $0 → 签到后 $0.0307）
+- **建令牌后列表 0 行、拿不到明文 key** → chat 三步门在本轮无法闭环（需 UI 点"复制"）
+- 判定：**不值得按 columbina 打法批量养号**（columbina 单次签到均值约 $114，
+  baosiapi 仅 $0.03，差约 3700 倍；且不给注册赠送）。保留为"自建域可收码"路由，
+  不列入产能。
+- 修正上文 §一"第二个 GOLD_CK"的说法：baosiapi 有签到但奖励可忽略，
+  **GOLD_CK 仍只有 columbina 一家**，原结论维持。
