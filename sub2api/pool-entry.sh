@@ -1,8 +1,14 @@
 #!/bin/bash
 # sub2api 合法扩池统一入口（2026-09-14）
-# 用法: ./pool-entry.sh [NIM|BAZAARLINK|OPENROUTER|COPILOT]
+# 用法: bash pool-entry.sh [NIM|BAZAARLINK|OPENROUTER|COPILOT]
 # 无参数 = 显示当前 4 通道状态与下一步
 # 有参数 + key 在手 = 自动路由到对应入池脚本
+#
+# ⚠️ 环境变量必须在 BASH 里设（PowerShell 的 $env: 不会自动传到 bash 子进程）：
+#   bash -c 'BAZ_KEY=sk-bl-... bash pool-entry.sh BAZAARLINK'
+#   bash -c 'NIM_KEY=nvapi-... bash pool-entry.sh NIM'
+#   bash -c 'OR_KEY=sk-or-v1-... bash pool-entry.sh OPENROUTER'
+#   bash pool-entry.sh COPILOT   (Mac 已授权，无需 key)
 set -u
 export PATH="/usr/local/opt/postgresql@16/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 BASE=/mnt/d/tdsh/sub2api   # WSL 侧路径
@@ -29,7 +35,9 @@ EOF
 case "${1:-}" in
   BAZAARLINK)
     if [ -z "${BAZ_KEY:-}" ]; then echo "❌ 未设 BAZ_KEY (bazaarlink.ai 注册拿 sk-bl-...)"; exit 1; fi
-    exec bash "$DIR/bazaarlink-pool.sh" "$BAZ_KEY"
+    # 走 WSL 调 bazaarlink-pool.sh（/mnt/d 为 D: 盘 WSL 挂载，小写 d）
+    # key 通过 shell 位置参数传入（避免 env 跨 WSL 边界丢失）
+    wsl.exe -e bash -c "bash /mnt/d/tdsh/sub2api/bazaarlink-pool.sh '$BAZ_KEY'" 2>&1
     ;;
   NIM)
     if [ -z "${NIM_KEY:-}" ]; then echo "❌ 未设 NIM_KEY"; exit 1; fi
