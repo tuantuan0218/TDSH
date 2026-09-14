@@ -76,3 +76,4 @@ probe-responses.mjs
 verify-siliconflow.mjs
 
 .ssh-mac/
+.copilot-local/

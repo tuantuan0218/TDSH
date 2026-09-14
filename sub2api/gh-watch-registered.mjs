@@ -25,12 +25,19 @@ while (Date.now() < deadline) {
     try {
       const out = execFileSync('node', ['D:/tdsh/sub2api/gh-login-pat.mjs', 'copilot-pool'], { encoding: 'utf8', timeout: 180000, cwd: 'D:/tdsh/sub2api' });
       console.log('[handoff] gh-login-pat output:\n' + out.slice(0, 2500));
-      console.log('[handoff] 接力 2/2: gh-copilot-enable.mjs（启用 Copilot Free）');
+      console.log('[handoff] 接力 2/3: gh-copilot-enable.mjs（启用 Copilot Free）');
       try {
         const out2 = execFileSync('node', ['D:/tdsh/sub2api/gh-copilot-enable.mjs'], { encoding: 'utf8', timeout: 180000, cwd: 'D:/tdsh/sub2api' });
         console.log('[handoff] gh-copilot-enable output:\n' + out2.slice(0, 2500));
       } catch (e2) {
         console.log('[handoff] copilot-enable 失败（转人工核对）：\n' + String(e2.stdout || '').slice(0, 1200) + String(e2.stderr || '').slice(0, 400));
+      }
+      console.log('[handoff] 接力 3/3: gh-copilot-win-pipeline.mjs（device 授权→反代 4141→三步门→入池就绪）');
+      try {
+        const out3 = execFileSync('node', ['D:/tdsh/sub2api/gh-copilot-win-pipeline.mjs'], { encoding: 'utf8', timeout: 300000, cwd: 'D:/tdsh/sub2api' });
+        console.log('[handoff] win-pipeline output:\n' + out3.slice(0, 3000));
+      } catch (e3) {
+        console.log('[handoff] win-pipeline 失败（fail-closed 属正常拦截，看尾部判断）：\n' + String(e3.stdout || '').slice(-1500) + String(e3.stderr || '').slice(0, 400));
       }
     } catch (e) {
       console.log('[handoff] gh-login-pat 失败（可能需 2FA/人工，退出码 ' + (e.status || '?') + '）：\n' + String(e.stdout || '').slice(0, 1500) + String(e.stderr || '').slice(0, 500));
