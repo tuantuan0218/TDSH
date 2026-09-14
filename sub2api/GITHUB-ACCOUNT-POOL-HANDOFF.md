@@ -82,7 +82,7 @@ copilot 反代 + U8（NIM）+ U9（OpenRouter），全部只差你一个动作�
 
 | 项 | 动作 | 状态 |
 |---|---|---|
-| **copilot 授权** | 打开 github.com/login/device 输 **`0989-1311`** | ⏳ 等待（Mac auth 进程存活） |
+| **copilot 授权** | 打开 github.com/login/device 输 **`535A-6E2C`**（最新；旧码 0989-1311/D3CA-973D 已过期） | ⏳ 等待（Mac auth 进程存活） |
 | U8 NIM | build.nvidia.com 过 hCaptcha 拿 key 发我 | ⏳ 待做 |
 | U9 OpenRouter | 注册给邮箱拿 key 发我 | ⏳ 待做 |
 
