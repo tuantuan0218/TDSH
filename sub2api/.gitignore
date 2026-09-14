@@ -49,4 +49,8 @@ _probe_*.sh
 _recheck*.sh
 _check*.sh
 _mac_*.sh
+_reauth*.sh
+_qk*.sh
+_diag*.sh
+_getcode*.sh
 _*.out
