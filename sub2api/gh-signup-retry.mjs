@@ -5,7 +5,7 @@
 import { execFileSync, execSync } from 'node:child_process';
 import fs from 'node:fs';
 const creds = JSON.parse(fs.readFileSync('D:/tdsh/sub2api/gh-register-creds.json', 'utf8'));
-const user = process.argv[2] || creds.username || 'tuanpool-etm739';
+const user = (process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : null) || creds.username || 'tuanpool-etm739';
 // 1) 复制密码到剪贴板（避免用户手输被截断）
 const escaped = creds.password.replace(/'/g, "''");
 execSync(`powershell -NoProfile -Command "Set-Clipboard -Value '${escaped}'"`);
