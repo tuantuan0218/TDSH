@@ -18,15 +18,24 @@ age=9999
 [ -f "$L" ] && age=$(( $(date +%s) - $(stat -f %m "$L") ))
 if [ -n "$alive" ] && [ "$age" -lt 600 ]; then
   code=$(grep -oE '[0-9A-Z]{4}-[0-9A-Z]{4}' "$L" | tail -1)
-  echo "WAITING code=$code (auth pid=$alive, log_age=${age}s)"
+  echo "WAITING code=${code:-PENDING} (auth pid=$alive, log_age=${age}s)"
 else
   echo "auth 进程已退出/code 已过期(log_age=${age}s) -> 重发新 code"
   pkill -f "copilot-api.*auth" 2>/dev/null; sleep 1
   mkdir -p "$HOME/copilot-api-run"; cd "$HOME/copilot-api-run" || exit 1
   nohup npx -y copilot-api@latest auth > auth2.log 2>&1 &
-  sleep 40
-  code=$(grep -oE '[0-9A-Z]{4}-[0-9A-Z]{4}' auth2.log | tail -1)
-  echo "FRESH_CODE=$code"
+  # npx 冷启动可能 >40s（拉包），轮询直到 code 真的出现（最多 150s），否则会取到空值
+  code=""
+  for i in $(seq 1 30); do
+    sleep 5
+    code=$(grep -oE '[0-9A-Z]{4}-[0-9A-Z]{4}' auth2.log 2>/dev/null | tail -1)
+    [ -n "$code" ] && break
+  done
+  if [ -z "$code" ]; then
+    echo "FRESH_CODE=NONE"; tail -5 auth2.log
+  else
+    echo "FRESH_CODE=$code"
+  fi
 fi
 REMOTE
 )
