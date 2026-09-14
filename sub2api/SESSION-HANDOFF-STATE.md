@@ -39,12 +39,17 @@
 
 ## 三、4 条合法扩池通道（全就绪，各差 1 个用户动作）
 
+> ⚠️ **入池必经 outbox**（2026-09-14 并行会话根因）：裸 SQL 不写 `scheduler_outbox` → 号
+> 永不进调度快照、永不接单。所有入池脚本已补 outbox（`bazaarlink-pool.sh`、
+> Mac `copilot-pool.sh` 直接写；`pool-entry.sh` 另有 `FIXOUTBOX <账号名>` 分支补
+> NIM/OPENROUTER 等旧脚本漏掉的事件）。**任何 SQL 入池后必须确认 outbox 有事件。**
+
 | 优先级 | 通道 | 待办 | 入池准备度 |
 |---|---|---|---|
-| 🥇 | **BazaarLink**（门槛最低） | 注册拿 `sk-bl-*` key | `bazaarlink-pool.sh` 一键 |
-| 🥈 | copilot 反代 | 输 device code `BC0A-27B2`（copilot-auth.sh 自助） | Mac 脚本 + 代理已就绪 |
-| 🥉 | NIM | 过 hCaptcha 拿 `nvapi-*` key | 脚本 + 映射已备 |
-| 4 | OpenRouter | 给主流邮箱 | 配置 + 表单参数已备 |
+| 🥇 | **BazaarLink**（门槛最低） | 注册拿 `sk-bl-*` key | `bazaarlink-pool.sh` 一键（含 outbox） |
+| 🥈 | copilot 反代 | code 已过期→重跑 `bash copilot-auth.sh code` 取新码后授权 | Mac 脚本已修复含 outbox |
+| 🥉 | NIM | 过 hCaptcha 拿 `nvapi-*` key | 脚本+映射已备（入池后跑 `FIXOUTBOX nvidia-nim`） |
+| 4 | OpenRouter | 给主流邮箱 | 配置+表单参数已备（入池后跑 `FIXOUTBOX openrouter-free`） |
 
 ## 四、关键事实（避免下个会话重查）
 
@@ -52,11 +57,16 @@
   实测全部需 key 或 429（5 轮盘点闭环，`NO-KEY-ENDPOINTS-VERIFIED.md` 维持 2 个）
 - **GitHub Models 410 退役**（brownout）——多号无免费推理额度可薅
 - **Mac 直连 github.com 超时**，但本机 mihomo 代理 7897 可达——copilot-api auth 与 token
-  刷新**必须**走 `--proxy-env` + 代理
-- **pool 池 46/41/5 error**，僵尸账号 #2/#5/#8（无 base_url 却 schedulable）待处置
+  刷新**必须**走 `--proxy-env` + 代理；auth 命令的 `--proxy-env` 无效 → 用
+  `copilot-auth.sh`（curl -x 手动 device flow，已验证 code/poll/status 各分支）
+- **pool 池 46/41/5 error**，僵尸账号 #2/#5/#8（无 base_url 却 schedulable）待处置；
+  columbina 19 号 ≈$2545 余额是真产能（100% 同上游 xai，单厂商风险）
 - **BazaarLink 4 特点**：/v1/models 匿名 200（173 模型）/ chat 需 key（401）/ 3 个零价模型
   （`auto:free`/`qwen3.7-flash:free`/`deepseek-v4-flash-0731v:free`）/ 有内容审查 403
   + 配额可编程查
+- **⚠️ 公开仓凭据风险已修复（2026-09-14）**：TDSH `private=false`（公开），13 个探测/测试
+  脚本硬编码明文 key（health-check.js 等）——核实 git 历史未含（未泄露），已全部补
+  .gitignore 防未来 `git add .` 意外提交。
 - **⚠️ DataDome 归因修正（09:1x 并行会话 14 出口实测，推翻早前"IP/指纹"含糊说法）**：
   拦截变量 = **CDP/审查工具检测**（调试端口或扩展 `chrome.debugger` 一律拒，与 IP 无关）；
   DataDome 拦截页原文明写 "Use of developer or inspection tools"。**但 `/login` 不受保护**
