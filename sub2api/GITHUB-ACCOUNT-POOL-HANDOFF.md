@@ -255,3 +255,15 @@ store 完整（快照 diff 为字段级更新）。下次领取窗口=明日。
   WSL `/root/.ssh/id_ed25519`（600），旧被拒 key 备份为 `id_ed25519.pre-20260915.rejected.bak*`；
   `~/.ssh/config` 的 `Host mac` 本就指向该默认路径 ⇒ **用户在 Mac 上执行上面那一行授权后，
   旧脚本（pool-health-check / copilot-auth / mac-*.sh）零改动即恢复**。
+### 3. ����Ԥ�� PASS��2026-09-15 02:4x��
+
+- WebBridge(freeapi-keys) ��ʵ Chrome ��Ⱦ github.com/login ������login_field/password/submit �룬dd=false cf=false��? ע��һ���  + 'gh-login-pat.mjs' +  �ؿ���
+- �ȿӼ�¼��session ���� 9 ����ʬ tab ���� navigate �� 'No tab with given id'���� + '
+ode gh-wb.mjs close_session ''{}}''' +  ��� navigate ���½� tab �ɹ�
+- �������ѻ� 6h ���ڣ�pwsh-19�������� 8h ˫·��pwsh-15��
+
+### 3. 接力预检 PASS（2026-09-15 02:4x）
+
+- WebBridge(freeapi-keys) 真实 Chrome 渲染 github.com/login 完整（login_field/password/submit 齐，dd=false cf=false）=> 注册一完成 gh-login-pat.mjs 必可跑
+- 踩坑：session 残留 9 个僵尸 tab 导致 navigate 报 No tab with given id；先 gh-wb.mjs close_session 再 navigate 即自动新建 tab
+- 收码器换 6h 窗口（pwsh-19）；守望 8h 双路（pwsh-15）
