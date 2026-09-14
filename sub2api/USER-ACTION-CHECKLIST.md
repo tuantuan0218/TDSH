@@ -29,11 +29,18 @@
   - **A. `juarezalexander554@gmail.com`（成功率高，推荐）** —— 论坛实证 Gmail 最顺；
     但这台机器 Edge 里的 Google 会话**已失效**，收码要你**先登录一次该 Gmail**，
     把 8 位码贴回给我（或直接自己填）。
-  - B. `ghreg971306@uberip.com`（mail.tm 临时邮箱）—— 好处是**我能用 API 自动取码**
-    （`node gh-code-poller.mjs <地址> <密码> 300`，密码见本地 `.tmp-mailtm.json`，
-    命中后自动把码送进剪贴板）；
-    坏处是临时域名在 GitHub 侧常被要求过 10-15 道验证，成功率低。
+  - B. `ghreg526002@uberip.com`（mail.tm 临时邮箱，**2026-09-15 重建**；旧 `ghreg971306` 密码已失、弃用）—— 好处是**我能用 API 自动取码**
+    （后台已在轮询，密码只存本地 `gh-register-creds.json.email_fallback_password`，
+     取码命令 `node gh-code-poller.mjs <地址> <密码> 1800`，命中后自动把码送进剪贴板）；
+     坏处是临时域名在 GitHub 侧常被要求过 10-15 道验证，成功率低。
 - ⚠️ 不能再用 `wcchengzi@qq.com`：已绑定你现有号 **tuantuan0218**（一个邮箱只能一个号）。
+
+> **2026-09-15 现场状态（agent 本轮已备好）**：
+> - 已自动打开 Edge **InPrivate → github.com/signup**，注册**密码已在你剪贴板**（Ctrl+V 即填）；
+> - 用户名 `tuanpool-etm739` 本轮实测 github.com 返回 404 = 仍无人占用；
+> - 守望进程后台运行中：一旦该用户名页变 200（=你注册完成），**自动**跑 `gh-login-pat.mjs`
+>   登录并建 PAT 写回 `gh-register-creds.json`（日志 `gh-watch.log`）；
+> - 通道 B 邮箱验证码后台轮询中（日志 `gh-mail-B.log`，命中即进剪贴板）。
 
 **注册成功后立刻**：开 2FA/Passkey（github.com/settings/security）→ 把用户名告诉我，
 后面 OAuth/入池我接手。
