@@ -146,6 +146,14 @@ node pool-health-check.mjs            # 池只读巡检
 ## 十一、追加批次（2026-09-14 11:5x 汇总，指向当日新产出）
 
 > 今日后半段新增结论，全为**只读取证/纯 REST 实测**，池写一项未做。
+>
+> **12:1x 追加（copilot 授权链路已修通，别再走直连死路）**：
+> - `copilot-api auth` 的 undici **不走代理** → 直连 github.com 间歇超时（`fetch failed`）是它的 bug，
+>   不是网络坏。Mac 上 mihomo `127.0.0.1:7897` 在跑且**经代理访问 github.com 稳定 200**（出口 95.40.53.45）。
+> - 正解：**`bash copilot-auth.sh code`**（curl -x 代理拿 user_code，约 899s 有效）→
+>   `bash copilot-auth.sh poll`（授权后轮询换 token）→ `bash copilot-auth.sh pool`（一键入池）。
+>   ⚠ 每次要授权时重新 `code` 拿新码，旧码 15 分钟过期。
+> - 本会话旧保持器 `gh-copilot-authkeeper.sh`（npx 直连版）**已废弃**（撞同一 bug），勿再启动。
 
 ### 1. 免费渠道"自建邮箱批量开户"路线普查完毕（结论：无第二条 GOLD_CK）
 
