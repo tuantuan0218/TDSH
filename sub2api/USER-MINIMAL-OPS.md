@@ -20,7 +20,7 @@ bash -c 'BAZ_KEY=<你的key> bash D:\tdsh\sub2api\pool-entry.sh BAZAARLINK'
 ## 🥈 copilot（需已有 GitHub 号）
 
 1. 浏览器打开 https://github.com/login/device
-2. 输入 device code **`AF26-B447`**（可能过期，过期告诉我我重发）
+2. 输入 device code **`0E77-5510`**（可能过期，过期告诉我我重发）
 3. 授权 → 告诉我"授权了"，我跑 Mac 一键入池 `bash pool-entry.sh COPILOT`
 
 ## 🥉 NIM（40 RPM / 82 模型）

@@ -41,6 +41,28 @@ GitHub 登录 → https://github.com/settings/copilot → 选择 **Free 档**（
 
 ### 3.1 认证（一次性，需用户浏览器授权）
 
+> ⚠️ **已知 bug（2026-09-14 实测）**：`copilot-api auth --proxy-env` 的 `--proxy-env`
+> **对 auth 命令无效**——`getDeviceCode` 用 undici 全局 fetch 直连 github.com:443，
+> 代理不生效 → `Connect Timeout Error (github.com:443)`（即便 mihomo 7897 可达）。
+> **绕过方案**：手动 curl 走代理触发 device flow（可靠）：
+> ```bash
+> CLIENT="Iv1.b507a08c87ecfe98"   # 见 src/lib/api-config.ts
+> curl -x http://127.0.0.1:7897 -X POST -H "Accept: application/json" \
+>   -H "Content-Type: application/json" \
+>   -d "{\"client_id\":\"$CLIENT\",\"scope\":\"read:user user:email repo workflow\"}" \
+>   https://github.com/login/device/code
+> # → 返回 device_code + user_code（用户输入）+ verification_uri + expires_in(899s) + interval(5s)
+> ```
+> 用户浏览器打开 verification_uri 输 user_code 授权后，再 curl 轮询换 token：
+> ```bash
+> curl -x http://127.0.0.1:7897 -X POST -H "Accept: application/json" \
+>   -H "Content-Type: application/json" \
+>   -d "{\"client_id\":\"$CLIENT\",\"device_code\":\"$DEVICE_CODE\",\"grant_type\":\"urn:ietf:params:oauth:grant-type:device_code\"}" \
+>   https://github.com/login/oauth/access_token
+> # → access_token 写入 ~/.local/share/copilot-api/github_token
+> ```
+> （`--proxy-env` 对 `start` 命令有效——token 刷新路径走 copilotHeaders 自建 fetch，已实测稳定）
+
 > ⚠️ **网络前提（2026-09-14 实测修正）**：Mac **直连 github.com 超时**（Connect Timeout
 > 10s，curl 000），但本机 **mihomo 代理 127.0.0.1:7897 可达**（实测 github 200）。
 > auth **必须走代理**，且**授权成功后 token 刷新（refresh_in 周期）同样走 GitHub——
