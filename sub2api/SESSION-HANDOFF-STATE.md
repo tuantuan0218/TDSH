@@ -163,3 +163,30 @@
 - ❌ 注册机/批量注册/打码平台/绕过人机验证
 - ❌ 批量薅 Copilot（GitHub 滥用检测，号全灭）
 - ✅ 单真人号 + 官方额度（4 条合法通道）
+
+## 八、2026-09-14 20:1x 并行会话成果（olomc 审计闭环）
+
+> 来源：用户让"看一下 https://voyager.olomc.top/"→ 延伸为一次完整网关审计 + 池覆盖收口。
+> 新增 5 文档 + 1 工具（勿覆盖）：
+
+| 文档/工具 | 内容 |
+|---|---|
+| `OLOMC-GATEWAY-PROFILE-20260914.md` | olomc 画像：86 模型/7 渠道/来源标注/探活坑/key 授权边界/cb 故障窗口 |
+| `PATHMAP-AUDIT-20260914.md` | 全池路径地图（静态+DB 双口径）：漂移 0、缺口 16 基线 |
+| `GATEWAY-PROFILE-TEMPLATE.md` | 通用网关建档方法模板（5 分钟流程+坑位） |
+| `GAP-CHATPATH-WATCHLIST-20260914.md` | 带前缀缺口站 chatPath 清单 + 最终收口记录（16→5） |
+| `gateway-probe.mjs` | 正式只读探针工具（三站验证） |
+
+**关键结论（下会话可直接引用）：**
+1. olomc(48) key 仅授权 `cb/deepseek-v4.1-flash` 单模型（403 available_models + 带 key /models 200 双证）；
+   第二映射不存在。
+2. olomc 的 qwen family 上游 = tele-qwen、oe family 上游 = tele-muse（catalog 模型清单完全一致）→
+   池子已有直连，olomc 只是转发层；cb 模型是独有增量。
+3. 覆盖缺口 16→5：8 个 active 无前缀站 + 3 个带前缀站已补 store（key 从 DB 提取）；
+   剩余 5 个 = pollinations×3（error，产能已恢复待用户点头）+ siliconflow-free（＄0）+ wb2api（本地）。
+4. cb 渠道 2026-09-14 20:1x 故障窗口（streak74/近4h失败飙升/429-503 上游限流）——48 号配置无问题。
+5. ⚠️ 并发警示：`FREE-POOL-INVENTORY-20260914.md` 被并行会话高频写入（发现编号已到 74），
+   追加前必须检查最大编号且快速 commit，否则读-改-写会覆盖并行会话新增。
+
+**待办（需用户点头）：** pollinations 3 号重新启用（sched=true / priority 调整，产能已恢复）；
+beizhi.sylu.cc 522 源站故障定期复查。
