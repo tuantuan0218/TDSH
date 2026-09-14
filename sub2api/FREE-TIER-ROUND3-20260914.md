@@ -60,6 +60,12 @@
 
 - **端点**：`https://api.bazaarlink.ai/v1`（OpenAI 兼容）
 - **/v1/models**：**匿名 200，173 模型**（当日直测，qwen3.8-max 等）
+- **免费模型（3 个，定价均为 0）**：
+  - `auto:free` — Auto Router (free)：自动路由到免费模型，Always free, rate-limited
+  - `qwen/qwen3.7-flash:free` — Qwen3.7 Flash (free)：视觉语言推理，多模态 agent 用
+  - `deepseek/deepseek-v4-flash-0731v:free` — 1M 上下文，text
+  - ⚠️ 注意 id 带 `:free` 后缀（qwen3.7-flash:free / deepseek-v4-flash-0731v:free），
+    与 OpenRouter 风格一致；入池映射直接用完整 id
 - **chat**：匿名 **401** `Missing API key (Bearer sk-bl-...)` —— **需 key，非免 key**
 - **免费机制**（页面明示）：注册 **60 秒内拿 key**、**无信用卡**、`auto:free` 模型名自动
   路由到免费模型、**10 req/min · 50 req/day**、未充值账户日额度 ×1
