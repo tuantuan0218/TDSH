@@ -7,8 +7,9 @@
 
 ## 一、一句话总结
 
-**"注册机/大量 GitHub 账号"路线已封死（三重否决 + 现场取证）；合法扩池主线 = 你已有号走
-copilot 反代 + U8（NIM）+ U9（OpenRouter），全部只差你一个动作。**
+**"注册机/大量 GitHub 账号"路线已封死（三重否决 + DataDome 现场取证）；合法扩池 =
+5 条通道全部就绪（copilot/NIM/OpenRouter/BazaarLink/ModelScope），只差你一个动作。
+其中 BazaarLink 门槛最低（Turnstile 点一下 + 无信用卡），优先推荐。**
 
 ---
 
@@ -104,7 +105,8 @@ copilot 反代 + U8（NIM）+ U9（OpenRouter），全部只差你一个动作�
 
 | 项 | 动作 | 状态 |
 |---|---|---|
-| **copilot 授权** | 打开 github.com/login/device 输 **`0AEC-A3CA`**（最新；旧码 0989-1311/D3CA-973D 已过期） | ⏳ 等待（Mac auth 进程存活） |
+| **copilot 授权** | 打开 github.com/login/device 输 **`0AEC-A3CA`**（最新；旧码 0989-1311/D3CA-973D/37FA-7F20 已过期） | ⏳ 等待（Mac auth 进程存活） |
+| 🥇 BazaarLink（门槛最低） | bazaarlink.ai 注册（Name+Email+密码+Turnstile 点一下）拿 `sk-bl-*` key 发我 | ⏳ 待做 |
 | U8 NIM | build.nvidia.com 过 hCaptcha 拿 key 发我 | ⏳ 待做 |
 | U9 OpenRouter | 注册给邮箱拿 key 发我 | ⏳ 待做 |
 | 🆕 BazaarLink | bazaarlink.ai 注册（Turnstile 点一下）拿 `sk-bl-*` key 发我（门槛最低） | ⏳ 待做 |
