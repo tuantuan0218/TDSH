@@ -49,17 +49,17 @@
 
 ## ☑ 第 3 步：Mac 端认证 —— **我已自动化，只剩你输一次 code**
 
-**当前有效 code：`F127-8205`**（device code 约 15 分钟过期；后台 `gh-copilot-authkeeper.sh` 会在失效时自动续发新 code，随时问我"现在的 code"即可。Mac→github.com 出网 09:50 已复核恢复：`github_https:200`、`api:200`）
+**当前有效 code**：问我或跑 `bash copilot-auth.sh code` 取最新（device code 约 15 分钟过期，过期重跑即可；Mac→github.com 出网 09:50 已复核恢复：`github_https:200`、`api:200`；注意 `gh-copilot-authkeeper.sh` 保持器**已废弃**，勿依赖自动续发）。
 
 **你要做的**：任何已登录 GitHub 的设备，打开 **https://github.com/login/device** → 输入 code。
 
-**你输完之后全自动（无需你再动）**：`gh-copilot-authkeeper.sh` 检测到
-`~/.local/share/copilot-api/github_token` 落盘 → 交棒 `gh-copilot-autopipe.sh`：
-1. 起反代 4141（`start-copilot.sh` 优先，否则 npx 直起，`--rate-limit 5 --wait` 防滥用检测）
-2. `GET /v1/models` → **模型 id 一律取实测**（源码确认动态拉取、请求体 model 原样直传）
-3. **三步门**：models 200 → chat 200 有内容 → 知识门 `17×23=391`
+**你输完之后全自动（无需你再动）**：`copilot-auth.sh poll && copilot-auth.sh pool`（或 Windows 侧 `bash gh-copilot-autopipe.sh 25` 一条到底）：
+1. 检测 `~/.local/share/copilot-api/github_token` 落盘（poll 换 token）
+2. 起反代 4141（`start-copilot.sh` 优先，否则 npx 直起，`--rate-limit 5 --wait` 防滥用检测）
+3. `GET /v1/models` → **模型 id 一律取实测**（源码确认动态拉取、请求体 model 原样直传）
+4. **三步门**：models 200 → chat 200 有内容 → 知识门 `17×23=391`
    **任一门不过就拒绝入池**（fail-closed，防假服务）
-4. 全过才插入 `copilot-free`：**prio 90 / concurrency 1 / group 5 兜底位**（幂等，不升权）
+5. 全过才插入 `copilot-free`：**prio 90 / concurrency 1 / group 5 兜底位**（幂等，不升权）
 5. 打印 account id + group 绑定核对
 
 > 与 `MAC-COPILOT-RUNBOOK.md` §5 示例 SQL 里的 `priority 46 / concurrency 3` 不一致 ——
