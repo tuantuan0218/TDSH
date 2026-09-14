@@ -16,7 +16,7 @@
 `free-lane-audit.mjs` 是 **store-based**：仓外 `site-accounts.json` 只 26 条，且 base 会漂移 → 它报的"健康 12/25"**只代表 store 覆盖范围**。
 `bash sub2api/free-pool-probe.sh` 改成**以网关库为唯一事实源**（base_url / api_key / model_mapping 全取自 PG，key 只在 Mac 内用、不打印），实跑覆盖 **37 个免费/公益号**，判据复用本会话全部教训（SSE 流式、reasoning-only、token 级 vs 账号级余额、429=限流非坏）。
 
-**实跑结果（20:5x，37 号）——值得你知情的 4 件事**：
+**实跑结果（`free-pool-probe.sh`，21:1x，**42 个号**，比 audit 多 16 个）——值得你知情的 4 件事**：
 | 号 | 判读 | 含义 |
 |---|---|---|
 | `9 aio-freeshare` / `45 xuanwu-free` / `17 siliconflow-free` / `46 freemodel-free` | 🔴 **账号级余额 ＄0**（403/402/401） | 不是号坏，是没钱；**只能充值**，重发 token 无效 |
@@ -26,6 +26,17 @@
 | `27 wb2api` | `/models` 404（本地 7863 无该路由）；7d 仅 2 picks、错误 `Recovered 503 all accounts unavailable` | v4.1 那条"双源"里 **27 才是较抖的一路**，48 是备胎 |
 
 **一句话**：`v4.1` 双源里备胎（48）反而比主力（27）稳；全池免费产能的真实短板是**四个 ＄0 账号级余额号**，不是任何"号坏了"。
+
+### 21:1x 复核（判据修全后再跑一轮）
+判据补了三处后（**SSE 分片累积**、**仅 reasoning 也算可用**、**429=限流非坏号**），42 号实跑：
+- ✅ 可用 **14 个**（含 12 tokenrouter、16 tele-qwen、32 xzt、44 aitools、54/55 两个 columbina、**48 olomc `fin=stop` 真出词**）
+- ❌ columbina **24 个同时 503** `auth_unavailable: no auth available` → **第 7 次 xai 上游故障正在进行**
+- 🔴 4 个 ＄0 账号级余额（`9`/`17`/`45`/`46`）；🟡 `31 xzt` 429 违规/限流
+- **用户侧影响实测 = 0**：近 30 分钟免费道用户可见失败 `0`、全池 `0`、`recovered=1`（网关重试救回）；columbina 仍有 1 单（54/55 活着，说明**不是整站齐灭**）
+- ⚠️ `27 wb2api`：`/models` 404 且 `model_mapping` 取不到值 → **它无法被按名探活**（真上游腾讯 CodeBuddy，映射形状与 new-api 站不同）。这不是号坏，是探活器的能力边界；判它的健康只能靠 `usage_logs` picks + 网关错误日志
+
+> 探针自伤提醒：本探活连打同一站多号会触发 429（我在 48 号上就撞过一次），那属**测量行为**而非账号故障——所以 429 一律单独归类、不计入"坏号"。
+
 
 
 ## olomc-free(48)「假故障」根因 = audit 探活 URL 拼错（**不是站方抖动**）
