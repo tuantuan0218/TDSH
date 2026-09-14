@@ -53,3 +53,22 @@
   是 DuckDuckGo 网页应用，**非开放 API**（前端 XHR 路径不在静态资源），**不构成候选**
 - **poli-text**：9-13 记录"匿名可列"，维持原结论（`text.pollinations.ai` 主端点当日复核 200）
 - 两个遗留项至此全部闭环
+
+## 附2：BazaarLink — 注册极简的免费 key 渠道（2026-09-14 新发现）
+
+> 来源：`12britz/awesome-free-models`（9-12 复核）→ 当日直测验证。
+
+- **端点**：`https://api.bazaarlink.ai/v1`（OpenAI 兼容）
+- **/v1/models**：**匿名 200，173 模型**（当日直测，qwen3.8-max 等）
+- **chat**：匿名 **401** `Missing API key (Bearer sk-bl-...)` —— **需 key，非免 key**
+- **免费机制**（页面明示）：注册 **60 秒内拿 key**、**无信用卡**、`auto:free` 模型名自动
+  路由到免费模型、**10 req/min · 50 req/day**、未充值账户日额度 ×1
+- **价值**：注册门槛可能极低（页面称"无需等待审核"）——**新增低成本入口**，
+  与 OpenRouter（需主流邮箱+Turnstile）对比，若注册免验证墙则优先试
+- **入池路径**：用户注册拿 `sk-bl-*` key → `add-free-api-pool.mjs`（base=
+  api.bazaarlink.ai/v1，模型 `auto:free`，prio 90/concurrency 1/group 5）
+- **注册形态（CDP 实测）**：`bazaarlink.ai/keys` → 跳 `login?callbackUrl=...`；
+  表单 email + password + **Cloudflare Turnstile**（`cf-turnstile-response` hidden 确认）；
+  另有 "Sign up free" 入口 + Google OAuth。**Turnstile 是真人点一下级**（比 GitHub
+  DataDome 简单），注册无信用卡无审核
+- **待办**：用户注册拿 key（若 Turnstile 可真人过，是三条合法主线之外的第四条）
