@@ -37,6 +37,17 @@
 | 池库存快照 / 配额监控更新 | `FREE-POOL-INVENTORY-20260914.md` / `FREE-QUOTA-MONITOR.md` / `free-quota-monitor.mjs`（并行会话维护，勿覆盖） |
 | 扩池源码参考 | `sub2api-src/`（独立 git 目录，勿动） |
 
+## 三·五、copilot 链路脚本归属裁定（2026-09-14 并行会话确认，防重复维护）
+
+- **以 Mac `~/copilot-api-run/copilot-pool.sh` 为准**（一键入池：授权检查→启动→三步门→
+  入池 SQL+outbox→group5 绑定→核对，已修复 outbox）
+- `gh-copilot-autopipe.sh`（并行会话自动接续管线：等授权落盘→启动4141→三步门→入池）
+  = 同一目标的 Windows 侧入口，**与 copilot-pool.sh 二选一即可，勿双跑**
+- `gh-copilot-authkeeper.sh`（code 保持器）= **废弃**（交接提交已声明；改用
+  `copilot-auth.sh code` 即时取码，无需常驻保持）
+- 使用：Windows 侧 `bash copilot-auth.sh code` 取码 → 用户授权 → Mac 跑
+  `copilot-pool.sh`；或 Windows 侧 `bash gh-copilot-autopipe.sh 25` 一条到底
+
 ## 三、4 条合法扩池通道（全就绪，各差 1 个用户动作）
 
 > ⚠️ **入池必经 outbox**（2026-09-14 并行会话根因）：裸 SQL 不写 `scheduler_outbox` → 号
