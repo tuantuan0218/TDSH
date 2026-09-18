@@ -1,4 +1,7 @@
-# 二进制记忆库不入库：含历史密钥明文，GitHub secret scanning 会拒绝推送
-*.db
+# 二进制记忆库不入库：含历史密钥明文，GitHub secret scanning 会拒绝推�?*.db
 *.db-shm
 *.db-wal
+archive/
+*.sh.secrets
+*.plist.utf8
+com.omp.plist
