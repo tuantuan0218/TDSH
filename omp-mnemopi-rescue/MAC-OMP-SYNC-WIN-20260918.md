@@ -65,6 +65,40 @@
 当前 `com.omp.plist` 里是 `unset ... http_proxy https_proxy`（即**无代理**），所以 olo/tuan 走通、aio 走不通。
 这属于可接受状态：主线 olo 已通，aio 仅为副链第二跳。
 
+## 4b. 副产物（追加，15:20）：`olo/aio` 代理互斥已解决
+
+发现 omp **不支持 per-provider proxy**（grep 二进制：只有全局 `httpProxy/httpsProxy/noProxy`），
+但 Mac 实测三条道对代理的需求互相冲突：olo/tuan 必须**直连**、aio 必须**走代理**。
+
+**解法（零侵入，不碰 omp 本体）**：全局开代理 + `NO_PROXY` 白名单放行直连域名。
+已落地为启动包装脚本 `~/.local/bin/omp-with-proxy.sh`：
+
+```bash
+export HTTPS_PROXY=http://127.0.0.1:7897
+export NO_PROXY='voyager.olomc.top,api.xn--20t60kxs4bjxb.top,192.168.1.3,localhost,127.0.0.1'
+exec ~/.local/bin/omp "$@"
+```
+
+**包装环境实测（2026-09-18 15:20，真实 completion）**：
+
+| provider | HTTP | 出词 |
+|---|---|---|
+| `olo` | **200** | `391` ✅ |
+| `aio` | **200** | 正常出词 ✅ |
+| `tuan` | **200** | ✅ |
+
+即**副链第二跳 aio 由"完全不可用"变为可用**，且主线 olo/tuan 不受影响。
+
+**启用方式**（需你手动，属进程边界我没动）：
+- 方式 A（临时）：终端里直接 `omp-with-proxy.sh` 代替 `omp`
+- 方式 B（永久）：把 `com.omp.plist` 的 ProgramArguments 末项 `omp-bin` 换成
+  `/Users/zhaozicheng/.local/bin/omp-with-proxy.sh`，然后重启该 LaunchAgent
+  —— **需要你点头**，因为会重启常驻进程；且该 plist 的字符串区有损坏字节段，改它有风险，
+  所以我**没有**替你改。
+
+> Windows/WSL 侧**不需要**这个包装：WSL 出口 `freeshare.cc.cd` 直连可达（`/models` 回 401 而非 000），
+> 三道均为直连，故两侧行为差异属网络出口所致，非配置差异。
+
 ## 5. 生效条件（需用户操作）
 
 omp 只在**会话启动时**读一次 config/models。Mac 上当前仍有：
