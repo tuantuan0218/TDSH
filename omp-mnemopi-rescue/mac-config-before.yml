@@ -1,0 +1,95 @@
+advisor:
+  enabled: true
+  subagents: false
+  syncBacklog: '3'
+autolearn:
+  autoContinue: true
+  enabled: true
+bash:
+  autoBackground:
+    enabled: false
+branchSummary:
+  enabled: false
+browser:
+  cmux: false
+  enabled: false
+  headless: true
+checkpoint:
+  enabled: true
+compaction:
+  autoContinue: true
+  enabled: true
+  idleEnabled: true
+  remoteEnabled: true
+  strategy: context-full
+  thresholdTokens: 200000
+defaultThinkingLevel: auto
+disabledProviders:
+- ollama
+- llama.cpp
+- lm-studio
+display:
+  showTokenUsage: false
+features:
+  unexpectedStopDetection: false
+github:
+  enabled: true
+inspect_image:
+  mode: auto
+lsp:
+  diagnosticsOnEdit: false
+memory:
+  backend: mnemopi
+mnemopi:
+  autoRetain: true
+  embeddingModel: BAAI/bge-small-zh-v1.5
+  enhancedRecall: true
+  polyphonicRecall: true
+modelRoles:
+  advisor: yunshu/deepseek-v4-flash
+  agnes: agnes/agnes-2.0-flash
+  agnes-auto: agnes/agnes-2.0-flash
+  agnes-rescue: agnes/agnes-2.0-flash
+  commit: agnes/agnes-2.0-flash
+  default: yunshu/deepseek-v4-flash
+  designer: agnes/agnes-2.0-flash
+  mimo: yunshu/deepseek-v4-flash
+  mimo-fast: agnes/agnes-2.0-flash
+  plan: yunshu/deepseek-v4-flash
+  slow: yunshu/deepseek-v4-flash
+  smol: agnes/agnes-2.0-flash
+  tiny: agnes/agnes-2.0-flash
+  task: yunshu/deepseek-v4-flash
+  vision: agnes/agnes-2.0-flash
+retry:
+  baseDelayMs: 500
+  enabled: true
+  fallbackChains:
+    agnes: &id001
+    - yunshu/deepseek-v4-flash
+    - agnes/agnes-2.0-flash
+    - agnes-bak1/agnes-2.0-flash
+    - agnes-bak2/agnes-2.0-flash
+    agnes-auto: *id001
+    agnes-rescue: *id001
+    default: *id001
+    task: *id001
+  fallbackRevertPolicy: cooldown-expiry
+  maxRetries: 8
+setupVersion: 1
+skills:
+  customDirectories:
+  - ~/.omp/agent/managed-skills
+task:
+  enableLsp: false
+  isolation:
+    mode: none
+  maxConcurrency: 4
+  showResolvedModelBadge: false
+terminal:
+  showProgress: false
+vault:
+  enabled: true
+symbolPreset: ascii
+dev:
+  autoqaConsent: granted
