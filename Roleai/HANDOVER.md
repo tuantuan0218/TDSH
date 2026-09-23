@@ -120,12 +120,22 @@ D:\tdsh\Roleai\
 3. 路径规范化：折叠 `./` 与 `../`，剥离查询串与 hash。
 4. 种子页含 robots.txt 中的 Disallow 页面（login/payment/support/agent 等），确保完整性。
 
-**已知坑**：`payment.html` 首次抓取时 curl 返回 000（网络抖动），重试即 200。镜像脚本对失败的 URL 不重试，需手工补抓。
+**已知坑**：`payment.html` 首次抓取时 curl 返回 000（网络抖动），重试即 200。镜像脚本对失败的 URL 不重试，需手工补抓。`login.html` 同样出现过一次 000。
 
 **闭包校验（重要）**：脚本末尾会自动扫描已下载的 HTML/CSS/XML，列出仍缺失的引用并输出 `缺失引用数=N`。
 首轮 BFS 曾漏掉 10 个边角引用（`admin/` 下的子页面深链、`assets/payment.js`、`assets/qrcode-generator-2.0.4.js`），
-因为 `admin/index.html` 是独立入口、其子页不在任何种子页的引用链上。**收敛后缺失数必须为 0**；
+因为 `admin/index.html` 是独立入口、其子页不在任何种子页的引用链上。**收敛后该值必须为 0**；
 若非 0，按清单手工补抓对应 URL 后再跑一次，直到为 0。
+
+**运行时资源审计（第二道防线）**：脚本还会扫描所有 JS 里的 `assets/...` 字符串，与磁盘比对并输出 `运行时资源引用数=N 缺失=M`。
+原因：`pages.js:76` 用模板串 `${root}assets/wechat-customer-service.jpg` 拼装路径——**路径不以引号开头，HTML/CSS 正则提取不到**，
+而脚本又刻意不解析 JS（早期解析 JS 会产生大量 `${...}` 噪声假失败）。这类资源一旦漏抓，只在浏览器运行到对应功能时才暴露：
+本轮就因此让「微信客服二维码」在清空重跑后丢失，点开该面板才 404。
+处置：**在种子列表显式登记此类路径**（已含来源行号注释），并由审计步骤持续守护。
+
+**脚本内部坑**：`Normalize-Ref` 中**不要用 `[System.IO.Path]::GetDirectoryName`** 处理站内相对路径——
+根级文件（如 `/index.html`）会抛 `The path is not of a legal form.`，虽被 `$ErrorActionPreference='Continue'` 吞掉不中断抓取，
+但会把错误栈刷满日志（实测 355 行日志里 340 行是噪声），掩盖真正的结果行。已改为字符串取目录。
 
 ## 六、启动与停止
 
@@ -156,3 +166,4 @@ $env:API_ORIGIN="https://api.roleai.studio"; node D:\tdsh\Roleai\serve.js
 | 2026-09-24 | 初次部署：镜像 40 文件、编写 serve.js、增加 API 反向代理、浏览器验证通过 |
 | 2026-09-24 | 闭包补全：新增 admin 子页与 payment.js/qrcode 库等 11 文件（42→51），引用缺失数收敛至 0；`_mirror.ps1` 加入自动闭包校验，种子页补 `/admin/` |
 | 2026-09-24 | **修正 §3.2 误判**：用真实浏览器验证线上站点发出的是 `api.roleai.studio` 直连请求（非 `/api/*`），定价页渲染正常，「线上缺陷」结论撤回；§3.2 重写为机制解释 + 误判教训 |
+| 2026-09-24 | **修复 BFS 漏抓运行时资源**：`pages.js:76` 模板串拼装的微信客服二维码在清空重跑后丢失（打开该面板才 404）。种子列表显式登记 + 新增运行时资源审计（扫描 JS 中 `assets/` 路径比对磁盘）+ 修复 `GetDirectoryName` 日志噪声。清空重跑验证：静态缺失=0、运行时缺失=0、27 路径全 200 |
