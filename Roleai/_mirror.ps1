@@ -1,6 +1,12 @@
+﻿# 用法: & D:\tdsh\Roleai\_mirror.ps1
+# 说明: 输出目录相对于本脚本位置解析（$PSScriptRoot），整目录搬迁后仍可用
+param(
+  [string]$OutDir = (Join-Path $PSScriptRoot 'site')
+)
+
 $ErrorActionPreference = 'Continue'
 $base   = 'https://roleai.studio'
-$outDir = 'D:\tdsh\Roleai\site'
+$outDir = $OutDir
 $seen   = New-Object 'System.Collections.Generic.HashSet[string]'
 $queue  = New-Object 'System.Collections.Generic.Queue[string]'
 $failed = New-Object 'System.Collections.Generic.List[string]'

@@ -220,6 +220,28 @@ $env:API_ORIGIN="https://api.roleai.studio"; node D:\tdsh\Roleai\serve.js
 诊断顺序（省时间的做法）：先执行脚本看真实报错 → 用 `ParseInput` 对比 `ParseFile`
 （两者结论不一致就是编码问题，不是语法问题）。
 
+## 六-c、脚本可移植性与编码审计（2026-09-24）
+
+| 脚本 | 路径解析 | BOM | 说明 |
+|---|---|---|---|
+| `serve.js` | `__dirname` 相对解析 | 不需要 | Node 原生 UTF-8，591 个非 ASCII 字节正常 |
+| `check.ps1` | `$PSScriptRoot` 相对解析 | ✅ 需要且已有 | — |
+| `_mirror.ps1` | `$PSScriptRoot` + `-OutDir` 参数 | ✅ 需要且已有 | 本轮修复：原为硬编码路径 |
+
+**`_mirror.ps1` 修复说明**：原第 3 行 `$outDir = 'D:\tdsh\Roleai\site'` 是硬编码，
+整目录搬迁后会写回旧位置。已改为：
+
+```powershell
+param([string]$OutDir = (Join-Path $PSScriptRoot 'site'))
+```
+
+验证：`& _mirror.ps1 -OutDir D:\tdsh\tmp\mirror-test` → 产物正确落到指定目录（51 文件、
+闭包缺失 0），且**真实 `site` 目录时间戳未变**，证明参数化生效且无副作用。
+
+**错误处理约定**：三个脚本统一「静默降级」——PowerShell 侧
+`$ErrorActionPreference='Continue'` + 逐调用 `-ErrorAction SilentlyContinue`，
+失败通过 `[FAIL]`/退出码 1 上报而不中断脚本；Node 侧对上游错误注册 `on('error')` 返回 502。
+
 ## 七、待办 / 未决项
 
 1. `admin/*` 页面已抓取但依赖登录态与后端管理接口，本地打开预计显示未授权或加载失败——属预期，非镜像缺陷。
