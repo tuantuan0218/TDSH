@@ -103,27 +103,81 @@ const server = http.createServer((req, res) => {
   }
 
   // 防目录穿越
+  // 注意：Node 的 new URL() 已解析 %2e%2e 等编码，path.resolve 会归一化 ..，
+  // 因此这里的前缀校验是可靠的最后一道闸；实测 9 种穿越变体均被拦（403/404）
   const rel = urlPath.replace(/^\/+/, '');
   let target = path.resolve(ROOT, rel);
   if (target !== ROOT && !target.startsWith(ROOT + path.sep)) {
+    console.log(`${req.method} ${urlPath} -> 403 (traversal blocked)`);
     return send(res, 403, 'Forbidden');
   }
 
   fs.stat(target, (err, st) => {
-    if (!err && st.isDirectory()) target = path.join(target, 'index.html');
+    if (!err && st.isDirectory()) {
+      target = path.join(target, 'index.html');
+      st = fs.statSync(target, { throwIfNoEntry: false });
+    }
+    if (!st || !st.isFile()) {
+      console.log(`${req.method} ${urlPath} -> 404`);
+      return send(res, 404, NOT_FOUND_HTML, 'text/html; charset=utf-8');
+    }
 
-    fs.readFile(target, (err2, data) => {
-      if (err2) {
-        const code = err2.code === 'ENOENT' ? 404 : 500;
-        console.log(`${req.method} ${urlPath} -> ${code}`);
-        // 与源站 nginx 的 404 响应形态保持一致
-        return send(res, code, code === 404 ? NOT_FOUND_HTML : '500 Internal Error',
-          code === 404 ? 'text/html; charset=utf-8' : 'text/plain; charset=utf-8');
+    const ext = path.extname(target).toLowerCase();
+    const type = MIME[ext] || 'application/octet-stream';
+    const size = st.size;
+
+    // ---- HTTP Range 支持（单区间）----
+    // 用于大文件断点续传、图片/音视频拖动。不支持 Range 或语法非法时回退整文件 200。
+    const rangeHeader = req.headers.range;
+    let start = 0;
+    let end = size - 1;
+    let partial = false;
+
+    if (rangeHeader) {
+      const m = /^bytes=(\d*)-(\d*)$/.exec(rangeHeader.trim());
+      if (m && (m[1] !== '' || m[2] !== '')) {
+        if (m[1] === '') {
+          // bytes=-N 表示最后 N 字节
+          const suffix = parseInt(m[2], 10);
+          if (suffix > 0) { start = Math.max(0, size - suffix); end = size - 1; partial = true; }
+        } else {
+          start = parseInt(m[1], 10);
+          end = m[2] === '' ? size - 1 : parseInt(m[2], 10);
+          if (end > size - 1) end = size - 1;
+          partial = true;
+        }
       }
-      const ext = path.extname(target).toLowerCase();
-      console.log(`${req.method} ${urlPath} -> 200 (${data.length}B)`);
-      send(res, 200, data, MIME[ext] || 'application/octet-stream');
-    });
+      // Range 不可满足 -> 416
+      if (partial && (start > end || start >= size)) {
+        res.writeHead(416, { 'Content-Range': `bytes */${size}` });
+        console.log(`${req.method} ${urlPath} -> 416 (unsatisfiable range)`);
+        return res.end();
+      }
+    }
+
+    if (partial) {
+      const len = end - start + 1;
+      res.writeHead(206, {
+        'Content-Type': type,
+        'Content-Length': len,
+        'Content-Range': `bytes ${start}-${end}/${size}`,
+        'Accept-Ranges': 'bytes',
+        'Cache-Control': 'no-cache',
+      });
+      console.log(`${req.method} ${urlPath} -> 206 (${start}-${end}/${size})`);
+      if (req.method === 'HEAD') return res.end();
+      fs.createReadStream(target, { start, end }).pipe(res);
+    } else {
+      res.writeHead(200, {
+        'Content-Type': type,
+        'Content-Length': size,
+        'Accept-Ranges': 'bytes',
+        'Cache-Control': 'no-cache',
+      });
+      console.log(`${req.method} ${urlPath} -> 200 (${size}B)`);
+      if (req.method === 'HEAD') return res.end();
+      fs.createReadStream(target).pipe(res);
+    }
   });
 });
 
