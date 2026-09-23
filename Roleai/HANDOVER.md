@@ -115,9 +115,9 @@ D:\tdsh\Roleai\
 ├─ HANDOVER.md              # 本文档
 ├─ serve.js                 # 本地服务器（静态 + API 反代 + Range）
 ├─ check.ps1                # 一键健康巡检（9 项，含源站差异比对）
+├─ OFFLINE-REPORT.md        # 离线能力报告（外部依赖清单与分级）
 ├─ _mirror.ps1              # 镜像脚本（可复跑做增量更新）
 ├─ _sitemap.xml             # 源站 sitemap 存档
-├─ index.html               # （冗余）早期单文件抓取残留
 └─ site/                    # 站点根目录
    ├─ index.html skill.html downloads.html pricing.html updates.html
    ├─ login.html client-auth.html identity.html payment.html support.html agent.html
@@ -205,7 +205,7 @@ $env:API_ORIGIN="https://api.roleai.studio"; node D:\tdsh\Roleai\serve.js
 
 1. `admin/*` 页面已抓取但依赖登录态与后端管理接口，本地打开预计显示未授权或加载失败——属预期，非镜像缺陷。
 2. 未做增量更新机制：源站若改版，需重跑 `_mirror.ps1`（已能自动报告缺失引用）。
-3. 离线自持性未验证：未检查是否有绝对 URL 的外部依赖（字体/CDN），断网场景未测试。
+3. 离线自持性**已审计**，结论见 OFFLINE-REPORT.md：静态浏览 100% 离线可用；
    **已发现的线索**：登录相关页面会动态加载阿里云验证码 SDK（`o.alicdn.com`、`g.alicdn.com`、
    `static-captcha.aliyuncs.com`、`cloudauth-device-*.aliyuncs.com`）——这类依赖无法本地化（是第三方风控服务），
    离线时登录/验证码功能必然不可用，属预期限制。
