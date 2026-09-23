@@ -131,15 +131,18 @@ GET https://api.roleai.studio/v1/product       -> 200 真实 JSON
 
 ```
 D:\tdsh\Roleai\
-├─ HANDOVER.md              # 本文档
+├─ README.md                # 入口文档（快速开始 / 三种模式 / 运维命令 / 约束）
+├─ HANDOVER.md              # 本文档（详细架构决策与验证证据）
+├─ ACCEPTANCE.md            # 终验报告（5 组验收证据与结论）
+├─ OFFLINE-REPORT.md        # 离线能力报告（外部依赖清单与分级）
 ├─ serve.js                 # 本地服务器（静态 + API 反代 + Range + 快照模式）
 ├─ check.ps1                # 一键健康巡检（含源站差异比对与快照校验）
-├─ OFFLINE-REPORT.md        # 离线能力报告（外部依赖清单与分级）
 ├─ snapshot.ps1             # 快照抓取/刷新（离线演示用）
 ├─ snapshots/               # 只读接口的本地 JSON 快照
 ├─ _mirror.ps1              # 镜像脚本（可复跑做增量更新）
-├─ _sitemap.xml             # 源站 sitemap 存档
-└─ site/                    # 站点根目录
+├─ _skill-update-detached-long-process-launch.md
+│                           # skills 改动备份（dsh-home/ 被 .gitignore 排除，此为入库唯一副本）
+└─ site/                    # 站点根目录（含权威 sitemap.xml）
    ├─ index.html skill.html downloads.html pricing.html updates.html
    ├─ login.html client-auth.html identity.html payment.html support.html agent.html
    ├─ legal/{user-agreement,privacy-policy}.html
