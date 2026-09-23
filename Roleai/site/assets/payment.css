@@ -1,0 +1,106 @@
+.payment-action {
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-shell > .payment-panel + .payment-panel { margin-top: 18px; }
+.form-stack { display: grid; gap: 18px; max-width: 560px; }
+.form-stack label { display: grid; gap: 8px; min-width: 0; }
+.form-stack input:not([type="checkbox"]), .form-stack select { width: 100%; min-width: 0; }
+.form-stack label:has(input[type="checkbox"]) { display: flex; align-items: flex-start; line-height: 1.7; }
+.form-stack input[type="checkbox"] { flex: 0 0 18px; width: 18px; height: 18px; min-height: 18px; padding: 0; margin: 5px 0 0; }
+.payment-heading > button { flex-shrink: 0; white-space: nowrap; }
+.order-row > *, .settings-item > * { overflow-wrap: anywhere; min-width: 0; }
+
+.payment-heading {
+  align-items: center;
+}
+
+.payment-shell .state-badge {
+  flex: 0 0 auto;
+  min-height: 30px;
+  padding-inline: 11px;
+  border-color: var(--line-strong);
+  background: rgba(104, 123, 151, .12);
+  color: var(--muted);
+  font-weight: 750;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.payment-shell .state-badge[data-state="0"],
+.payment-shell .state-badge[data-state="1"] {
+  border-color: rgba(242, 184, 75, .52);
+  background: rgba(242, 184, 75, .12);
+  color: var(--warning);
+}
+
+.payment-shell .state-badge[data-state="2"] {
+  border-color: rgba(66, 201, 134, .52);
+  background: rgba(66, 201, 134, .12);
+  color: var(--success);
+}
+
+.payment-shell .state-badge[data-state="3"],
+.payment-shell .state-badge[data-state="5"] {
+  border-color: rgba(239, 102, 115, .52);
+  background: rgba(239, 102, 115, .12);
+  color: var(--danger);
+}
+
+.order-row {
+  grid-template-columns: minmax(180px, 1fr) minmax(220px, 1fr) auto auto;
+  align-items: center;
+}
+
+.order-action {
+  min-height: 38px;
+  padding-inline: 14px;
+  white-space: nowrap;
+}
+
+.payment-qr {
+  display: block;
+  width: min(280px, 100%);
+  height: auto;
+  background: #fff;
+}
+
+@media (max-width: 780px) {
+  .order-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .order-row > span:nth-of-type(1) {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .order-row .state-badge {
+    justify-self: start;
+  }
+
+  .order-action {
+    justify-self: end;
+  }
+}
+
+@media (max-width: 520px) {
+  .payment-heading {
+    align-items: flex-start;
+  }
+
+  .order-row {
+    grid-template-columns: 1fr;
+  }
+
+  .order-row > span:nth-of-type(1),
+  .order-action {
+    grid-column: 1;
+  }
+
+  .order-action {
+    width: 100%;
+    justify-self: stretch;
+  }
+}

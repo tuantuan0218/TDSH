@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /login.html
+Disallow: /client-auth.html
+Disallow: /identity.html
+Disallow: /payment.html
+Disallow: /support.html
+Disallow: /agent.html
+
+Sitemap: https://roleai.studio/sitemap.xml
