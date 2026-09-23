@@ -90,6 +90,24 @@ GET https://api.roleai.studio/v1/product       -> 200 真实 JSON
 
 `serve.js` 的 404 返回 nginx 风格 HTML（`<center><h1>404 Not Found</h1></center>`），与源站形态对齐，避免前端脚本拿到格式不同的兜底响应。
 
+### 3.4 静态服务加固（serve.js）
+
+| 能力 | 实现 | 验证证据 |
+|---|---|---|
+| 目录穿越防护 | `path.resolve` 归一化后校验前缀必须落在 ROOT 内 | 9 种攻击变体（`/../`、`/..%2f`、`/%2e%2e%2f`、`/....//`、`/..\`、双重编码等）**全部拦截**（403/404），无一 200 |
+| HTTP Range | 支持 `bytes=a-b` / `bytes=a-` / `bytes=-N` 三种语法 | `0-99`→206 + `bytes 0-99/271448` + CL:100；`1000-`→206 + CL:270448；`-500`→206 + `bytes 270948-271447/271448` + CL:500 |
+| 不可满足区间 | 返回 `416` + `Content-Range: bytes */size` | `bytes=999999999-` → 416 |
+| 流式传输 | `fs.createReadStream` 替代 `fs.readFile` | 大文件不再整体读入内存 |
+| 并发 | Node 单进程异步 I/O | 200 请求 / 并发 50 → **200 成功 0 失败，QPS 1031** |
+| HEAD | 显式处理，不发 body | — |
+
+所有响应均带 `Accept-Ranges: bytes`，便于客户端断点续传与媒体拖动。
+
+### 3.5 API 反向代理的边界
+
+`/api/*` 与 `/api` 前缀才走代理，其余一律静态查找，**不构成开放代理**（不会被用作任意站点的转发跳板）。
+上游不可达时返回 `502` + JSON 错误体。
+
 ## 四、目录结构
 
 ```
@@ -157,6 +175,9 @@ $env:API_ORIGIN="https://api.roleai.studio"; node D:\tdsh\Roleai\serve.js
 1. `admin/*` 页面已抓取但依赖登录态与后端管理接口，本地打开预计显示未授权或加载失败——属预期，非镜像缺陷。
 2. 未做增量更新机制：源站若改版，需重跑 `_mirror.ps1`（已能自动报告缺失引用）。
 3. 离线自持性未验证：未检查是否有绝对 URL 的外部依赖（字体/CDN），断网场景未测试。
+   **已发现的线索**：登录相关页面会动态加载阿里云验证码 SDK（`o.alicdn.com`、`g.alicdn.com`、
+   `static-captcha.aliyuncs.com`、`cloudauth-device-*.aliyuncs.com`）——这类依赖无法本地化（是第三方风控服务），
+   离线时登录/验证码功能必然不可用，属预期限制。
 4. `serve.js` 未实现 HTTP Range，大文件（如 265 KB 工作区图）无断点续传；未做目录穿越与并发的实测验证。
 
 ## 八、变更记录
@@ -167,3 +188,4 @@ $env:API_ORIGIN="https://api.roleai.studio"; node D:\tdsh\Roleai\serve.js
 | 2026-09-24 | 闭包补全：新增 admin 子页与 payment.js/qrcode 库等 11 文件（42→51），引用缺失数收敛至 0；`_mirror.ps1` 加入自动闭包校验，种子页补 `/admin/` |
 | 2026-09-24 | **修正 §3.2 误判**：用真实浏览器验证线上站点发出的是 `api.roleai.studio` 直连请求（非 `/api/*`），定价页渲染正常，「线上缺陷」结论撤回；§3.2 重写为机制解释 + 误判教训 |
 | 2026-09-24 | **修复 BFS 漏抓运行时资源**：`pages.js:76` 模板串拼装的微信客服二维码在清空重跑后丢失（打开该面板才 404）。种子列表显式登记 + 新增运行时资源审计（扫描 JS 中 `assets/` 路径比对磁盘）+ 修复 `GetDirectoryName` 日志噪声。清空重跑验证：静态缺失=0、运行时缺失=0、27 路径全 200 |
+| 2026-09-24 | **serve.js 加固**：实现 HTTP Range（原实现忽略 Range 头，大图无法断点续传）、改流式传输、416 处理、HEAD 支持。验证：Range 5 用例正确、穿越 9 变体全拦、并发 200/200 成功 QPS 1031、回归 27/27 |
