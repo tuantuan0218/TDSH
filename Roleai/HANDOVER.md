@@ -57,14 +57,34 @@ const endpoint = `${window.ROLEAI_API_BASE || 'https://api.roleai.studio'}/v1/pr
 **处置**：`serve.js` 内置反向代理，`/api/*` → `https://api.roleai.studio/*`。
 这样 `ROLEAI_API_BASE=/api` 的设计意图被真实满足，动态功能可用。
 
-### 3.2 重要事实：源站 `/api/*` 本身就是 404
+### 3.2 结论：源站 `/api/*` 返回 404 属**正常现象**，不是缺陷
 
-实测源站 `https://roleai.studio/api/v1/product`（及 `/releases`、`/web/session`、`/analytics/event`）**全部返回 404**（nginx，Content-Length: 2291 的 HTML）。
+> **本节曾于初版误判为"线上缺陷"，已于 2026-09-24 修正。** 保留修正过程以免后人重蹈。
 
-即：`roleai.studio` 只托管静态前端，真实后端在 **`api.roleai.studio`**（实测 `https://api.roleai.studio/v1/product` → 200 真实 JSON）。
+**事实一：`roleai.studio` 只托管静态前端，真实后端在 `api.roleai.studio`。**
 
-**这是一个线上缺陷**：访问 `https://roleai.studio/pricing.html` 时，因 `runtime-config.js` 只在 localhost 分支设置 `ROLEAI_API_BASE`，线上 `window.ROLEAI_API_BASE` 为 undefined → 回退到 `https://api.roleai.studio` → 本应正常工作。
-（待复核：线上 404 的 `/api/v1/product` 请求来自何处，可能是站点其他脚本的硬编码路径。）
+```
+GET https://roleai.studio/api/v1/product      -> 404 (nginx, Content-Length: 2291)
+GET https://api.roleai.studio/v1/product       -> 200 真实 JSON
+```
+
+**事实二：线上站点根本不请求 `/api/*`。** 用真实浏览器加载 `https://roleai.studio/pricing.html`，网络面板权威记录：
+
+| 请求 | 状态 |
+|---|---|
+| `https://api.roleai.studio/v1/product` | 200（定价数据） |
+| `https://api.roleai.studio/v1/web/session` | 401（未登录，正常） |
+| `https://api.roleai.studio/v1/analytics/event` | 200（埋点） |
+
+**零个 `/api/*` 请求。**
+
+**事实三：线上定价页渲染完全正常** —— 4 个套餐（月度 ¥49 / 年度 ¥499 / 创始终身 ¥699 / 标准终身 ¥999）+ 8 条权益清单全部呈现，与本地镜像一致。
+
+**机制解释**：`runtime-config.js` 仅在 `hostname` 为 `127.0.0.1` 或 `localhost` 时设置 `ROLEAI_API_BASE = '/api'`。线上 `hostname` 是 `roleai.studio`，分支不成立，`ROLEAI_API_BASE` 保持 `undefined`，各脚本的 `window.ROLEAI_API_BASE || 'https://api.roleai.studio'` 正确回退到真实后端。**设计是对的。**
+
+**为什么本地需要反代**：本地访问时 hostname 是 `127.0.0.1`，分支成立 → `ROLEAI_API_BASE='/api'` → 指向本地后端。这正是原设计的意图（本地开发用本地后端）。但我们是纯静态镜像，没有那个后端，所以 `serve.js` 用反向代理把 `/api/*` 接到 `api.roleai.studio`，等价复现线上行为。
+
+**修正过程（教训）**：初版仅凭 `curl https://roleai.studio/api/v1/product` 返回 404 就推断"线上定价页会加载失败"，属于**从单一必要条件跳到结论**。真正的判据应当是用浏览器观察线上实际发出的请求——那才是用户真实路径。事后全站 JS 审计也证实：**没有任何脚本硬编码 `/api` 路径**，唯一的 `/api` 出现在 `runtime-config.js:4` 的 localhost 分支里。
 
 ### 3.3 404 响应形态
 
@@ -125,8 +145,9 @@ $env:API_ORIGIN="https://api.roleai.studio"; node D:\tdsh\Roleai\serve.js
 ## 七、待办 / 未决项
 
 1. `admin/*` 页面已抓取但依赖登录态与后端管理接口，本地打开预计显示未授权或加载失败——属预期，非镜像缺陷。
-2. 线上 `/api/*` 返回 404 的现象需进一步定位来源（见 §3.2）。
-3. 未做增量更新机制：源站若改版，需重跑 `_mirror.ps1`（已能自动报告缺失引用）。
+2. 未做增量更新机制：源站若改版，需重跑 `_mirror.ps1`（已能自动报告缺失引用）。
+3. 离线自持性未验证：未检查是否有绝对 URL 的外部依赖（字体/CDN），断网场景未测试。
+4. `serve.js` 未实现 HTTP Range，大文件（如 265 KB 工作区图）无断点续传；未做目录穿越与并发的实测验证。
 
 ## 八、变更记录
 
@@ -134,3 +155,4 @@ $env:API_ORIGIN="https://api.roleai.studio"; node D:\tdsh\Roleai\serve.js
 |---|---|
 | 2026-09-24 | 初次部署：镜像 40 文件、编写 serve.js、增加 API 反向代理、浏览器验证通过 |
 | 2026-09-24 | 闭包补全：新增 admin 子页与 payment.js/qrcode 库等 11 文件（42→51），引用缺失数收敛至 0；`_mirror.ps1` 加入自动闭包校验，种子页补 `/admin/` |
+| 2026-09-24 | **修正 §3.2 误判**：用真实浏览器验证线上站点发出的是 `api.roleai.studio` 直连请求（非 `/api/*`），定价页渲染正常，「线上缺陷」结论撤回；§3.2 重写为机制解释 + 误判教训 |
