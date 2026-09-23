@@ -113,7 +113,8 @@ GET https://api.roleai.studio/v1/product       -> 200 真实 JSON
 ```
 D:\tdsh\Roleai\
 ├─ HANDOVER.md              # 本文档
-├─ serve.js                 # 本地服务器（静态 + API 反代）
+├─ serve.js                 # 本地服务器（静态 + API 反代 + Range）
+├─ check.ps1                # 一键健康巡检（9 项，含源站差异比对）
 ├─ _mirror.ps1              # 镜像脚本（可复跑做增量更新）
 ├─ _sitemap.xml             # 源站 sitemap 存档
 ├─ index.html               # （冗余）早期单文件抓取残留
@@ -169,6 +170,36 @@ $env:API_ORIGIN="https://api.roleai.studio"; node D:\tdsh\Roleai\serve.js
 ```
 
 **注意**：长驻进程须用 managed background job 启动（DSH 侧），否则调用中止时整棵进程树会被连坐杀死，表现为静默退出。
+
+## 六-b、健康巡检 `check.ps1`
+
+```powershell
+& D:\tdsh\Roleai\check.ps1            # 快速模式（约 10 秒）
+& D:\tdsh\Roleai\check.ps1 -Remote    # 含源站逐文件 SHA256 比对（约 1 分钟）
+```
+
+退出码：`0`=全绿，`1`=发现问题。9 项检查：服务存活 / 24 路径可达 / 静态引用闭包 /
+运行时资源审计 / API 反代 / Range 支持 / 目录穿越防护 / 镜像统计 / 源站差异。
+
+**双向验证证据**：
+- 正路径：全绿退出码 0；`-Remote` 比对 43 个文件**差异 0**
+- 负路径：故意移除 `roleai-icon.png` 后报出 **32 个问题、退出码 1**，精确定位 404、
+  24 处引用缺失、运行时资源缺失；恢复后复检全绿 —— 证明它真能检测故障，不是装饰品
+
+### ⚠️ 关键坑：含中文的 .ps1 必须存为 UTF-8 **with BOM**
+
+本轮在此耗费大量时间。现象：脚本语法明显正确（花括号配平、`ParseInput` 通过），
+但 `ParseFile` 与直接执行都报 `Missing closing '}' in statement block`，
+且**报错行号比实际行号少 2 行**（报 144 行，实际语句在 146 行）。
+
+根因：无 BOM 时 PowerShell 5.1 用 GBK 解码 UTF-8 中文，中文字符被拆错，
+导致解析器内部的行号/列偏移，进而误判块未闭合。
+
+处置：`[System.IO.File]::WriteAllText($p, $raw, (New-Object System.Text.UTF8Encoding($true)))`。
+**注意**：用 `edit`/`write` 工具改过的含中文 .ps1 可能丢失 BOM，改完要复检并补回。
+
+诊断顺序（省时间的做法）：先执行脚本看真实报错 → 用 `ParseInput` 对比 `ParseFile`
+（两者结论不一致就是编码问题，不是语法问题）。
 
 ## 七、待办 / 未决项
 
