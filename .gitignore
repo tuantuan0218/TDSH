@@ -32,7 +32,7 @@ vk_swiftshader.dll
 # ---- separate user subprojects ----
 uumit/
 hs_bridge_build/
-suno�?�风瑳/
+suno�?�风瑳/
 suno迷笛/
 手机/
 
@@ -49,13 +49,13 @@ resources/portable-node/
 resources/app/repo/data/
 _autoinstall_hub.sh
 
-# sub2api �?感文件（�?�完整 api_key，严�?入库）
+# sub2api �?感文件（�?�完整 api_key，严�?入库）
 sub2api/TUAN-POOL-HANDOVER.md
 sub2api/tuan-pool-snapshot.json
 sub2api/tuan-pool-snapshot.public.json
 sub2api/s2a-creds-full.txt
 sub2api/*pool*.mjs
-# 2026-09-13 安全加固（完整 api_key 严�?入库）：探针/入池/快照/凭�?�全�?兜底
+# 2026-09-13 安全加固（完整 api_key 严�?入库）：探针/入池/快照/凭�?�全�?兜底
 sub2api/probe-*.mjs
 sub2api/probe-*.py
 sub2api/decrypt_*.py
@@ -71,13 +71,13 @@ sub2api/hunt-credit-source.js
 sub2api/credit-*.js
 sub2api/ROUND-2026-09-13-siliconflow.md
 
-# �?行数�?�与日志（纯本地）
+# �?行数�?�与日志（纯本地）
 sub2api/health-log.jsonl
 sub2api/probe-runs/
 sub2api/pi-host-dump/
 sub2api/analysis-output.txt
 
-# liunxddo �����������ƣ�DeepLX 25MB������⣬�ֶ������ã�
+# liunxddo �����������ƣ�DeepLX 25MB������⣬�ֶ������ã�
 sub2api/liunxddo/bin/
 sub2api/liunxddo/gateway.log
 
@@ -94,9 +94,9 @@ forum_leads_20260913/
 *.bak-*
 _tmp_*
 
-# ghnew: ��Կ/ע�Ṥ��Ŀ¼�����������
+# ghnew: ��Կ/ע�Ṥ��Ŀ¼�����������
 ghnew/
 
 
-# DSH vision router 运行时产物（勿入库）
+# DSH vision router runtime artifacts
 .dsh-vision-router/
