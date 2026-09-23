@@ -68,6 +68,7 @@ node D:\tdsh\Roleai\serve.js
 | `_mirror.ps1` | 镜像脚本（curl 驱动引用闭包抓取 + 自动校验） |
 | `HANDOVER.md` | **详细交接文档**：架构决策、全部验证证据、踩坑记录 |
 | `OFFLINE-REPORT.md` | 离线能力报告：外部依赖清单与能力分级 |
+| `ACCEPTANCE.md` | **终验报告**：5 组验收的完整证据与结论 |
 
 ---
 
@@ -103,6 +104,7 @@ node D:\tdsh\Roleai\serve.js
 
 - 站点 51 文件，与源站 43 个可比对文件**哈希完全一致**
 - 巡检 10 个检查段全绿，静态与运行时引用缺失均为 0
+- 已通过 5 组终验（见 `ACCEPTANCE.md`）
 - 已推送 GitHub（`D:\tdsh` 仓库，`Roleai/` 目录）
 
 详细证据与决策记录见 `HANDOVER.md`。
