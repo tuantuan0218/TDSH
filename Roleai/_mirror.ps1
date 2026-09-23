@@ -39,7 +39,7 @@ function Normalize-Ref([string]$r, [string]$fromRel) {
 
 $pages = @('/', '/skill.html', '/downloads.html', '/pricing.html', '/updates.html',
            '/login.html', '/client-auth.html', '/identity.html', '/payment.html',
-           '/support.html', '/agent.html',
+           '/support.html', '/agent.html', '/admin/',
            '/legal/user-agreement.html', '/legal/privacy-policy.html',
            '/robots.txt', '/sitemap.xml', '/runtime-config.js')
 foreach ($p in $pages) { $queue.Enqueue($p) }
@@ -88,6 +88,39 @@ while ($queue.Count -gt 0) {
 
 Write-Output "OK=$ok FAILED=$($failed.Count)"
 if ($failed.Count -gt 0) {
-  Write-Output "--- 失败清单 ---"
+  Write-Output "--- 抓取失败清单 ---"
   $failed | Sort-Object -Unique | ForEach-Object { Write-Output $_ }
+}
+
+# 闭包校验：扫描已下载的 HTML/CSS/XML，列出仍缺失的引用
+# 这些是 BFS 未能覆盖的边角（如 admin 子页深链），可据此手工补抓后再跑一次
+$missing = New-Object 'System.Collections.Generic.List[string]'
+Get-ChildItem $outDir -Recurse -Include *.html, *.css, *.xml | ForEach-Object {
+  $f = $_
+  $rel = $f.FullName.Replace("$outDir\", '').Replace('\', '/')
+  $dir = ($rel -replace '[^/]+$', '')
+  $cx = Get-Content $f.FullName -Raw
+  if ($null -eq $cx) { return }
+  $refs = New-Object 'System.Collections.Generic.HashSet[string]'
+  foreach ($m in [regex]::Matches($cx, '(?i)(?:href|src|poster)\s*=\s*["'']([^"'']+)["'']')) { [void]$refs.Add($m.Groups[1].Value) }
+  foreach ($m in [regex]::Matches($cx, '(?i)url\(\s*["'']?([^"'')]+)["'']?\s*\)')) { [void]$refs.Add($m.Groups[1].Value) }
+  foreach ($r0 in $refs) {
+    $r = $r0.Trim()
+    if ($r -match '^(#|data:|mailto:|javascript:|tel:)') { continue }
+    if ($r -match '^https?://') {
+      if ($r -match 'roleai\.studio') { $p = ($r -replace '^https?://roleai\.studio', '') } else { continue }
+    } else {
+      if ($r.StartsWith('/')) { $p = $r } else { $p = "/$dir$r" }
+    }
+    $p = ($p -split '[?#]')[0]
+    if ($p -eq '' -or $p -eq '/') { $p = '/index.html' }
+    $local = Join-Path $outDir ($p.TrimStart('/') -replace '/', '\')
+    if (-not (Test-Path $local)) { $missing.Add("$rel -> $r") }
+  }
+}
+$missing = $missing | Sort-Object -Unique
+Write-Output "缺失引用数=$($missing.Count)"
+if ($missing.Count -gt 0) {
+  Write-Output "--- 缺失引用清单（需手工补抓） ---"
+  $missing | ForEach-Object { Write-Output $_ }
 }

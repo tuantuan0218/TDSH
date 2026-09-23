@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>管理员安全 · RoleAI Studio</title>
+  <link rel="stylesheet" href="/admin/assets/admin.css?v=20260826-light1">
+</head>
+<body><main class="aux-page security-page">
+  <header class="aux-header"><div><p class="eyebrow">ADMIN SECURITY</p><h1>管理员安全</h1><p class="muted">管理双因素认证、恢复码与敏感操作二次验证。</p></div><a class="button secondary" href="/admin/">返回管理中心</a></header>
+
+  <section class="security-status-grid">
+    <article class="settings-item"><small>双因素认证</small><strong id="mfa-status">正在加载…</strong></article>
+    <article class="settings-item"><small>可用恢复码</small><strong id="recovery-count">—</strong></article>
+    <article class="settings-item"><small>敏感操作验证</small><strong id="step-up-status">—</strong></article>
+  </section>
+
+  <section id="setup-section" class="panel security-panel">
+    <div class="panel-heading"><div><h2>启用验证器 MFA</h2><span class="muted">高风险管理操作必须启用 MFA。</span></div></div>
+    <form id="setup-form" class="inline-security-form"><label>确认当前密码<input id="setup-password" type="password" autocomplete="current-password" required maxlength="1024"></label><button type="submit">开始设置</button></form>
+    <div id="enrollment-panel" class="enrollment" hidden>
+      <div id="mfa-qr" class="mfa-qr" aria-label="验证器二维码"></div>
+      <div><p>使用任意兼容 TOTP 的验证器扫描二维码，或手动输入下方密钥。</p><code id="mfa-secret"></code><form id="confirm-mfa-form" class="inline-security-form"><label>6 位动态验证码<input id="confirm-mfa-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required></label><button type="submit">确认并启用</button></form></div>
+    </div>
+  </section>
+
+  <section id="step-up-section" class="panel security-panel" hidden>
+    <div class="panel-heading"><div><h2>敏感操作二次验证</h2><span class="muted">验证成功后 10 分钟内可修改授权、用户、方案、发布和资源。</span></div></div>
+    <form id="step-up-form" class="inline-security-form two-factor-form"><label>当前密码<input id="step-up-password" type="password" autocomplete="current-password" required maxlength="1024"></label><label>动态验证码或恢复码<input id="step-up-code" autocomplete="one-time-code" required maxlength="20"></label><button type="submit">验证身份</button></form>
+    <button id="regenerate-codes" class="secondary" type="button">生成新的恢复码</button>
+  </section>
+
+  <section id="recovery-section" class="panel security-panel" hidden>
+    <div class="panel-heading"><div><h2>一次性恢复码</h2><span class="muted">仅显示这一次。请离线保存；每条恢复码使用后立即失效。</span></div><button id="copy-recovery" class="secondary" type="button">复制全部</button></div>
+    <pre id="recovery-codes" class="recovery-codes"></pre>
+  </section>
+
+  <section id="owner-recovery-section" class="panel security-panel" hidden>
+    <div class="panel-heading"><div><h2>管理员账号恢复</h2><span class="muted">仅 owner 可重置其他管理员的 MFA；操作会撤销目标账号全部会话并触发最高级别安全告警。</span></div></div>
+    <form id="owner-reset-form" class="inline-security-form two-factor-form"><label>目标管理员<select id="reset-admin" required></select></label><label>输入目标用户名确认<input id="reset-confirmation" required autocomplete="off"></label><button class="danger" type="submit">重置目标 MFA</button></form>
+  </section>
+
+  <section id="security-events-section" class="panel security-panel" hidden>
+    <div class="panel-heading"><div><h2>最近安全事件</h2><span class="muted">高危事件确认需要处于二次验证有效期内。</span></div><button id="refresh-events" class="secondary" type="button">刷新</button></div>
+    <div id="security-events" class="security-event-list"><p class="muted">正在加载…</p></div>
+  </section>
+
+  <p id="security-message" class="status-message" aria-live="polite"></p>
+</main>
+<script src="/assets/qrcode-generator-2.0.4.js" defer></script>
+<script src="/admin/assets/admin-security.js?v=20260722-security1" defer></script>
+</body></html>

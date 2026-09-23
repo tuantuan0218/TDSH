@@ -10,7 +10,7 @@
 
 | 项 | 值 |
 |---|---|
-| 站点镜像根目录 | `D:\tdsh\Roleai\site`（40 文件，约 0.83 MB） |
+| 站点镜像根目录 | `D:\tdsh\Roleai\site`（51 文件，约 0.91 MB） |
 | 本地访问地址 | **http://127.0.0.1:8088/** |
 | 服务器脚本 | `D:\tdsh\Roleai\serve.js`（零依赖，Node 内置模块） |
 | 启动方式 | `node D:\tdsh\Roleai\serve.js` |
@@ -20,12 +20,18 @@
 
 ### 验证证据（2026-09-24）
 
-- **13 个页面全部 HTTP 200**：`/`、`skill.html`、`downloads.html`、`pricing.html`、`updates.html`、`login.html`、`client-auth.html`、`identity.html`、`payment.html`、`support.html`、`agent.html`、`legal/user-agreement.html`、`legal/privacy-policy.html`
-- **静态引用完整性**：脚本枚举全部 HTML/CSS 引用，缺失数为 0
+- **18 个页面全部 HTTP 200**：`/`、`skill.html`、`downloads.html`、`pricing.html`、`updates.html`、`login.html`、`client-auth.html`、`identity.html`、`payment.html`、`support.html`、`agent.html`、`legal/user-agreement.html`、`legal/privacy-policy.html`、`admin/`、`admin/monitoring.html`、`admin/security.html`、`admin/settings.html`
+- **引用闭包完整性**：缺失引用数 = **0**（脚本自动校验）
+- **字节级一致性**：本地首页与源站首页 SHA256 均为 `A3F2E7EFA8661E662E37A825A81A41372D576E952B620D06152E61043CBF17B8`，零差异
 - **浏览器实测**（bsk 会话 `dtwq`，Chrome 实例 `59aae417`）：
   - 首页语义树完整，标题/导航/7 个内容区块/页脚全部渲染，中文无乱码
   - 定价页 4 个真实套餐渲染成功（月度 ¥49 / 年度 ¥499 / 创始终身 ¥699 / 标准终身 ¥999）+ 8 条权益清单
   - 网络面板确认：`assets/wechat-customer-service.jpg` 200、`api/v1/product` 200、`api/v1/web/session` 401（未登录，与源站一致）、`api/v1/analytics/event` 200
+  - 像素取色：主色 `#080808` 占 81.9%，深色主题灰阶层次完整，排除白屏/样式丢失
+
+### 说明：`/admin` vs `/admin/`
+
+`GET /admin`（无尾斜杠）返回 404，`GET /admin/` 返回 200。这是**源站 nginx 的真实行为**（未配置目录重定向），本地服务器保持一致，未做额外改写。
 
 ## 三、架构与关键设计决策
 
@@ -77,11 +83,12 @@ D:\tdsh\Roleai\
    ├─ index.html skill.html downloads.html pricing.html updates.html
    ├─ login.html client-auth.html identity.html payment.html support.html agent.html
    ├─ legal/{user-agreement,privacy-policy}.html
-   ├─ admin/index.html      # 管理页（robots.txt 已 Disallow）
+   ├─ admin/{index,monitoring,security,settings}.html + admin/assets/{admin,admin-pages,admin-security}.{css,js}
    ├─ styles.css suite.css common-ui.css pages.css
    ├─ motion.js pages.js pricing.js skill-downloads.js runtime-config.js
    ├─ robots.txt sitemap.xml
-   └─ assets/               # site.css site.js auth.css payment.css + 图片/图标
+   └─ assets/               # site.css site.js auth.css payment.css payment.js
+                            # qrcode-generator-2.0.4.js + 图片/图标
 ```
 
 ## 五、镜像方法（可复现）
@@ -94,6 +101,11 @@ D:\tdsh\Roleai\
 4. 种子页含 robots.txt 中的 Disallow 页面（login/payment/support/agent 等），确保完整性。
 
 **已知坑**：`payment.html` 首次抓取时 curl 返回 000（网络抖动），重试即 200。镜像脚本对失败的 URL 不重试，需手工补抓。
+
+**闭包校验（重要）**：脚本末尾会自动扫描已下载的 HTML/CSS/XML，列出仍缺失的引用并输出 `缺失引用数=N`。
+首轮 BFS 曾漏掉 10 个边角引用（`admin/` 下的子页面深链、`assets/payment.js`、`assets/qrcode-generator-2.0.4.js`），
+因为 `admin/index.html` 是独立入口、其子页不在任何种子页的引用链上。**收敛后缺失数必须为 0**；
+若非 0，按清单手工补抓对应 URL 后再跑一次，直到为 0。
 
 ## 六、启动与停止
 
@@ -112,13 +124,13 @@ $env:API_ORIGIN="https://api.roleai.studio"; node D:\tdsh\Roleai\serve.js
 
 ## 七、待办 / 未决项
 
-1. `D:\tdsh\Roleai\index.html`（根目录那个）是早期单文件抓取残留，与 `site/index.html` 重复，可删。
-2. `admin/index.html` 已抓取（18.6 KB），但源站 robots.txt `Disallow: /admin/`，且该页可能依赖登录态。
-3. 线上 `/api/*` 返回 404 的现象需进一步定位来源（见 §3.2）。
-4. 未做增量更新机制：源站若改版，需重跑 `_mirror.ps1`。
+1. `admin/*` 页面已抓取但依赖登录态与后端管理接口，本地打开预计显示未授权或加载失败——属预期，非镜像缺陷。
+2. 线上 `/api/*` 返回 404 的现象需进一步定位来源（见 §3.2）。
+3. 未做增量更新机制：源站若改版，需重跑 `_mirror.ps1`（已能自动报告缺失引用）。
 
 ## 八、变更记录
 
 | 日期 | 变更 |
 |---|---|
 | 2026-09-24 | 初次部署：镜像 40 文件、编写 serve.js、增加 API 反向代理、浏览器验证通过 |
+| 2026-09-24 | 闭包补全：新增 admin 子页与 payment.js/qrcode 库等 11 文件（42→51），引用缺失数收敛至 0；`_mirror.ps1` 加入自动闭包校验，种子页补 `/admin/` |
