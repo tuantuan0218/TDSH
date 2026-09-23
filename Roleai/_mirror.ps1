@@ -22,9 +22,11 @@ function Normalize-Ref([string]$r, [string]$fromRel) {
   $r = $r -replace '#.*$', ''
   if ($r -eq '') { return $null }
   if ($r -notmatch '^/') {
-    $fromDir = [System.IO.Path]::GetDirectoryName($fromRel.TrimStart('/'))
-    if ($null -eq $fromDir) { $fromDir = '' }
-    $fromDir = $fromDir -replace '\\', '/'
+    # 注意：根级文件（如 /index.html）调用 GetDirectoryName 会抛
+    # "The path is not of a legal form."，必须先用字符串取目录，不要用 .NET API
+    $fromDir = $fromRel.TrimStart('/')
+    $slash = $fromDir.LastIndexOf('/')
+    if ($slash -lt 0) { $fromDir = '' } else { $fromDir = $fromDir.Substring(0, $slash) }
     if ($fromDir -eq '') { $r = "/$r" } else { $r = "/$fromDir/$r" }
   }
   # 折叠 ./ 与 ../
@@ -41,7 +43,11 @@ $pages = @('/', '/skill.html', '/downloads.html', '/pricing.html', '/updates.htm
            '/login.html', '/client-auth.html', '/identity.html', '/payment.html',
            '/support.html', '/agent.html', '/admin/',
            '/legal/user-agreement.html', '/legal/privacy-policy.html',
-           '/robots.txt', '/sitemap.xml', '/runtime-config.js')
+           '/robots.txt', '/sitemap.xml', '/runtime-config.js',
+           # ↓ 运行时由 JS 模板串拼装、BFS 抓不到的资源，必须显式登记
+           #   来源：pages.js:40 (roleai-icon.png)、pages.js:76 (wechat-customer-service.jpg)
+           #   这类路径的 host 前缀是 ${root}，正则提取不到，只能人工登记
+           '/assets/wechat-customer-service.jpg')
 foreach ($p in $pages) { $queue.Enqueue($p) }
 
 while ($queue.Count -gt 0) {
@@ -123,4 +129,24 @@ Write-Output "缺失引用数=$($missing.Count)"
 if ($missing.Count -gt 0) {
   Write-Output "--- 缺失引用清单（需手工补抓） ---"
   $missing | ForEach-Object { Write-Output $_ }
+}
+
+# 运行时资源审计：JS 里用模板串拼装的 assets 路径，BFS 抓不到（不带引号前缀，正则提取不到）
+# 把它们与磁盘实际文件比对，缺失即报警——这类资源一旦漏抓，只在浏览器运行到该功能时才暴露
+$runtimeRefs = New-Object 'System.Collections.Generic.HashSet[string]'
+Get-ChildItem $outDir -Recurse -Include *.js -File | ForEach-Object {
+  $jc = Get-Content $_.FullName -Raw -Encoding UTF8
+  if ($null -eq $jc) { return }
+  foreach ($m in [regex]::Matches($jc, '(?<![A-Za-z0-9._\-/])assets/[A-Za-z0-9._\-/]+')) {
+    [void]$runtimeRefs.Add($m.Value)
+  }
+}
+$runtimeMissing = @()
+foreach ($r in $runtimeRefs) {
+  if (-not (Test-Path (Join-Path $outDir ($r -replace '/', '\')))) { $runtimeMissing += $r }
+}
+Write-Output "运行时资源引用数=$($runtimeRefs.Count) 缺失=$($runtimeMissing.Count)"
+if ($runtimeMissing.Count -gt 0) {
+  Write-Output "--- 运行时缺失资源（须手工登记到种子页） ---"
+  $runtimeMissing | Sort-Object -Unique | ForEach-Object { Write-Output "  /$_" }
 }
