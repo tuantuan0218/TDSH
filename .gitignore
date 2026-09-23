@@ -93,3 +93,10 @@ security_audit/hits_v3.json
 forum_leads_20260913/
 *.bak-*
 _tmp_*
+
+# ghnew: 密钥/注册工件目录，永不可入库
+ghnew/
+
+
+# DSH vision router 杩愯鏃朵骇鐗╋紙鍕垮叆搴擄級
+.dsh-vision-router/
