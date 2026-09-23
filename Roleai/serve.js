@@ -2,15 +2,23 @@
 // 零依赖：仅用 Node 内置模块。
 //   /            -> site/ 静态文件
 //   /api/*       -> 反向代理到 api.roleai.studio（对齐 runtime-config.js 的 ROLEAI_API_BASE=/api 设计）
+//
+// 运行模式：
+//   默认          代理模式：/api/* 实时转发到上游
+//   --snapshot   快照模式：优先用 snapshots/ 下的本地 JSON 回答只读接口，未覆盖的再回退代理
+//                用途：离线演示只读页面（如定价页）；详见 OFFLINE-REPORT.md §4
+//   环境变量等价：SNAPSHOT=1 node serve.js
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, 'site');
+const SNAP_DIR = path.join(__dirname, 'snapshots');
 const PORT = Number(process.env.PORT || 8088);
 const HOST = '127.0.0.1';
 const API_ORIGIN = process.env.API_ORIGIN || 'https://api.roleai.studio';
+const SNAPSHOT_MODE = process.argv.includes('--snapshot') || process.env.SNAPSHOT === '1';
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -89,6 +97,25 @@ function proxyApi(req, res, urlPath) {
   req.pipe(upstream);
 }
 
+// 快照查找：把 API 路径映射为 snapshots/ 下的文件名
+//   /v1/product                    -> v1_product.json
+//   /v1/auth/compliance/documents  -> v1_auth_compliance_documents.json
+function lookupSnapshot(apiPath) {
+  const clean = apiPath.split('?')[0].replace(/^\/+|\/+$/g, '');
+  if (!clean) return null;
+  const candidates = [
+    clean.replace(/\//g, '_') + '.json',
+    clean.replace(/[/-]/g, '_') + '.json',
+  ];
+  for (const name of candidates) {
+    if (name.includes('..') || name.includes('/') || name.includes('\\')) continue;
+    const full = path.join(SNAP_DIR, name);
+    if (!full.startsWith(SNAP_DIR + path.sep)) continue;
+    if (fs.existsSync(full)) return full;
+  }
+  return null;
+}
+
 const server = http.createServer((req, res) => {
   let urlPath;
   try {
@@ -97,9 +124,33 @@ const server = http.createServer((req, res) => {
     return send(res, 400, 'Bad Request');
   }
 
-  // API 走反向代理
+  // API：快照模式下优先读本地快照，未命中则回退反向代理
   if (urlPath === '/api' || urlPath.startsWith('/api/')) {
-    return proxyApi(req, res, urlPath.replace(/^\/api/, '') || '/');
+    const apiPath = urlPath.replace(/^\/api/, '') || '/';
+    if (SNAPSHOT_MODE) {
+      // 只对只读方法提供快照；写操作必须走真实上游（离线时自然失败，符合预期）
+      const readonly = req.method === 'GET' || req.method === 'HEAD';
+      if (readonly) {
+        const snap = lookupSnapshot(apiPath);
+        if (snap) {
+          try {
+            const body = fs.readFileSync(snap);
+            res.writeHead(200, {
+              'Content-Type': 'application/json; charset=utf-8',
+              'Content-Length': body.length,
+              'X-Roleai-Snapshot': 'hit',
+              'Cache-Control': 'no-cache',
+            });
+            console.log(`${req.method} ${urlPath} -> 200 (snapshot: ${path.basename(snap)})`);
+            if (req.method === 'HEAD') return res.end();
+            return res.end(body);
+          } catch (e) {
+            console.log(`${req.method} ${urlPath} -> snapshot read failed: ${e.message}`);
+          }
+        }
+      }
+    }
+    return proxyApi(req, res, apiPath);
   }
 
   // 防目录穿越
@@ -184,5 +235,11 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, HOST, () => {
   console.log(`[RoleAI] 站点根目录: ${ROOT}`);
   console.log(`[RoleAI] API 反向代理: /api/* -> ${API_ORIGIN}`);
+  if (SNAPSHOT_MODE) {
+    const n = fs.existsSync(SNAP_DIR) ? fs.readdirSync(SNAP_DIR).filter(f => f.endsWith('.json')).length : 0;
+    console.log(`[RoleAI] 运行模式: 快照优先（snapshots/ 有 ${n} 个文件，未命中回退代理）`);
+  } else {
+    console.log('[RoleAI] 运行模式: 纯代理（加 --snapshot 启用快照优先）');
+  }
   console.log(`[RoleAI] 服务已启动: http://${HOST}:${PORT}/`);
 });

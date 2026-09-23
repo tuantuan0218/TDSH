@@ -1,0 +1,21 @@
+{
+    "captured_at":  "2026-09-24T01:14:42+08:00",
+    "source":  "https://api.roleai.studio",
+    "method":  "direct",
+    "succeeded":  3,
+    "total":  3,
+    "files":  [
+                  {
+                      "path":  "/v1/product",
+                      "file":  "v1_product.json"
+                  },
+                  {
+                      "path":  "/v1/releases",
+                      "file":  "v1_releases.json"
+                  },
+                  {
+                      "path":  "/v1/auth/compliance/documents",
+                      "file":  "v1_auth_compliance_documents.json"
+                  }
+              ]
+}

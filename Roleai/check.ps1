@@ -112,6 +112,32 @@ Sect '5. API 反向代理'
 $apiCode = Http "$Base/api/v1/product"
 if ($apiCode -eq '200') { Pass '/api/v1/product 200' } else { Fail "/api/v1/product 返回 $apiCode" }
 
+Sect '5-b. 快照完整性'
+$SnapDir = Join-Path $PSScriptRoot 'snapshots'
+if (-not (Test-Path $SnapDir)) {
+  Warn 'snapshots/ 不存在（快照模式不可用，不影响代理模式）'
+} else {
+  $snapFiles = Get-ChildItem $SnapDir -Filter '*.json' -File | Where-Object { $_.Name -ne '_meta.json' }
+  $badSnap = New-Object 'System.Collections.Generic.List[string]'
+  foreach ($sf in $snapFiles) {
+    # 用 Node 校验是真 JSON 且 ok=true（防止混入 HTML 错误页）
+    $r = node -e "try{const o=JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'));process.stdout.write(o.ok===true?'OK':'NOTOK')}catch(e){process.stdout.write('BAD')}" $sf.FullName 2>$null
+    if ($r -ne 'OK') { $badSnap.Add("$($sf.Name) => $r") }
+  }
+  if ($snapFiles.Count -eq 0) {
+    Warn 'snapshots/ 为空'
+  } elseif ($badSnap.Count -eq 0) {
+    Pass "快照 $($snapFiles.Count) 个，JSON 全部有效"
+  } else {
+    foreach ($b in $badSnap) { Fail "快照无效: $b" }
+  }
+  $metaPath = Join-Path $SnapDir '_meta.json'
+  if (Test-Path $metaPath) {
+    $meta = Get-Content $metaPath -Raw | ConvertFrom-Json
+    Pass "快照抓取于 $($meta.captured_at)"
+  }
+}
+
 Sect '6. HTTP Range 支持'
 $hdr = curl.exe -s -D - -o NUL --max-time 20 -H 'Range: bytes=0-99' "$Base/assets/roleai-icon.png"
 $hdrTxt = $hdr -join "`n"
