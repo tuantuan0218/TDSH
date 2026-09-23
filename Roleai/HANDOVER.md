@@ -132,9 +132,11 @@ GET https://api.roleai.studio/v1/product       -> 200 真实 JSON
 ```
 D:\tdsh\Roleai\
 ├─ HANDOVER.md              # 本文档
-├─ serve.js                 # 本地服务器（静态 + API 反代 + Range）
-├─ check.ps1                # 一键健康巡检（9 项，含源站差异比对）
+├─ serve.js                 # 本地服务器（静态 + API 反代 + Range + 快照模式）
+├─ check.ps1                # 一键健康巡检（含源站差异比对与快照校验）
 ├─ OFFLINE-REPORT.md        # 离线能力报告（外部依赖清单与分级）
+├─ snapshot.ps1             # 快照抓取/刷新（离线演示用）
+├─ snapshots/               # 只读接口的本地 JSON 快照
 ├─ _mirror.ps1              # 镜像脚本（可复跑做增量更新）
 ├─ _sitemap.xml             # 源站 sitemap 存档
 └─ site/                    # 站点根目录
@@ -261,4 +263,5 @@ param([string]$OutDir = (Join-Path $PSScriptRoot 'site'))
 | 2026-09-24 | **修正 §3.2 误判**：用真实浏览器验证线上站点发出的是 `api.roleai.studio` 直连请求（非 `/api/*`），定价页渲染正常，「线上缺陷」结论撤回；§3.2 重写为机制解释 + 误判教训 |
 | 2026-09-24 | **修复 BFS 漏抓运行时资源**：`pages.js:76` 模板串拼装的微信客服二维码在清空重跑后丢失（打开该面板才 404）。种子列表显式登记 + 新增运行时资源审计（扫描 JS 中 `assets/` 路径比对磁盘）+ 修复 `GetDirectoryName` 日志噪声。清空重跑验证：静态缺失=0、运行时缺失=0、27 路径全 200 |
 | 2026-09-24 | **serve.js 加固**：实现 HTTP Range（原实现忽略 Range 头，大图无法断点续传）、改流式传输、416 处理、HEAD 支持。验证：Range 5 用例正确、穿越 9 变体全拦、并发 200/200 成功 QPS 1031、回归 27/27 |
+| 2026-09-24 | **实现 API 快照模式**：serve.js --snapshot 让只读接口从 snapshots/ 本地 JSON 回答，新增 snapshot.ps1 抓取工具与 check.ps1 快照校验。离线验证：上游指向不可达域名时，3 个快照接口仍 200 且浏览器能完整渲染定价页 4 个套餐 |
 | 2026-09-24 | **API 反代健壮性验证**：方法透传与直连上游逐一对照一致、POST body 真透传、查询串保留、4xx/5xx 如实透传、上游不可达返回 502 且不影响静态服务、并发 300/300 全 200。明确「404 来自上游而非代理」的判据 |
